@@ -1,0 +1,48 @@
+[project]
+name = "ai-web-agency"
+version = "0.1.0"
+description = "Autonomous AI website design agency — from lead gen to delivery"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.42.0",
+    "openai>=1.60.0",
+    "httpx>=0.27.0",
+    "playwright>=1.49.0",
+    "beautifulsoup4>=4.12.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.14.0",
+    "aiosqlite>=0.20.0",
+    "jinja2>=3.1.0",
+    "pillow>=11.0.0",
+    "stripe>=11.0.0",
+    "sendgrid>=6.11.0",
+    "python-whatsapp-bot>=0.1.0",
+    "telethon>=1.37.0",
+    "apscheduler>=3.10.0",
+    "structlog>=24.4.0",
+    "tenacity>=9.0.0",
+    "click>=8.1.0",
+    "rich>=13.9.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+]
+
+[project.scripts]
+agency = "pipeline.cli:main"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

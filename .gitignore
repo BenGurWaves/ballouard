@@ -1,0 +1,14 @@
+.env
+*.db
+*.db-journal
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+node_modules/
+.venv/
+venv/
+screenshots/
+previews/generated/
