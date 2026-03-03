@@ -390,9 +390,10 @@
       });
     }
 
-    // Sign out
+    // Sign out — clear both server session and local storage
     document.getElementById('signOut').addEventListener('click', function(e) {
       e.preventDefault();
+      fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }).catch(function() {});
       localStorage.removeItem('velocity_auth');
       localStorage.removeItem('velocity_user');
       window.location.href = '/';
@@ -421,9 +422,14 @@
       localStorage.setItem('velocity_user', JSON.stringify(user));
     }
 
-    // ── Pre-fill questionnaire from website URL ──
-    if (website && !user.questionnaire_filled) {
-      prefillFromUrl(website);
+    // ── Pre-fill questionnaire from website URL and user email ──
+    if (!user.questionnaire_filled) {
+      if (website) prefillFromUrl(website);
+      // Default the contact email to account email
+      var qContactEl = document.getElementById('qContactEmail');
+      if (qContactEl && !qContactEl.value && email) {
+        qContactEl.value = email;
+      }
     }
 
     function prefillFromUrl(url) {
@@ -518,49 +524,55 @@
         { id: 'genStep5', threshold: 95 }
       ];
 
-      // Call the real generate API
-      var genPayload = {
-        email: email,
-        website_url: website,
-        business_name: user.business_name,
-        niche: user.niche === 'other' ? (user.niche_other || 'other') : user.niche,
-        services: user.services,
-        location: user.location,
-        phone: user.phone,
-        contact_email: user.contact_email,
-        years: user.years,
-        style: user.style,
-        site_type: user.site_type,
-        inspo_urls: user.inspo_urls,
-        notes: user.notes,
-      };
-
-      fetch('/api/pipeline/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify(genPayload),
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
+      // Skip API if we already have a preview from a prior run
+      if (user.preview_url) {
         apiDone = true;
-        apiResult = data;
-        if (data.preview_id) {
-          user.preview_id = data.preview_id;
-          user.preview_url = data.preview_url;
-        }
-      })
-      .catch(function() {
-        apiDone = true;
-        apiResult = { success: false };
-      });
+        apiResult = { success: true, preview_id: user.preview_id, preview_url: user.preview_url };
+      } else {
+        // Call the real generate API
+        var genPayload = {
+          email: email,
+          website_url: website,
+          business_name: user.business_name,
+          niche: user.niche === 'other' ? (user.niche_other || 'other') : user.niche,
+          services: user.services,
+          location: user.location,
+          phone: user.phone,
+          contact_email: user.contact_email,
+          years: user.years,
+          style: user.style,
+          site_type: user.site_type,
+          inspo_urls: user.inspo_urls,
+          notes: user.notes,
+        };
 
-      // Also fire the redesign request for email notifications
-      fetch('/api/request-redesign', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(genPayload),
-      }).catch(function() {});
+        fetch('/api/pipeline/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(genPayload),
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          apiDone = true;
+          apiResult = data;
+          if (data.preview_id) {
+            user.preview_id = data.preview_id;
+            user.preview_url = data.preview_url;
+          }
+        })
+        .catch(function() {
+          apiDone = true;
+          apiResult = { success: false };
+        });
+
+        // Also fire the redesign request for email notifications
+        fetch('/api/request-redesign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(genPayload),
+        }).catch(function() {});
+      }
 
       // Progress animation
       var interval = setInterval(function() {
@@ -618,12 +630,18 @@
       var fallback = document.getElementById('previewFallback');
       var link = document.getElementById('previewLink');
 
-      if (user.preview_url) {
+      if (user.preview_url && user.preview_url.indexOf('/preview/') === 0) {
         // Show real generated preview in iframe
         iframe.src = user.preview_url;
         iframe.style.display = 'block';
         fallback.innerHTML = '';
-        link.innerHTML = '<a href="' + user.preview_url + '" target="_blank" style="color:var(--accent);">Open full preview in new tab &rarr;</a>';
+        var linkEl = document.createElement('a');
+        linkEl.href = user.preview_url;
+        linkEl.target = '_blank';
+        linkEl.style.color = 'var(--accent)';
+        linkEl.textContent = 'Open full preview in new tab \u2192';
+        link.innerHTML = '';
+        link.appendChild(linkEl);
       } else {
         // Fallback: render SVG mockup
         iframe.style.display = 'none';

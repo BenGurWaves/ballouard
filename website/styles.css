@@ -1404,7 +1404,7 @@ h2 {
   transition: color var(--duration);
 }
 .footer-col a:hover {
-  color: var(--text);
+  color: var(--accent);
 }
 
 .footer-bottom {
@@ -1421,9 +1421,6 @@ h2 {
   font-size: 1.1rem;
   color: var(--accent);
   opacity: 0.5;
-}
-.footer-col a:hover {
-  color: var(--accent);
 }
 
 @media (max-width: 768px) {
