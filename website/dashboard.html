@@ -675,7 +675,8 @@
           notes: user.notes,
         };
 
-        fetch('/api/pipeline/generate', {
+        // Use orchestrator for full agent pipeline (falls back to generate)
+        fetch('/api/pipeline/orchestrate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
@@ -691,8 +692,26 @@
           }
         })
         .catch(function() {
-          apiDone = true;
-          apiResult = { success: false };
+          // Fallback to simple generate endpoint
+          fetch('/api/pipeline/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(genPayload),
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            apiDone = true;
+            apiResult = data;
+            if (data.preview_id) {
+              user.preview_id = data.preview_id;
+              user.preview_url = data.preview_url;
+            }
+          })
+          .catch(function() {
+            apiDone = true;
+            apiResult = { success: false };
+          });
         });
 
         fetch('/api/request-redesign', {
@@ -702,14 +721,28 @@
         }).catch(function() {});
       }
 
+      // Poll for real-time progress from orchestrator
+      var progressPollInterval = setInterval(function() {
+        fetch('/api/pipeline/progress?email=' + encodeURIComponent(email))
+          .then(function(r) { return r.json(); })
+          .then(function(prog) {
+            if (prog && prog.percent > 0) {
+              progress = Math.max(progress, prog.percent);
+              if (prog.message) {
+                document.getElementById('genDetail').innerHTML = '<p>' + prog.message + (prog.detail ? '<br><small style="color:var(--text-muted)">' + prog.detail + '</small>' : '') + '</p>';
+              }
+            }
+          })
+          .catch(function() { /* polling failed — use local progress */ });
+      }, 2000);
+
       var interval = setInterval(function() {
         if (apiDone && progress < 90) {
           progress = 90;
         } else if (apiDone) {
           progress += 5;
-        } else {
-          progress += Math.floor(Math.random() * 3) + 1;
-          if (progress > 85) progress = 85;
+        } else if (progress < 85) {
+          progress += Math.floor(Math.random() * 2) + 1;
         }
         if (progress > 100) progress = 100;
 
@@ -726,14 +759,9 @@
           }
         });
 
-        var newIndex = Math.min(Math.floor(progress / 13), messages.length - 1);
-        if (newIndex !== msgIndex) {
-          msgIndex = newIndex;
-          document.getElementById('genDetail').innerHTML = '<p>' + messages[msgIndex] + '</p>';
-        }
-
         if (progress >= 100) {
           clearInterval(interval);
+          clearInterval(progressPollInterval);
           user.preview_ready = true;
           localStorage.setItem('velocity_user', JSON.stringify(user));
           setTimeout(function() {
