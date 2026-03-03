@@ -160,28 +160,138 @@ function buildConfirmationEmail(websiteUrl) {
 <html>
 <head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#12100e;font-family:Georgia,'Times New Roman',serif;">
-  <div style="max-width:520px;margin:0 auto;padding:40px 24px;">
-    <div style="font-size:20px;color:#e8ddd3;margin-bottom:24px;">Velocity<span style="color:#c8956a;">.</span></div>
-    <h1 style="font-size:26px;color:#e8ddd3;font-weight:400;line-height:1.3;margin:0 0 16px;">
-      Working on your preview&hellip;
+  <div style="max-width:560px;margin:0 auto;padding:48px 28px;">
+
+    <!-- Logo -->
+    <div style="font-size:22px;color:#e8ddd3;margin-bottom:32px;">Velocity<span style="color:#c8956a;">.</span></div>
+
+    <!-- Welcome -->
+    <h1 style="font-size:28px;color:#e8ddd3;font-weight:400;line-height:1.3;margin:0 0 8px;">
+      Welcome to Velocity!
     </h1>
-    <p style="font-size:15px;color:#a89f94;line-height:1.7;margin:0 0 20px;font-family:-apple-system,system-ui,sans-serif;">
-      Thanks for submitting <strong style="color:#e8ddd3;">${escapeHtml(websiteUrl)}</strong>. Our team is reviewing your site right now and building a free preview of what it could look like.
+    <p style="font-size:16px;color:#c8956a;font-family:-apple-system,system-ui,sans-serif;margin:0 0 24px;font-weight:600;">
+      Your free website redesign is on its way.
     </p>
-    <p style="font-size:15px;color:#a89f94;line-height:1.7;margin:0 0 20px;font-family:-apple-system,system-ui,sans-serif;">
-      <strong style="color:#e8ddd3;">What happens next:</strong>
+
+    <p style="font-size:15px;color:#a89f94;line-height:1.7;margin:0 0 24px;font-family:-apple-system,system-ui,sans-serif;">
+      Thanks for submitting <strong style="color:#e8ddd3;">${escapeHtml(websiteUrl)}</strong>. We&rsquo;re excited to show you what your website <em>could</em> look like &mdash; fast, modern, and built to get you more customers.
     </p>
-    <ol style="font-size:14px;color:#a89f94;line-height:1.8;margin:0 0 24px;padding-left:20px;font-family:-apple-system,system-ui,sans-serif;">
-      <li>We audit your current site (speed, mobile, SEO)</li>
-      <li>We design a modern, mobile-first preview</li>
-      <li>We send you the preview within 24&ndash;48 hours</li>
-    </ol>
-    <p style="font-size:14px;color:#6d6560;line-height:1.6;margin:0;font-family:-apple-system,system-ui,sans-serif;">
-      No obligation. No credit card. If you love it, we&rsquo;ll talk next steps. If not, no hard feelings.
+
+    <!-- What Happens Next -->
+    <div style="background:#1a1815;border:1px solid #2e2a24;border-radius:12px;padding:24px;margin-bottom:24px;">
+      <h2 style="font-size:18px;color:#e8ddd3;font-weight:400;margin:0 0 16px;font-family:Georgia,serif;">
+        Here&rsquo;s what happens next:
+      </h2>
+      <table style="width:100%;border-collapse:collapse;font-family:-apple-system,system-ui,sans-serif;">
+        <tr>
+          <td style="padding:10px 12px 10px 0;vertical-align:top;width:32px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(200,149,106,0.15);color:#c8956a;text-align:center;line-height:28px;font-size:13px;font-weight:700;">1</div>
+          </td>
+          <td style="padding:10px 0;">
+            <strong style="color:#e8ddd3;font-size:14px;display:block;margin-bottom:2px;">We audit your current site</strong>
+            <span style="color:#6d6560;font-size:13px;">Speed, mobile experience, SEO, security &mdash; the works.</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px 10px 0;vertical-align:top;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(200,149,106,0.15);color:#c8956a;text-align:center;line-height:28px;font-size:13px;font-weight:700;">2</div>
+          </td>
+          <td style="padding:10px 0;">
+            <strong style="color:#e8ddd3;font-size:14px;display:block;margin-bottom:2px;">We design a modern preview</strong>
+            <span style="color:#6d6560;font-size:13px;">Mobile-first, lightning fast, tailored to your trade.</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px 10px 0;vertical-align:top;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(200,149,106,0.15);color:#c8956a;text-align:center;line-height:28px;font-size:13px;font-weight:700;">3</div>
+          </td>
+          <td style="padding:10px 0;">
+            <strong style="color:#e8ddd3;font-size:14px;display:block;margin-bottom:2px;">You see your preview in 24&ndash;48 hours</strong>
+            <span style="color:#6d6560;font-size:13px;">Log into your dashboard to watch the progress live.</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Dashboard CTA -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <p style="font-size:14px;color:#a89f94;margin:0 0 12px;font-family:-apple-system,system-ui,sans-serif;">
+        Track your redesign progress in real time:
+      </p>
+      <a href="https://velocity.delivery/auth.html" style="display:inline-block;background:#c8956a;color:#12100e;font-family:-apple-system,system-ui,sans-serif;font-size:15px;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;">
+        Open your dashboard &rarr;
+      </a>
+    </div>
+
+    <!-- What's Included -->
+    <div style="background:#1a1815;border:1px solid #2e2a24;border-radius:12px;padding:24px;margin-bottom:24px;">
+      <h2 style="font-size:16px;color:#e8ddd3;font-weight:400;margin:0 0 14px;font-family:Georgia,serif;">
+        What you get (completely free):
+      </h2>
+      <table style="width:100%;border-collapse:collapse;font-family:-apple-system,system-ui,sans-serif;font-size:13px;color:#a89f94;">
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#7fb069;margin-right:8px;">&#10003;</span> Full website audit report</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#7fb069;margin-right:8px;">&#10003;</span> Custom redesign preview</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#7fb069;margin-right:8px;">&#10003;</span> Mobile &amp; desktop mockups</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#7fb069;margin-right:8px;">&#10003;</span> Speed &amp; SEO analysis</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#7fb069;margin-right:8px;">&#10003;</span> No credit card required</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- About Velocity -->
+    <div style="margin-bottom:28px;">
+      <h2 style="font-size:16px;color:#e8ddd3;font-weight:400;margin:0 0 10px;font-family:Georgia,serif;">
+        Why Velocity?
+      </h2>
+      <p style="font-size:14px;color:#a89f94;line-height:1.7;margin:0 0 12px;font-family:-apple-system,system-ui,sans-serif;">
+        We build websites exclusively for tradespeople &mdash; plumbers, roofers, HVAC techs, electricians, and landscapers. We know your customers search on their phones, need to call you fast, and judge your business by your site before they ever pick up the phone.
+      </p>
+      <p style="font-size:14px;color:#a89f94;line-height:1.7;margin:0;font-family:-apple-system,system-ui,sans-serif;">
+        Our sites are <strong style="color:#e8ddd3;">fast</strong> (under 2 seconds), <strong style="color:#e8ddd3;">mobile-first</strong>, and <strong style="color:#e8ddd3;">built to convert</strong>. No bloated WordPress. No monthly contracts. Just a website that works as hard as you do.
+      </p>
+    </div>
+
+    <!-- FAQ Snippet -->
+    <div style="background:#1a1815;border:1px solid #2e2a24;border-radius:12px;padding:24px;margin-bottom:28px;">
+      <h2 style="font-size:16px;color:#e8ddd3;font-weight:400;margin:0 0 16px;font-family:Georgia,serif;">
+        Quick questions:
+      </h2>
+      <p style="font-size:13px;color:#a89f94;line-height:1.6;margin:0 0 12px;font-family:-apple-system,system-ui,sans-serif;">
+        <strong style="color:#e8ddd3;">Is this really free?</strong><br>
+        Yes. The preview costs you nothing. We only charge if you decide to move forward with a full build.
+      </p>
+      <p style="font-size:13px;color:#a89f94;line-height:1.6;margin:0 0 12px;font-family:-apple-system,system-ui,sans-serif;">
+        <strong style="color:#e8ddd3;">How long until my site goes live?</strong><br>
+        Most sites are live within 5&ndash;7 business days after you approve the preview.
+      </p>
+      <p style="font-size:13px;color:#a89f94;line-height:1.6;margin:0;font-family:-apple-system,system-ui,sans-serif;">
+        <strong style="color:#e8ddd3;">Do I need to provide anything?</strong><br>
+        Nope. We handle everything &mdash; copy, images, design, hosting. Just sit back.
+      </p>
+    </div>
+
+    <!-- Zero-pressure note -->
+    <p style="font-size:14px;color:#6d6560;line-height:1.6;margin:0 0 8px;font-family:-apple-system,system-ui,sans-serif;text-align:center;">
+      No obligation. No credit card. No sales calls.<br>If you love it, we&rsquo;ll talk. If not, no hard feelings.
     </p>
-    <div style="border-top:1px solid #2e2a24;margin-top:32px;padding-top:20px;">
-      <p style="font-size:12px;color:#6d6560;margin:0;font-family:-apple-system,system-ui,sans-serif;">
-        Velocity &mdash; Websites for tradespeople who are too busy doing real work.
+
+    <!-- Footer -->
+    <div style="border-top:1px solid #2e2a24;margin-top:36px;padding-top:24px;text-align:center;">
+      <p style="font-size:18px;color:#e8ddd3;margin:0 0 6px;font-family:Georgia,serif;">Velocity<span style="color:#c8956a;">.</span></p>
+      <p style="font-size:12px;color:#6d6560;margin:0 0 4px;font-family:-apple-system,system-ui,sans-serif;">
+        Websites for tradespeople who are too busy doing real work.
+      </p>
+      <p style="font-size:11px;color:#4a4540;margin:0;font-family:-apple-system,system-ui,sans-serif;">
+        Questions? Just reply to this email &mdash; a real person reads every message.
       </p>
     </div>
   </div>
@@ -195,25 +305,74 @@ function buildNotificationEmail(websiteUrl, email) {
 <html>
 <head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#12100e;font-family:-apple-system,system-ui,sans-serif;">
-  <div style="max-width:520px;margin:0 auto;padding:40px 24px;">
-    <div style="font-size:20px;color:#e8ddd3;font-family:Georgia,serif;margin-bottom:24px;">Velocity<span style="color:#c8956a;">.</span></div>
-    <h1 style="font-size:22px;color:#c8956a;font-weight:600;margin:0 0 16px;">New Lead</h1>
-    <table style="font-size:14px;color:#a89f94;line-height:1.8;border-collapse:collapse;">
-      <tr>
-        <td style="padding:4px 16px 4px 0;color:#6d6560;font-weight:600;">Website</td>
-        <td style="padding:4px 0;"><a href="${escapeHtml(websiteUrl)}" style="color:#c8956a;">${escapeHtml(websiteUrl)}</a></td>
-      </tr>
-      <tr>
-        <td style="padding:4px 16px 4px 0;color:#6d6560;font-weight:600;">Email</td>
-        <td style="padding:4px 0;"><a href="mailto:${escapeHtml(email)}" style="color:#c8956a;">${escapeHtml(email)}</a></td>
-      </tr>
-      <tr>
-        <td style="padding:4px 16px 4px 0;color:#6d6560;font-weight:600;">Time</td>
-        <td style="padding:4px 0;color:#e8ddd3;">${new Date().toISOString()}</td>
-      </tr>
-    </table>
-    <div style="border-top:1px solid #2e2a24;margin-top:24px;padding-top:16px;">
-      <p style="font-size:12px;color:#6d6560;margin:0;">This lead was submitted via the Velocity website form.</p>
+  <div style="max-width:560px;margin:0 auto;padding:48px 28px;">
+
+    <!-- Logo -->
+    <div style="font-size:22px;color:#e8ddd3;font-family:Georgia,serif;margin-bottom:28px;">Velocity<span style="color:#c8956a;">.</span></div>
+
+    <!-- Alert Banner -->
+    <div style="background:rgba(200,149,106,0.12);border:1px solid rgba(200,149,106,0.25);border-radius:10px;padding:16px 20px;margin-bottom:24px;">
+      <h1 style="font-size:20px;color:#c8956a;font-weight:700;margin:0 0 4px;">New Lead Submitted</h1>
+      <p style="font-size:13px;color:#a89f94;margin:0;">A potential customer just requested a free redesign from the website.</p>
+    </div>
+
+    <!-- Lead Details -->
+    <div style="background:#1a1815;border:1px solid #2e2a24;border-radius:10px;padding:20px;margin-bottom:24px;">
+      <h2 style="font-size:14px;color:#6d6560;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 14px;">Lead Details</h2>
+      <table style="width:100%;font-size:14px;color:#a89f94;line-height:1.8;border-collapse:collapse;">
+        <tr>
+          <td style="padding:8px 16px 8px 0;color:#6d6560;font-weight:600;white-space:nowrap;vertical-align:top;">Website</td>
+          <td style="padding:8px 0;"><a href="${escapeHtml(websiteUrl)}" style="color:#c8956a;word-break:break-all;">${escapeHtml(websiteUrl)}</a></td>
+        </tr>
+        <tr style="border-top:1px solid #2e2a24;">
+          <td style="padding:8px 16px 8px 0;color:#6d6560;font-weight:600;white-space:nowrap;vertical-align:top;">Email</td>
+          <td style="padding:8px 0;"><a href="mailto:${escapeHtml(email)}" style="color:#c8956a;">${escapeHtml(email)}</a></td>
+        </tr>
+        <tr style="border-top:1px solid #2e2a24;">
+          <td style="padding:8px 16px 8px 0;color:#6d6560;font-weight:600;white-space:nowrap;vertical-align:top;">Submitted</td>
+          <td style="padding:8px 0;color:#e8ddd3;">${new Date().toISOString()}</td>
+        </tr>
+        <tr style="border-top:1px solid #2e2a24;">
+          <td style="padding:8px 16px 8px 0;color:#6d6560;font-weight:600;white-space:nowrap;vertical-align:top;">Source</td>
+          <td style="padding:8px 0;color:#e8ddd3;">Website form (velocity.delivery)</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Action Items -->
+    <div style="background:#1a1815;border:1px solid #2e2a24;border-radius:10px;padding:20px;margin-bottom:24px;">
+      <h2 style="font-size:14px;color:#6d6560;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 14px;">Action Items</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#a89f94;line-height:1.6;">
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#c8956a;margin-right:8px;">&#9679;</span> Confirmation email sent to lead automatically</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#c8956a;margin-right:8px;">&#9679;</span> Lead saved to pipeline (status: new)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#c8956a;margin-right:8px;">&#9679;</span> Audit their site: <a href="${escapeHtml(websiteUrl)}" style="color:#c8956a;">${escapeHtml(websiteUrl)}</a></td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;"><span style="color:#c8956a;margin-right:8px;">&#9679;</span> Generate redesign preview within 24&ndash;48 hours</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Quick Actions -->
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="mailto:${escapeHtml(email)}" style="display:inline-block;background:#c8956a;color:#12100e;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;margin-right:8px;">
+        Reply to lead
+      </a>
+      <a href="${escapeHtml(websiteUrl)}" style="display:inline-block;background:transparent;color:#c8956a;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,149,106,0.3);">
+        View their site
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div style="border-top:1px solid #2e2a24;margin-top:28px;padding-top:20px;text-align:center;">
+      <p style="font-size:12px;color:#6d6560;margin:0;">
+        Velocity Internal Notification &mdash; Lead submitted via website form.
+      </p>
     </div>
   </div>
 </body>

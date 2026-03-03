@@ -22,6 +22,7 @@
         <a href="#work">Work</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
+        <a href="/auth.html" class="nav-signin" id="navAuthLink">Sign in</a>
         <a href="#start" class="nav-cta">Get a free redesign</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -531,6 +532,7 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Contact</a></li>
+            <li><a href="/auth.html">Sign in / Dashboard</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -549,5 +551,15 @@
   </footer>
 
   <script src="main.js"></script>
+  <script>
+    // Show "Dashboard" instead of "Sign in" if user is already logged in
+    (function() {
+      var authLink = document.getElementById('navAuthLink');
+      if (authLink && localStorage.getItem('velocity_auth') === 'true') {
+        authLink.textContent = 'Dashboard';
+        authLink.href = '/dashboard.html';
+      }
+    })();
+  </script>
 </body>
 </html>
