@@ -198,9 +198,15 @@
                     <option value="catering">Catering</option>
                     <option value="bakery">Bakery</option>
                   </optgroup>
+                  <optgroup label="Creative &amp; Entertainment">
+                    <option value="photography">Photography / Videography</option>
+                    <option value="musician">Musician / Music Artist</option>
+                    <option value="design">Graphic Design / Art</option>
+                    <option value="tattoo">Tattoo Studio</option>
+                    <option value="dj">DJ / Event Entertainment</option>
+                  </optgroup>
                   <optgroup label="Other">
                     <option value="ecommerce-biz">E-commerce / Online Store</option>
-                    <option value="photography">Photography / Videography</option>
                     <option value="nonprofit">Nonprofit</option>
                     <option value="other">Other (specify below)</option>
                   </optgroup>
@@ -587,6 +593,87 @@
       } catch(_) {}
     }
 
+    // ── AI Form Enhancement (no API, pure code intelligence) ──
+    function aiEnhance(field, value, context) {
+      if (!value || typeof value !== 'string') return value;
+      var v = value.trim();
+      if (!v) return v;
+
+      if (field === 'services') {
+        // Expand abbreviations and shorthand
+        var expansions = {
+          'ac': 'Air Conditioning', 'a/c': 'Air Conditioning', 'hvac': 'HVAC Systems',
+          'resi': 'Residential', 'comm': 'Commercial', 'emer': 'Emergency',
+          'install': 'Installation', 'maint': 'Maintenance', 'insp': 'Inspection',
+          'rep': 'Repair', 'remod': 'Remodeling', 'renov': 'Renovation',
+        };
+        // Capitalize each service and expand known abbreviations
+        var services = v.split(',').map(function(s) {
+          s = s.trim().toLowerCase();
+          for (var abbr in expansions) {
+            if (s === abbr) s = expansions[abbr].toLowerCase();
+          }
+          // Capitalize first letter of each word
+          return s.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        }).filter(Boolean);
+
+        // Auto-infer related services from niche
+        var niche = (context.niche || '').toLowerCase();
+        var nicheServices = {
+          'roofing': ['Roof Repair', 'Roof Replacement', 'Storm Damage Repair', 'Inspections', 'Gutter Installation'],
+          'plumbing': ['Drain Cleaning', 'Leak Detection', 'Water Heater Repair', 'Emergency Plumbing', 'Repiping'],
+          'hvac': ['AC Repair', 'Furnace Service', 'System Installation', 'Duct Cleaning', 'Maintenance Plans'],
+          'electrical': ['Panel Upgrades', 'Wiring', 'Lighting', 'Generator Installation', 'EV Charger Install'],
+          'photography': ['Portrait Sessions', 'Event Photography', 'Commercial Shoots', 'Photo Editing'],
+          'musician': ['Live Performance', 'Original Music', 'Session Work', 'Private Events'],
+          'restaurant': ['Dine-In', 'Takeout', 'Catering', 'Private Events', 'Delivery'],
+          'dental': ['Cleanings', 'Cosmetic Dentistry', 'Restorative Care', 'Emergency Dental'],
+          'salon': ['Haircuts', 'Color & Highlights', 'Styling', 'Treatments'],
+          'law': ['Personal Injury', 'Family Law', 'Business Law', 'Estate Planning'],
+        };
+        // If user only typed 1-2 services, suggest from niche
+        if (services.length < 3 && nicheServices[niche]) {
+          var suggestions = nicheServices[niche].filter(function(ns) {
+            return !services.some(function(s) { return s.toLowerCase() === ns.toLowerCase(); });
+          });
+          services = services.concat(suggestions.slice(0, 4 - services.length));
+        }
+        return services.join(', ');
+      }
+
+      if (field === 'location') {
+        // Normalize location formatting
+        v = v.replace(/\b(st|ave|blvd|rd|dr|ln|ct|pl)\b/gi, function(m) {
+          var full = { st: 'Street', ave: 'Avenue', blvd: 'Boulevard', rd: 'Road', dr: 'Drive', ln: 'Lane', ct: 'Court', pl: 'Place' };
+          return full[m.toLowerCase()] || m;
+        });
+        // Capitalize
+        v = v.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        // Add "area" if just a city
+        if (v.split(',').length === 1 && v.split(' ').length <= 3 && !/area|region|metro|county/i.test(v)) {
+          v += ' area';
+        }
+        return v;
+      }
+
+      if (field === 'business_name') {
+        // Capitalize properly and clean up
+        v = v.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        // Fix common patterns
+        v = v.replace(/\bLlc\b/g, 'LLC').replace(/\bInc\b/g, 'Inc.').replace(/\bCo\b/g, 'Co.');
+        return v;
+      }
+
+      if (field === 'years') {
+        // Normalize years
+        v = v.replace(/years?|yrs?/gi, '').trim();
+        if (/^\d+$/.test(v) && parseInt(v) > 30) v = v + '+';
+        return v;
+      }
+
+      return v;
+    }
+
     // ── Questionnaire submission ──
     document.getElementById('questionnaireForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -600,16 +687,19 @@
       }
       contactError.style.display = 'none';
 
-      user.business_name = document.getElementById('qName').value.trim();
-      user.niche = document.getElementById('qNiche').value;
+      var rawNiche = document.getElementById('qNiche').value;
+      var nicheCtx = { niche: rawNiche === 'other' ? (document.getElementById('qNicheOther').value.trim() || 'other') : rawNiche };
+
+      user.business_name = aiEnhance('business_name', document.getElementById('qName').value.trim(), nicheCtx);
+      user.niche = rawNiche;
       if (user.niche === 'other') {
         user.niche_other = document.getElementById('qNicheOther').value.trim();
       }
-      user.services = document.getElementById('qServices').value.trim();
-      user.location = document.getElementById('qLocation').value.trim();
+      user.services = aiEnhance('services', document.getElementById('qServices').value.trim(), nicheCtx);
+      user.location = aiEnhance('location', document.getElementById('qLocation').value.trim(), nicheCtx);
       user.phone = phone;
       user.contact_email = contactEmail;
-      user.years = document.getElementById('qYears').value.trim();
+      user.years = aiEnhance('years', document.getElementById('qYears').value.trim(), nicheCtx);
       user.style = document.getElementById('qStyle').value;
       user.site_type = document.getElementById('qSiteType').value;
       user.inspo_urls = document.getElementById('qInspo').value.trim();
@@ -675,7 +765,8 @@
           notes: user.notes,
         };
 
-        fetch('/api/pipeline/generate', {
+        // Use orchestrator for full agent pipeline (falls back to generate)
+        fetch('/api/pipeline/orchestrate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
@@ -691,8 +782,26 @@
           }
         })
         .catch(function() {
-          apiDone = true;
-          apiResult = { success: false };
+          // Fallback to simple generate endpoint
+          fetch('/api/pipeline/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(genPayload),
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            apiDone = true;
+            apiResult = data;
+            if (data.preview_id) {
+              user.preview_id = data.preview_id;
+              user.preview_url = data.preview_url;
+            }
+          })
+          .catch(function() {
+            apiDone = true;
+            apiResult = { success: false };
+          });
         });
 
         fetch('/api/request-redesign', {
@@ -702,14 +811,39 @@
         }).catch(function() {});
       }
 
+      // Poll for real-time progress from orchestrator
+      var progressPollInterval = setInterval(function() {
+        fetch('/api/pipeline/progress?email=' + encodeURIComponent(email))
+          .then(function(r) { return r.json(); })
+          .then(function(prog) {
+            if (prog && prog.percent > 0) {
+              progress = Math.max(progress, prog.percent);
+              if (prog.message) {
+                document.getElementById('genDetail').innerHTML = '<p>' + prog.message + (prog.detail ? '<br><small style="color:var(--text-muted)">' + prog.detail + '</small>' : '') + '</p>';
+              }
+            }
+          })
+          .catch(function() { /* polling failed — use local progress */ });
+      }, 2000);
+
+      // Slower, more deliberate progress — gives agents real time to work
+      var msgIdx = 0;
+      var localMsgInterval = setInterval(function() {
+        if (msgIdx < messages.length && !apiDone) {
+          document.getElementById('genDetail').innerHTML = '<p>' + messages[msgIdx] + '</p>';
+          msgIdx++;
+        }
+      }, 3500);
+
       var interval = setInterval(function() {
-        if (apiDone && progress < 90) {
-          progress = 90;
-        } else if (apiDone) {
-          progress += 5;
-        } else {
-          progress += Math.floor(Math.random() * 3) + 1;
-          if (progress > 85) progress = 85;
+        if (apiDone && progress < 88) {
+          // API finished — catch up smoothly, don't jump
+          progress += 3;
+        } else if (apiDone && progress >= 88) {
+          progress += 2;
+        } else if (progress < 85) {
+          // Slow, deliberate increments while agents work
+          progress += Math.random() < 0.4 ? 1 : 0;
         }
         if (progress > 100) progress = 100;
 
@@ -726,22 +860,18 @@
           }
         });
 
-        var newIndex = Math.min(Math.floor(progress / 13), messages.length - 1);
-        if (newIndex !== msgIndex) {
-          msgIndex = newIndex;
-          document.getElementById('genDetail').innerHTML = '<p>' + messages[msgIndex] + '</p>';
-        }
-
         if (progress >= 100) {
           clearInterval(interval);
+          clearInterval(progressPollInterval);
+          clearInterval(localMsgInterval);
           user.preview_ready = true;
           localStorage.setItem('velocity_user', JSON.stringify(user));
           setTimeout(function() {
             showStep('preview');
             renderPreview();
-          }, 600);
+          }, 800);
         }
-      }, 800);
+      }, 1200);
     }
 
     // ── Render preview ──
@@ -769,6 +899,20 @@
       }
     }
 
+    // Detect archetype client-side (mirrors server logic)
+    function detectClientArchetype(niche) {
+      var n = (niche || '').toLowerCase();
+      var creative = ['photography','videography','music','musician','artist','design','graphic','filmmaker','dj','band','producer','creative','art','tattoo'];
+      var food = ['restaurant','cafe','bakery','catering','bar','food','chef','bistro','coffee'];
+      var wellness = ['dental','chiropractic','fitness','salon','barbershop','spa','massage','yoga','therapy'];
+      var pro = ['law','legal','accounting','consulting','insurance','real-estate','financial','marketing'];
+      if (creative.some(function(c) { return n.indexOf(c) !== -1; })) return 'creative';
+      if (food.some(function(c) { return n.indexOf(c) !== -1; })) return 'food';
+      if (wellness.some(function(c) { return n.indexOf(c) !== -1; })) return 'wellness';
+      if (pro.some(function(c) { return n.indexOf(c) !== -1; })) return 'professional';
+      return 'local-service';
+    }
+
     function renderSvgPreview() {
       var biz = user.business_name || 'Your Business';
       var services = (user.services || 'Service 1, Service 2, Service 3, Service 4').split(',').map(function(s) { return s.trim(); });
@@ -776,6 +920,7 @@
       var ph = user.phone || '(555) 000-0000';
       var yrs = user.years || '10+';
       var style = user.style || 'modern-clean';
+      var arch = detectClientArchetype(user.niche);
       var colors = {
         'modern-clean': { bg: '#f8f7f4', nav: '#fff', accent: '#1a6b44', trust: '#1a3a2a', text: '#1a2e22', muted: '#5c6b65', card: '#f3f6f4' },
         'bold-dark': { bg: '#0e0c0a', nav: '#121010', accent: '#c8956a', trust: '#1a1614', text: '#e8ddd3', muted: '#a89f94', card: '#1a1815' },
@@ -787,34 +932,86 @@
       var c = colors[style] || colors['modern-clean'];
       while (services.length < 4) services.push('Service');
       services = services.slice(0, 4);
-      var svg = '<svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">'
-        + '<rect width="420" height="280" fill="' + c.bg + '"/>'
-        + '<rect x="0" y="0" width="420" height="14" fill="' + c.trust + '"/>'
-        + '<text x="24" y="10" font-size="6" fill="rgba(255,255,255,.8)" font-family="sans-serif">' + escHtml(ph) + '</text>'
-        + '<rect x="0" y="14" width="420" height="24" fill="' + c.nav + '"/><line x1="0" y1="38" x2="420" y2="38" stroke="rgba(0,0,0,.06)"/>'
-        + '<text x="24" y="30" font-size="10" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
-        + '<rect x="356" y="22" width="44" height="13" rx="3" fill="' + c.accent + '"/>'
-        + '<text x="378" y="32" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="sans-serif">Contact</text>'
-        + '<text x="24" y="66" font-size="20" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
-        + '<text x="24" y="84" font-size="8" fill="' + c.muted + '" font-family="sans-serif">Serving ' + escHtml(loc) + ' for ' + escHtml(yrs) + ' years</text>'
-        + '<rect x="24" y="96" width="80" height="18" rx="4" fill="' + c.accent + '"/>'
-        + '<text x="64" y="109" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="sans-serif">Get Free Quote</text>'
-        + '<rect x="0" y="128" width="420" height="30" fill="' + c.trust + '"/>'
-        + '<text x="70" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">' + escHtml(yrs) + '</text>'
-        + '<text x="70" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">YEARS</text>'
-        + '<text x="175" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">4.9</text>'
-        + '<text x="175" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">RATING</text>'
-        + '<text x="280" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">A+</text>'
-        + '<text x="280" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">BBB</text>'
-        + '<text x="370" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">100%</text>'
-        + '<text x="370" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">LICENSED</text>'
-        + '<text x="24" y="178" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">WHAT WE DO</text>'
-        + '<text x="24" y="192" font-size="12" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">Our Services</text>';
-      for (var i = 0; i < 4; i++) {
-        var cx = 16 + i * 100;
-        svg += '<rect x="' + cx + '" y="202" width="92" height="36" rx="5" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
-          + '<text x="' + (cx + 46) + '" y="225" text-anchor="middle" font-size="7" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(services[i]) + '</text>';
+
+      var svg = '<svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">';
+      svg += '<rect width="420" height="280" fill="' + c.bg + '"/>';
+
+      if (arch === 'creative') {
+        // Creative: minimal nav, centered hero, portfolio grid
+        svg += '<rect x="0" y="0" width="420" height="24" fill="' + c.nav + '"/><line x1="0" y1="24" x2="420" y2="24" stroke="rgba(0,0,0,.06)"/>'
+          + '<text x="24" y="16" font-size="10" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<text x="210" y="72" text-anchor="middle" font-size="22" fill="' + c.text + '" font-weight="300" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<text x="210" y="92" text-anchor="middle" font-size="8" fill="' + c.muted + '" font-family="sans-serif">Creative work that speaks for itself</text>'
+          + '<rect x="165" y="102" width="90" height="16" rx="8" fill="' + c.accent + '"/>'
+          + '<text x="210" y="113" text-anchor="middle" font-size="7" fill="#fff" font-weight="600" font-family="sans-serif">View Work</text>'
+          + '<text x="24" y="140" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">SELECTED WORK</text>';
+        // Portfolio grid with varying sizes
+        svg += '<rect x="16" y="148" width="190" height="80" rx="6" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
+          + '<rect x="214" y="148" width="92" height="38" rx="6" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
+          + '<rect x="314" y="148" width="92" height="38" rx="6" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
+          + '<rect x="214" y="190" width="192" height="38" rx="6" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>';
+      } else if (arch === 'food') {
+        // Food: warm, centered, menu-style
+        svg += '<rect x="0" y="0" width="420" height="24" fill="' + c.nav + '"/><line x1="0" y1="24" x2="420" y2="24" stroke="rgba(0,0,0,.06)"/>'
+          + '<text x="210" y="16" text-anchor="middle" font-size="10" fill="' + c.text + '" font-weight="bold" font-family="serif">' + escHtml(biz) + '</text>'
+          + '<text x="210" y="72" text-anchor="middle" font-size="20" fill="' + c.text + '" font-weight="400" font-family="serif">Come hungry. Leave happy.</text>'
+          + '<text x="210" y="92" text-anchor="middle" font-size="8" fill="' + c.muted + '" font-family="sans-serif">Fresh ingredients. Made from scratch. ' + escHtml(loc) + '</text>'
+          + '<rect x="155" y="102" width="50" height="16" rx="3" fill="' + c.accent + '"/>'
+          + '<text x="180" y="113" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="sans-serif">Reserve</text>'
+          + '<rect x="215" y="102" width="50" height="16" rx="3" fill="transparent" stroke="' + c.accent + '"/>'
+          + '<text x="240" y="113" text-anchor="middle" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">Menu</text>'
+          + '<text x="24" y="140" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">MENU HIGHLIGHTS</text>';
+        for (var i = 0; i < Math.min(services.length, 4); i++) {
+          var my = 152 + i * 22;
+          svg += '<text x="24" y="' + my + '" font-size="8" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(services[i]) + '</text>'
+            + '<line x1="24" y1="' + (my + 6) + '" x2="396" y2="' + (my + 6) + '" stroke="rgba(0,0,0,.04)"/>';
+        }
+      } else if (arch === 'wellness') {
+        // Wellness: calm, split hero
+        svg += '<rect x="0" y="0" width="420" height="24" fill="' + c.nav + '"/><line x1="0" y1="24" x2="420" y2="24" stroke="rgba(0,0,0,.06)"/>'
+          + '<text x="24" y="16" font-size="10" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<rect x="320" y="6" width="80" height="13" rx="6" fill="' + c.accent + '"/>'
+          + '<text x="360" y="16" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="sans-serif">Book Now</text>'
+          + '<rect x="16" y="30" width="8" height="8" rx="4" fill="' + c.accent + '"/>'
+          + '<text x="30" y="37" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">WELCOMING NEW PATIENTS</text>'
+          + '<text x="24" y="66" font-size="18" fill="' + c.text + '" font-weight="400" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<text x="24" y="82" font-size="8" fill="' + c.muted + '" font-family="sans-serif">Gentle, judgment-free care in ' + escHtml(loc) + '</text>'
+          + '<rect x="24" y="94" width="80" height="16" rx="8" fill="' + c.accent + '"/>'
+          + '<text x="64" y="105" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="sans-serif">Book Appt</text>'
+          + '<text x="24" y="130" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">SERVICES</text>';
+        for (var i = 0; i < Math.min(services.length, 4); i++) {
+          var cx = 16 + i * 100;
+          svg += '<rect x="' + cx + '" y="138" width="92" height="36" rx="5" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
+            + '<text x="' + (cx + 46) + '" y="161" text-anchor="middle" font-size="7" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(services[i]) + '</text>';
+        }
+      } else {
+        // Local service: original trust-badge-heavy layout
+        svg += '<rect x="0" y="0" width="420" height="14" fill="' + c.trust + '"/>'
+          + '<text x="24" y="10" font-size="6" fill="rgba(255,255,255,.8)" font-family="sans-serif">' + escHtml(ph) + '</text>'
+          + '<rect x="0" y="14" width="420" height="24" fill="' + c.nav + '"/><line x1="0" y1="38" x2="420" y2="38" stroke="rgba(0,0,0,.06)"/>'
+          + '<text x="24" y="30" font-size="10" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<rect x="356" y="22" width="44" height="13" rx="3" fill="' + c.accent + '"/>'
+          + '<text x="378" y="32" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="sans-serif">Contact</text>'
+          + '<text x="24" y="66" font-size="20" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(biz) + '</text>'
+          + '<text x="24" y="84" font-size="8" fill="' + c.muted + '" font-family="sans-serif">Serving ' + escHtml(loc) + ' for ' + escHtml(yrs) + ' years</text>'
+          + '<rect x="24" y="96" width="80" height="18" rx="4" fill="' + c.accent + '"/>'
+          + '<text x="64" y="109" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="sans-serif">Get Free Quote</text>'
+          + '<rect x="0" y="128" width="420" height="30" fill="' + c.trust + '"/>'
+          + '<text x="70" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">' + escHtml(yrs) + '</text>'
+          + '<text x="70" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">YEARS</text>'
+          + '<text x="175" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">4.9</text>'
+          + '<text x="175" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">RATING</text>'
+          + '<text x="280" y="147" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">A+</text>'
+          + '<text x="280" y="155" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)">BBB</text>'
+          + '<text x="24" y="178" font-size="6" fill="' + c.accent + '" font-weight="bold" font-family="sans-serif">WHAT WE DO</text>'
+          + '<text x="24" y="192" font-size="12" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">Our Services</text>';
+        for (var i = 0; i < 4; i++) {
+          var cx = 16 + i * 100;
+          svg += '<rect x="' + cx + '" y="202" width="92" height="36" rx="5" fill="' + c.card + '" stroke="rgba(0,0,0,.04)"/>'
+            + '<text x="' + (cx + 46) + '" y="225" text-anchor="middle" font-size="7" fill="' + c.text + '" font-weight="bold" font-family="sans-serif">' + escHtml(services[i]) + '</text>';
+        }
       }
+
       svg += '<rect x="0" y="252" width="420" height="28" fill="' + c.trust + '"/>'
         + '<text x="210" y="269" text-anchor="middle" font-size="6" fill="rgba(255,255,255,.5)" font-family="sans-serif">&copy; 2026 ' + escHtml(biz) + '</text>'
         + '</svg>';
