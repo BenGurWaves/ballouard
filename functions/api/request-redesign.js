@@ -86,7 +86,7 @@ export async function onRequestPost(context) {
         // Merge new data with existing (keep previous questionnaire answers etc)
         Object.assign(redesignData, lead);
         // Preserve any additional fields sent (niche, services, style, etc)
-        const extraFields = ['business_name', 'niche', 'services', 'location', 'style', 'site_type', 'phone', 'revision'];
+        const extraFields = ['business_name', 'niche', 'services', 'location', 'style', 'site_type', 'phone', 'contact_email', 'years', 'inspo_urls', 'notes', 'revision'];
         for (const f of extraFields) {
           if (body[f]) redesignData[f] = body[f];
         }

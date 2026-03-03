@@ -21,7 +21,7 @@ export async function onRequestPost(context) {
   const websiteUrl = (body.website_url || '').trim();
 
   if (!email || !password) return err('Email and password are required');
-  if (password.length < 6) return err('Password must be at least 6 characters');
+  if (password.length < 8) return err('Password must be at least 8 characters');
   if (!email.includes('@') || !email.includes('.')) return err('Invalid email address');
 
   // Check if user already exists
