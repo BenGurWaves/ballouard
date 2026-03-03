@@ -1,8 +1,10 @@
-"""GitHub + Vercel deployment — creates repos and deploys built sites."""
+"""GitHub + Cloudflare Pages deployment — creates repos and deploys built sites."""
 
 from __future__ import annotations
 
 import base64
+import hashlib
+import json
 from pathlib import Path
 
 import httpx
@@ -13,7 +15,7 @@ from config.settings import settings
 log = structlog.get_logger()
 
 GITHUB_API = "https://api.github.com"
-VERCEL_API = "https://api.vercel.com"
+CLOUDFLARE_API = "https://api.cloudflare.com/client/v4"
 
 
 # ══════════════════════════════════════════════════════════
@@ -124,115 +126,106 @@ async def _get_github_user(client: httpx.AsyncClient, headers: dict) -> str:
 
 
 # ══════════════════════════════════════════════════════════
-# Vercel
+# Cloudflare Pages
 # ══════════════════════════════════════════════════════════
 
-async def create_vercel_project(
-    project_name: str,
-    github_repo: str,
-) -> dict:
+async def create_cloudflare_pages_project(project_name: str) -> dict:
     """
-    Create a Vercel project linked to a GitHub repo.
-    Returns {"project_id": ..., "url": ...}
+    Create a Cloudflare Pages project (Direct Upload mode, no git connection).
+    Returns {"project_name": ..., "url": ...}
     """
     headers = {
-        "Authorization": f"Bearer {settings.vercel_token}",
+        "Authorization": f"Bearer {settings.cloudflare_api_token}",
         "Content-Type": "application/json",
     }
+    account_id = settings.cloudflare_account_id
 
     payload = {
         "name": project_name,
-        "framework": None,  # Static HTML, no framework
-        "gitRepository": {
-            "type": "github",
-            "repo": github_repo,  # "owner/repo"
-        },
+        "production_branch": "main",
     }
-
-    if settings.vercel_team_id:
-        payload["teamId"] = settings.vercel_team_id
-
-    params = {}
-    if settings.vercel_team_id:
-        params["teamId"] = settings.vercel_team_id
 
     async with httpx.AsyncClient(timeout=30) as client:
         resp = await client.post(
-            f"{VERCEL_API}/v10/projects",
+            f"{CLOUDFLARE_API}/accounts/{account_id}/pages/projects",
             json=payload,
             headers=headers,
-            params=params,
         )
 
         if resp.status_code == 409:
-            # Project already exists
+            # Project already exists — fetch it
             resp = await client.get(
-                f"{VERCEL_API}/v9/projects/{project_name}",
+                f"{CLOUDFLARE_API}/accounts/{account_id}/pages/projects/{project_name}",
                 headers=headers,
-                params=params,
             )
 
         resp.raise_for_status()
-        data = resp.json()
 
-    project_id = data.get("id", "")
-    url = f"https://{project_name}.vercel.app"
-
-    log.info("deployment.vercel_project_created", name=project_name, url=url)
-    return {"project_id": project_id, "url": url}
+    url = f"https://{project_name}.pages.dev"
+    log.info("deployment.cf_project_created", name=project_name, url=url)
+    return {"project_name": project_name, "url": url}
 
 
-async def deploy_to_vercel(
+async def deploy_to_cloudflare_pages(
     project_name: str,
     site_dir: Path,
 ) -> dict:
     """
-    Deploy files directly to Vercel using the Deployments API.
+    Deploy files to Cloudflare Pages using Direct Upload.
+
+    Uses the v2 direct upload API:
+      POST /accounts/{id}/pages/projects/{name}/deployments
+      Content-Type: multipart/form-data
+        - "manifest" part: JSON mapping of file paths to content hashes
+        - one file part per asset
+
     Returns {"url": ..., "deployment_id": ...}
     """
     headers = {
-        "Authorization": f"Bearer {settings.vercel_token}",
-        "Content-Type": "application/json",
+        "Authorization": f"Bearer {settings.cloudflare_api_token}",
     }
+    account_id = settings.cloudflare_account_id
 
-    params = {}
-    if settings.vercel_team_id:
-        params["teamId"] = settings.vercel_team_id
+    # Ensure the project exists
+    await create_cloudflare_pages_project(project_name)
 
-    # Build file list
-    files = []
+    # Build manifest and file list
+    manifest = {}
+    files_to_upload = []
+
     for file_path in site_dir.rglob("*"):
         if file_path.is_dir():
             continue
-
         relative = str(file_path.relative_to(site_dir))
-        content = file_path.read_text(encoding="utf-8", errors="replace")
+        cf_path = f"/{relative}" if not relative.startswith("/") else relative
+        content = file_path.read_bytes()
+        content_hash = hashlib.sha256(content).hexdigest()
 
-        files.append({
-            "file": relative,
-            "data": content,
-        })
+        manifest[cf_path] = content_hash
+        files_to_upload.append((cf_path, content))
 
-    payload = {
-        "name": project_name,
-        "files": files,
-        "projectSettings": {
-            "framework": None,
-        },
-    }
+    async with httpx.AsyncClient(timeout=120) as client:
+        form_files = [("manifest", (None, json.dumps(manifest), "application/json"))]
+        for cf_path, content in files_to_upload:
+            filename = cf_path.lstrip("/")
+            form_files.append(("file", (filename, content, "application/octet-stream")))
 
-    async with httpx.AsyncClient(timeout=60) as client:
         resp = await client.post(
-            f"{VERCEL_API}/v13/deployments",
-            json=payload,
+            f"{CLOUDFLARE_API}/accounts/{account_id}/pages/projects/{project_name}/deployments",
             headers=headers,
-            params=params,
+            files=form_files,
         )
         resp.raise_for_status()
         data = resp.json()
 
-    url = f"https://{data.get('url', project_name + '.vercel.app')}"
-    deployment_id = data.get("id", "")
+    result = data.get("result", data)
+    deployment_url = result.get("url", f"https://{project_name}.pages.dev")
+    deployment_id = result.get("id", "")
 
-    log.info("deployment.vercel_deployed", url=url, deployment_id=deployment_id)
-    return {"url": url, "deployment_id": deployment_id}
+    log.info(
+        "deployment.cf_deployed",
+        project=project_name,
+        url=deployment_url,
+        deployment_id=deployment_id,
+    )
+    return {"url": deployment_url, "deployment_id": deployment_id}

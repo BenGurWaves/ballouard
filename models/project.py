@@ -40,6 +40,6 @@ class Project(Base, UUIDMixin, TimestampMixin):
     # Output
     github_repo: Mapped[str | None] = mapped_column(String(300), nullable=True)
     live_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
-    vercel_project_id: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    cloudflare_deployment_id: Mapped[str | None] = mapped_column(String(200), nullable=True)
 
     revision_count: Mapped[int] = mapped_column(default=0)

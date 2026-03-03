@@ -13,7 +13,7 @@
 - CLI interface for manual and continuous operation
 - **FastAPI web server** with webhook endpoints, preview/demo hosting, admin API
 - **Agency website** (Velocity) — modern dark-theme marketing site
-- **GitHub + Vercel deployment** — real API integration for site publishing
+- **GitHub + Cloudflare Pages deployment** — real API integration for site publishing
 - Webhook handlers for Stripe, email replies, WhatsApp, Telegram
 - SQLite database with full data model
 - CAN-SPAM compliant email templates
@@ -31,11 +31,12 @@
 - [x] Admin API for pipeline monitoring
 - [x] Agency website served at root `/`
 
-### GitHub + Vercel Deployment — RESOLVED
+### GitHub + Cloudflare Pages Deployment — RESOLVED
 - [x] GitHub API integration — creates repos and pushes site files
-- [x] Vercel API integration — creates projects and deploys
+- [x] Cloudflare Pages Direct Upload API — creates projects and deploys
 - [x] Real deployment service (`services/deployment.py`)
 - [x] Web Design Agent updated to use real deployment
+- [x] Agency website prepared for Cloudflare Pages hosting (`_headers`, `_redirects`, `404.html`)
 
 ## Remaining Gaps Before Production
 

@@ -44,8 +44,8 @@ class Settings(BaseSettings):
     twilio_phone_number: str = ""
 
     # Web Design / Deployment
-    vercel_token: str = ""
-    vercel_team_id: str = ""
+    cloudflare_api_token: str = ""
+    cloudflare_account_id: str = ""
     github_token: str = ""
     github_org: str = ""
 

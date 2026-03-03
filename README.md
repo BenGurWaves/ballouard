@@ -15,7 +15,7 @@ Fully autonomous AI-powered website design agency — from lead generation to si
 ├─────────┼──────────┼──────────┼─────────┼──────────┼───────────────────────┤
 │ Google   │ SendGrid  │ Claude   │ Stripe  │ Claude   │ WhatsApp/Telegram     │
 │ Places   │ SMTP      │Playwright│ LLM     │ GitHub   │ Email                 │
-│ PageSpeed│ Claude    │ Pillow   │         │ Vercel   │                       │
+│ PageSpeed│ Claude    │ Pillow   │         │ CF Pages │                       │
 │ Scraper  │           │          │         │          │                       │
 └─────────┴──────────┴──────────┴─────────┴──────────┴───────────────────────┘
                               │
@@ -78,7 +78,7 @@ Builds complete, multi-page websites.
 - Builds each page as clean HTML/CSS using Claude
 - Creates shared stylesheet
 - Pushes code to GitHub via API
-- Deploys live to Vercel
+- Deploys live to Cloudflare Pages
 - Handles: home, about, services, gallery, contact, blog pages
 
 ### Stage 6: Client Success Agent
@@ -157,7 +157,10 @@ AIWEBagency/
 ├── website/                 # The agency's own website (Velocity)
 │   ├── index.html           # Landing page
 │   ├── styles.css           # Full stylesheet
-│   └── main.js              # Interactions + animations
+│   ├── main.js              # Interactions + animations
+│   ├── 404.html             # Custom 404 page
+│   ├── _headers             # Cloudflare Pages security headers + caching
+│   └── _redirects           # Cloudflare Pages redirect rules
 ├── server/                  # FastAPI web server
 │   └── app.py               # Routes, webhooks, API, static serving
 ├── agents/                  # The 6 autonomous agents
@@ -166,7 +169,7 @@ AIWEBagency/
 │   ├── outreach.py          # Agent 2: Cold email cadence
 │   ├── design_preview.py    # Agent 3: Blurred mockup generation
 │   ├── sales.py             # Agent 4: Deal closing + invoicing
-│   ├── web_designer.py      # Agent 5: Full site builds + GitHub/Vercel deploy
+│   ├── web_designer.py      # Agent 5: Full site builds + GitHub/CF Pages deploy
 │   └── client_success.py    # Agent 6: Multi-channel client comms
 ├── config/
 │   └── settings.py          # Centralized env-based configuration
@@ -183,7 +186,7 @@ AIWEBagency/
 │   ├── email_sender.py      # SendGrid / SMTP
 │   ├── payments.py          # Stripe invoicing
 │   ├── messaging.py         # WhatsApp + Telegram
-│   └── deployment.py        # GitHub repo creation + Vercel deployment
+│   └── deployment.py        # GitHub + Cloudflare Pages deployment
 ├── templates/
 │   └── emails.py            # Cold email templates (4 stages)
 ├── pipeline/
@@ -210,7 +213,7 @@ AIWEBagency/
 | **Stripe** | Payment processing | 2.9% + 30c/txn |
 | **WhatsApp Business** | Client messaging | 1K free/mo |
 | **Telegram Bot** | Client messaging | Free |
-| **Vercel** | Site hosting/deployment | Free tier |
+| **Cloudflare Pages** | Site hosting/deployment | Free tier |
 | **GitHub** | Code hosting | Free |
 
 ## Cold Email Compliance

@@ -5,9 +5,9 @@ Builds complete, multi-page websites after payment is confirmed.
 Pipeline:
   1. Generate a comprehensive design brief from lead data + audit
   2. Plan site architecture (pages, navigation, content)
-  3. Generate each page as clean HTML/CSS (or Next.js if configured)
+  3. Generate each page as clean HTML/CSS
   4. Create a GitHub repo for the project
-  5. Deploy to Vercel
+  5. Deploy to Cloudflare Pages
   6. Run final QA checks (PageSpeed, mobile, links)
 """
 
@@ -23,7 +23,7 @@ from models.lead import Lead, LeadStatus
 from models.deal import Deal
 from models.project import Project, ProjectStatus
 from config.settings import settings
-from services.deployment import create_github_repo, push_files_to_github, deploy_to_vercel
+from services.deployment import create_github_repo, push_files_to_github, deploy_to_cloudflare_pages
 
 
 BUILD_DIR = Path("builds")
@@ -93,7 +93,7 @@ class WebDesignAgent(BaseAgent):
         css = await self._generate_css(design_brief, project.brand_colors)
         (site_dir / "styles.css").write_text(css, encoding="utf-8")
 
-        # Step 5: Deploy (GitHub + Vercel)
+        # Step 5: Deploy (GitHub + Cloudflare Pages)
         project.status = ProjectStatus.DEPLOYING
         await self.db.commit()
 
@@ -101,8 +101,8 @@ class WebDesignAgent(BaseAgent):
             repo_url = await self._create_github_repo(project, site_dir)
             project.github_repo = repo_url
 
-        if settings.vercel_token:
-            live_url = await self._deploy_to_vercel(project, site_dir)
+        if settings.cloudflare_api_token:
+            live_url = await self._deploy_to_cloudflare(project, site_dir)
             project.live_url = live_url
 
         # Update statuses
@@ -266,19 +266,19 @@ Brand colors: {json.dumps(brand_colors) if brand_colors else 'Extract from the b
             self.log.error("github_deploy_failed", project=project.id, error=str(exc))
             return None
 
-    async def _deploy_to_vercel(self, project: Project, site_dir: Path) -> str | None:
-        """Deploy the site to Vercel."""
+    async def _deploy_to_cloudflare(self, project: Project, site_dir: Path) -> str | None:
+        """Deploy the site to Cloudflare Pages."""
         try:
             project_name = f"site-{project.id[:12]}"
-            result = await deploy_to_vercel(
+            result = await deploy_to_cloudflare_pages(
                 project_name=project_name,
                 site_dir=site_dir,
             )
 
-            project.vercel_project_id = result.get("deployment_id")
-            self.log.info("vercel_deployed", project=project.id, url=result["url"])
+            project.cloudflare_deployment_id = result.get("deployment_id")
+            self.log.info("cloudflare_deployed", project=project.id, url=result["url"])
             return result["url"]
 
         except Exception as exc:
-            self.log.error("vercel_deploy_failed", project=project.id, error=str(exc))
+            self.log.error("cloudflare_deploy_failed", project=project.id, error=str(exc))
             return None
