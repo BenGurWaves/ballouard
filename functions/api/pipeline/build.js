@@ -81,9 +81,27 @@ export async function onRequestPost(context) {
   // Generate each page
   const pages = {};
   for (const page of pageList) {
-    const pageContent = generatePage(page, biz, content, theme, nav, footer, stylesheet);
+    const pageContent = generatePage(page, biz, content, theme, nav, footer, stylesheet, buildId);
     pages[page + '.html'] = pageContent;
   }
+
+  // Generate sitemap.xml
+  const siteUrl = biz.domain ? `https://${biz.domain}` : `https://${biz.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-2-0.pages.dev`;
+  const today = new Date().toISOString().split('T')[0];
+  pages['sitemap.xml'] = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pageList.map(p => `  <url>
+    <loc>${siteUrl}/${p === 'index' ? '' : p + '.html'}</loc>
+    <lastmod>${today}</lastmod>
+    <priority>${p === 'index' ? '1.0' : '0.8'}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  // Generate robots.txt
+  pages['robots.txt'] = `User-agent: *
+Allow: /
+
+Sitemap: ${siteUrl}/sitemap.xml`;
 
   // Store in KV
   const bundle = {
@@ -136,7 +154,7 @@ export async function onRequestOptions() {
 // PAGE GENERATORS
 // ═══════════════════════════════════════════════════════════════
 
-function generatePage(page, biz, content, theme, nav, footer, stylesheet) {
+function generatePage(page, biz, content, theme, nav, footer, stylesheet, buildId) {
   const name = esc(biz.name);
   const pageTitle = getPageTitle(page, biz);
 
@@ -144,11 +162,26 @@ function generatePage(page, biz, content, theme, nav, footer, stylesheet) {
     index: () => buildHomePage(biz, content, theme),
     services: () => buildServicesPage(biz, content, theme),
     about: () => buildAboutPage(biz, content, theme),
-    contact: () => buildContactPage(biz, content, theme),
+    contact: () => buildContactPage(biz, content, theme, buildId),
     reviews: () => buildReviewsPage(biz, content, theme),
   };
 
   const body = (bodyContent[page] || bodyContent.index)();
+
+  // JSON-LD structured data (homepage only for LocalBusiness)
+  const jsonLd = page === 'index' ? `
+<script type="application/ld+json">
+${JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: biz.name,
+  ...(content.meta?.description && { description: content.meta.description }),
+  ...(biz.phone && { telephone: biz.phone }),
+  ...(biz.email && { email: biz.email }),
+  ...(biz.location && { address: { '@type': 'PostalAddress', addressLocality: biz.location } }),
+  ...(biz.niche && { knowsAbout: biz.niche }),
+})}
+</script>` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -157,10 +190,14 @@ function generatePage(page, biz, content, theme, nav, footer, stylesheet) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(pageTitle)}</title>
 <meta name="description" content="${esc(content.meta?.description || '')}">
+<meta property="og:title" content="${esc(pageTitle)}">
+<meta property="og:description" content="${esc(content.meta?.description || '')}">
+<meta property="og:type" content="website">
+<link rel="canonical" href="${page === 'index' ? '/' : '/' + page + '.html'}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=${theme.gFont}&display=swap" rel="stylesheet">
-<style>${stylesheet}</style>
+<style>${stylesheet}</style>${jsonLd}
 </head>
 <body>
 ${nav.replace('{{ACTIVE}}', page)}
@@ -384,7 +421,7 @@ ${values.map((v, i) => `      <div class="value-card fu fu${i}">
 
 // ── Contact page ──────────────────────────────────────────────
 
-function buildContactPage(biz, content, theme) {
+function buildContactPage(biz, content, theme, buildId) {
   const name = esc(biz.name);
   const phone = esc(biz.phone || '');
   const phoneHref = (biz.phone || '').replace(/[^0-9+]/g, '');
@@ -414,15 +451,45 @@ function buildContactPage(biz, content, theme) {
         </div>
       </div>
       <div class="contact-form-wrap">
-        <form class="contact-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Message Sent!';this.querySelector('button').disabled=true;">
+        <form class="contact-form" id="contactForm">
           <div class="form-row">
             <div class="form-group"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
             <div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="(555) 123-4567"></div>
           </div>
           <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
           <div class="form-group"><label>How can we help?</label><textarea name="message" rows="5" placeholder="Tell us about your project..." required></textarea></div>
+          <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+          <div id="formStatus" style="display:none;padding:12px;border-radius:var(--r);margin-bottom:12px;font-size:14px"></div>
           <button type="submit" class="btn-p btn-full">Send Message</button>
         </form>
+        <script>
+        document.getElementById('contactForm').addEventListener('submit',async function(e){
+          e.preventDefault();
+          const btn=this.querySelector('button[type="submit"]');
+          const status=document.getElementById('formStatus');
+          const orig=btn.textContent;
+          btn.textContent='Sending...';btn.disabled=true;
+          status.style.display='none';
+          try{
+            const fd=new FormData(this);
+            const data={site_id:'${esc(buildId)}',name:fd.get('name'),email:fd.get('email'),phone:fd.get('phone')||'',message:fd.get('message'),website:fd.get('website')};
+            const apiBase=window.location.hostname.endsWith('.pages.dev')?'https://velocity.delivery':'';
+            const r=await fetch(apiBase+'/api/forms/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+            const j=await r.json();
+            if(r.ok&&j.success){
+              status.style.display='block';status.style.background='var(--accent-bg-solid)';status.style.color='var(--accent)';
+              status.textContent='Thank you! Your message has been sent. We\\'ll get back to you shortly.';
+              this.reset();
+            }else{
+              throw new Error(j.error||'Something went wrong');
+            }
+          }catch(err){
+            status.style.display='block';status.style.background='#fef2f2';status.style.color='#991b1b';
+            status.textContent=err.message||'Failed to send. Please try again or call us directly.';
+          }
+          btn.textContent=orig;btn.disabled=false;
+        });
+        </script>
       </div>
     </div>
   </div>

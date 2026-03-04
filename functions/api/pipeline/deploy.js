@@ -30,15 +30,34 @@ export async function onRequestPost(context) {
   if (project.user_email !== session.email) return err('Forbidden', 403);
   if (project.status !== 'preview_ready') return err('Preview is not ready yet');
 
-  // Get preview HTML
-  const previewHtml = await kv.get(`preview:${projectId}`);
-  if (!previewHtml) return err('Preview HTML not found', 404);
+  // Get all build pages (multi-page) or fall back to preview HTML
+  const buildManifest = await kv.get(`build:${projectId}`, { type: 'json' });
+  const pageFiles = {};
+
+  if (buildManifest?.pages) {
+    // Load all pages from the multi-page build
+    for (const pageName of buildManifest.pages) {
+      const html = await kv.get(`build:${projectId}:${pageName}`);
+      if (html) pageFiles[pageName] = html;
+    }
+    // Also load sitemap.xml and robots.txt if they exist
+    for (const extra of ['sitemap.xml', 'robots.txt']) {
+      const content = await kv.get(`build:${projectId}:${extra}`);
+      if (content) pageFiles[extra] = content;
+    }
+  }
+
+  // Fallback: single-page preview
+  if (Object.keys(pageFiles).length === 0) {
+    const previewHtml = await kv.get(`preview:${projectId}`);
+    if (!previewHtml) return err('Preview HTML not found', 404);
+    pageFiles['index.html'] = previewHtml;
+  }
 
   const cfToken = context.env.CLOUDFLARE_API_TOKEN;
   const cfAccount = context.env.CLOUDFLARE_ACCOUNT_ID;
 
   if (!cfToken || !cfAccount) {
-    // No Cloudflare credentials — mark as deployed with preview URL only
     project.status = 'deployed';
     project.deployed_at = new Date().toISOString();
     project.live_url = project.preview_url;
@@ -81,10 +100,12 @@ export async function onRequestPost(context) {
       return err('Failed to create Pages project: ' + (createData.errors?.[0]?.message || 'Unknown error'), 500);
     }
 
-    // 2. Direct Upload deployment
+    // 2. Direct Upload deployment — upload all pages
     const form = new FormData();
-    const indexBlob = new Blob([previewHtml], { type: 'text/html' });
-    form.append('index.html', indexBlob, 'index.html');
+    for (const [filename, content] of Object.entries(pageFiles)) {
+      const mimeType = filename.endsWith('.xml') ? 'application/xml' : filename.endsWith('.txt') ? 'text/plain' : 'text/html';
+      form.append(filename, new Blob([content], { type: mimeType }), filename);
+    }
 
     const deployResp = await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${cfAccount}/pages/projects/${projectName}/deployments`,
