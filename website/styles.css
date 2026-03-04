@@ -38,7 +38,7 @@
   --font-hand:   'Caveat', cursive;
 
   /* Spacing */
-  --section-pad: clamp(5rem, 10vw, 9rem);
+  --section-pad: clamp(6rem, 12vw, 10rem);
 
   /* Radius */
   --radius-sm:  4px;
@@ -101,8 +101,8 @@ img { max-width: 100%; display: block; }
 /* ── Scroll Animations ─────────────────────────────────── */
 [data-animate] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 [data-animate].is-visible {
   opacity: 1;
@@ -124,8 +124,8 @@ h1, h2, h3 {
 }
 
 h2 {
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
-  margin-bottom: 1rem;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  margin-bottom: 1.25rem;
   color: var(--text);
 }
 
@@ -177,8 +177,8 @@ h2 {
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(200, 149, 106, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(200, 149, 106, 0.25);
 }
 .btn-primary:hover svg {
   transform: translateX(3px);
@@ -373,7 +373,7 @@ h2 {
    HERO
    ══════════════════════════════════════════════════════════ */
 .hero {
-  padding: 10rem 0 5rem;
+  padding: 11rem 0 6rem;
   position: relative;
   overflow: hidden;
 }
@@ -435,8 +435,8 @@ h2 {
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  line-height: 1.08;
+  font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+  line-height: 1.05;
   margin-bottom: 1.5rem;
 }
 .hero-title em {
@@ -451,11 +451,11 @@ h2 {
 }
 
 .hero-text {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.75;
-  margin-bottom: 2rem;
-  max-width: 480px;
+  margin-bottom: 2.25rem;
+  max-width: 460px;
 }
 
 .hero-actions {
@@ -512,7 +512,7 @@ h2 {
 
 @keyframes hero-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-6px); }
 }
 
 .showcase-browsers {
@@ -761,7 +761,7 @@ h2 {
   border-bottom: 1px solid var(--border-subtle);
 }
 .process-title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
   margin-bottom: 0.5rem;
 }
 .process-subtitle {
@@ -974,8 +974,8 @@ h2 {
 }
 .included-item:hover {
   border-color: var(--border);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 .included-icon {
   display: flex;
@@ -1284,7 +1284,7 @@ h2 {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 3.5rem 2.5rem;
+  padding: 4rem 2.5rem;
   text-align: center;
   overflow: hidden;
 }
@@ -1405,7 +1405,7 @@ h2 {
    FOOTER
    ══════════════════════════════════════════════════════════ */
 .footer {
-  padding: 4rem 0 2rem;
+  padding: 5rem 0 2.5rem;
   border-top: 1px solid var(--border-subtle);
 }
 
