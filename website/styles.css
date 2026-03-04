@@ -280,6 +280,9 @@ h2 {
   letter-spacing: -0.02em;
 }
 .logo-dot { color: var(--accent); }
+.logo-sub { font-family: var(--font-body); font-size: 0.5em; color: var(--text-muted); font-weight: 400; margin-left: 0.35em; letter-spacing: 0; vertical-align: baseline; }
+.logo-sub a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.logo-sub a:hover { color: var(--accent); }
 
 .nav-links {
   display: flex;

@@ -528,7 +528,7 @@ function buildFooter(biz, content, theme) {
   </div>
   <div class="footer-bottom">
     <span>&copy; ${year} ${name}. All rights reserved.</span>
-    <span class="footer-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Built by Velocity</span>
+    <span class="footer-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Built by <a href="https://velocity.delivery" style="color:inherit;text-decoration:underline;">Velocity</a> &middot; by <a href="https://calyvent.com" target="_blank" style="color:inherit;text-decoration:underline;">Calyvent</a></span>
   </div>
 </footer>`;
 }
