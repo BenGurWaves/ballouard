@@ -115,7 +115,7 @@
           <div class="wp-sk-row xshort"></div>
           <div class="wp-sk-row"></div>
         </div>
-        <img class="wp-screenshot" id="wpShot" src="" alt="" loading="lazy">
+        <div class="wp-screenshot" id="wpShot"></div>
       </div>
     </div>
   </div>
@@ -356,8 +356,8 @@ function boot(){
       skeleton.style.opacity = '1';
       address.textContent = item.dataset.url || '';
 
-      // Preload image
-      shot.src = item.dataset.img || '';
+      // Preload image as background
+      shot.style.backgroundImage = 'url(' + (item.dataset.img || '') + ')';
 
       // Show card
       preview.classList.add('show');
@@ -371,10 +371,13 @@ function boot(){
         });
       });
 
-      // Reveal screenshot after 2.3s
+      // Reveal screenshot + start slow scroll after 2.3s
       revealTimer = setTimeout(() => {
         skeleton.style.opacity = '0';
         shot.style.opacity = '1';
+        shot.classList.remove('scrolling');
+        void shot.offsetWidth; // force reflow to restart animation
+        shot.classList.add('scrolling');
       }, 2300);
     });
 
@@ -388,6 +391,7 @@ function boot(){
           bar.style.transition = 'none';
           bar.style.width = '0%';
           shot.style.opacity = '0';
+          shot.classList.remove('scrolling');
           skeleton.style.opacity = '1';
         }
       }, 400);
