@@ -184,8 +184,8 @@
   document.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
   (function loop(){
     cx += (mx-cx)*.12; cy += (my-cy)*.12;
-    cur.style.transform='translate('+(mx-18)+'px,'+(my-18)+'px)';
-    dot.style.transform='translate('+(cx-2)+'px,'+(cy-2)+'px)';
+    cur.style.transform='translate('+(cx-18)+'px,'+(cy-18)+'px)';
+    dot.style.transform='translate('+(mx-2)+'px,'+(my-2)+'px)';
     requestAnimationFrame(loop);
   })();
   document.querySelectorAll('a').forEach(function(el){

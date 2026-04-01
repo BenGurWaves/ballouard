@@ -5,11 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Velocity — Web Design Studio</title>
   <meta name="description" content="Custom websites designed and built in 48 hours. Hand-coded, deployed, and live. By Calyvent.">
+  <meta property="og:title" content="Velocity — Web Design Studio">
+  <meta property="og:description" content="Custom websites designed and built in 48 hours. Hand-coded, deployed on Cloudflare. By Calyvent.">
+  <meta property="og:url" content="https://velocity.calyvent.com">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://velocity.calyvent.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=14">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://velocity.calyvent.com/#business",
+        "name": "Velocity by Calyvent",
+        "url": "https://velocity.calyvent.com",
+        "logo": "https://velocity.calyvent.com/favicon.svg",
+        "description": "Custom websites designed and built in 48 hours. Hand-coded, deployed on Cloudflare.",
+        "email": "hello@calyvent.com",
+        "areaServed": "Worldwide",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Web Design Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Landing Page Design & Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Full Website Design & Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO & Cloudflare Deployment" } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://velocity.calyvent.com/#website",
+        "url": "https://velocity.calyvent.com",
+        "name": "Velocity — Web Design Studio",
+        "publisher": { "@id": "https://velocity.calyvent.com/#business" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -109,10 +148,10 @@
       </div>
       <div class="wp-viewport">
         <div class="wp-skeleton" id="wpSkeleton">
-          <div class="wp-sk-row tall"></div>
           <div class="wp-sk-row"></div>
-          <div class="wp-sk-row short"></div>
-          <div class="wp-sk-row xshort"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
           <div class="wp-sk-row"></div>
         </div>
         <img class="wp-screenshot" id="wpShot" src="" alt="" draggable="false">
@@ -218,21 +257,24 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" integrity="sha384-O55L/6rhHr9CFvrxqv5luxOCcmVaBmETbZbJDP+Do8T0pztTACsFBD/IXCNkj7DV" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 <script>
-/* ── Luxury scroll (Lenis) ── */
-const lenis = new Lenis({
-  duration: 2.4,
-  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  smoothTouch: false,
-});
-gsap.ticker.add(time => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
-
-gsap.registerPlugin(ScrollTrigger);
+/* ── Luxury scroll (Lenis) — guarded against CDN failure ── */
+if (typeof gsap !== 'undefined') {
+  gsap.registerPlugin(typeof ScrollTrigger !== 'undefined' ? ScrollTrigger : {});
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 2.4,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+}
 
 /* ── Preloader — cinematic trickle, minimum 2.6s ── */
 (function(){
@@ -254,14 +296,19 @@ gsap.registerPlugin(ScrollTrigger);
     bar.style.width = p + '%';
   }, 90);
 
-  window.addEventListener('load', () => {
+  function onLoaded() {
     clearInterval(tick);
     const wait = Math.max(0, MIN - (Date.now() - START));
     setTimeout(() => {
       p = 100; bar.style.width = '100%';
       setTimeout(() => { pl.classList.add('out'); boot(); }, 500);
     }, wait);
-  });
+  }
+  if (document.readyState === 'complete') {
+    onLoaded();
+  } else {
+    window.addEventListener('load', onLoaded);
+  }
 })();
 
 /* ── Boot animations ── */
@@ -269,7 +316,9 @@ function boot(){
 
   /* Letter stagger on hero name */
   const heroEl = document.getElementById('heroName');
-  heroEl.innerHTML = 'Velocity'.split('').map(l => `<span class="letter">${l}</span>`).join('') + '<em>.</em>';
+  if (!heroEl) return;
+  const heroText = heroEl.textContent.replace('.', '').trim();
+  heroEl.innerHTML = heroText.split('').map(l => `<span class="letter">${l}</span>`).join('') + '<em>.</em>';
 
   gsap.from('#heroName .letter', {
     opacity: 0, y: 80, rotateX: -35,
@@ -414,7 +463,7 @@ function boot(){
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
   (function loop(){
     cx += (mx - cx) * 0.1; cy += (my - cy) * 0.1;
-    c.style.transform = `translate(${cx - 20}px,${cy - 20}px)`;
+    c.style.transform = `translate(${cx - 18}px,${cy - 18}px)`;
     d.style.transform = `translate(${mx - 3}px,${my - 3}px)`;
     requestAnimationFrame(loop);
   })();
