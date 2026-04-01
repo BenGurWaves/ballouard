@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=12">
+  <link rel="stylesheet" href="/styles.css?v=13">
 </head>
 <body>
 
@@ -34,7 +34,7 @@
 </nav>
 
 <!-- ══════════════════════════════════
-     HERO — name fills the viewport
+     HERO
 ══════════════════════════════════ -->
 <section class="hero">
   <h1 class="hero-name" id="heroName">Velocity<em>.</em></h1>
@@ -48,7 +48,7 @@
 </section>
 
 <!-- ══════════════════════════════════
-     INTRO — one sentence
+     INTRO
 ══════════════════════════════════ -->
 <section class="intro" id="intro">
   <p class="intro-text">
@@ -65,39 +65,64 @@
   </div>
 
   <div class="work-list" id="workList">
-    <a href="https://thread.calyvent.com" target="_blank" class="wl-item" data-color="#C8A882">
+    <a href="https://thread.calyvent.com" target="_blank" class="wl-item"
+       data-img="/work-thread.jpg" data-url="thread.calyvent.com">
       <span class="wl-num">01</span>
       <span class="wl-name">Thread</span>
       <span class="wl-type">Brand Infrastructure</span>
-      <span class="wl-year">2024</span>
+      <span class="wl-year">2026</span>
       <span class="wl-arrow">↗</span>
     </a>
     <div class="wl-sep"></div>
-    <a href="https://linkdrop.calyvent.com" target="_blank" class="wl-item" data-color="#8AA8C8">
+    <a href="https://calyvent.com" target="_blank" class="wl-item"
+       data-img="/work-calyvent.jpg" data-url="calyvent.com">
       <span class="wl-num">02</span>
-      <span class="wl-name">LinkDrop</span>
-      <span class="wl-type">SaaS Platform</span>
-      <span class="wl-year">2024</span>
+      <span class="wl-name">Calyvent</span>
+      <span class="wl-type">Brand Identity</span>
+      <span class="wl-year">2025</span>
       <span class="wl-arrow">↗</span>
     </a>
     <div class="wl-sep"></div>
-    <a href="https://vault.calyvent.com" target="_blank" class="wl-item" data-color="#A8C8A0">
+    <a href="https://vault.calyvent.com" target="_blank" class="wl-item"
+       data-img="/work-vault.jpg" data-url="vault.calyvent.com">
       <span class="wl-num">03</span>
       <span class="wl-name">The Vault</span>
       <span class="wl-type">E-Commerce</span>
-      <span class="wl-year">2024</span>
+      <span class="wl-year">2026</span>
       <span class="wl-arrow">↗</span>
     </a>
   </div>
 
-  <!-- Hover preview -->
+  <!-- Hover preview — real browser chrome -->
   <div class="work-preview" id="workPreview">
-    <div class="wp-inner" id="wpInner"></div>
+    <div class="wp-browser">
+      <div class="wp-chrome">
+        <div class="wp-dots">
+          <div class="wp-dot"></div>
+          <div class="wp-dot"></div>
+          <div class="wp-dot"></div>
+        </div>
+        <div class="wp-address" id="wpAddress">calyvent.com</div>
+      </div>
+      <div class="wp-progress-track">
+        <div class="wp-progress-bar" id="wpBar"></div>
+      </div>
+      <div class="wp-viewport">
+        <div class="wp-skeleton" id="wpSkeleton">
+          <div class="wp-sk-row tall"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row short"></div>
+          <div class="wp-sk-row xshort"></div>
+          <div class="wp-sk-row"></div>
+        </div>
+        <img class="wp-screenshot" id="wpShot" src="" alt="" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════
-     STUDIO — who we are
+     STUDIO
 ══════════════════════════════════ -->
 <section class="studio" id="studio">
   <div class="studio-grid">
@@ -130,7 +155,7 @@
 </section>
 
 <!-- ══════════════════════════════════
-     SERVICES — numbered
+     SERVICES
 ══════════════════════════════════ -->
 <section class="services">
   <div class="svc-list">
@@ -177,7 +202,7 @@
 </section>
 
 <!-- ══════════════════════════════════
-     CTA — just the email
+     CTA
 ══════════════════════════════════ -->
 <section class="cta">
   <p class="cta-label">Ready to build?</p>
@@ -193,129 +218,185 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 <script>
+/* ── Luxury scroll (Lenis) ── */
+const lenis = new Lenis({
+  duration: 2.4,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  smoothTouch: false,
+});
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── Preloader ── */
+/* ── Preloader — cinematic trickle, minimum 2.6s ── */
 (function(){
   let p = 0;
-  const bar = document.getElementById('pl-bar');
-  const pl  = document.getElementById('pl');
-  const t = setInterval(()=>{
-    p += Math.random()*14+4;
-    if(p>=100){p=100;clearInterval(t);}
-    bar.style.width = p+'%';
-  }, 55);
-  window.addEventListener('load',()=>{
-    p=100; bar.style.width='100%';
-    setTimeout(()=>{ pl.classList.add('out'); boot(); }, 350);
+  const bar   = document.getElementById('pl-bar');
+  const pl    = document.getElementById('pl');
+  const START = Date.now();
+  const MIN   = 2600;
+
+  const tick = setInterval(()=>{
+    const inc = p < 40
+      ? Math.random() * 7 + 3       // fast burst early
+      : p < 75
+        ? Math.random() * 3 + 1     // slowing down
+        : p < 90
+          ? Math.random() * 1.2 + 0.3 // crawl
+          : Math.random() * 0.4 + 0.05; // agony
+    p = Math.min(p + inc, 96);
+    bar.style.width = p + '%';
+  }, 90);
+
+  window.addEventListener('load', () => {
+    clearInterval(tick);
+    const wait = Math.max(0, MIN - (Date.now() - START));
+    setTimeout(() => {
+      p = 100; bar.style.width = '100%';
+      setTimeout(() => { pl.classList.add('out'); boot(); }, 500);
+    }, wait);
   });
 })();
 
 /* ── Boot animations ── */
 function boot(){
 
-  /* Split hero name into letters for stagger */
+  /* Letter stagger on hero name */
   const heroEl = document.getElementById('heroName');
-  const letters = 'Velocity'.split('').map(l=>`<span class="letter">${l}</span>`).join('');
-  heroEl.innerHTML = letters + '<em>.</em>';
+  heroEl.innerHTML = 'Velocity'.split('').map(l => `<span class="letter">${l}</span>`).join('') + '<em>.</em>';
 
   gsap.from('#heroName .letter', {
-    opacity:0, y:80, rotateX:-35,
-    transformOrigin:'50% 0%',
-    duration:1.5, ease:'expo.out',
-    stagger:0.055, delay:0.1
+    opacity: 0, y: 80, rotateX: -35,
+    transformOrigin: '50% 0%',
+    duration: 1.5, ease: 'expo.out',
+    stagger: 0.055, delay: 0.1
   });
   gsap.from('#heroName em', {
-    opacity:0, scale:0.4,
-    duration:1.2, ease:'expo.out',
+    opacity: 0, scale: 0.4,
+    duration: 1.2, ease: 'expo.out',
     delay: 0.1 + 8 * 0.055 + 0.05
   });
   gsap.from('.hero-foot', {
-    opacity:0, y:24,
-    duration:1.4, ease:'expo.out', delay:0.6
+    opacity: 0, y: 24,
+    duration: 1.4, ease: 'expo.out', delay: 0.65
   });
 
-  /* Intro — clip from bottom, stagger words */
+  /* Intro clip reveal */
   gsap.from('.intro-text', {
-    scrollTrigger:{ trigger:'.intro', start:'top 72%' },
-    clipPath:'inset(0 0 100% 0)',
-    y:30, duration:1.6, ease:'expo.out'
+    scrollTrigger: { trigger: '.intro', start: 'top 72%' },
+    clipPath: 'inset(0 0 100% 0)',
+    y: 30, duration: 1.6, ease: 'expo.out'
   });
 
-  /* Work list — lines reveal */
+  /* Work */
   gsap.from('.wl-sep', {
-    scrollTrigger:{ trigger:'.work-list', start:'top 82%' },
-    scaleX:0, transformOrigin:'left',
-    duration:1.4, ease:'expo.out', stagger:0.1
+    scrollTrigger: { trigger: '.work-list', start: 'top 82%' },
+    scaleX: 0, transformOrigin: 'left',
+    duration: 1.4, ease: 'expo.out', stagger: 0.1
   });
   gsap.from('.wl-item', {
-    scrollTrigger:{ trigger:'.work-list', start:'top 80%' },
-    opacity:0, y:40,
-    duration:1.1, ease:'expo.out', stagger:0.12
+    scrollTrigger: { trigger: '.work-list', start: 'top 80%' },
+    opacity: 0, y: 40,
+    duration: 1.1, ease: 'expo.out', stagger: 0.12
   });
 
   /* Studio */
-  gsap.from(['.studio-para','.sf'], {
-    scrollTrigger:{ trigger:'.studio', start:'top 75%' },
-    opacity:0, y:30, duration:1.1, ease:'expo.out', stagger:0.1
+  gsap.from(['.studio-para', '.sf'], {
+    scrollTrigger: { trigger: '.studio', start: 'top 75%' },
+    opacity: 0, y: 30, duration: 1.1, ease: 'expo.out', stagger: 0.1
   });
 
   /* Services */
   gsap.from('.svc-item', {
-    scrollTrigger:{ trigger:'.services', start:'top 80%' },
-    opacity:0, y:20, duration:1, ease:'expo.out', stagger:0.09
+    scrollTrigger: { trigger: '.services', start: 'top 80%' },
+    opacity: 0, y: 20, duration: 1, ease: 'expo.out', stagger: 0.09
   });
   gsap.from('.svc-footer', {
-    scrollTrigger:{ trigger:'.svc-footer', start:'top 90%' },
-    opacity:0, y:20, duration:1, ease:'expo.out'
+    scrollTrigger: { trigger: '.svc-footer', start: 'top 90%' },
+    opacity: 0, y: 20, duration: 1, ease: 'expo.out'
   });
 
   /* CTA */
   gsap.from('.cta-label', {
-    scrollTrigger:{ trigger:'.cta', start:'top 80%' },
-    opacity:0, y:16, duration:1, ease:'expo.out'
+    scrollTrigger: { trigger: '.cta', start: 'top 80%' },
+    opacity: 0, y: 16, duration: 1, ease: 'expo.out'
   });
   gsap.from('.cta-email', {
-    scrollTrigger:{ trigger:'.cta', start:'top 78%' },
-    clipPath:'inset(0 0 100% 0)',
-    y:40, duration:1.8, ease:'expo.out', delay:0.15
+    scrollTrigger: { trigger: '.cta', start: 'top 78%' },
+    clipPath: 'inset(0 0 100% 0)',
+    y: 40, duration: 1.8, ease: 'expo.out', delay: 0.15
   });
 }
 
-/* ── Work hover preview ── */
+/* ── Work hover preview — real screenshots with 2.3s browser loading ── */
 (function(){
-  const items   = document.querySelectorAll('.wl-item');
-  const preview = document.getElementById('workPreview');
-  const inner   = document.getElementById('wpInner');
-  let mx=0, my=0, active=false;
+  const items    = document.querySelectorAll('.wl-item');
+  const preview  = document.getElementById('workPreview');
+  const address  = document.getElementById('wpAddress');
+  const bar      = document.getElementById('wpBar');
+  const skeleton = document.getElementById('wpSkeleton');
+  const shot     = document.getElementById('wpShot');
+  let mx = 0, my = 0, active = false, revealTimer = null;
 
-  // CSS mocks per project
-  const mocks = {
-    0: `<div class="mock-thread"><div class="mt-nav"><s></s><s></s><s></s></div><div class="mt-body"><div class="mt-sb"><div class="mt-sb-i a"></div><div class="mt-sb-i"></div><div class="mt-sb-i"></div><div class="mt-sb-i"></div></div><div class="mt-main"><div class="mt-r h"></div><div class="mt-rg"><div class="mt-r half"></div><div class="mt-r half acc"></div></div><div class="mt-r"></div><div class="mt-r s ad"></div></div></div></div>`,
-    1: `<div class="mock-linkdrop"><div class="ml-nav"><s></s><s></s><s></s></div><div class="ml-body"><div class="ml-av"></div><div class="ml-nb"></div><div class="ml-btn"></div><div class="ml-btn d"></div><div class="ml-btn d ac"></div></div></div>`,
-    2: `<div class="mock-vault"><div class="mv-nav"><s></s><s></s><s></s></div><div class="mv-grid"><div class="mv-card"><div class="mv-ci g"></div><div class="mv-cb"></div><div class="mv-cb s"></div></div><div class="mv-card"><div class="mv-ci"></div><div class="mv-cb"></div><div class="mv-cb s g"></div></div><div class="mv-card"><div class="mv-ci gd"></div><div class="mv-cb"></div><div class="mv-cb s"></div></div><div class="mv-card"><div class="mv-ci"></div><div class="mv-cb"></div><div class="mv-cb s g"></div></div></div></div>`
-  };
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-  document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      // Reset
+      clearTimeout(revealTimer);
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      shot.style.opacity = '0';
+      skeleton.style.opacity = '1';
+      address.textContent = item.dataset.url || '';
 
-  items.forEach((item, i)=>{
-    item.addEventListener('mouseenter', ()=>{
-      inner.innerHTML = mocks[i] || '';
+      // Preload image
+      shot.src = item.dataset.img || '';
+
+      // Show card
       preview.classList.add('show');
-      active=true;
+      active = true;
+
+      // Kick off progress bar next frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          bar.style.transition = 'width 2.3s cubic-bezier(0.4,0,0.2,1)';
+          bar.style.width = '100%';
+        });
+      });
+
+      // Reveal screenshot after 2.3s
+      revealTimer = setTimeout(() => {
+        skeleton.style.opacity = '0';
+        shot.style.opacity = '1';
+      }, 2300);
     });
-    item.addEventListener('mouseleave', ()=>{
+
+    item.addEventListener('mouseleave', () => {
       preview.classList.remove('show');
-      active=false;
+      active = false;
+      clearTimeout(revealTimer);
+      // Reset state after fade-out completes
+      setTimeout(() => {
+        if (!active) {
+          bar.style.transition = 'none';
+          bar.style.width = '0%';
+          shot.style.opacity = '0';
+          skeleton.style.opacity = '1';
+        }
+      }, 400);
     });
   });
 
   (function loop(){
-    if(active){
-      preview.style.transform = `translate(${mx+24}px,${my-80}px)`;
+    if (active) {
+      preview.style.transform = `translate(${mx + 28}px,${my - 110}px)`;
     }
     requestAnimationFrame(loop);
   })();
@@ -323,26 +404,26 @@ function boot(){
 
 /* ── Custom cursor ── */
 (function(){
-  if(window.matchMedia('(pointer:coarse)').matches) return;
-  const c=document.getElementById('cursor'), d=document.getElementById('cdot');
-  let mx=-200,my=-200,cx=-200,cy=-200;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const c = document.getElementById('cursor'), d = document.getElementById('cdot');
+  let mx = -200, my = -200, cx = -200, cy = -200;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
   (function loop(){
-    cx+=(mx-cx)*0.1; cy+=(my-cy)*0.1;
-    c.style.transform=`translate(${cx-20}px,${cy-20}px)`;
-    d.style.transform=`translate(${mx-3}px,${my-3}px)`;
+    cx += (mx - cx) * 0.1; cy += (my - cy) * 0.1;
+    c.style.transform = `translate(${cx - 20}px,${cy - 20}px)`;
+    d.style.transform = `translate(${mx - 3}px,${my - 3}px)`;
     requestAnimationFrame(loop);
   })();
-  document.querySelectorAll('a,button').forEach(el=>{
-    el.addEventListener('mouseenter',()=>c.classList.add('hover'));
-    el.addEventListener('mouseleave',()=>c.classList.remove('hover'));
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => c.classList.add('hover'));
+    el.addEventListener('mouseleave', () => c.classList.remove('hover'));
   });
 })();
 
 /* ── Nav scroll ── */
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('s', scrollY>60);
-},{passive:true});
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('s', scrollY > 60);
+}, { passive: true });
 </script>
 </body>
 </html>

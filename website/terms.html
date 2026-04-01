@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=12">
+  <link rel="stylesheet" href="/styles.css?v=13">
   <style>
     .legal {
       padding: clamp(8rem,14vw,12rem) var(--px) clamp(5rem,10vw,8rem);
@@ -82,6 +82,8 @@
 <body>
 
 <div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cdot" id="cdot"></div>
 
 <nav class="nav s" id="nav">
   <a href="/" class="nav-brand">Velocity<em>.</em></a>
@@ -163,5 +165,24 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var cur = document.getElementById('cursor');
+  var dot = document.getElementById('cdot');
+  if(!cur) return;
+  var mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
+  (function loop(){
+    cx += (mx-cx)*.12; cy += (my-cy)*.12;
+    cur.style.transform='translate('+(mx-18)+'px,'+(my-18)+'px)';
+    dot.style.transform='translate('+(cx-2)+'px,'+(cy-2)+'px)';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a').forEach(function(el){
+    el.addEventListener('mouseenter',function(){ cur.classList.add('hover') });
+    el.addEventListener('mouseleave',function(){ cur.classList.remove('hover') });
+  });
+})();
+</script>
 </body>
 </html>
