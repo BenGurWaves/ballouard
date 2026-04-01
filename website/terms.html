@@ -5,120 +5,163 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Terms of Service — Velocity by Calyvent</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="/styles.css?v=7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=12">
+  <style>
+    .legal {
+      padding: clamp(8rem,14vw,12rem) var(--px) clamp(5rem,10vw,8rem);
+      max-width: 720px;
+    }
+    .legal-eyebrow {
+      font-size: .58rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--brass);
+      display: block;
+      margin-bottom: 2.5rem;
+    }
+    .legal h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      letter-spacing: -.04em;
+      line-height: 1;
+      color: var(--sand);
+      margin-bottom: 1rem;
+    }
+    .legal-date {
+      font-size: .65rem;
+      letter-spacing: .08em;
+      color: var(--dim);
+      display: block;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      padding-bottom: clamp(2rem, 4vw, 3rem);
+      border-bottom: 1px solid var(--border);
+    }
+    .legal h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 1.6vw, 1.4rem);
+      letter-spacing: -.02em;
+      color: var(--sand);
+      margin: 2.5rem 0 .75rem;
+    }
+    .legal p, .legal li {
+      font-size: clamp(.82rem, 1vw, .92rem);
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.85;
+    }
+    .legal ul {
+      padding-left: 1.25rem;
+      margin: .5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+    .legal strong { color: var(--sand); font-weight: 400 }
+    .legal a {
+      color: var(--sand);
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 1px;
+      transition: border-color .25s;
+    }
+    .legal a:hover { border-color: var(--brass) }
+    .legal-foot {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: .62rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
 
-  <nav class="nav scrolled" id="nav">
-    <a href="/" class="nav-logo">Velocity<i>.</i></a>
-    <ul class="nav-links">
-      <li><a href="/#work">Work</a></li>
-      <li><a href="/#pricing">Pricing</a></li>
-      <li><a href="/auth.html">Sign In</a></li>
-    </ul>
-  </nav>
+<div class="grain"></div>
 
-  <div class="legal-page">
-    <h1>Terms of Service</h1>
-    <p class="updated">Last updated: March 30, 2026</p>
-
-    <h2>1. Agreement to Terms</h2>
-    <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("Client," "you") and Calyvent ("Company," "we," "us"), operating under the trade name Velocity&trade;. By accessing or using any services provided through velocity.calyvent.com or any associated domains, you agree to be bound by these Terms in their entirety. If you do not agree, you must discontinue use immediately.</p>
-
-    <h2>2. Service Description</h2>
-    <p>Velocity&trade; by Calyvent provides custom website design, development, and deployment services. Services are delivered according to the plan purchased by the Client. All websites are custom-coded and deployed to production-grade hosting infrastructure. The specific deliverables for each plan are described on the pricing page at the time of purchase.</p>
-
-    <h2>3. Account Registration</h2>
-    <p>To use our services, you must create an account by providing a valid email address and password. You are solely responsible for:</p>
-    <ul>
-      <li>Maintaining the confidentiality of your account credentials</li>
-      <li>All activity that occurs under your account</li>
-      <li>Providing accurate, current, and complete information</li>
-    </ul>
-    <p>You must notify us immediately of any unauthorized use of your account.</p>
-
-    <h2>4. Payment Terms</h2>
-    <p>All payments are processed securely through Stripe, Inc. Prices are listed in United States Dollars (USD). Payment is due in full at the time of purchase. Accepted payment methods include credit cards, debit cards, Cash App Pay, Apple Pay, and Google Pay. All transactions are final upon processing. Prices are subject to change without notice, but changes will not affect orders already placed.</p>
-
-    <h2>5. Project Delivery</h2>
-    <p>Delivery timelines stated on the pricing page are estimates based on standard project scope. Actual delivery may vary depending on:</p>
-    <ul>
-      <li>Complexity of requested features</li>
-      <li>Timeliness of Client-provided content, assets, and feedback</li>
-      <li>Number of revision requests</li>
-    </ul>
-    <p>Delays caused by the Client's failure to provide required information do not constitute a breach of these Terms by the Company.</p>
-
-    <h2>6. Revisions</h2>
-    <p>Each plan includes a specified number of revision rounds as described at the time of purchase. A "revision" constitutes a set of changes communicated in a single request. Additional revisions beyond the included amount may be subject to additional fees, which will be communicated and agreed upon before work begins.</p>
-
-    <h2>7. Intellectual Property</h2>
-    <p>Upon receipt of full payment, all rights, title, and interest in the custom website code and design created specifically for the Client are transferred to the Client. This transfer does not include:</p>
-    <ul>
-      <li>Third-party libraries, frameworks, or assets used under their respective licenses</li>
-      <li>The Company's proprietary tools, templates, or internal processes</li>
-      <li>The Velocity&trade; and Calyvent&trade; names, logos, and trademarks</li>
-    </ul>
-    <p>The Company retains the right to display completed work in its portfolio, case studies, and marketing materials unless the Client provides a written request to opt out.</p>
-
-    <h2>8. Refund Policy</h2>
-    <p>Refunds are handled as follows:</p>
-    <ul>
-      <li><strong>Before work begins:</strong> Full refund available upon request</li>
-      <li><strong>After work has begun:</strong> Partial refund may be issued at the Company's sole discretion, based on the proportion of work completed</li>
-      <li><strong>After delivery:</strong> No refunds are issued once the final deliverables have been provided to the Client</li>
-    </ul>
-
-    <h2>9. Client Responsibilities</h2>
-    <p>The Client agrees to:</p>
-    <ul>
-      <li>Provide all necessary content, brand assets, and information in a timely manner</li>
-      <li>Review deliverables and provide feedback within a reasonable timeframe</li>
-      <li>Ensure that all content provided does not infringe on any third-party rights</li>
-      <li>Not use the delivered website for any unlawful purpose</li>
-    </ul>
-
-    <h2>10. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by applicable law, Calyvent and its affiliates, officers, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or business opportunities. The Company's total aggregate liability arising from or related to these Terms shall not exceed the total amount paid by the Client for the specific service giving rise to the claim.</p>
-
-    <h2>11. Disclaimer of Warranties</h2>
-    <p>Services are provided "as is" and "as available." The Company makes no warranties, express or implied, regarding the services, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement. The Company does not guarantee specific search engine rankings, traffic increases, or business outcomes.</p>
-
-    <h2>12. Indemnification</h2>
-    <p>You agree to indemnify, defend, and hold harmless Calyvent and its officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including reasonable attorneys' fees) arising from your use of the services, your breach of these Terms, or your violation of any third-party rights.</p>
-
-    <h2>13. Termination</h2>
-    <p>Either party may terminate this agreement at any time. The Company reserves the right to suspend or terminate your account immediately, without prior notice, for conduct that violates these Terms or is harmful to other users, the Company, or third parties. Upon termination, your right to use the services ceases immediately. Sections regarding intellectual property, limitation of liability, indemnification, and governing law survive termination.</p>
-
-    <h2>14. Governing Law</h2>
-    <p>These Terms shall be governed by and construed in accordance with the laws of the United States. Any disputes arising from these Terms shall be resolved through binding arbitration or in the courts of competent jurisdiction.</p>
-
-    <h2>15. Modifications</h2>
-    <p>The Company reserves the right to modify these Terms at any time. Material changes will be communicated via email or through the service. Your continued use of the service after such modifications constitutes acceptance of the updated Terms.</p>
-
-    <h2>16. Severability</h2>
-    <p>If any provision of these Terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect.</p>
-
-    <h2>17. Entire Agreement</h2>
-    <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and Calyvent regarding the use of the Velocity&trade; service and supersede all prior agreements and understandings.</p>
-
-    <h2>18. Contact</h2>
-    <p>For questions regarding these Terms, contact us at <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>.</p>
-
-    <p style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--border); font-size: var(--font-label); color: var(--text-muted);">
-      Velocity&trade; is a trade name of Calyvent. &copy; 2026 Calyvent. All rights reserved.
-    </p>
+<nav class="nav s" id="nav">
+  <a href="/" class="nav-brand">Velocity<em>.</em></a>
+  <div class="nav-links">
+    <a href="/#work">Work</a>
+    <a href="/#studio">Studio</a>
+    <a href="mailto:hello@calyvent.com">Contact</a>
   </div>
+</nav>
 
-  <footer class="footer">
-    <div class="footer-bottom" style="border-top: none;">
-      <span class="footer-copy">&copy; 2026 Velocity&trade; by Calyvent. All rights reserved.</span>
-      <div class="footer-legal">
-        <a href="/terms.html">Terms</a>
-        <a href="/privacy.html">Privacy</a>
-      </div>
-    </div>
-  </footer>
+<div class="legal">
+  <span class="legal-eyebrow">Legal</span>
+  <h1>Terms of Service</h1>
+  <span class="legal-date">Last updated: April 1, 2026</span>
+
+  <h2>1. Agreement to Terms</h2>
+  <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("Client," "you") and Calyvent ("Company," "we," "us"), operating under the trade name Velocity. By accessing or using any services provided through velocity.calyvent.com or any associated domains, you agree to be bound by these Terms in their entirety. If you do not agree, you must discontinue use immediately.</p>
+
+  <h2>2. Service Description</h2>
+  <p>Velocity by Calyvent provides custom website design, development, and deployment services. All websites are hand-coded and deployed to production-grade hosting infrastructure. The specific deliverables for each engagement are described at the time of purchase.</p>
+
+  <h2>3. Payment Terms</h2>
+  <p>All payments are processed securely through Stripe, Inc. Prices are listed in United States Dollars (USD). Payment is due in full at the time of purchase. Accepted payment methods include credit cards, debit cards, Apple Pay, and Google Pay. All transactions are final upon processing.</p>
+
+  <h2>4. Project Delivery</h2>
+  <p>Delivery timelines are estimates based on standard project scope. Actual delivery may vary depending on:</p>
+  <ul>
+    <li>Complexity of requested features</li>
+    <li>Timeliness of client-provided content, assets, and feedback</li>
+    <li>Number of revision requests</li>
+  </ul>
+  <p>Delays caused by the client's failure to provide required information do not constitute a breach of these Terms.</p>
+
+  <h2>5. Revisions</h2>
+  <p>Each engagement includes a specified number of revision rounds communicated at the time of purchase. A revision constitutes a set of changes communicated in a single request. Additional revisions beyond the included amount may be subject to additional fees, agreed upon before work begins.</p>
+
+  <h2>6. Intellectual Property</h2>
+  <p>Upon receipt of full payment, all rights to the custom website code and design created for the client are transferred to the client. This transfer does not include:</p>
+  <ul>
+    <li>Third-party libraries or assets used under their respective licenses</li>
+    <li>The Company's proprietary tools and internal processes</li>
+    <li>The Velocity and Calyvent names, logos, and trademarks</li>
+  </ul>
+  <p>The Company retains the right to display completed work in its portfolio and marketing materials unless the client provides a written opt-out request.</p>
+
+  <h2>7. Refund Policy</h2>
+  <ul>
+    <li><strong>Before work begins:</strong> Full refund available upon request</li>
+    <li><strong>After work has begun:</strong> Partial refund at the Company's discretion, based on work completed</li>
+    <li><strong>After delivery:</strong> No refunds once final deliverables have been provided</li>
+  </ul>
+
+  <h2>8. Client Responsibilities</h2>
+  <p>The client agrees to provide all necessary content and brand assets in a timely manner, review deliverables and provide feedback within a reasonable timeframe, and ensure that all provided content does not infringe on any third-party rights.</p>
+
+  <h2>9. Limitation of Liability</h2>
+  <p>To the maximum extent permitted by applicable law, Calyvent and its affiliates shall not be liable for any indirect, incidental, special, or consequential damages. The Company's total aggregate liability shall not exceed the total amount paid by the client for the specific service giving rise to the claim.</p>
+
+  <h2>10. Disclaimer of Warranties</h2>
+  <p>Services are provided "as is" and "as available." The Company makes no warranties, express or implied. The Company does not guarantee specific search engine rankings, traffic increases, or business outcomes.</p>
+
+  <h2>11. Governing Law</h2>
+  <p>These Terms shall be governed by and construed in accordance with the laws of the United States. Any disputes shall be resolved through binding arbitration or in the courts of competent jurisdiction.</p>
+
+  <h2>12. Modifications</h2>
+  <p>The Company reserves the right to modify these Terms at any time. Your continued use of the service after modifications constitutes acceptance of the updated Terms.</p>
+
+  <h2>13. Contact</h2>
+  <p>For questions regarding these Terms, contact us at <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>.</p>
+
+  <p class="legal-foot">Velocity is a trade name of Calyvent. &copy; 2026 Calyvent. All rights reserved.</p>
+</div>
+
+<footer class="footer">
+  <span>&copy; 2026 Velocity by <a href="https://calyvent.com" target="_blank">Calyvent</a></span>
+  <div class="ft-links">
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+</footer>
 
 </body>
 </html>

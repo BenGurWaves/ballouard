@@ -5,138 +5,173 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy — Velocity by Calyvent</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="/styles.css?v=7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=12">
+  <style>
+    .legal {
+      padding: clamp(8rem,14vw,12rem) var(--px) clamp(5rem,10vw,8rem);
+      max-width: 720px;
+    }
+    .legal-eyebrow {
+      font-size: .58rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--brass);
+      display: block;
+      margin-bottom: 2.5rem;
+    }
+    .legal h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      letter-spacing: -.04em;
+      line-height: 1;
+      color: var(--sand);
+      margin-bottom: 1rem;
+    }
+    .legal-date {
+      font-size: .65rem;
+      letter-spacing: .08em;
+      color: var(--dim);
+      display: block;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      padding-bottom: clamp(2rem, 4vw, 3rem);
+      border-bottom: 1px solid var(--border);
+    }
+    .legal h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 1.6vw, 1.4rem);
+      letter-spacing: -.02em;
+      color: var(--sand);
+      margin: 2.5rem 0 .75rem;
+    }
+    .legal p, .legal li {
+      font-size: clamp(.82rem, 1vw, .92rem);
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.85;
+    }
+    .legal ul {
+      padding-left: 1.25rem;
+      margin: .5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+    .legal strong { color: var(--sand); font-weight: 400 }
+    .legal a {
+      color: var(--sand);
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 1px;
+      transition: border-color .25s;
+    }
+    .legal a:hover { border-color: var(--brass) }
+    .legal-foot {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: .62rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
 
-  <nav class="nav scrolled" id="nav">
-    <a href="/" class="nav-logo">Velocity<i>.</i></a>
-    <ul class="nav-links">
-      <li><a href="/#work">Work</a></li>
-      <li><a href="/#pricing">Pricing</a></li>
-      <li><a href="/auth.html">Sign In</a></li>
-    </ul>
-  </nav>
+<div class="grain"></div>
 
-  <div class="legal-page">
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: March 30, 2026</p>
-
-    <h2>1. Introduction</h2>
-    <p>This Privacy Policy describes how Calyvent, operating under the trade name Velocity&trade; ("Company," "we," "us"), collects, uses, and protects your personal information when you use our website and services at velocity.calyvent.com and associated domains. We are committed to protecting your privacy and handling your data responsibly.</p>
-
-    <h2>2. Information We Collect</h2>
-    <p><strong>Information you provide directly:</strong></p>
-    <ul>
-      <li>Email address and password when creating an account</li>
-      <li>Business name, website URL, and project requirements when submitting a project</li>
-      <li>Communications and correspondence related to your project</li>
-    </ul>
-    <p><strong>Information collected automatically:</strong></p>
-    <ul>
-      <li>IP address and approximate geographic location</li>
-      <li>Browser type, operating system, and device information</li>
-      <li>Pages visited, time spent on pages, and referring URLs</li>
-    </ul>
-    <p><strong>Information we do NOT collect:</strong></p>
-    <ul>
-      <li>Credit card numbers, bank account details, or financial information (processed exclusively by Stripe)</li>
-      <li>Social security numbers or government-issued identification</li>
-    </ul>
-
-    <h2>3. How We Use Your Information</h2>
-    <p>We use your information for the following purposes:</p>
-    <ul>
-      <li><strong>Service delivery:</strong> To design, develop, and deploy your website</li>
-      <li><strong>Communication:</strong> To send project updates, payment confirmations, and respond to inquiries</li>
-      <li><strong>Account management:</strong> To authenticate your identity and manage your dashboard</li>
-      <li><strong>Service improvement:</strong> To analyze usage patterns and improve our offerings</li>
-      <li><strong>Legal compliance:</strong> To comply with applicable laws and regulations</li>
-    </ul>
-    <p>We do not use your information for targeted advertising, profiling, or automated decision-making.</p>
-
-    <h2>4. Payment Processing</h2>
-    <p>All payment transactions are processed by Stripe, Inc. When you make a purchase, your payment information is transmitted directly to Stripe's secure servers. We never receive, store, or have access to your full credit card number, CVV, or banking details. Stripe is PCI DSS Level 1 certified. For information on how Stripe handles your data, please review <a href="https://stripe.com/privacy">Stripe's Privacy Policy</a>.</p>
-
-    <h2>5. Data Sharing and Third Parties</h2>
-    <p>We do not sell, rent, or trade your personal information to any third party. We share data only with the following service providers, strictly as necessary to deliver our services:</p>
-    <ul>
-      <li><strong>Stripe, Inc.</strong> — Payment processing</li>
-      <li><strong>Cloudflare, Inc.</strong> — Website hosting, content delivery, and security</li>
-      <li><strong>Resend</strong> — Transactional email delivery (payment confirmations, project updates)</li>
-    </ul>
-    <p>We may also disclose information if required by law, court order, or governmental regulation, or if necessary to protect the rights, property, or safety of the Company or others.</p>
-
-    <h2>6. Data Storage and Security</h2>
-    <p>Your data is stored on Cloudflare's global infrastructure, which provides enterprise-grade security including:</p>
-    <ul>
-      <li>Encryption in transit (TLS/HTTPS on all connections)</li>
-      <li>Encryption at rest for stored data</li>
-      <li>Secure password hashing using PBKDF2 with SHA-256 (100,000 iterations)</li>
-      <li>Session-based authentication with secure, HttpOnly cookies</li>
-    </ul>
-    <p>While we implement industry-standard security measures, no method of electronic transmission or storage is 100% secure. We cannot guarantee absolute security of your data.</p>
-
-    <h2>7. Cookies</h2>
-    <p>We use a single, strictly necessary session cookie to maintain your authentication state when logged in. This cookie:</p>
-    <ul>
-      <li>Is HttpOnly (not accessible to JavaScript)</li>
-      <li>Is set with SameSite=Lax for CSRF protection</li>
-      <li>Expires after 30 days of inactivity</li>
-      <li>Contains only a random session identifier, not personal data</li>
-    </ul>
-    <p>We do not use tracking cookies, analytics cookies, advertising cookies, or any third-party cookies.</p>
-
-    <h2>8. Data Retention</h2>
-    <p>We retain your data as follows:</p>
-    <ul>
-      <li><strong>Account data:</strong> Retained for the duration of your account, plus 30 days after deletion request</li>
-      <li><strong>Project data:</strong> Retained for 1 year after project completion</li>
-      <li><strong>Payment records:</strong> Retained as required by applicable tax and accounting regulations</li>
-      <li><strong>Session data:</strong> Automatically expires after 30 days</li>
-    </ul>
-
-    <h2>9. Your Rights</h2>
-    <p>You have the right to:</p>
-    <ul>
-      <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
-      <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data</li>
-      <li><strong>Deletion:</strong> Request deletion of your personal data and account</li>
-      <li><strong>Portability:</strong> Request your data in a structured, machine-readable format</li>
-      <li><strong>Objection:</strong> Object to processing of your data for specific purposes</li>
-    </ul>
-    <p>To exercise any of these rights, contact us at <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>. We will respond to your request within 30 days.</p>
-
-    <h2>10. Children's Privacy</h2>
-    <p>Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that we have collected data from a child without parental consent, we will take steps to delete that information.</p>
-
-    <h2>11. International Data Transfers</h2>
-    <p>Your data may be processed and stored in the United States and other countries where our service providers operate. By using our services, you consent to the transfer of your information to countries outside your country of residence, which may have different data protection laws.</p>
-
-    <h2>12. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. Material changes will be communicated via email to the address associated with your account or through a notice on our website. Your continued use of the service after changes are posted constitutes acceptance of the updated policy. We encourage you to review this policy periodically.</p>
-
-    <h2>13. Contact</h2>
-    <p>For privacy-related questions, concerns, or requests, contact us at:</p>
-    <p>
-      Calyvent (Velocity&trade;)<br>
-      Email: <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>
-    </p>
-
-    <p style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--border); font-size: var(--font-label); color: var(--text-muted);">
-      Velocity&trade; is a registered trade name of Calyvent. &copy; 2026 Calyvent. All rights reserved.
-    </p>
+<nav class="nav s" id="nav">
+  <a href="/" class="nav-brand">Velocity<em>.</em></a>
+  <div class="nav-links">
+    <a href="/#work">Work</a>
+    <a href="/#studio">Studio</a>
+    <a href="mailto:hello@calyvent.com">Contact</a>
   </div>
+</nav>
 
-  <footer class="footer">
-    <div class="footer-bottom" style="border-top: none;">
-      <span class="footer-copy">&copy; 2026 Velocity&trade; by Calyvent. All rights reserved.</span>
-      <div class="footer-legal">
-        <a href="/terms.html">Terms</a>
-        <a href="/privacy.html">Privacy</a>
-      </div>
-    </div>
-  </footer>
+<div class="legal">
+  <span class="legal-eyebrow">Legal</span>
+  <h1>Privacy Policy</h1>
+  <span class="legal-date">Last updated: April 1, 2026</span>
+
+  <h2>1. Introduction</h2>
+  <p>This Privacy Policy describes how Calyvent, operating under the trade name Velocity ("Company," "we," "us"), collects, uses, and protects your personal information when you use our website and services at velocity.calyvent.com. We are committed to protecting your privacy and handling your data responsibly.</p>
+
+  <h2>2. Information We Collect</h2>
+  <p><strong>Information you provide directly:</strong></p>
+  <ul>
+    <li>Email address when contacting us</li>
+    <li>Business name, website URL, and project requirements when submitting a project inquiry</li>
+    <li>Communications and correspondence related to your project</li>
+  </ul>
+  <p><strong>Information collected automatically:</strong></p>
+  <ul>
+    <li>IP address and approximate geographic location</li>
+    <li>Browser type, operating system, and device information</li>
+    <li>Pages visited and referring URLs</li>
+  </ul>
+  <p><strong>Information we do not collect:</strong></p>
+  <ul>
+    <li>Credit card or banking details (processed exclusively by Stripe)</li>
+    <li>Social security numbers or government-issued identification</li>
+  </ul>
+
+  <h2>3. How We Use Your Information</h2>
+  <ul>
+    <li><strong>Service delivery:</strong> To design, develop, and deploy your website</li>
+    <li><strong>Communication:</strong> To send project updates and respond to inquiries</li>
+    <li><strong>Service improvement:</strong> To analyze usage patterns and improve our offerings</li>
+    <li><strong>Legal compliance:</strong> To comply with applicable laws and regulations</li>
+  </ul>
+  <p>We do not use your information for targeted advertising, profiling, or automated decision-making.</p>
+
+  <h2>4. Payment Processing</h2>
+  <p>All payment transactions are processed by Stripe, Inc. We never receive, store, or have access to your full credit card number or banking details. Stripe is PCI DSS Level 1 certified. For information on how Stripe handles your data, please review <a href="https://stripe.com/privacy" target="_blank">Stripe's Privacy Policy</a>.</p>
+
+  <h2>5. Data Sharing</h2>
+  <p>We do not sell, rent, or trade your personal information. We share data only with the following service providers, strictly as necessary:</p>
+  <ul>
+    <li><strong>Stripe, Inc.</strong> — Payment processing</li>
+    <li><strong>Cloudflare, Inc.</strong> — Website hosting and content delivery</li>
+  </ul>
+
+  <h2>6. Data Storage and Security</h2>
+  <p>Your data is stored on Cloudflare's global infrastructure with encryption in transit (TLS/HTTPS on all connections) and encryption at rest. While we implement industry-standard security measures, no method of electronic transmission is 100% secure.</p>
+
+  <h2>7. Cookies</h2>
+  <p>This website does not use tracking, analytics, or advertising cookies. If authentication is required for any dashboard feature, a single HttpOnly session cookie may be set containing only a random session identifier, not personal data.</p>
+
+  <h2>8. Data Retention</h2>
+  <ul>
+    <li><strong>Project data:</strong> Retained for 1 year after project completion</li>
+    <li><strong>Payment records:</strong> Retained as required by applicable tax regulations</li>
+  </ul>
+
+  <h2>9. Your Rights</h2>
+  <p>You have the right to access, correct, delete, or request portability of your personal data. To exercise any of these rights, contact us at <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>. We will respond within 30 days.</p>
+
+  <h2>10. Children's Privacy</h2>
+  <p>Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children.</p>
+
+  <h2>11. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time. Material changes will be communicated via email or through a notice on our website. Your continued use of the service after changes are posted constitutes acceptance of the updated policy.</p>
+
+  <h2>12. Contact</h2>
+  <p>For privacy-related questions or requests, contact us at <a href="mailto:hello@calyvent.com">hello@calyvent.com</a>.</p>
+
+  <p class="legal-foot">Velocity is a trade name of Calyvent. &copy; 2026 Calyvent. All rights reserved.</p>
+</div>
+
+<footer class="footer">
+  <span>&copy; 2026 Velocity by <a href="https://calyvent.com" target="_blank">Calyvent</a></span>
+  <div class="ft-links">
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+</footer>
 
 </body>
 </html>
