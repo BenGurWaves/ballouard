@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=10">
+  <link rel="stylesheet" href="/styles.css?v=11">
 </head>
 <body>
 
@@ -217,54 +217,71 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── Boot animations ── */
 function boot(){
 
-  /* Hero name reveal */
-  gsap.from('#heroName', {
-    yPercent: 8, opacity: 0,
-    duration: 1.6, ease:'expo.out', delay: 0.1
+  /* Split hero name into letters for stagger */
+  const heroEl = document.getElementById('heroName');
+  const letters = 'Velocity'.split('').map(l=>`<span class="letter">${l}</span>`).join('');
+  heroEl.innerHTML = letters + '<em>.</em>';
+
+  gsap.from('#heroName .letter', {
+    opacity:0, y:80, rotateX:-35,
+    transformOrigin:'50% 0%',
+    duration:1.5, ease:'expo.out',
+    stagger:0.055, delay:0.1
+  });
+  gsap.from('#heroName em', {
+    opacity:0, scale:0.4,
+    duration:1.2, ease:'expo.out',
+    delay: 0.1 + 8 * 0.055 + 0.05
   });
   gsap.from('.hero-foot', {
-    opacity:0, y:20,
-    duration:1.2, ease:'expo.out', delay:0.5
+    opacity:0, y:24,
+    duration:1.4, ease:'expo.out', delay:0.6
   });
 
-  /* Intro */
+  /* Intro — clip from bottom, stagger words */
   gsap.from('.intro-text', {
-    scrollTrigger:{trigger:'.intro', start:'top 75%'},
-    opacity:0, y:50, duration:1.4, ease:'expo.out'
+    scrollTrigger:{ trigger:'.intro', start:'top 72%' },
+    clipPath:'inset(0 0 100% 0)',
+    y:30, duration:1.6, ease:'expo.out'
   });
 
-  /* Work list */
-  gsap.from('.wl-item', {
-    scrollTrigger:{trigger:'.work-list', start:'top 80%'},
-    opacity:0, y:30, duration:1, ease:'expo.out',
-    stagger:0.1
-  });
+  /* Work list — lines reveal */
   gsap.from('.wl-sep', {
-    scrollTrigger:{trigger:'.work-list', start:'top 80%'},
+    scrollTrigger:{ trigger:'.work-list', start:'top 82%' },
     scaleX:0, transformOrigin:'left',
-    duration:1.2, ease:'expo.out', stagger:0.1
+    duration:1.4, ease:'expo.out', stagger:0.1
+  });
+  gsap.from('.wl-item', {
+    scrollTrigger:{ trigger:'.work-list', start:'top 80%' },
+    opacity:0, y:40,
+    duration:1.1, ease:'expo.out', stagger:0.12
   });
 
   /* Studio */
   gsap.from(['.studio-para','.sf'], {
-    scrollTrigger:{trigger:'.studio', start:'top 75%'},
-    opacity:0, y:30, duration:1, ease:'expo.out', stagger:0.12
+    scrollTrigger:{ trigger:'.studio', start:'top 75%' },
+    opacity:0, y:30, duration:1.1, ease:'expo.out', stagger:0.1
   });
 
   /* Services */
   gsap.from('.svc-item', {
-    scrollTrigger:{trigger:'.services', start:'top 80%'},
-    opacity:0, x:-20, duration:0.9, ease:'expo.out', stagger:0.1
+    scrollTrigger:{ trigger:'.services', start:'top 80%' },
+    opacity:0, y:20, duration:1, ease:'expo.out', stagger:0.09
   });
   gsap.from('.svc-footer', {
-    scrollTrigger:{trigger:'.svc-footer', start:'top 90%'},
+    scrollTrigger:{ trigger:'.svc-footer', start:'top 90%' },
     opacity:0, y:20, duration:1, ease:'expo.out'
   });
 
   /* CTA */
-  gsap.from(['.cta-label','.cta-email'], {
-    scrollTrigger:{trigger:'.cta', start:'top 80%'},
-    opacity:0, y:40, duration:1.4, ease:'expo.out', stagger:0.2
+  gsap.from('.cta-label', {
+    scrollTrigger:{ trigger:'.cta', start:'top 80%' },
+    opacity:0, y:16, duration:1, ease:'expo.out'
+  });
+  gsap.from('.cta-email', {
+    scrollTrigger:{ trigger:'.cta', start:'top 78%' },
+    clipPath:'inset(0 0 100% 0)',
+    y:40, duration:1.8, ease:'expo.out', delay:0.15
   });
 }
 
