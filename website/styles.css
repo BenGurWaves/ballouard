@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   VELOCITY v15 — Expensive by design.
+   VELOCITY v16 — Expensive by design.
    One word owns the viewport. Nothing is safe.
 ───────────────────────────────────────────── */
 
@@ -542,6 +542,46 @@ button { font-family:inherit; background:none; border:none; cursor:none }
   letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--dim);
+}
+
+/* ── Process ── */
+.process {
+  padding:clamp(6rem,13vw,14rem) var(--px);
+  border-top:1px solid var(--border);
+}
+.process-grid {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:clamp(3rem,7vw,9rem);
+  align-items:start;
+}
+.process-left { padding-top:.2rem }
+.process-steps { display:flex; flex-direction:column; gap:clamp(3rem,5vw,5.5rem) }
+.process-step {}
+.process-num {
+  font-size:.56rem; letter-spacing:.14em;
+  color:var(--brass); font-weight:400;
+  display:block; margin-bottom:.9rem;
+}
+.process-step h3 {
+  font-family:'Instrument Serif',Georgia,serif;
+  font-weight:400;
+  font-size:clamp(1.4rem,2.5vw,2.4rem);
+  letter-spacing:-.025em; color:var(--sand);
+  margin-bottom:.75rem;
+}
+.process-step p {
+  font-size:clamp(.82rem,.98vw,.92rem);
+  font-weight:300; color:var(--dim);
+  line-height:1.9; max-width:46ch;
+}
+@media(max-width:1024px){
+  .process-grid { grid-template-columns:1fr }
+  .process-left { display:none }
+}
+@media(max-width:600px){
+  .process { padding:clamp(4rem,12vw,8rem) 1.5rem }
+  .process-steps { gap:clamp(2.5rem,7vw,4rem) }
 }
 
 /* ── Services ── */
