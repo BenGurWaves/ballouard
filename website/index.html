@@ -261,20 +261,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 <script>
-/* ── Luxury scroll (Lenis) — guarded against CDN failure ── */
-if (typeof gsap !== 'undefined') {
-  gsap.registerPlugin(typeof ScrollTrigger !== 'undefined' ? ScrollTrigger : {});
-  if (typeof Lenis !== 'undefined') {
-    const lenis = new Lenis({
-      duration: 2.4,
-      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      smoothTouch: false,
-    });
-    gsap.ticker.add(time => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-  }
-}
+/* ── Lenis init happens inside boot() after defer scripts have loaded ── */
 
 /* ── Preloader — cinematic trickle, minimum 2.6s ── */
 (function(){
@@ -313,6 +300,21 @@ if (typeof gsap !== 'undefined') {
 
 /* ── Boot animations ── */
 function boot(){
+
+  /* Lenis smooth scroll — init here, after defer scripts are loaded */
+  if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(typeof ScrollTrigger !== 'undefined' ? ScrollTrigger : {});
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 2.6,
+        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        smoothTouch: false,
+      });
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    }
+  }
 
   /* Letter stagger on hero name */
   const heroEl = document.getElementById('heroName');
