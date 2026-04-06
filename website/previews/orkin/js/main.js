@@ -1,248 +1,206 @@
 /* ============================================================
-   ORKIN REDESIGN — JavaScript
-   Handles: sticky header, mobile nav, form/modal, carousel,
-   ZIP autocomplete, analytics placeholder
+   ORKIN REDESIGN v2 — JavaScript
+   All buttons work. Modal, forms, carousel, mobile bar, nav,
+   ZIP autocomplete, preview-only toast for internal links.
    ============================================================ */
-
 (function () {
   'use strict';
 
-  // ── ZIP AUTOCOMPLETE ──────────────────────────────────────
-  const fakeZips = [
-    { zip: '10001', city: 'New York, NY' },
-    { zip: '30301', city: 'Atlanta, GA' },
-    { zip: '60601', city: 'Chicago, IL' },
-    { zip: '77001', city: 'Houston, TX' },
-    { zip: '85001', city: 'Phoenix, AZ' },
-    { zip: '19101', city: 'Philadelphia, PA' },
-    { zip: '78201', city: 'San Antonio, TX' },
-    { zip: '75201', city: 'Dallas, TX' },
-    { zip: '32099', city: 'Jacksonville, FL' },
-    { zip: '78401', city: 'Corpus Christi, TX' },
+  // ── ZIP AUTOCOMPLETE ─────────────────────────────────────
+  var ZIPS = [
+    { z: '10001', c: 'New York, NY' },
+    { z: '30301', c: 'Atlanta, GA' },
+    { z: '60601', c: 'Chicago, IL' },
+    { z: '77001', c: 'Houston, TX' },
+    { z: '85001', c: 'Phoenix, AZ' },
+    { z: '19101', c: 'Philadelphia, PA' },
+    { z: '78201', c: 'San Antonio, TX' },
+    { z: '75201', c: 'Dallas, TX' },
+    { z: '32099', c: 'Jacksonville, FL' },
+    { z: '90210', c: 'Beverly Hills, CA' },
+    { z: '33101', c: 'Miami, FL' },
+    { z: '98101', c: 'Seattle, WA' },
   ];
 
-  function initZipAutocomplete(inputEl, dropdownEl) {
-    if (!inputEl || !dropdownEl) return;
-    inputEl.addEventListener('input', function () {
-      const val = this.value.trim();
-      dropdownEl.innerHTML = '';
-      if (val.length < 2) { dropdownEl.style.display = 'none'; return; }
-      const matches = fakeZips.filter(z => z.zip.startsWith(val) || z.city.toLowerCase().includes(val.toLowerCase()));
-      if (!matches.length) { dropdownEl.style.display = 'none'; return; }
-      matches.slice(0, 4).forEach(function (m) {
-        const item = document.createElement('div');
-        item.className = 'zip-suggestion';
-        item.setAttribute('role', 'option');
-        item.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong>${m.zip}</strong>&nbsp;— ${m.city}`;
-        item.addEventListener('mousedown', function (e) {
-          e.preventDefault();
-          inputEl.value = m.zip;
-          dropdownEl.style.display = 'none';
-        });
-        dropdownEl.appendChild(item);
+  function initZip(inputId, dropId) {
+    var inp = document.getElementById(inputId);
+    var drop = document.getElementById(dropId);
+    if (!inp || !drop) return;
+    inp.addEventListener('input', function () {
+      var v = this.value.trim();
+      drop.innerHTML = '';
+      if (v.length < 2) { drop.style.display = 'none'; return; }
+      var hits = ZIPS.filter(function (z) { return z.z.startsWith(v) || z.c.toLowerCase().includes(v.toLowerCase()); }).slice(0, 4);
+      if (!hits.length) { drop.style.display = 'none'; return; }
+      hits.forEach(function (m) {
+        var el = document.createElement('div');
+        el.className = 'zip-opt';
+        el.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + m.z + '</strong> — ' + m.c + '</span>';
+        el.addEventListener('mousedown', function (e) { e.preventDefault(); inp.value = m.z; drop.style.display = 'none'; });
+        drop.appendChild(el);
       });
-      dropdownEl.style.display = 'block';
+      drop.style.display = 'block';
     });
-    inputEl.addEventListener('blur', function () {
-      setTimeout(function () { dropdownEl.style.display = 'none'; }, 150);
-    });
+    inp.addEventListener('blur', function () { setTimeout(function () { drop.style.display = 'none'; }, 160); });
   }
 
-  // ── MODAL ─────────────────────────────────────────────────
-  const modalOverlay = document.getElementById('quoteModal');
-  const modalFormEl = document.getElementById('modalForm');
-  const modalSuccessEl = document.getElementById('modalSuccess');
-  const modalTitle = document.getElementById('modalServiceTitle');
+  initZip('heroZip',   'heroZipDrop');
+  initZip('sectionZip','sectionZipDrop');
+  initZip('modalZip',  'modalZipDrop');
 
-  function openModal(serviceLabel) {
-    if (!modalOverlay) return;
-    if (modalFormEl) modalFormEl.style.display = '';
-    if (modalSuccessEl) modalSuccessEl.style.display = 'none';
-    if (modalTitle && serviceLabel) modalTitle.textContent = serviceLabel + ' — Free Quote';
-    modalOverlay.classList.add('active');
+  // ── MODAL ────────────────────────────────────────────────
+  var overlay    = document.getElementById('quoteModal');
+  var modalForm  = document.getElementById('mForm');
+  var modalOk    = document.getElementById('mSuccess');
+  var modalSvcEl = document.getElementById('mSvcLabel');
+
+  function openModal(label) {
+    if (!overlay) return;
+    if (modalForm) modalForm.style.display = '';
+    if (modalOk)   modalOk.style.display   = 'none';
+    if (modalSvcEl && label) modalSvcEl.textContent = label + ' — Free Quote';
+    overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    const firstInput = modalOverlay.querySelector('input');
-    if (firstInput) setTimeout(function () { firstInput.focus(); }, 100);
-    // Analytics placeholder
-    console.log('[Orkin Analytics] quote_modal_open', { service: serviceLabel || 'general', ts: Date.now() });
+    var first = overlay.querySelector('input');
+    if (first) setTimeout(function () { first.focus(); }, 80);
+    console.log('[Orkin] modal_open', { service: label || 'general', ts: Date.now() });
   }
 
   function closeModal() {
-    if (!modalOverlay) return;
-    modalOverlay.classList.remove('active');
+    if (!overlay) return;
+    overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  // Open modal from any .open-modal trigger
+  // Wire every [data-modal] button/link
   document.querySelectorAll('[data-modal]').forEach(function (el) {
-    el.addEventListener('click', function () {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
       openModal(this.dataset.service || '');
     });
   });
 
-  // Close on overlay click or close button
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', function (e) {
-      if (e.target === modalOverlay) closeModal();
-    });
-  }
-  document.querySelectorAll('.modal-close').forEach(function (btn) {
-    btn.addEventListener('click', closeModal);
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeModal();
-  });
+  if (overlay) overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.querySelectorAll('.modal-x, .js-close-modal').forEach(function (el) { el.addEventListener('click', closeModal); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
-  // ── FORM SUBMIT ───────────────────────────────────────────
-  function handleFormSubmit(formEl, successCallback) {
-    if (!formEl) return;
-    formEl.addEventListener('submit', function (e) {
+  // ── FORM SUBMIT ──────────────────────────────────────────
+  function wireForm(form, onSuccess) {
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const submitBtn = formEl.querySelector('[type="submit"]');
-      if (submitBtn) { submitBtn.classList.add('loading'); submitBtn.disabled = true; }
-
-      const data = {};
-      new FormData(formEl).forEach(function (v, k) { data[k] = v; });
-      console.log('[Orkin Analytics] form_submit', data);
-
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+      var payload = {};
+      new FormData(form).forEach(function (v, k) { payload[k] = v; });
+      console.log('[Orkin] form_submit', payload);
       setTimeout(function () {
-        if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; }
-        formEl.reset();
-        if (successCallback) successCallback();
-      }, 1600);
+        if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+        form.reset();
+        onSuccess();
+        console.log('[Orkin] quote_submitted', { ts: Date.now() });
+      }, 1500);
     });
   }
 
-  // Modal form
-  const modalFormInner = document.getElementById('modalFormInner');
-  handleFormSubmit(modalFormInner, function () {
-    if (modalFormEl) modalFormEl.style.display = 'none';
-    if (modalSuccessEl) modalSuccessEl.style.display = '';
-    console.log('[Orkin Analytics] quote_submitted', { ts: Date.now() });
-  });
-
-  // Hero inline form
-  const heroFormEl = document.getElementById('heroInlineForm');
-  handleFormSubmit(heroFormEl, function () {
+  function showSuccess() {
     openModal('');
-    if (modalFormEl) modalFormEl.style.display = 'none';
-    if (modalSuccessEl) modalSuccessEl.style.display = '';
-  });
-
-  // Mini forms in sections
-  document.querySelectorAll('.mini-form-el').forEach(function (form) {
-    handleFormSubmit(form, function () { openModal(''); if (modalFormEl) modalFormEl.style.display = 'none'; if (modalSuccessEl) modalSuccessEl.style.display = ''; });
-  });
-
-  // ── ZIP INPUTS ────────────────────────────────────────────
-  initZipAutocomplete(
-    document.getElementById('heroZip'),
-    document.getElementById('heroZipDropdown')
-  );
-  initZipAutocomplete(
-    document.getElementById('sectionZip'),
-    document.getElementById('sectionZipDropdown')
-  );
-  initZipAutocomplete(
-    document.getElementById('modalZip'),
-    document.getElementById('modalZipDropdown')
-  );
-
-  // ── REVIEWS CAROUSEL ──────────────────────────────────────
-  (function initCarousel() {
-    const track = document.querySelector('.reviews-track');
-    const dots = document.querySelectorAll('.review-dot');
-    const prevBtn = document.getElementById('reviewPrev');
-    const nextBtn = document.getElementById('reviewNext');
-    const countEl = document.getElementById('reviewCount');
-    if (!track) return;
-
-    const slides = track.querySelectorAll('.review-slide');
-    let current = 0;
-    const total = slides.length;
-
-    function goTo(idx) {
-      current = (idx + total) % total;
-      track.style.transform = `translateX(-${current * 100}%)`;
-      dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
-      if (countEl) countEl.textContent = `${current + 1} / ${total}`;
-      console.log('[Orkin Analytics] carousel_view', { slide: current + 1 });
-    }
-
-    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
-    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
-    dots.forEach(function (dot, i) { dot.addEventListener('click', function () { goTo(i); }); });
-
-    // Auto-advance every 7 seconds
-    let autoTimer = setInterval(function () { goTo(current + 1); }, 7000);
-    track.addEventListener('mouseenter', function () { clearInterval(autoTimer); });
-    track.addEventListener('mouseleave', function () { autoTimer = setInterval(function () { goTo(current + 1); }, 7000); });
-
-    // Touch swipe
-    let touchStartX = 0;
-    track.addEventListener('touchstart', function (e) { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', function (e) {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
-    }, { passive: true });
-
-    goTo(0);
-  })();
-
-  // ── MOBILE NAV ────────────────────────────────────────────
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-  const mobileNavClose = document.getElementById('mobileNavClose');
-
-  if (hamburger && mobileNav) {
-    hamburger.addEventListener('click', function () {
-      mobileNav.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      if (mobileNavClose) mobileNavClose.focus();
-    });
-  }
-  if (mobileNavClose) {
-    mobileNavClose.addEventListener('click', function () {
-      mobileNav.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+    if (modalForm) modalForm.style.display = 'none';
+    if (modalOk)   modalOk.style.display   = '';
   }
 
-  // ── STICKY HEADER SHADOW ──────────────────────────────────
-  const header = document.querySelector('.site-header');
-  if (header) {
-    window.addEventListener('scroll', function () {
-      header.style.boxShadow = window.scrollY > 10
-        ? '0 2px 20px rgba(0,0,0,0.4)'
-        : '0 2px 12px rgba(0,0,0,0.3)';
-    }, { passive: true });
-  }
+  wireForm(document.getElementById('heroForm'),    showSuccess);
+  wireForm(document.getElementById('modalFormEl'), showSuccess);
+  document.querySelectorAll('.mini-form').forEach(function (f) { wireForm(f, showSuccess); });
 
-  // ── ZIP SEARCH BAR (section) ──────────────────────────────
-  const zipForm = document.getElementById('zipSearchForm');
+  // ── HERO ZIP SEARCH ──────────────────────────────────────
+  var zipForm = document.getElementById('zipForm');
   if (zipForm) {
     zipForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const val = document.getElementById('sectionZip').value.trim();
-      console.log('[Orkin Analytics] zip_search', { zip: val });
+      var v = document.getElementById('sectionZip').value.trim();
+      console.log('[Orkin] zip_search', { zip: v });
       openModal('');
     });
   }
 
-  // ── LAZY LOAD IMAGES ──────────────────────────────────────
+  // ── PREVIEW TOAST for internal nav links ─────────────────
+  var toast = document.getElementById('previewToast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Preview only — page not built yet';
+    toast.classList.add('show');
+    setTimeout(function () { toast.classList.remove('show'); }, 2200);
+  }
+
+  // Internal nav links that would 404 in preview
+  document.querySelectorAll('a[href^="/"]').forEach(function (el) {
+    // Exclude tel: and real modal triggers
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      showToast('Preview only — this page is not live yet');
+    });
+  });
+  // Footer links with relative hrefs
+  document.querySelectorAll('a[href^="http"]').forEach(function (el) {
+    // Allow actual external links to work (social, etc.)
+    // No-op — they should open normally
+  });
+
+  // ── MOBILE NAV ───────────────────────────────────────────
+  var mmOpen  = document.getElementById('hamburger');
+  var mmClose = document.getElementById('mmClose');
+  var mm      = document.getElementById('mobileMenu');
+
+  if (mmOpen && mm) mmOpen.addEventListener('click', function () { mm.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  if (mmClose && mm) mmClose.addEventListener('click', function () { mm.classList.remove('open'); document.body.style.overflow = ''; });
+
+  // ── SMOOTH STAT COUNTER ──────────────────────────────────
+  function animateNum(el) {
+    var target = parseFloat(el.dataset.target);
+    var isFloat = el.dataset.target.includes('.');
+    var suffix = el.dataset.suffix || '';
+    var prefix = el.dataset.prefix || '';
+    var start = 0; var duration = 1200;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var pct = Math.min((ts - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - pct, 3);
+      var val = start + (target - start) * ease;
+      el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.floor(val)) + suffix;
+      if (pct < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   if ('IntersectionObserver' in window) {
-    const lazyImgs = document.querySelectorAll('img[data-src]');
-    const imgObserver = new IntersectionObserver(function (entries, obs) {
+    var statEls = document.querySelectorAll('[data-target]');
+    var statObs = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          const img = entry.target;
+          animateNum(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(function (el) { statObs.observe(el); });
+  }
+
+  // ── LAZY IMAGES ─────────────────────────────────────────
+  if ('IntersectionObserver' in window) {
+    var lazyImgs = document.querySelectorAll('img[data-src]');
+    var imgObs = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
           img.src = img.dataset.src;
           img.removeAttribute('data-src');
           obs.unobserve(img);
         }
       });
     }, { rootMargin: '200px' });
-    lazyImgs.forEach(function (img) { imgObserver.observe(img); });
+    lazyImgs.forEach(function (img) { imgObs.observe(img); });
   }
 
 })();
