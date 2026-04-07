@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liondale Medical — Dr. Lionel M.S. Bissoon, D.O.</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@300;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Elevated from liondalemedical.com — #2b2c2f (charcoal), #b9943b (gold) */
+      --ink:        #0A0A0B;
+      --surface:    #131211;   /* dark surface, derived from #2b2c2f */
+      --charcoal:   #2b2c2f;   /* their primary — card texture on dark */
+      --bone:       #EAE0CF;
+      --bone-dim:   rgba(234, 224, 207, 0.5);
+      --bone-ghost: rgba(234, 224, 207, 0.07);
+      --gold:       #b9943b;   /* their actual accent — warm antique gold */
+      --gold-dim:   rgba(185, 148, 59, 0.3);
+      --gold-ghost: rgba(185, 148, 59, 0.1);
+      --border:     rgba(185, 148, 59, 0.14);
+      --border-2:   rgba(234, 224, 207, 0.09);
+      /* Dropped: #1ca8dd — generic Tebra blue, no luxury context */
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 56px;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.97) 0%, transparent 100%);
+    }
+
+    .nav-mark {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--bone);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-mark span {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--bone); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 56px 88px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      opacity: 0.45;
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 40%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 40%);
+    }
+
+    .hero-right-placeholder {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 80% at 60% 40%, rgba(185,148,59,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 70%, rgba(43,44,47,0.4) 0%, transparent 60%);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(52px, 7vw, 100px);
+      font-weight: 300;
+      line-height: 0.93;
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--bone-dim);
+    }
+
+    .hero-byline {
+      font-size: 12px;
+      color: var(--bone-dim);
+      letter-spacing: 0.04em;
+      line-height: 1.9;
+      max-width: 340px;
+      margin-bottom: 48px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .hero-stat {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 13px;
+      color: var(--bone-dim);
+      font-style: italic;
+    }
+
+    /* ─── PRESS ─── */
+    .press {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 44px 56px;
+    }
+
+    .press-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .press-names {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px 64px;
+    }
+
+    .press-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--bone-dim);
+    }
+
+    /* ─── SECTION ─── */
+    section { padding: 112px 56px; position: relative; }
+
+    .section-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 64px;
+    }
+
+    /* ─── PHYSICIAN ─── */
+    .physician-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 0.65fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .physician-quote {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    .physician-quote em { font-style: italic; color: var(--bone-dim); }
+
+    .physician-body {
+      font-size: 14px;
+      color: var(--bone-dim);
+      line-height: 1.95;
+    }
+
+    .physician-body p + p { margin-top: 20px; }
+
+    .credentials-list {
+      margin-top: 40px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .credentials-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      font-size: 12px;
+      color: var(--bone-dim);
+      letter-spacing: 0.03em;
+    }
+
+    .credentials-list li::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+      margin-top: 10px;
+      flex-shrink: 0;
+    }
+
+    .physician-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.7;
+      filter: grayscale(15%);
+    }
+
+    /* ─── PROOF STRIP ─── */
+    .proof-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 56px;
+      display: flex;
+      gap: 0;
+      justify-content: stretch;
+    }
+
+    .proof-item {
+      flex: 1;
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+
+    .proof-item:last-child { border-right: none; }
+
+    .proof-num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 56px;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: var(--bone);
+    }
+
+    .proof-num sup { font-size: 26px; vertical-align: super; }
+
+    .proof-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+    }
+
+    /* ─── SERVICES ─── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      background: var(--ink);
+      padding: 48px 36px;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+
+    .service-card:hover { background: var(--surface); }
+
+    .service-num {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 300;
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+
+    .service-desc {
+      font-size: 13px;
+      color: var(--bone-dim);
+      line-height: 1.85;
+    }
+
+    /* ─── CONCIERGE ─── */
+    .concierge-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .concierge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .concierge-grid h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    .concierge-grid h2 em { font-style: italic; color: var(--bone-dim); }
+
+    .concierge-grid p {
+      font-size: 14px;
+      color: var(--bone-dim);
+      line-height: 1.95;
+      margin-bottom: 20px;
+    }
+
+    .concierge-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .concierge-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--ink);
+      padding: 24px 32px;
+      gap: 32px;
+    }
+
+    .detail-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--bone);
+      text-align: right;
+    }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/room.jpeg');
+      background-size: cover;
+      background-position: center 40%;
+      opacity: 0.16;
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-inner h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-inner h2 em { font-style: italic; color: var(--bone-dim); }
+
+    .cta-inner p {
+      font-size: 13px;
+      color: var(--bone-dim);
+      line-height: 1.9;
+      margin-bottom: 48px;
+    }
+
+    .cta-detail {
+      margin-top: 24px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bone);
+      background: transparent;
+      border: 1px solid var(--border-2);
+      padding: 18px 42px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .btn:hover { border-color: var(--gold-dim); }
+
+    .btn-gold {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .btn-gold:hover {
+      border-color: var(--gold);
+      color: var(--bone);
+    }
+
+    /* ─── DIVIDER ─── */
+    .rule { border: none; border-top: 1px solid var(--border-2); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border-2);
+      padding: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .footer-mark {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      font-weight: 300;
+    }
+
+    .footer-mark span {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      margin-top: 4px;
+    }
+
+    .footer-meta {
+      text-align: right;
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      line-height: 1.9;
+    }
+
+    .footer-meta a { color: var(--gold); text-decoration: none; }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,11,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 60px 68px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 30px;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .modal-body {
+      font-size: 13px;
+      color: var(--bone-dim);
+      line-height: 1.85;
+      margin-bottom: 28px;
+    }
+
+    .modal-link {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      margin-bottom: 28px;
+    }
+
+    .modal-progress {
+      width: 100%;
+      height: 1px;
+      background: var(--border-2);
+      overflow: hidden;
+    }
+
+    .modal-bar {
+      height: 100%;
+      background: var(--gold);
+      transform-origin: left;
+      animation: shrink 5s linear forwards;
+    }
+
+    @keyframes shrink {
+      from { transform: scaleX(1); }
+      to   { transform: scaleX(0); }
+    }
+
+    .modal-close-note {
+      margin-top: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--bone-dim);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 22px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 120px 24px 64px; }
+      .hero-right { height: 300px; }
+      .hero-right img { mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 60%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 60%); }
+      section { padding: 80px 24px; }
+      .press { padding: 40px 24px; }
+      .physician-grid { grid-template-columns: 1fr; gap: 40px; }
+      .physician-img { height: 260px; }
+      .proof-strip { padding: 40px 24px; flex-wrap: wrap; gap: 32px; }
+      .proof-item { border-right: none; min-width: calc(50% - 16px); }
+      .services-grid { grid-template-columns: 1fr; }
+      .concierge-grid { grid-template-columns: 1fr; gap: 48px; }
+      footer { flex-direction: column; gap: 32px; padding: 40px 24px; }
+      .footer-meta { text-align: left; }
+      .modal-box { padding: 40px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-mark" onclick="openModal()">
+      Liondale Medical
+      <span>Concierge Medicine — Upper West Side</span>
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="openModal()">The Practice</a></li>
+      <li><a onclick="openModal()">Regenerative</a></li>
+      <li><a onclick="openModal()">Concierge</a></li>
+      <li><a onclick="openModal()">Membership</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Upper West Side, New York — Est. 2011</p>
+      <h1 class="hero-title">
+        Aging is<br /><em>a variable,</em><br />not a sentence.
+      </h1>
+      <p class="hero-byline">
+        A private concierge practice off Central Park West. Ten patients per day. Two-hour consultations. Dr. Lionel M.S. Bissoon, D.O. — directly.
+      </p>
+      <div class="hero-cta-row">
+        <button class="btn btn-gold" onclick="openModal()">Request Membership</button>
+        <span class="hero-stat">5.0 stars across 41 reviews</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="assets/hero.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+      <div class="hero-right-placeholder"></div>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- PRESS -->
+  <div class="press">
+    <p class="press-label">As seen in</p>
+    <div class="press-names">
+      <span class="press-name">The New York Times</span>
+      <span class="press-name">Financial Times</span>
+      <span class="press-name">New York Post</span>
+      <span class="press-name">Forbes</span>
+      <span class="press-name">Good Morning America</span>
+      <span class="press-name">CNBC</span>
+    </div>
+  </div>
+
+  <!-- PHYSICIAN -->
+  <section>
+    <p class="section-label">The Physician</p>
+    <div class="physician-grid">
+      <div>
+        <p class="physician-quote">
+          He introduced mesotherapy to the United States.<br /><em>He has been treating the consequences of aging longer than most practitioners have been aware of them.</em>
+        </p>
+      </div>
+      <div>
+        <div class="physician-body">
+          <p>
+            Dr. Lionel M.S. Bissoon, D.O. trained in physical medicine and rehabilitation at Mount Sinai and served as a flight surgeon in the U.S. Air Force before dedicating his practice to regenerative and anti-aging medicine. He trained under the founders of mesotherapy in Paris and holds 25 PubMed-indexed research citations.
+          </p>
+          <p>
+            At Liondale, he sees a maximum of ten patients per day. Consultations begin at two hours. There are no physician assistants, no nurse practitioners, and no hand-offs. Every appointment is with Dr. Bissoon.
+          </p>
+          <p>
+            The practice introduced ozone 10-pass therapy to New York City and is among a small number of certified NAD+ infusion centers in the state.
+          </p>
+        </div>
+        <ul class="credentials-list">
+          <li>D.O. — Des Moines University College of Osteopathic Medicine</li>
+          <li>Flight Surgeon — United States Air Force</li>
+          <li>Residency, PM&R — Mount Sinai Hospital, New York</li>
+          <li>Mesotherapy training — Paris (Dr. Jacques Le Coz, Chams, Dancey)</li>
+          <li>25 PubMed-indexed research citations</li>
+          <li>Licensed: New York, Florida, California, Connecticut</li>
+        </ul>
+      </div>
+      <img class="physician-img" src="assets/vials.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- PROOF STRIP -->
+  <div class="proof-strip">
+    <div class="proof-item">
+      <div class="proof-num">10</div>
+      <div class="proof-label">Patients Per Day — Maximum</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">2</div>
+      <div class="proof-label">Hour Initial Consultations</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">5.0</div>
+      <div class="proof-label">Stars — 41 Reviews</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">25<sup>+</sup></div>
+      <div class="proof-label">PubMed Research Citations</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section>
+    <p class="section-label">Clinical Services</p>
+    <div class="services-grid">
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">01</p>
+        <h3 class="service-name">Regenerative Medicine</h3>
+        <p class="service-desc">PRP, peptide therapy, and cellular regeneration protocols designed to restore function at the biological level, not mask its decline.</p>
+      </div>
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">02</p>
+        <h3 class="service-name">Hormone Optimisation</h3>
+        <p class="service-desc">Bioidentical hormone replacement therapy for men and women. Metabolic support, testosterone, and menopause management — calibrated individually.</p>
+      </div>
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">03</p>
+        <h3 class="service-name">Medical Ozone Therapy</h3>
+        <p class="service-desc">Among the first physicians in New York City to offer hyperbaric ozone 10-pass treatment. EBO2/EBOO therapeutic plasma exchange protocols.</p>
+      </div>
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">04</p>
+        <h3 class="service-name">IV Therapy & NAD+</h3>
+        <p class="service-desc">Certified BR+/NAD infusion office. Intravenous nutrition, Myers cocktails, and high-dose NAD+ — one of a small number of certified centres in New York State.</p>
+      </div>
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">05</p>
+        <h3 class="service-name">Anti-Aging & Longevity</h3>
+        <p class="service-desc">Comprehensive longevity assessment: food sensitivity, environmental toxin evaluation, gut optimisation, detox protocols, and metabolic rate analysis.</p>
+      </div>
+      <div class="service-card" onclick="openModal()">
+        <p class="service-num">06</p>
+        <h3 class="service-name">Men's Health</h3>
+        <p class="service-desc">Testosterone restoration, HCG protocols, and full metabolic panel management for men navigating andropause, fatigue, and body composition changes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCIERGE -->
+  <section class="concierge-section">
+    <p class="section-label">The Concierge Programme</p>
+    <div class="concierge-grid">
+      <div>
+        <h2>Private medicine,<br /><em>without exception.</em></h2>
+        <p>
+          Liondale's concierge membership is not a retainer for faster access to the same system. It is a structurally different model of care — one where the physician has the time, and the mandate, to practice medicine properly.
+        </p>
+        <p>
+          Membership includes unlimited appointments, full hormone programme access, weight and metabolic support, peptide therapy, gut health protocols, and environmental toxin evaluation. Add-on services (IV, ozone, EBO2, PRP, hair) are available to members at programme rates.
+        </p>
+        <button class="btn btn-gold" onclick="openModal()" style="margin-top: 16px;">Enquire About Membership</button>
+      </div>
+      <div class="concierge-details">
+        <div class="concierge-detail-row">
+          <span class="detail-label">Daily patient limit</span>
+          <span class="detail-value">10 patients</span>
+        </div>
+        <div class="concierge-detail-row">
+          <span class="detail-label">Initial consultation</span>
+          <span class="detail-value">2 hours</span>
+        </div>
+        <div class="concierge-detail-row">
+          <span class="detail-label">Insurance</span>
+          <span class="detail-value">Not accepted</span>
+        </div>
+        <div class="concierge-detail-row">
+          <span class="detail-label">Physician assistants</span>
+          <span class="detail-value">None</span>
+        </div>
+        <div class="concierge-detail-row">
+          <span class="detail-label">Appointments included</span>
+          <span class="detail-value">Unlimited</span>
+        </div>
+        <div class="concierge-detail-row">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">Off Central Park West</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Ten patients<br /><em>per day.</em></h2>
+      <p>Membership is limited by design. Enquiries are reviewed personally — not by a scheduling platform or an intake coordinator.</p>
+      <button class="btn btn-gold" onclick="openModal()">Request Membership</button>
+      <p class="cta-detail">10 West 74th Street, Suite 1E — New York, NY 10023</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-mark">
+      Liondale Medical
+      <span>Concierge Medicine — Upper West Side, New York</span>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 Velocity by Calyvent. All rights reserved.</div>
+      <div style="margin-top: 6px;">
+        <a href="https://velocity.calyvent.com" target="_blank">velocity.calyvent.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <p class="modal-eyebrow">Previewed by Velocity</p>
+      <h2 class="modal-title">This is a preview.</h2>
+      <p class="modal-body">
+        This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.
+      </p>
+      <a class="modal-link" href="https://velocity.calyvent.com" target="_blank">velocity.calyvent.com</a>
+      <div class="modal-progress">
+        <div class="modal-bar" id="modal-bar"></div>
+      </div>
+      <p class="modal-close-note">Closing automatically</p>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      const overlay = document.getElementById('modal');
+      const bar = document.getElementById('modal-bar');
+      overlay.classList.add('active');
+      bar.style.animation = 'none';
+      bar.offsetHeight;
+      bar.style.animation = 'shrink 5s linear forwards';
+      setTimeout(() => overlay.classList.remove('active'), 5000);
+    }
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>
