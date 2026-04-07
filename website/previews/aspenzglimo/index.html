@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://velocity.calyvent.com/previews/aspenzglimo">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -28,224 +28,404 @@
     <style>
         :root {
             --ink: #0A0A0B;
-            --surface: #131110;
-            --bone: #EAE0CF;
-            --bone-dim: rgba(234,224,207,0.48);
-            --bone-faint: rgba(234,224,207,0.07);
+            --surface: #101011;
+            --paper: #E8E4DB;
+            --paper-dim: rgba(232, 228, 219, 0.55);
+            --line: rgba(232, 228, 219, 0.12);
+            --taupe: #8B7E6A;
             --brass: #B9943B;
-            --brass-dim: rgba(185,148,59,0.22);
-            --border: rgba(185,148,59,0.16);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Archivo Narrow', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
             background-color: var(--ink);
-            color: var(--bone);
-            line-height: 1.6;
-            font-weight: 400;
+            color: var(--paper);
+            line-height: 1.65;
+            font-size: 1rem;
         }
         .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 4rem;
-            background: rgba(10,10,11,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
+            padding: 1.35rem clamp(1.25rem, 4vw, 3.5rem);
+            border-bottom: 1px solid var(--line);
+            background: rgba(10, 10, 11, 0.82);
+            backdrop-filter: blur(12px);
         }
         .logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
+            font-size: 1.125rem;
             font-weight: 400;
-            letter-spacing: 0.1em;
-            color: var(--bone);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--paper);
             text-decoration: none;
         }
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: clamp(1.25rem, 3vw, 2.25rem);
             list-style: none;
         }
-        .nav-links a, .nav-links button {
+        .nav-links button {
             background: none;
             border: none;
-            color: var(--bone);
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            color: var(--paper-dim);
+            font-family: inherit;
+            font-size: 0.6875rem;
+            font-weight: 400;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
             cursor: pointer;
-            font-family: inherit;
-            transition: opacity 0.3s;
+            transition: color 0.25s ease;
         }
-        .nav-links a:hover, .nav-links button:hover { opacity: 0.6; }
+        .nav-links button:hover { color: var(--paper); }
+
+        /* Hero: image-dominant, flat scrim only (no gradients) */
         .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
-            padding: 6rem 4rem;
+            min-height: 92vh;
+            display: flex;
+            align-items: flex-end;
+            padding: 7rem clamp(1.25rem, 5vw, 5rem) clamp(2.5rem, 8vh, 5rem);
         }
-        .hero-image {
+        .hero-bg {
             position: absolute;
             inset: 0;
-            background-image:
-                linear-gradient(165deg, rgba(10,10,11,0.78) 0%, rgba(10,10,11,0.42) 42%, rgba(19,17,16,0.9) 100%),
-                radial-gradient(ellipse 90% 60% at 50% 100%, rgba(185,148,59,0.1) 0%, transparent 55%),
-                url('assets/hero-suburban.png');
+            background-image: url('assets/hero-lodge.png');
             background-size: cover;
-            background-position: center;
-            filter: brightness(0.93);
+            background-position: center 42%;
         }
-        .hero-content {
+        .hero-scrim {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 11, 0.52);
+            pointer-events: none;
+        }
+        .hero-grain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.035;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        .hero-inner {
             position: relative;
             z-index: 1;
-            text-align: center;
-            max-width: 700px;
+            max-width: 26rem;
+            text-align: left;
         }
         .hero h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 4.5rem;
             font-weight: 300;
-            letter-spacing: 0.15em;
-            margin-bottom: 1rem;
-            line-height: 1.1;
+            font-size: clamp(2rem, 4.2vw, 3rem);
+            letter-spacing: 0.04em;
+            line-height: 1.12;
+            margin-bottom: 1.5rem;
         }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--bone-dim);
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.03em;
+        .hero-line {
+            width: 2.5rem;
+            height: 1px;
+            background: var(--taupe);
+            margin-bottom: 1.5rem;
+        }
+        .hero-sub {
+            font-size: 0.9375rem;
+            font-weight: 300;
+            color: var(--paper-dim);
+            max-width: 22rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
         }
         .cta {
             display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--brass);
-            color: var(--brass);
-            text-decoration: none;
-            letter-spacing: 0.15em;
+            padding: 0.85rem 1.75rem;
+            border: 1px solid var(--line);
+            color: var(--paper);
+            font-family: inherit;
+            font-size: 0.625rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            font-size: 0.7rem;
+            text-decoration: none;
             cursor: pointer;
-            transition: all 0.4s ease;
-            background: none;
+            background: transparent;
+            transition: border-color 0.25s ease, background-color 0.25s ease;
         }
         .cta:hover {
-            background: var(--brass);
-            color: var(--ink);
+            border-color: rgba(232, 228, 219, 0.35);
+            background: rgba(232, 228, 219, 0.04);
         }
+
         .section {
-            padding: 6rem 4rem;
+            padding: clamp(4rem, 12vw, 7.5rem) clamp(1.25rem, 5vw, 5rem);
         }
-        .section-header { text-align: center; margin-bottom: 4rem; }
-        .section-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 0.08em;
+
+        .intro {
+            background: var(--surface);
         }
-        .section-header p { color: var(--bone-dim); max-width: 500px; margin: 0 auto; }
-        .intro { background: var(--surface); }
-        .intro-content { max-width: 800px; margin: 0 auto; text-align: center; }
-        .intro-content h2 {
+        .intro-grid {
+            max-width: 72rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+            gap: clamp(2rem, 8vw, 6rem);
+            align-items: start;
+        }
+        .intro-label {
+            font-size: 0.625rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--paper-dim);
+            padding-top: 0.5rem;
+        }
+        .intro h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.8rem;
             font-weight: 300;
-            letter-spacing: 0.06em;
+            font-size: clamp(1.75rem, 3vw, 2.35rem);
+            letter-spacing: 0.02em;
+            line-height: 1.28;
+            margin-bottom: 2rem;
+        }
+        .intro-body {
+            color: var(--paper-dim);
+            font-size: 1.0625rem;
+            line-height: 1.85;
+            max-width: 38rem;
+        }
+
+        /* Editorial strip: image + text, asymmetric */
+        .strip {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            gap: 0;
+            min-height: min(70vh, 38rem);
+        }
+        .strip-visual {
+            min-height: 20rem;
+            border-right: 1px solid var(--line);
+        }
+        .strip-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            display: block;
+        }
+        .strip-copy {
+            padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 32rem;
+        }
+        .strip-copy h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
             margin-bottom: 1.5rem;
-            line-height: 1.3;
+            letter-spacing: 0.03em;
         }
-        .intro-content p { color: var(--bone-dim); font-size: 1.05rem; line-height: 1.8; }
-        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
-        .feature { padding: 2rem; border: 1px solid var(--border); text-align: center; }
-        .feature-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            color: var(--brass);
-            margin-bottom: 1rem;
-            opacity: 0.6;
+        .strip-copy p {
+            color: var(--paper-dim);
+            font-size: 1rem;
+            line-height: 1.85;
         }
-        .feature h3 {
+
+        /* Services: vertical stack, not SaaS grid */
+        .services-head {
+            max-width: 72rem;
+            margin: 0 auto clamp(3rem, 6vw, 4rem);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .services-head h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            letter-spacing: 0.04em;
+        }
+        .services-list {
+            max-width: 72rem;
+            margin: 0 auto;
+        }
+        .service-row {
+            display: grid;
+            grid-template-columns: 3.5rem minmax(0, 1fr);
+            gap: clamp(1rem, 3vw, 2.5rem);
+            padding: 2.25rem 0;
+            border-bottom: 1px solid var(--line);
+            align-items: baseline;
+        }
+        .service-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--taupe);
+        }
+        .service-row h3 {
+            font-family: 'Cormorant Garamond', serif;
             font-weight: 400;
-            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.65rem;
+            letter-spacing: 0.02em;
         }
-        .feature p { color: var(--bone-dim); font-size: 0.9rem; }
-        .fleet { background: var(--surface); }
-        .fleet-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: center; }
+        .service-row p {
+            color: var(--paper-dim);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+            max-width: 40rem;
+        }
+
+        .fleet {
+            background: var(--surface);
+        }
+        .fleet-layout {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
         .fleet-visual {
-            aspect-ratio: 4/3;
-            border: 1px solid var(--border);
+            border: 1px solid var(--line);
+            aspect-ratio: 5/4;
             overflow: hidden;
             background: var(--ink);
         }
-        .fleet-photo {
+        .fleet-visual img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
             display: block;
-            filter: brightness(0.96);
         }
         .fleet-text h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
             font-weight: 300;
+            font-size: clamp(1.5rem, 2.5vw, 2.1rem);
             margin-bottom: 1.5rem;
+            letter-spacing: 0.03em;
         }
-        .fleet-text p { color: var(--bone-dim); margin-bottom: 1.25rem; line-height: 1.7; }
-        .fleet-note { font-size: 0.75rem !important; opacity: 0.75; margin-top: -0.5rem !important; margin-bottom: 0 !important; }
-        .fleet-details { list-style: none; margin-top: 1.5rem; }
+        .fleet-text > p {
+            color: var(--paper-dim);
+            margin-bottom: 1.25rem;
+            line-height: 1.85;
+        }
+        .fleet-note {
+            font-size: 0.6875rem;
+            letter-spacing: 0.04em;
+            color: var(--paper-dim);
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .fleet-details {
+            list-style: none;
+        }
         .fleet-details li {
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--border);
-            color: var(--bone-dim);
-            font-size: 0.85rem;
+            padding: 0.65rem 0;
+            border-top: 1px solid var(--line);
+            color: var(--paper-dim);
+            font-size: 0.8125rem;
         }
-        .fleet-details li span { color: var(--brass); margin-right: 0.5rem; }
-        .why { background: var(--ink); }
-        .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; }
-        .why-item { padding: 2rem; border: 1px solid var(--border); }
-        .why-item h3 {
+
+        /* Operating notes: single column, no card grid */
+        .notes {
+            max-width: 38rem;
+            margin: 0 auto;
+            padding-left: clamp(0px, 4vw, 2rem);
+            border-left: 1px solid var(--taupe);
+        }
+        .notes h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            font-weight: 400;
-            margin-bottom: 0.75rem;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.04em;
         }
-        .why-item p { color: var(--bone-dim); font-size: 0.9rem; }
+        .note {
+            margin-bottom: 2.5rem;
+        }
+        .note:last-child { margin-bottom: 0; }
+        .note h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+        }
+        .note p {
+            color: var(--paper-dim);
+            font-size: 0.9375rem;
+            line-height: 1.85;
+        }
+
         .cta-section {
-            background: linear-gradient(180deg, var(--surface) 0%, var(--ink) 100%);
-            text-align: center;
-            padding: 5rem 4rem;
+            background: var(--surface);
+            text-align: left;
+            padding: clamp(4rem, 10vw, 6rem) clamp(1.25rem, 5vw, 5rem);
+        }
+        .cta-inner {
+            max-width: 72rem;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
         }
         .cta-section h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
             font-weight: 300;
-            margin-bottom: 1rem;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            letter-spacing: 0.03em;
+            margin-bottom: 0.5rem;
+        }
+        .cta-section .sub {
+            color: var(--paper-dim);
+            font-size: 0.9375rem;
+        }
+        .cta-section .phone a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+            font-weight: 300;
+            color: var(--paper);
+            text-decoration: none;
             letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: color 0.25s ease;
         }
-        .cta-section p { color: var(--bone-dim); margin-bottom: 2rem; }
-        .cta-section .phone { font-size: 1.4rem; letter-spacing: 0.08em; }
-        .cta-section .phone a { color: var(--bone); text-decoration: none; cursor: pointer; }
-        .cta-section .phone a:hover { color: var(--brass); }
+        .cta-section .phone a:hover { color: var(--taupe); }
+
         footer {
-            background: var(--ink);
-            color: var(--bone-dim);
-            padding: 3rem 4rem;
-            text-align: center;
-            border-top: 1px solid var(--border);
+            padding: 2.25rem clamp(1.25rem, 5vw, 5rem) 3rem;
+            border-top: 1px solid var(--line);
         }
-        footer a { color: var(--bone-dim); text-decoration: none; cursor: pointer; }
-        footer a:hover { color: var(--brass); }
+        footer p {
+            max-width: 72rem;
+            margin: 0 auto;
+            font-size: 0.6875rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--paper-dim);
+        }
+        footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        footer a:hover { color: var(--paper); }
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -256,12 +436,12 @@
             justify-content: center;
             z-index: 1000;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal {
             background: var(--surface);
-            border: 1px solid rgba(234,224,207,0.09);
+            border: 1px solid rgba(232, 228, 219, 0.09);
             padding: 3rem;
             max-width: 480px;
             text-align: center;
@@ -280,8 +460,20 @@
             font-weight: 300;
             margin-bottom: 1rem;
         }
-        .modal p { color: var(--bone-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
-        .modal a { color: var(--brass); cursor: pointer; }
+        .modal p {
+            color: var(--paper-dim);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+        .modal .cta {
+            border-color: rgba(185, 148, 59, 0.35);
+            color: var(--brass);
+        }
+        .modal .cta:hover {
+            background: rgba(185, 148, 59, 0.12);
+            border-color: var(--brass);
+        }
         .progress-bar {
             position: absolute;
             bottom: 0;
@@ -293,115 +485,151 @@
         }
         .progress-bar.animating { animation: shrink 5s linear forwards; }
         @keyframes shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
         @media (max-width: 900px) {
-            nav { padding: 1rem 2rem; }
             .nav-links { display: none; }
-            .hero { padding: 4rem 2rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .section { padding: 4rem 2rem; }
-            .features, .fleet-content, .why-grid { grid-template-columns: 1fr; }
+            .intro-grid,
+            .strip,
+            .fleet-layout {
+                grid-template-columns: 1fr;
+            }
+            .strip-visual {
+                min-height: 14rem;
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+            }
+            .hero-inner { max-width: 100%; }
+            .service-row {
+                grid-template-columns: 2.5rem 1fr;
+                padding: 1.75rem 0;
+            }
+            .notes {
+                border-left: none;
+                padding-left: 0;
+                border-top: 1px solid var(--taupe);
+                padding-top: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="#" class="logo" onclick="openModal(); return false;">ZG LIMO</a>
+        <a href="#" class="logo" onclick="openModal(); return false;">ZG Limo</a>
         <ul class="nav-links">
-            <li><button onclick="openModal()">Services</button></li>
-            <li><button onclick="openModal()">Fleet</button></li>
-            <li><button onclick="openModal()">Why Us</button></li>
-            <li><button onclick="openModal()">Contact</button></li>
+            <li><button type="button" onclick="openModal()">Services</button></li>
+            <li><button type="button" onclick="openModal()">Fleet</button></li>
+            <li><button type="button" onclick="openModal()">Contact</button></li>
         </ul>
     </nav>
 
     <section class="hero">
-        <div class="hero-image" role="img" aria-label="Black full-size SUV at a snow-covered mountain lodge, twilight"></div>
-        <div class="hero-content">
-            <h1>Aspen ZG Limo</h1>
-            <p>Private transportation to and from Aspen, Snowmass, and all Colorado airports</p>
-            <button class="cta" onclick="openModal()">Call for a Ride</button>
+        <div class="hero-bg" role="img" aria-label="Black Chevrolet Suburban at a snow-lined mountain lodge, dusk"></div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-grain" aria-hidden="true"></div>
+        <div class="hero-inner">
+            <h1 class="serif">Private car, mountain roads</h1>
+            <div class="hero-line" aria-hidden="true"></div>
+            <p class="hero-sub">Aspen, Snowmass, and Colorado airports · Suburban 4x4 · seven seats</p>
+            <button type="button" class="cta" onclick="openModal()">Request availability</button>
         </div>
     </section>
 
     <section class="section intro">
-        <div class="intro-content">
-            <h2>Private. Reliable. Professional.</h2>
-            <p>Family-owned by Roberto and Mirka Gamarra, ZG Limo built its reputation in hospitality before opening this transportation company. Experienced drivers navigate mountain conditions with precision so you arrive safely and on time.</p>
+        <div class="intro-grid">
+            <p class="intro-label">House</p>
+            <div>
+                <h2 class="serif">Roberto and Mirka Gamarra opened ZG Limo after years in hospitality.</h2>
+                <p class="intro-body">Drivers are licensed and insured; schedules build slack for weather. The work is quiet: curbside on time, cabin warm, route chosen for ice and traffic, not theatrics.</p>
+            </div>
         </div>
     </section>
 
-    <section class="section features">
-        <div class="feature">
-            <div class="feature-number">01</div>
-            <h3>Airport Transfer</h3>
-            <p>Private transportation to and from all major Colorado airports including Denver, Aspen-Pitkin County, and Eagle County Regional.</p>
+    <section class="strip">
+        <div class="strip-visual">
+            <img src="assets/at-wheel.png" width="900" height="1200" loading="lazy" decoding="async" alt="Gloved hands on a steering wheel, winter light through the windshield">
         </div>
-        <div class="feature">
-            <div class="feature-number">02</div>
-            <h3>Mountain Shuttle</h3>
-            <p>Reliable service to Snowmass, Aspen Buttermilk, and Aspen Highlands. We know the roads in all weather conditions.</p>
+        <div class="strip-copy">
+            <h2 class="serif">Winter driving is the product</h2>
+            <p>Ice, passes, and plowed berms are ordinary Tuesday. The point is not a slogan; it is traction, following distance, and knowing which lane moves when the storm hits.</p>
         </div>
-        <div class="feature">
-            <div class="feature-number">03</div>
-            <h3>Private Car</h3>
-            <p>Hourly and daily arrangements for corporate meetings, special occasions, wine tours, and scenic mountain excursions.</p>
+    </section>
+
+    <section class="section">
+        <header class="services-head">
+            <h2 class="serif">Itineraries</h2>
+        </header>
+        <div class="services-list">
+            <article class="service-row">
+                <span class="service-num">I</span>
+                <div>
+                    <h3 class="serif">Airports</h3>
+                    <p>Denver, Eagle/Vail, Aspen/Pitkin County, and regional fields. Meet-and-greet where the terminal allows.</p>
+                </div>
+            </article>
+            <article class="service-row">
+                <span class="service-num">II</span>
+                <div>
+                    <h3 class="serif">Valley and ski</h3>
+                    <p>Snowmass, town, and out-valley runs on cleared roads, with room for skis and bags.</p>
+                </div>
+            </article>
+            <article class="service-row">
+                <span class="service-num">III</span>
+                <div>
+                    <h3 class="serif">Hourly</h3>
+                    <p>Dinners, meetings, events. One vehicle and one schedule.</p>
+                </div>
+            </article>
         </div>
     </section>
 
     <section class="section fleet">
-        <div class="fleet-content">
+        <div class="fleet-layout">
             <div class="fleet-visual">
-                <img class="fleet-photo" src="assets/fleet-interior.png" width="1200" height="900" loading="lazy" decoding="async" alt="Illustrative luxury full-size SUV interior: leather seating, wood trim, soft ambient lighting.">
+                <img src="assets/suburban-cabin.png" width="1200" height="960" loading="lazy" decoding="async" alt="Chevrolet Suburban cabin, black leather rows and panoramic roof">
             </div>
             <div class="fleet-text">
-                <h2>Our Fleet</h2>
-                <p>Late-model Chevrolet Suburban 4x4s, equipped for mountain conditions. Every vehicle accommodates up to seven adults with luggage.</p>
-                <p class="fleet-note">Interior shown is illustrative of the cabin standard, not a specific VIN.</p>
+                <h2 class="serif">Fleet</h2>
+                <p>Current-generation Chevrolet Suburban 4x4s. Seven adults with luggage when the load is ordinary.</p>
+                <p class="fleet-note">Cabin photograph is representative of layout and trim level, not a guaranteed VIN.</p>
                 <ul class="fleet-details">
-                    <li><span>•</span> Up to 7 passengers with luggage</li>
-                    <li><span>•</span> Complimentary bottled water</li>
-                    <li><span>•</span> DVD players for the journey</li>
-                    <li><span>•</span> XM Radio</li>
-                    <li><span>•</span> 4x4 capability for snow and ice</li>
+                    <li>Bottled water</li>
+                    <li>Rear entertainment</li>
+                    <li>Satellite radio</li>
+                    <li>Child seats on request</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section class="section why">
-        <div class="section-header">
-            <h2>Why Choose ZG Limo</h2>
-        </div>
-        <div class="why-grid">
-            <div class="why-item">
-                <h3>Experienced Drivers</h3>
-                <p>Our team has decades of experience driving in extreme mountain conditions. We know the roads, the weather, and the safest routes.</p>
+    <section class="section">
+        <div class="notes">
+            <h2 class="serif">Operating notes</h2>
+            <div class="note">
+                <h3 class="serif">Discretion</h3>
+                <p>Corporate and private clients use the service; the cabin stays private.</p>
             </div>
-            <div class="why-item">
-                <h3>Consistent Excellence</h3>
-                <p>The same professionalism whether you're a first-time visitor or a long-time resident.</p>
-            </div>
-            <div class="why-item">
-                <h3>Discretion Assured</h3>
-                <p>We serve corporate and celebrity clientele who value privacy. What happens in our vehicles remains confidential.</p>
-            </div>
-            <div class="why-item">
-                <h3>On-Time Reliability</h3>
-                <p>We build in buffer time for mountain weather. Your schedule matters, and we ensure you reach your destination when you need to.</p>
+            <div class="note">
+                <h3 class="serif">Punctuality</h3>
+                <p>Buffer is built in. Late planes are watched; early ones do not leave you standing in the cold.</p>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
-        <h2>Reserve Your Ride</h2>
-        <p>Serving Aspen, Snowmass, and the Roaring Fork Valley</p>
-        <div class="phone">
-            <a onclick="openModal()">970-309-1680</a>
+        <div class="cta-inner">
+            <div>
+                <h2 class="serif">Reservations</h2>
+                <p class="sub">Roaring Fork Valley and statewide</p>
+            </div>
+            <div class="phone">
+                <a onclick="openModal()">970 · 309 · 1680</a>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p><a href="https://velocity.calyvent.com" target="_blank" rel="noopener">© 2026 Velocity by Calyvent. All rights reserved.</a></p>
+        <p><a href="https://velocity.calyvent.com" target="_blank" rel="noopener">© 2026 Velocity by Calyvent</a></p>
     </footer>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
