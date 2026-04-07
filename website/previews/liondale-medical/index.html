@@ -4,30 +4,29 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Liondale Medical — Longevity & Concierge Medicine, New York</title>
-<meta name="description" content="Private concierge practice by Dr. Lionel M.S. Bissoon, D.O. — longevity, anti-aging, and regenerative medicine. Upper West Side, New York. Maximum ten patients per day." />
+<meta name="description" content="Private concierge practice by Dr. Lionel M.S. Bissoon, D.O. Longevity, anti-aging, regenerative medicine. Upper West Side, New York." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --ink:        #0A0A0B;
-  --surface:    #111010;
-  --charcoal:   #2b2c2f;
-  --bone:       #EAE0CF;
-  --bone-dim:   rgba(234,224,207,0.5);
-  --bone-ghost: rgba(234,224,207,0.07);
-  --gold:       #b9943b;
-  --gold-mid:   rgba(185,148,59,0.45);
-  --gold-dim:   rgba(185,148,59,0.18);
-  --gold-ghost: rgba(185,148,59,0.08);
-  --border:     rgba(185,148,59,0.14);
-  --border-bone:rgba(234,224,207,0.1);
+  --ink:         #0A0A0B;
+  --surface:     #131110;
+  --charcoal:    #2b2c2f;
+  --bone:        #EAE0CF;
+  --bone-dim:    rgba(234,224,207,0.48);
+  --bone-faint:  rgba(234,224,207,0.07);
+  --gold:        #b9943b;
+  --gold-dim:    rgba(185,148,59,0.22);
+  --gold-ghost:  rgba(185,148,59,0.07);
+  --border:      rgba(185,148,59,0.16);
+  --border-bone: rgba(234,224,207,0.09);
+  --sidebar-w:   272px;
 }
 
-html { scroll-behavior: smooth; }
-
+html, body { height: 100%; }
 body {
   background: var(--ink);
   color: var(--bone);
@@ -38,614 +37,486 @@ body {
   overflow-x: hidden;
 }
 
-/* ── MODAL ── */
+/* ─── MODAL ─── */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 9999;
-  background: rgba(10,10,11,0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(10,10,11,0.9);
+  backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
 }
 .modal-overlay.active { opacity: 1; pointer-events: all; }
 .modal-box {
   background: #141210;
-  border: 1px solid rgba(234,224,207,0.09);
-  padding: 48px 52px;
-  max-width: 480px; width: 90%;
+  border: 1px solid var(--border-bone);
+  padding: 52px 56px;
+  max-width: 460px; width: 90%;
   text-align: center;
 }
 .modal-eyebrow {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.22em;
+  font-size: 9px; letter-spacing: 0.24em;
   text-transform: uppercase; color: var(--gold);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .modal-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 28px; font-weight: 400; font-style: italic;
-  color: var(--bone); margin-bottom: 16px;
+  font-size: 26px; font-weight: 400; font-style: italic;
+  color: var(--bone); margin-bottom: 14px;
 }
 .modal-body {
-  font-size: 13px; line-height: 1.7;
-  color: var(--bone-dim); margin-bottom: 28px;
+  font-size: 13px; line-height: 1.75;
+  color: var(--bone-dim); margin-bottom: 26px;
 }
 .modal-link {
   font-family: 'Raleway', sans-serif;
-  font-size: 11px; letter-spacing: 0.18em;
+  font-size: 10px; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--gold);
-  text-decoration: none; display: inline-block;
-  padding-bottom: 2px;
+  text-decoration: none;
   border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 2px;
 }
-.modal-progress {
-  margin-top: 32px; height: 1px;
-  background: var(--border);
+.modal-bar {
+  margin-top: 28px; height: 1px; background: var(--border);
   position: relative; overflow: hidden;
 }
-.modal-progress-bar {
+.modal-bar-fill {
   position: absolute; left: 0; top: 0;
-  height: 100%; width: 100%;
-  background: var(--gold);
+  height: 100%; width: 100%; background: var(--gold);
   transform-origin: left;
 }
-.modal-overlay.active .modal-progress-bar {
+.modal-overlay.active .modal-bar-fill {
   animation: drain 5s linear forwards;
 }
-@keyframes drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes drain { to { transform: scaleX(0); } }
 
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 24px 52px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid transparent;
-  transition: background 0.4s, border-color 0.4s;
+/* ─── LAYOUT SHELL ─── */
+.shell {
+  display: flex;
+  min-height: 100vh;
 }
-nav.scrolled {
-  background: rgba(10,10,11,0.92);
-  backdrop-filter: blur(12px);
-  border-color: var(--border-bone);
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-bone);
+  padding: 48px 36px;
+  background: var(--surface);
+  overflow: hidden;
 }
-.nav-wordmark {
+.sidebar-gold-bar {
+  width: 28px; height: 2px;
+  background: var(--gold);
+  margin-bottom: 32px;
+}
+.sidebar-practice {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 18px; font-weight: 500; letter-spacing: 0.04em;
-  color: var(--bone); cursor: pointer;
+  font-size: 20px; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--bone); line-height: 1.2;
+  margin-bottom: 6px;
 }
-.nav-wordmark span { color: var(--gold); }
-.nav-right {
+.sidebar-location {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.2em;
+  font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--bone-dim);
+  margin-bottom: 36px;
+}
+.sidebar-divider {
+  height: 1px; background: var(--border-bone);
+  margin-bottom: 28px;
+}
+.sidebar-physician {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px; font-style: italic;
+  color: var(--bone-dim); margin-bottom: 4px;
+}
+.sidebar-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px; font-weight: 400; color: var(--bone);
+  margin-bottom: 24px;
+}
+.sidebar-stats {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 36px;
+}
+.stat {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.stat-val {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 24px; font-weight: 300; color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--bone-dim);
+}
+.sidebar-spacer { flex: 1; }
+.sidebar-nav {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 28px;
+}
+.sidebar-nav-item {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--bone-dim);
   cursor: pointer; transition: color 0.2s;
+  background: none; border: none; text-align: left;
+  padding: 0;
 }
-.nav-right:hover { color: var(--gold); }
+.sidebar-nav-item:hover { color: var(--gold); }
+.sidebar-btn {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink); background: var(--gold);
+  border: none; padding: 14px 0; width: 100%;
+  cursor: pointer; transition: opacity 0.2s;
+}
+.sidebar-btn:hover { opacity: 0.82; }
 
-/* ── OPENING STATEMENT ── */
-.opening {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
+/* ─── MAIN CONTENT ─── */
+.main {
+  flex: 1;
+  min-width: 0;
 }
-.opening-image-col {
+
+/* ─── COVER — full viewport image with text pinned bottom-left ─── */
+.cover {
+  height: 100vh;
   position: relative;
   overflow: hidden;
-  order: 2;
 }
-.opening-image-col img {
+.cover-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: brightness(0.55) saturate(0.6);
+  filter: brightness(0.45) saturate(0.55);
 }
-.opening-image-col::after {
-  content: '';
+.cover-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to left, var(--ink) 0%, transparent 40%);
+  background: linear-gradient(to top, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.2) 55%, transparent 100%);
 }
-.opening-text-col {
-  display: flex; flex-direction: column;
-  justify-content: center;
-  padding: 140px 64px 100px 72px;
-  order: 1;
+.cover-text {
+  position: absolute;
+  bottom: 72px; left: 64px; right: 64px;
 }
-.opening-issue {
+.cover-issue {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.26em;
+  font-size: 9px; letter-spacing: 0.28em;
   text-transform: uppercase; color: var(--gold);
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
-.opening-headline {
+.cover-headline {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(52px, 5.5vw, 82px);
-  font-weight: 300; line-height: 1.05;
-  color: var(--bone);
-  margin-bottom: 32px;
+  font-size: clamp(48px, 6vw, 88px);
+  font-weight: 300; line-height: 1.0;
+  color: var(--bone); max-width: 640px;
 }
-.opening-headline em { font-style: italic; color: var(--gold); }
-.opening-standfirst {
-  font-size: 15px; line-height: 1.8;
-  color: var(--bone-dim);
-  max-width: 420px;
-  margin-bottom: 52px;
-  border-left: 1px solid var(--border);
-  padding-left: 20px;
-}
-.opening-cta {
-  display: inline-flex; align-items: center; gap: 14px;
-  cursor: pointer; background: none; border: none;
+.cover-headline em { font-style: italic; }
+.cover-scroll-hint {
+  position: absolute; bottom: 32px; right: 64px;
   font-family: 'Raleway', sans-serif;
-  font-size: 11px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--bone);
-  transition: color 0.2s;
-}
-.opening-cta:hover { color: var(--gold); }
-.opening-cta-line {
-  display: block; width: 48px; height: 1px;
-  background: var(--gold); flex-shrink: 0;
-  transition: width 0.3s ease;
-}
-.opening-cta:hover .opening-cta-line { width: 72px; }
-
-/* ── NYT PULL QUOTE ── */
-.pull-quote-section {
-  padding: 120px 52px;
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 0 52px;
-  max-width: 960px; margin: 0 auto;
-  border-bottom: 1px solid var(--border-bone);
-}
-.pull-quote-label {
+  font-size: 8px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--bone-dim);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.3em;
-  text-transform: uppercase; color: var(--gold);
-  align-self: center;
-  padding-right: 16px;
-  border-right: 1px solid var(--border);
-}
-.pull-quote-mark {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 96px; font-weight: 300;
-  line-height: 0.6; color: var(--gold);
-  margin-bottom: 12px; display: block;
-}
-.pull-quote-text {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(28px, 3.5vw, 46px);
-  font-weight: 300; font-style: italic;
-  line-height: 1.3; color: var(--bone);
-  margin-bottom: 24px;
-}
-.pull-quote-attribution {
-  font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--bone-dim);
 }
 
-/* ── CREDENTIALS STRIP ── */
-.credentials-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--border-bone);
-  border-bottom: 1px solid var(--border-bone);
+/* ─── EDITORIAL BODY ─── */
+.editorial {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 100px 64px;
 }
-.credential-cell {
-  padding: 40px 48px;
-  border-right: 1px solid var(--border-bone);
+.ed-eyebrow {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 16px;
 }
-.credential-cell:last-child { border-right: none; }
-.credential-number {
+.ed-eyebrow::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.ed-headline {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 42px; font-weight: 300; color: var(--gold);
-  line-height: 1; margin-bottom: 8px;
+  font-size: clamp(32px, 3.5vw, 50px);
+  font-weight: 300; line-height: 1.12;
+  color: var(--bone); margin-bottom: 28px;
 }
-.credential-label {
+.ed-headline em { font-style: italic; }
+.ed-body {
+  font-size: 14px; line-height: 1.9;
+  color: var(--bone-dim); margin-bottom: 20px;
+}
+.ed-pullquote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 300; font-style: italic;
+  color: var(--bone);
+  line-height: 1.35;
+  padding: 40px 0 40px 28px;
+  border-left: 2px solid var(--gold);
+  margin: 40px 0;
+}
+.ed-pullquote cite {
+  display: block; margin-top: 14px;
   font-family: 'Raleway', sans-serif;
   font-size: 9px; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--bone-dim);
+  font-style: normal;
 }
 
-/* ── PHYSICIAN PROFILE ── */
-.profile-feature {
+/* ─── CREDENTIALS ROW inside editorial ─── */
+.ed-creds {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 80vh;
-  border-bottom: 1px solid var(--border-bone);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--border-bone);
+  border: 1px solid var(--border-bone);
+  margin: 48px 0;
 }
-.profile-image-pane {
-  position: relative; overflow: hidden;
+.ed-cred-cell {
+  background: var(--ink);
+  padding: 24px 28px;
 }
-.profile-image-pane img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  filter: brightness(0.5) saturate(0.5) sepia(0.15);
+.ed-cred-val {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 30px; font-weight: 300; color: var(--gold);
+  line-height: 1; margin-bottom: 5px;
 }
-.profile-image-pane::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, var(--ink) 0%, transparent 50%),
-              linear-gradient(to right, transparent 60%, var(--ink) 100%);
-}
-.profile-image-caption {
-  position: absolute; bottom: 40px; left: 40px; z-index: 2;
+.ed-cred-label {
   font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.22em;
+  font-size: 8px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--bone-dim);
 }
-.profile-text-pane {
-  padding: 80px 72px 80px 64px;
-  display: flex; flex-direction: column; justify-content: center;
-  border-left: 1px solid var(--border-bone);
+
+/* ─── FULL-BLEED BREAK ─── */
+.bleed {
+  width: 100%; height: 480px;
+  position: relative; overflow: hidden;
 }
-.profile-eyebrow {
+.bleed img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.48) saturate(0.5) sepia(0.1);
+}
+.bleed-caption {
+  position: absolute; bottom: 28px; right: 36px;
   font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: var(--gold);
+  font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--bone-dim);
+}
+
+/* ─── PRESS CLIPPINGS ─── */
+.press-clippings {
+  max-width: 680px; margin: 0 auto;
+  padding: 0 64px 80px;
+}
+.clipping {
+  border-top: 1px solid var(--border-bone);
+  padding: 28px 0;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0 32px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.clipping:last-child { border-bottom: 1px solid var(--border-bone); }
+.clipping-outlet {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px; font-weight: 400; color: var(--bone-dim);
+  align-self: start;
+  padding-top: 2px;
+}
+.clipping-headline {
+  font-size: 13px; line-height: 1.65; color: var(--bone-dim);
+}
+.clipping-headline strong {
+  font-weight: 400; color: var(--bone); font-style: italic;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+}
+
+/* ─── SERVICES TABLE ─── */
+.services-table {
+  max-width: 680px; margin: 0 auto;
+  padding: 0 64px 80px;
+}
+.services-table-header {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
   margin-bottom: 32px;
 }
-.profile-name {
+.services-table-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(36px, 3.8vw, 54px);
-  font-weight: 300; line-height: 1.1;
-  color: var(--bone); margin-bottom: 6px;
+  font-size: 28px; font-weight: 300; font-style: italic;
+  color: var(--bone);
 }
-.profile-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 16px; font-style: italic;
-  color: var(--bone-dim); margin-bottom: 40px;
-}
-.profile-divider {
-  width: 40px; height: 1px;
-  background: var(--gold); margin-bottom: 32px;
-}
-.profile-bio {
-  font-size: 14px; line-height: 1.9;
-  color: var(--bone-dim); margin-bottom: 40px;
-}
-.profile-credentials {
-  display: flex; flex-direction: column; gap: 12px;
-}
-.profile-cred-row {
-  display: flex; gap: 16px; align-items: flex-start;
-}
-.profile-cred-dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--gold); margin-top: 7px; flex-shrink: 0;
-}
-.profile-cred-text {
+.services-table-note {
   font-family: 'Raleway', sans-serif;
-  font-size: 11px; letter-spacing: 0.06em;
-  color: var(--bone-dim); line-height: 1.5;
+  font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--bone-dim);
 }
-
-/* ── PRESS MOSAIC ── */
-.press-section {
-  padding: 100px 52px;
-  border-bottom: 1px solid var(--border-bone);
-}
-.press-header {
-  display: flex; align-items: baseline; gap: 24px;
-  margin-bottom: 60px;
-}
-.press-header-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: var(--gold);
-  white-space: nowrap;
-}
-.press-header-line {
-  flex: 1; height: 1px; background: var(--border);
-}
-.press-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 1px;
-  background: var(--border-bone);
-}
-.press-cell {
-  background: var(--ink);
-  padding: 40px;
-}
-.press-cell.featured {
-  grid-row: 1 / 3;
-  padding: 52px;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 320px;
-  position: relative; overflow: hidden;
-}
-.press-cell.featured::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--gold-ghost) 0%, transparent 60%);
-}
-.press-outlet {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22px; font-weight: 400;
-  color: var(--bone); margin-bottom: 12px;
-  position: relative; z-index: 1;
-}
-.press-headline {
-  font-size: 12px; line-height: 1.7;
-  color: var(--bone-dim); position: relative; z-index: 1;
-}
-.press-small-outlet {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 18px; font-weight: 400;
-  color: var(--bone); margin-bottom: 8px;
-}
-.press-small-headline {
-  font-size: 11px; line-height: 1.6;
-  color: var(--bone-dim);
-}
-
-/* ── SERVICES EDITORIAL ── */
-.services-section {
-  padding: 100px 52px;
-  border-bottom: 1px solid var(--border-bone);
-}
-.services-header-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 64px;
-  margin-bottom: 72px;
-  align-items: end;
-}
-.services-sidebar-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: var(--gold);
-  line-height: 1.8;
-}
-.services-headline {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(32px, 3.5vw, 52px);
-  font-weight: 300; font-style: italic;
-  line-height: 1.15; color: var(--bone);
-}
-.services-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--border-bone);
-}
-.service-row {
-  padding: 28px 32px;
-  border-bottom: 1px solid var(--border-bone);
-  border-right: 1px solid var(--border-bone);
-  cursor: pointer;
-  transition: background 0.25s;
-  display: grid; grid-template-columns: 28px 1fr;
-  gap: 0 20px; align-items: center;
-}
-.service-row:nth-child(3n) { border-right: none; }
-.service-row:hover { background: var(--bone-ghost); }
-.service-number {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 13px; color: var(--gold); font-weight: 400;
-}
-.service-name {
-  font-family: 'Raleway', sans-serif;
-  font-size: 11px; letter-spacing: 0.08em;
-  color: var(--bone-dim);
-}
-
-/* ── CONCIERGE MODEL ── */
-.concierge-section {
+.services-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+  border-top: 1px solid var(--border-bone);
+}
+.svc {
+  padding: 12px 0;
   border-bottom: 1px solid var(--border-bone);
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px; letter-spacing: 0.06em;
+  color: var(--bone-dim);
+  cursor: pointer; transition: color 0.2s;
+  display: flex; align-items: center; gap: 10px;
 }
-.concierge-image-pane {
+.svc:hover { color: var(--bone); }
+.svc-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+
+/* ─── CONCIERGE SPECS ─── */
+.specs-section {
+  max-width: 680px; margin: 0 auto;
+  padding: 0 64px 80px;
+}
+.specs-headline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 300; line-height: 1.1;
+  color: var(--bone); margin-bottom: 40px;
+}
+.specs-headline em { font-style: italic; }
+.specs-table { width: 100%; border-collapse: collapse; }
+.specs-table tr { border-bottom: 1px solid var(--border-bone); }
+.specs-table td { padding: 16px 0; font-size: 13px; vertical-align: top; }
+.specs-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--bone-dim);
+  width: 38%; padding-right: 24px; padding-top: 18px;
+}
+.specs-value { color: var(--bone); font-weight: 400; }
+
+/* ─── CLOSING ─── */
+.closing {
   position: relative; overflow: hidden;
-  min-height: 500px;
+  min-height: 520px;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 100px 64px;
 }
-.concierge-image-pane img {
+.closing img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: brightness(0.45) saturate(0.55) sepia(0.12);
+  filter: brightness(0.25) saturate(0.4) sepia(0.15);
 }
-.concierge-image-pane::after {
+.closing::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(to right, transparent 50%, var(--ink) 100%);
+  background: rgba(10,10,11,0.6);
 }
-.concierge-text-pane {
-  padding: 80px 72px 80px 64px;
-  border-left: 1px solid var(--border-bone);
-  display: flex; flex-direction: column; justify-content: center;
-}
-.concierge-eyebrow {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: var(--gold);
-  margin-bottom: 28px;
-}
-.concierge-headline {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(32px, 3.2vw, 48px);
-  font-weight: 300; line-height: 1.15;
-  color: var(--bone); margin-bottom: 40px;
-}
-.concierge-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 48px;
-}
-.concierge-table tr {
-  border-bottom: 1px solid var(--border-bone);
-}
-.concierge-table td {
-  padding: 14px 0;
-  font-size: 13px; vertical-align: top;
-}
-.concierge-table .td-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--bone-dim);
-  width: 44%; padding-right: 24px;
-  padding-top: 16px;
-}
-.concierge-table .td-value { color: var(--bone); font-weight: 400; }
-.concierge-cta {
-  display: inline-flex; align-items: center; gap: 14px;
-  cursor: pointer; background: none; border: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--bone);
-  transition: color 0.2s; padding: 0;
-}
-.concierge-cta:hover { color: var(--gold); }
-.concierge-cta-arrow { transition: transform 0.25s; display: inline-block; }
-.concierge-cta:hover .concierge-cta-arrow { transform: translateX(6px); }
-
-/* ── CLOSING INQUIRY ── */
-.closing-section {
-  padding: 140px 52px;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.closing-section::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, var(--gold-ghost) 0%, transparent 70%);
-  pointer-events: none;
+.closing-content {
+  position: relative; z-index: 1;
+  max-width: 480px;
 }
 .closing-roman {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 11px; letter-spacing: 0.32em;
+  font-size: 11px; letter-spacing: 0.4em;
   text-transform: uppercase; color: var(--gold);
-  margin-bottom: 40px; display: block;
+  display: block; margin-bottom: 28px;
 }
 .closing-headline {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: clamp(36px, 4.5vw, 60px);
   font-weight: 300; line-height: 1.1;
-  color: var(--bone);
-  max-width: 720px; margin: 0 auto 24px;
+  color: var(--bone); margin-bottom: 20px;
 }
 .closing-headline em { font-style: italic; }
-.closing-subtext {
-  font-size: 14px; line-height: 1.8;
-  color: var(--bone-dim);
-  max-width: 440px; margin: 0 auto 52px;
+.closing-sub {
+  font-size: 13px; line-height: 1.8;
+  color: var(--bone-dim); margin-bottom: 40px;
 }
-.closing-actions {
-  display: flex; gap: 20px;
-  align-items: center; justify-content: center;
-}
-.btn-primary {
+.closing-btn {
   font-family: 'Raleway', sans-serif;
   font-size: 10px; letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink); background: var(--gold);
-  border: none; padding: 16px 36px;
+  border: none; padding: 16px 40px;
   cursor: pointer; transition: opacity 0.2s;
 }
-.btn-primary:hover { opacity: 0.85; }
-.btn-ghost {
-  font-family: 'Raleway', sans-serif;
-  font-size: 10px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--bone-dim);
-  background: none; border: 1px solid var(--border-bone);
-  padding: 16px 36px; cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-}
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+.closing-btn:hover { opacity: 0.85; }
 
-/* ── FOOTER ── */
+/* ─── FOOTER ─── */
 footer {
   border-top: 1px solid var(--border-bone);
-  padding: 36px 52px;
+  padding: 28px 64px;
   display: flex; align-items: center; justify-content: space-between;
-}
-.footer-left {
-  display: flex; align-items: center; gap: 12px;
-}
-.footer-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--gold);
-}
-.footer-text {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--bone-dim);
+  background: var(--surface);
 }
 .footer-link {
   font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.2em;
+  font-size: 9px; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--gold);
-  text-decoration: none; cursor: pointer;
-  transition: opacity 0.2s;
+  text-decoration: none;
 }
-.footer-link:hover { opacity: 0.7; }
-.copyright {
+.footer-copy {
   font-family: 'Raleway', sans-serif;
-  font-size: 9px; letter-spacing: 0.12em;
+  font-size: 9px; letter-spacing: 0.1em;
   color: var(--bone-dim);
 }
 
-/* ── RESPONSIVE ── */
+/* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
-  nav { padding: 20px 24px; }
-  .nav-right { display: none; }
+  .shell { flex-direction: column; }
 
-  .opening { grid-template-columns: 1fr; min-height: 100svh; }
-  .opening-image-col {
-    position: absolute; inset: 0; z-index: 0; order: 1;
+  .sidebar {
+    width: 100%; height: auto; position: static;
+    flex-direction: row; flex-wrap: wrap;
+    padding: 24px 24px 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-bone);
+    gap: 16px 0;
   }
-  .opening-image-col::after {
-    background: linear-gradient(to top, var(--ink) 20%, rgba(10,10,11,0.65) 100%);
+  .sidebar-gold-bar { display: none; }
+  .sidebar-practice { font-size: 18px; margin-bottom: 0; }
+  .sidebar-location { margin-bottom: 0; }
+  .sidebar-divider { display: none; }
+  .sidebar-physician { display: none; }
+  .sidebar-name { display: none; }
+  .sidebar-stats {
+    flex-direction: row; gap: 20px;
+    width: 100%; margin-bottom: 0;
   }
-  .opening-text-col {
-    position: relative; z-index: 1; order: 2;
-    padding: 120px 28px 80px;
-    min-height: 100svh; justify-content: flex-end;
-  }
-  .opening-standfirst { max-width: 100%; }
+  .stat-val { font-size: 18px; }
+  .sidebar-spacer { display: none; }
+  .sidebar-nav { display: none; }
+  .sidebar-btn { width: auto; padding: 12px 24px; }
 
-  .pull-quote-section {
-    grid-template-columns: 1fr;
-    padding: 72px 28px; gap: 0;
-  }
-  .pull-quote-label {
-    writing-mode: horizontal-tb; transform: none;
-    border-right: none; border-bottom: 1px solid var(--border);
-    padding-right: 0; padding-bottom: 16px; margin-bottom: 32px;
-  }
-
-  .credentials-strip { grid-template-columns: 1fr 1fr; }
-  .credential-cell { padding: 28px 24px; }
-  .credential-cell:nth-child(2n) { border-right: none; }
-  .credential-cell:nth-child(n+3) { border-top: 1px solid var(--border-bone); }
-
-  .profile-feature { grid-template-columns: 1fr; }
-  .profile-image-pane { min-height: 320px; }
-  .profile-text-pane { padding: 52px 28px; border-left: none; border-top: 1px solid var(--border-bone); }
-
-  .press-section { padding: 72px 28px; }
-  .press-grid { grid-template-columns: 1fr 1fr; }
-  .press-cell.featured { grid-row: auto; min-height: 240px; grid-column: 1 / -1; }
-
-  .services-section { padding: 72px 28px; }
-  .services-header-row { grid-template-columns: 1fr; gap: 20px; }
-  .services-list { grid-template-columns: 1fr 1fr; }
-  .service-row:nth-child(3n) { border-right: 1px solid var(--border-bone); }
-  .service-row:nth-child(2n) { border-right: none; }
-
-  .concierge-section { grid-template-columns: 1fr; }
-  .concierge-image-pane { min-height: 260px; }
-  .concierge-text-pane { padding: 52px 28px; border-left: none; border-top: 1px solid var(--border-bone); }
-
-  .closing-section { padding: 100px 28px; }
-  .closing-actions { flex-direction: column; }
-  .btn-primary, .btn-ghost { width: 100%; }
-
-  footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 24px; }
+  .cover-text { left: 24px; right: 24px; bottom: 52px; }
+  .cover-scroll-hint { display: none; }
+  .editorial { padding: 64px 28px; }
+  .press-clippings { padding: 0 28px 60px; }
+  .clipping { grid-template-columns: 1fr; gap: 6px; }
+  .services-table { padding: 0 28px 60px; }
+  .services-cols { grid-template-columns: 1fr; }
+  .specs-section { padding: 0 28px 60px; }
+  .closing { padding: 80px 28px; min-height: 420px; }
+  footer { padding: 24px 28px; flex-direction: column; gap: 12px; text-align: center; }
 }
 </style>
 </head>
@@ -658,203 +529,193 @@ footer {
     <div class="modal-title">This is a preview.</div>
     <div class="modal-body">This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</div>
     <a href="https://velocity.calyvent.com" target="_blank" rel="noopener" class="modal-link">velocity.calyvent.com</a>
-    <div class="modal-progress"><div class="modal-progress-bar"></div></div>
+    <div class="modal-bar"><div class="modal-bar-fill"></div></div>
   </div>
 </div>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="nav-wordmark" onclick="openModal()">Liondale <span>Medical</span></div>
-  <div class="nav-right" onclick="openModal()">Request Membership Inquiry</div>
-</nav>
+<!-- LAYOUT SHELL -->
+<div class="shell">
 
-<!-- OPENING: image RIGHT, text LEFT (reversed from previous previews) -->
-<section class="opening">
-  <div class="opening-image-col">
-    <img src="assets/hero.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
-  </div>
-  <div class="opening-text-col">
-    <div class="opening-issue">Private Concierge Medicine — Upper West Side, New York</div>
-    <h1 class="opening-headline">
-      Medicine<br />practiced as<br /><em>a discipline.</em>
-    </h1>
-    <p class="opening-standfirst">
-      Dr. Lionel M.S. Bissoon introduced mesotherapy to the United States. He trained virtually every certified practitioner in the country. He sees ten patients a day, by appointment only. He has never needed volume.
-    </p>
-    <button class="opening-cta" onclick="openModal()">
-      <span class="opening-cta-line"></span>
-      Request an Inquiry
-    </button>
-  </div>
-</section>
+  <!-- STICKY SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-gold-bar"></div>
+    <div class="sidebar-practice">Liondale<br />Medical</div>
+    <div class="sidebar-location">Upper West Side · New York</div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-physician">Founder &amp; Sole Physician</div>
+    <div class="sidebar-name">Dr. Lionel M.S.<br />Bissoon, D.O.</div>
+    <div class="sidebar-stats">
+      <div class="stat"><div class="stat-val">10</div><div class="stat-label">Patients / day</div></div>
+      <div class="stat"><div class="stat-val">2hr</div><div class="stat-label">Initial consult</div></div>
+      <div class="stat"><div class="stat-val">5.0★</div><div class="stat-label">41 reviews</div></div>
+      <div class="stat"><div class="stat-val">25+</div><div class="stat-label">PubMed citations</div></div>
+    </div>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-nav">
+      <button class="sidebar-nav-item" onclick="openModal()">The Practice</button>
+      <button class="sidebar-nav-item" onclick="openModal()">The Physician</button>
+      <button class="sidebar-nav-item" onclick="openModal()">Press</button>
+      <button class="sidebar-nav-item" onclick="openModal()">Services</button>
+      <button class="sidebar-nav-item" onclick="openModal()">Membership</button>
+    </div>
+    <button class="sidebar-btn" onclick="openModal()">Begin Inquiry</button>
+  </aside>
 
-<!-- NYT PULL QUOTE — typographic centrepiece -->
-<section class="pull-quote-section">
-  <div class="pull-quote-label">The New York Times</div>
-  <div>
-    <span class="pull-quote-mark">"</span>
-    <blockquote class="pull-quote-text">A well-known society doctor with an office off Central Park West.</blockquote>
-    <div class="pull-quote-attribution">The New York Times — Society &amp; Medicine</div>
-  </div>
-</section>
+  <!-- SCROLLING MAIN -->
+  <main class="main">
 
-<!-- CREDENTIALS STRIP -->
-<div class="credentials-strip">
-  <div class="credential-cell">
-    <div class="credential-number">10</div>
-    <div class="credential-label">Patients per day, maximum</div>
-  </div>
-  <div class="credential-cell">
-    <div class="credential-number">2hr</div>
-    <div class="credential-label">Initial consultation length</div>
-  </div>
-  <div class="credential-cell">
-    <div class="credential-number">25+</div>
-    <div class="credential-label">PubMed-indexed citations</div>
-  </div>
-  <div class="credential-cell">
-    <div class="credential-number">5.0</div>
-    <div class="credential-label">Stars across 41 verified reviews</div>
-  </div>
+    <!-- COVER -->
+    <div class="cover">
+      <img src="assets/hero.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+      <div class="cover-overlay"></div>
+      <div class="cover-text">
+        <div class="cover-issue">Private Concierge Medicine · Est. 2011</div>
+        <h1 class="cover-headline">Medicine<br />as it was<br /><em>meant to be.</em></h1>
+      </div>
+      <div class="cover-scroll-hint">Scroll</div>
+    </div>
+
+    <!-- EDITORIAL — THE PRACTICE -->
+    <div class="editorial">
+      <div class="ed-eyebrow">The Practice</div>
+      <h2 class="ed-headline">Not a high-volume practice.<br /><em>A high-quality one.</em></h2>
+      <p class="ed-body">
+        Dr. Lionel M.S. Bissoon sees ten patients a day. That is not a limitation — it is the entire point. Every initial consultation runs two hours. Every follow-up is direct. There are no nurse practitioners standing between you and the physician. No intake queues. No automated follow-ups.
+      </p>
+      <p class="ed-body">
+        The practice opened in 2011 in a suite off Central Park West, Upper West Side. It has not needed to advertise. The New York Times, the Financial Times, Forbes, and the NY Post have written about it. The patients who find it tend to stay.
+      </p>
+
+      <div class="ed-pullquote">
+        "A well-known society doctor with an office off Central Park West."
+        <cite>— The New York Times</cite>
+      </div>
+
+      <div class="ed-creds">
+        <div class="ed-cred-cell"><div class="ed-cred-val">D.O.</div><div class="ed-cred-label">Physical Medicine &amp; Rehabilitation</div></div>
+        <div class="ed-cred-cell"><div class="ed-cred-val">USAF</div><div class="ed-cred-label">Former Flight Surgeon</div></div>
+        <div class="ed-cred-cell"><div class="ed-cred-val">25+</div><div class="ed-cred-label">PubMed-indexed citations</div></div>
+        <div class="ed-cred-cell"><div class="ed-cred-val">US #1</div><div class="ed-cred-label">Introduced mesotherapy to America</div></div>
+      </div>
+
+      <p class="ed-body">
+        Dr. Bissoon trained virtually every certified mesotherapist now practicing in the United States. He has appeared on Dave Asprey's Bulletproof Radio, in the Financial Times on hormone optimization, and in the NY Post's coverage of longevity medicine among Wall Street and technology executives. He has 25 indexed research publications. He takes ten patients a day by choice.
+      </p>
+    </div>
+
+    <!-- FULL-BLEED IMAGE BREAK -->
+    <div class="bleed">
+      <img src="assets/vials.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+      <div class="bleed-caption">Precision-compounded peptide protocols</div>
+    </div>
+
+    <!-- PRESS CLIPPINGS -->
+    <div class="press-clippings">
+      <div class="editorial" style="padding-bottom: 40px; padding-top: 80px;">
+        <div class="ed-eyebrow">As Covered In</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">New York Times</div>
+        <div class="clipping-headline"><strong>"A well-known society doctor with an office off Central Park West"</strong> — profiled on HCG, mesotherapy, and longevity medicine in New York</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">Financial Times</div>
+        <div class="clipping-headline"><strong>"Keep Taking the Testosterone"</strong> — integrative hormone therapy and anti-aging medicine for executives</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">Forbes</div>
+        <div class="clipping-headline"><strong>"How Concierge Medicine Saved My Life"</strong> — the case for direct-care practices and the physicians who run them</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">NY Post</div>
+        <div class="clipping-headline"><strong>"How Wall Street and tech bros are staying forever young"</strong> — featuring Dr. Bissoon and longevity protocols in New York</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">Bulletproof Radio</div>
+        <div class="clipping-headline"><strong>Episode 385 with Dave Asprey</strong> — COMT gene methylation, mesotherapy, peptide therapy, and the science of biological age reversal</div>
+      </div>
+      <div class="clipping" onclick="openModal()">
+        <div class="clipping-outlet">Good Morning America / ABC</div>
+        <div class="clipping-headline">Television segments on mesotherapy, fat reduction, and non-surgical body treatments</div>
+      </div>
+    </div>
+
+    <!-- SERVICES TABLE -->
+    <div class="services-table">
+      <div class="editorial" style="padding-bottom: 40px; padding-top: 0;">
+        <div class="ed-eyebrow">Protocol Menu</div>
+      </div>
+      <div class="services-table-header">
+        <div class="services-table-title">What we treat.</div>
+        <div class="services-table-note">By appointment only</div>
+      </div>
+      <div class="services-cols">
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Concierge Wellness Program</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Longevity &amp; Anti-Aging</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Peptide Therapy</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>BHRT — Bioidentical Hormones</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Regenerative Medicine</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Medical Ozone — 10-Pass</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>IV Therapy &amp; NAD+</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Therapeutic Plasma Exchange</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Men's Health &amp; Testosterone</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Menopause &amp; Female Health</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Weight Loss &amp; Metabolic Support</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>PRP &amp; Hair Restoration</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Gut Health Optimization</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Food Sensitivity &amp; Toxin Testing</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>Detox &amp; Environmental Protocols</div>
+        <div class="svc" onclick="openModal()"><div class="svc-dot"></div>HCG Diet &amp; Weight Protocols</div>
+      </div>
+    </div>
+
+    <!-- CONCIERGE SPECS -->
+    <div class="specs-section">
+      <div class="editorial" style="padding-bottom: 40px; padding-top: 0;">
+        <div class="ed-eyebrow">The Model</div>
+      </div>
+      <div class="specs-headline">Built for depth.<br /><em>Not throughput.</em></div>
+      <table class="specs-table">
+        <tr><td class="specs-label">Patients per day</td><td class="specs-value">Ten, maximum — by design</td></tr>
+        <tr><td class="specs-label">Initial consultation</td><td class="specs-value">Two hours with Dr. Bissoon directly</td></tr>
+        <tr><td class="specs-label">Ongoing access</td><td class="specs-value">Unlimited appointments, membership model</td></tr>
+        <tr><td class="specs-label">Insurance</td><td class="specs-value">Not accepted — direct care only</td></tr>
+        <tr><td class="specs-label">Intermediaries</td><td class="specs-value">None — no PAs, no NPs, no delegation</td></tr>
+        <tr><td class="specs-label">Location</td><td class="specs-value">10 West 74th Street, Suite 1E · Upper West Side</td></tr>
+      </table>
+    </div>
+
+    <!-- CLOSING WITH BACKGROUND IMAGE -->
+    <div class="closing">
+      <img src="assets/room.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+      <div class="closing-content">
+        <span class="closing-roman">I.</span>
+        <h2 class="closing-headline">Ten patients.<br /><em>The next could<br />be you.</em></h2>
+        <p class="closing-sub">Inquiries are handled personally by the practice. No forms. No automated responses.</p>
+        <button class="closing-btn" onclick="openModal()">Begin Your Inquiry</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <a href="https://velocity.calyvent.com" target="_blank" rel="noopener" class="footer-link">Velocity by Calyvent</a>
+      <div class="footer-copy">© 2026 Velocity by Calyvent. All rights reserved.</div>
+    </footer>
+
+  </main>
 </div>
-
-<!-- PHYSICIAN PROFILE — image left, text right -->
-<section class="profile-feature">
-  <div class="profile-image-pane">
-    <img src="assets/vials.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
-    <div class="profile-image-caption">Regenerative protocols — precision-compounded</div>
-  </div>
-  <div class="profile-text-pane">
-    <div class="profile-eyebrow">The Physician</div>
-    <h2 class="profile-name">Dr. Lionel M.S. Bissoon, D.O.</h2>
-    <div class="profile-title">Founder — Physical Medicine &amp; Rehabilitation</div>
-    <div class="profile-divider"></div>
-    <p class="profile-bio">
-      Former U.S. Air Force flight surgeon. The physician who brought mesotherapy to American medicine and built the training standard every certified practitioner now follows. A concierge practice since 2011 — by design. Direct access. No intermediaries. No volume.
-    </p>
-    <div class="profile-credentials">
-      <div class="profile-cred-row"><div class="profile-cred-dot"></div><div class="profile-cred-text">Doctor of Osteopathic Medicine — Physical Medicine &amp; Rehabilitation</div></div>
-      <div class="profile-cred-row"><div class="profile-cred-dot"></div><div class="profile-cred-text">Former USAF Flight Surgeon</div></div>
-      <div class="profile-cred-row"><div class="profile-cred-dot"></div><div class="profile-cred-text">Introduced mesotherapy to the United States — trained the national standard</div></div>
-      <div class="profile-cred-row"><div class="profile-cred-dot"></div><div class="profile-cred-text">25+ PubMed-indexed research citations</div></div>
-      <div class="profile-cred-row"><div class="profile-cred-dot"></div><div class="profile-cred-text">Featured: NYT · FT · Forbes · NY Post · GMA · Bulletproof Radio</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRESS MOSAIC — editorial grid, not a logo strip -->
-<section class="press-section">
-  <div class="press-header">
-    <div class="press-header-label">As Covered In</div>
-    <div class="press-header-line"></div>
-  </div>
-  <div class="press-grid">
-    <div class="press-cell featured">
-      <div class="press-outlet">The New York Times</div>
-      <div class="press-headline">"A well-known society doctor with an office off Central Park West" — profiled on mesotherapy and longevity medicine</div>
-    </div>
-    <div class="press-cell">
-      <div class="press-small-outlet">Financial Times</div>
-      <div class="press-small-headline">"Keep Taking the Testosterone" — integrative medicine and hormone optimization</div>
-    </div>
-    <div class="press-cell">
-      <div class="press-small-outlet">Forbes</div>
-      <div class="press-small-headline">"How Concierge Medicine Saved My Life"</div>
-    </div>
-    <div class="press-cell">
-      <div class="press-small-outlet">NY Post</div>
-      <div class="press-small-headline">"How Wall Street and tech bros are staying forever young"</div>
-    </div>
-    <div class="press-cell">
-      <div class="press-small-outlet">Bulletproof Radio</div>
-      <div class="press-small-headline">Episode 385 with Dave Asprey — COMT gene, peptide therapy, longevity protocols</div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES — numbered editorial list, not cards -->
-<section class="services-section">
-  <div class="services-header-row">
-    <div class="services-sidebar-label">The Practice<br />Protocol Menu</div>
-    <h2 class="services-headline">Every intervention is<br />selected for one patient.<br /><em>Yours.</em></h2>
-  </div>
-  <div class="services-list">
-    <div class="service-row" onclick="openModal()"><div class="service-number">01</div><div class="service-name">Concierge Wellness Program</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">02</div><div class="service-name">Longevity &amp; Anti-Aging</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">03</div><div class="service-name">Peptide Therapy</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">04</div><div class="service-name">BHRT — Bioidentical Hormones</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">05</div><div class="service-name">Regenerative Medicine</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">06</div><div class="service-name">Medical Ozone Therapy (10-Pass)</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">07</div><div class="service-name">IV Therapy &amp; NAD+</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">08</div><div class="service-name">Therapeutic Plasma Exchange (EBO2)</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">09</div><div class="service-name">Men's Health &amp; Testosterone</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">10</div><div class="service-name">Menopause &amp; Female Health</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">11</div><div class="service-name">Weight Loss &amp; Metabolic Support</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">12</div><div class="service-name">PRP &amp; Hair Restoration</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">13</div><div class="service-name">Gut Health Optimization</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">14</div><div class="service-name">Food Sensitivity &amp; Toxin Testing</div></div>
-    <div class="service-row" onclick="openModal()"><div class="service-number">15</div><div class="service-name">Detox &amp; Environmental Protocols</div></div>
-  </div>
-</section>
-
-<!-- CONCIERGE MODEL — image left, structured data table right -->
-<section class="concierge-section">
-  <div class="concierge-image-pane">
-    <img src="assets/room.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
-  </div>
-  <div class="concierge-text-pane">
-    <div class="concierge-eyebrow">The Model</div>
-    <h2 class="concierge-headline">Built for depth.<br />Not throughput.</h2>
-    <table class="concierge-table">
-      <tr><td class="td-label">Patients per day</td><td class="td-value">Ten, maximum</td></tr>
-      <tr><td class="td-label">Initial consultation</td><td class="td-value">Two hours, with Dr. Bissoon</td></tr>
-      <tr><td class="td-label">Ongoing access</td><td class="td-value">Unlimited appointments (membership)</td></tr>
-      <tr><td class="td-label">Insurance</td><td class="td-value">Not accepted — direct care</td></tr>
-      <tr><td class="td-label">Intermediaries</td><td class="td-value">None — no PAs, no NPs</td></tr>
-      <tr><td class="td-label">Location</td><td class="td-value">10 West 74th St, Suite 1E — Upper West Side</td></tr>
-    </table>
-    <button class="concierge-cta" onclick="openModal()">
-      Inquire About Membership
-      <span class="concierge-cta-arrow">→</span>
-    </button>
-  </div>
-</section>
-
-<!-- CLOSING INQUIRY -->
-<section class="closing-section">
-  <span class="closing-roman">I.</span>
-  <h2 class="closing-headline">Ten patients.<br /><em>The next could be you.</em></h2>
-  <p class="closing-subtext">Membership inquiries are handled personally. No intake forms. No automated responses. If there is availability, Dr. Bissoon's office will be in touch directly.</p>
-  <div class="closing-actions">
-    <button class="btn-primary" onclick="openModal()">Begin Your Inquiry</button>
-    <button class="btn-ghost" onclick="openModal()">View Practice Philosophy</button>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-left">
-    <div class="footer-dot"></div>
-    <span class="footer-text">Designed by&nbsp;</span>
-    <a href="https://velocity.calyvent.com" target="_blank" rel="noopener" class="footer-link">Velocity by Calyvent</a>
-  </div>
-  <div class="copyright">© 2026 Velocity by Calyvent. All rights reserved.</div>
-</footer>
 
 <script>
 function openModal() {
-  const overlay = document.getElementById('modal');
-  overlay.classList.add('active');
-  clearTimeout(window._modalTimer);
-  window._modalTimer = setTimeout(() => overlay.classList.remove('active'), 5000);
+  const o = document.getElementById('modal');
+  o.classList.add('active');
+  clearTimeout(window._mt);
+  window._mt = setTimeout(() => o.classList.remove('active'), 5000);
 }
 function closeModal() {
   document.getElementById('modal').classList.remove('active');
-  clearTimeout(window._modalTimer);
+  clearTimeout(window._mt);
 }
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-});
 </script>
 </body>
 </html>
