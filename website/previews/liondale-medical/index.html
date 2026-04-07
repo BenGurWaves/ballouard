@@ -94,7 +94,7 @@ body {
 /* ─── LAYOUT SHELL ─── */
 .shell {
   display: flex;
-  min-height: 100vh;
+  align-items: flex-start;
 }
 
 /* ─── SIDEBAR ─── */
@@ -189,8 +189,9 @@ body {
   min-width: 0;
 }
 
-/* ─── COVER — full viewport image with text pinned bottom-left ─── */
+/* ─── COVER — true full-viewport, outside the shell ─── */
 .cover {
+  width: 100vw;
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -533,6 +534,17 @@ footer {
   </div>
 </div>
 
+<!-- COVER — full viewport, outside shell -->
+<div class="cover">
+  <img src="assets/hero.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+  <div class="cover-overlay"></div>
+  <div class="cover-text">
+    <div class="cover-issue">Private Concierge Medicine · Est. 2011</div>
+    <h1 class="cover-headline">Medicine<br />as it was<br /><em>meant to be.</em></h1>
+  </div>
+  <div class="cover-scroll-hint">Scroll</div>
+</div>
+
 <!-- LAYOUT SHELL -->
 <div class="shell">
 
@@ -563,17 +575,6 @@ footer {
 
   <!-- SCROLLING MAIN -->
   <main class="main">
-
-    <!-- COVER -->
-    <div class="cover">
-      <img src="assets/hero.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
-      <div class="cover-overlay"></div>
-      <div class="cover-text">
-        <div class="cover-issue">Private Concierge Medicine · Est. 2011</div>
-        <h1 class="cover-headline">Medicine<br />as it was<br /><em>meant to be.</em></h1>
-      </div>
-      <div class="cover-scroll-hint">Scroll</div>
-    </div>
 
     <!-- EDITORIAL — THE PRACTICE -->
     <div class="editorial">
