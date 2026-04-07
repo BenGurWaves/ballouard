@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://velocity.calyvent.com/previews/aspenzglimo">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,28 +27,33 @@
     </script>
     <style>
         :root {
-            --ink: #0A0A0B;
-            --ink-soft: #111113;
-            --surface: #101011;
-            --paper: #E8E4DB;
-            --paper-dim: rgba(232, 228, 219, 0.55);
-            --line: rgba(232, 228, 219, 0.12);
-            --border-modal: rgba(234, 224, 207, 0.09);
-            --taupe: #8B7E6A;
+            --ink: #0d0d0d;
+            --charcoal: #1a1a1a;
+            --ink-soft: #141414;
+            --cloud: #f0f0f0;
+            --cloud-dim: rgba(240, 240, 240, 0.48);
+            --bronze: #8f7e5f;
+            --line: rgba(240, 240, 240, 0.07);
+            --border-modal: rgba(240, 240, 240, 0.09);
             --brass: #B9943B;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'DM Sans', system-ui, sans-serif;
-            font-optical-sizing: auto;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-weight: 300;
             background-color: var(--ink);
-            color: var(--paper);
-            line-height: 1.65;
-            font-size: 1rem;
+            color: var(--cloud);
+            line-height: 1.7;
+            font-size: 0.875rem;
+            letter-spacing: 0.06em;
+            -webkit-font-smoothing: antialiased;
         }
-        .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+        .display {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
 
         nav {
             position: fixed;
@@ -61,18 +66,20 @@
             align-items: center;
             padding: 1.75rem clamp(1.5rem, 5vw, 4rem);
             border-bottom: 1px solid var(--line);
-            background: rgba(10, 10, 11, 0.78);
-            backdrop-filter: blur(14px);
+            background: rgba(13, 13, 13, 0.72);
+            backdrop-filter: blur(16px);
         }
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.125rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
             font-weight: 400;
-            letter-spacing: 0.22em;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--paper);
+            color: var(--cloud);
             text-decoration: none;
+            transition: color 0.1s ease;
         }
+        .logo:hover { color: var(--bronze); }
         .nav-links {
             display: flex;
             gap: clamp(1.25rem, 3vw, 2.25rem);
@@ -81,18 +88,17 @@
         .nav-links button {
             background: none;
             border: none;
-            color: var(--paper-dim);
+            color: var(--cloud-dim);
             font-family: inherit;
-            font-size: 0.6875rem;
+            font-size: 0.625rem;
             font-weight: 400;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: color 0.25s ease;
+            transition: color 0.1s ease;
         }
-        .nav-links button:hover { color: var(--paper); }
+        .nav-links button:hover { color: var(--cloud); }
 
-        /* Hero: image-dominant, flat scrim only (no gradients) */
         .hero {
             position: relative;
             min-height: 92vh;
@@ -103,81 +109,70 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background-image: url('assets/hero-lodge.png');
+            background-image: url('assets/hero-8k.png');
             background-size: cover;
-            background-position: center 42%;
+            background-position: center 40%;
         }
         .hero-scrim {
             position: absolute;
             inset: 0;
-            background: rgba(10, 10, 11, 0.52);
+            background: rgba(13, 13, 13, 0.48);
             pointer-events: none;
-        }
-        .hero-grain {
-            position: absolute;
-            inset: 0;
-            opacity: 0.035;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
         .hero-inner {
             position: relative;
             z-index: 1;
-            max-width: 26rem;
+            max-width: 28rem;
             text-align: left;
         }
         .hero-kicker {
             font-size: 0.5625rem;
-            letter-spacing: 0.42em;
+            letter-spacing: 0.38em;
             text-transform: uppercase;
-            color: var(--paper-dim);
-            margin-bottom: 1.75rem;
+            color: var(--cloud-dim);
+            margin-bottom: 1.5rem;
         }
         .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(2rem, 4.2vw, 3rem);
-            letter-spacing: 0.04em;
-            line-height: 1.12;
-            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
+            letter-spacing: 0.01em;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+            color: var(--cloud);
         }
         .hero h1 em {
             font-style: italic;
-            font-weight: 300;
-            color: var(--paper-dim);
-        }
-        .hero-line {
-            width: 2.5rem;
-            height: 1px;
-            background: var(--taupe);
-            margin-bottom: 1.5rem;
+            color: var(--cloud-dim);
         }
         .hero-sub {
-            font-size: 0.9375rem;
+            font-size: 0.8125rem;
             font-weight: 300;
-            color: var(--paper-dim);
-            max-width: 22rem;
-            line-height: 1.7;
+            color: var(--cloud-dim);
+            max-width: 24rem;
+            line-height: 1.75;
             margin-bottom: 2rem;
+            letter-spacing: 0.07em;
         }
         .cta {
             display: inline-block;
-            padding: 0.85rem 1.75rem;
-            border: 1px solid var(--line);
-            color: var(--paper);
+            padding: 1rem 2rem;
+            border: 1px solid rgba(143, 126, 95, 0.45);
+            color: var(--cloud);
             font-family: inherit;
-            font-size: 0.625rem;
+            font-size: 0.5625rem;
             font-weight: 400;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
             text-decoration: none;
             cursor: pointer;
             background: transparent;
-            transition: border-color 0.25s ease, background-color 0.25s ease;
+            transition: border-color 0.1s ease, color 0.1s ease, background-color 0.1s ease;
         }
         .cta:hover {
-            border-color: rgba(232, 228, 219, 0.35);
-            background: rgba(232, 228, 219, 0.04);
+            border-color: var(--bronze);
+            color: var(--bronze);
+            background: rgba(143, 126, 95, 0.06);
         }
 
         .section {
@@ -185,52 +180,60 @@
         }
 
         .intro {
-            background: var(--surface);
+            background: var(--charcoal);
         }
         .intro-grid {
-            max-width: 72rem;
+            max-width: 76rem;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
             gap: clamp(2rem, 8vw, 6rem);
             align-items: start;
         }
         .intro-label {
             font-size: 0.5625rem;
-            letter-spacing: 0.32em;
+            letter-spacing: 0.34em;
             text-transform: uppercase;
-            color: var(--paper-dim);
-            padding-top: 0.5rem;
+            color: var(--cloud-dim);
+            padding-top: 0.35rem;
         }
         .intro h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.75rem, 3vw, 2.35rem);
-            letter-spacing: 0.02em;
-            line-height: 1.28;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.65rem, 3vw, 2.5rem);
+            letter-spacing: 0.01em;
+            line-height: 1.3;
             margin-bottom: 2rem;
+            color: var(--cloud);
         }
         .intro h2 em {
             font-style: italic;
-            color: var(--paper-dim);
+            color: var(--cloud-dim);
         }
         .intro-body {
-            color: var(--paper-dim);
-            font-size: 1.0625rem;
+            color: var(--cloud-dim);
+            font-size: 0.8125rem;
             line-height: 1.85;
-            max-width: 38rem;
+            max-width: 36rem;
+            letter-spacing: 0.06em;
         }
 
-        /* Editorial strip: image + text, asymmetric */
+        .strip-block {
+            padding: clamp(5rem, 14vw, 10rem) clamp(1.5rem, 6vw, 5.5rem);
+            background: var(--ink);
+        }
         .strip {
             display: grid;
-            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-            gap: 0;
-            min-height: min(70vh, 38rem);
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: clamp(0.75rem, 1.25vw, 1rem);
+            min-height: min(68vh, 36rem);
+            max-width: 76rem;
+            margin: 0 auto;
         }
         .strip-visual {
-            min-height: 20rem;
-            border-right: 1px solid var(--line);
+            min-height: 18rem;
+            background: var(--charcoal);
+            overflow: hidden;
         }
         .strip-visual img {
             width: 100%;
@@ -240,161 +243,175 @@
             display: block;
         }
         .strip-copy {
-            padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+            background: var(--charcoal);
+            padding: clamp(3rem, 8vw, 5.5rem) clamp(2rem, 5vw, 4rem);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            max-width: 34rem;
         }
         .strip-copy h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.45rem, 2.5vw, 2.1rem);
             margin-bottom: 1.5rem;
-            letter-spacing: 0.03em;
+            color: var(--cloud);
         }
         .strip-copy p {
-            color: var(--paper-dim);
-            font-size: 1rem;
+            color: var(--cloud-dim);
+            font-size: 0.8125rem;
             line-height: 1.85;
+            letter-spacing: 0.06em;
+            max-width: 28rem;
         }
 
-        /* Services: vertical stack, not SaaS grid */
-        .services-head {
-            max-width: 72rem;
-            margin: 0 auto clamp(3rem, 6vw, 4rem);
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--line);
-        }
-        .services-head h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
-            letter-spacing: 0.04em;
-        }
-        .services-list {
-            max-width: 72rem;
+        /* Bento: itineraries */
+        .bento-wrap {
+            max-width: 76rem;
             margin: 0 auto;
         }
-        .service-row {
+        .bento-label {
+            font-size: 0.5625rem;
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: clamp(2rem, 4vw, 3rem);
+        }
+        .bento {
             display: grid;
-            grid-template-columns: 3.5rem minmax(0, 1fr);
-            gap: clamp(1rem, 3vw, 2.5rem);
-            padding: 2.25rem 0;
-            border-bottom: 1px solid var(--line);
-            align-items: baseline;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.75rem, 1.25vw, 1rem);
         }
-        .service-num {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: var(--taupe);
+        .bento-cell {
+            background: var(--charcoal);
+            padding: clamp(2.75rem, 5vw, 4.25rem) clamp(2rem, 4vw, 3.25rem);
         }
-        .service-row h3 {
-            font-family: 'Cormorant Garamond', serif;
+        .bento-cell .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.125rem;
+            color: var(--bronze);
+            margin-bottom: 1.25rem;
+            opacity: 0.85;
+        }
+        .bento-cell h3 {
+            font-family: 'Playfair Display', serif;
             font-weight: 400;
-            font-size: 1.2rem;
-            margin-bottom: 0.65rem;
-            letter-spacing: 0.02em;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--cloud);
         }
-        .service-row p {
-            color: var(--paper-dim);
-            font-size: 0.9375rem;
+        .bento-cell p {
+            color: var(--cloud-dim);
+            font-size: 0.75rem;
             line-height: 1.8;
-            max-width: 40rem;
+            letter-spacing: 0.05em;
         }
 
         .fleet {
-            background: var(--surface);
+            background: var(--charcoal);
         }
-        .fleet-layout {
-            max-width: 80rem;
+        .fleet-bento {
+            max-width: 76rem;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-            gap: clamp(2rem, 5vw, 4rem);
-            align-items: center;
+            grid-template-columns: 1.2fr 1fr;
+            gap: clamp(0.75rem, 1.25vw, 1rem);
+            align-items: stretch;
         }
         .fleet-visual {
-            border: 1px solid var(--line);
-            aspect-ratio: 5/4;
-            overflow: hidden;
+            min-height: 22rem;
             background: var(--ink);
+            overflow: hidden;
         }
         .fleet-visual img {
             width: 100%;
             height: 100%;
+            min-height: 22rem;
             object-fit: cover;
             object-position: center;
             display: block;
         }
-        .fleet-text h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.5rem, 2.5vw, 2.1rem);
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.03em;
+        .fleet-panel {
+            background: var(--ink);
+            padding: clamp(2.75rem, 5vw, 4.5rem) clamp(2rem, 4vw, 3.5rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .fleet-text > p {
-            color: var(--paper-dim);
+        .fleet-panel h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.45rem, 2.5vw, 2rem);
+            margin-bottom: 1.5rem;
+            color: var(--cloud);
+        }
+        .fleet-panel > p {
+            color: var(--cloud-dim);
             margin-bottom: 1.25rem;
             line-height: 1.85;
+            font-size: 0.8125rem;
+            letter-spacing: 0.05em;
         }
         .fleet-note {
-            font-size: 0.6875rem;
-            letter-spacing: 0.04em;
-            color: var(--paper-dim);
-            opacity: 0.85;
+            font-size: 0.625rem;
+            letter-spacing: 0.08em;
+            color: var(--cloud-dim);
             margin-bottom: 2rem;
-            line-height: 1.6;
+            line-height: 1.65;
         }
-        .fleet-details {
-            list-style: none;
+        .fleet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.75rem;
         }
-        .fleet-details li {
-            padding: 0.65rem 0;
-            border-top: 1px solid var(--line);
-            color: var(--paper-dim);
-            font-size: 0.8125rem;
+        .fleet-tags span {
+            font-size: 0.625rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cloud-dim);
+            padding: 0.5rem 0.85rem;
+            background: rgba(240, 240, 240, 0.04);
         }
 
-        /* Operating notes: single column, no card grid */
-        .notes {
-            max-width: 38rem;
+        .notes-bento {
+            max-width: 48rem;
             margin: 0 auto;
-            padding-left: clamp(0px, 4vw, 2rem);
-            border-left: 1px solid var(--taupe);
+            display: grid;
+            gap: clamp(0.75rem, 1.25vw, 1rem);
         }
-        .notes h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.04em;
+        .notes-bento .cell {
+            background: var(--charcoal);
+            padding: clamp(2.25rem, 4vw, 3.5rem) clamp(2rem, 4vw, 3rem);
+            border-left: 2px solid var(--bronze);
         }
-        .note {
-            margin-bottom: 2.5rem;
-        }
-        .note:last-child { margin-bottom: 0; }
-        .note h3 {
-            font-family: 'Cormorant Garamond', serif;
+        .notes-bento h2 {
+            font-family: 'Playfair Display', serif;
             font-weight: 400;
-            font-size: 1.1rem;
-            margin-bottom: 0.6rem;
+            font-size: clamp(1.45rem, 2.5vw, 2rem);
+            margin-bottom: 2rem;
+            color: var(--cloud);
+        }
+        .note h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 1.05rem;
+            margin-bottom: 0.65rem;
+            color: var(--cloud);
         }
         .note p {
-            color: var(--paper-dim);
-            font-size: 0.9375rem;
+            color: var(--cloud-dim);
+            font-size: 0.8125rem;
             line-height: 1.85;
+            letter-spacing: 0.05em;
         }
+        .note + .note { margin-top: 2rem; }
 
         .cta-section {
-            background: var(--surface);
+            background: var(--ink);
             text-align: left;
             padding: clamp(5.5rem, 12vw, 9rem) clamp(1.5rem, 6vw, 5.5rem);
         }
         .cta-inner {
-            max-width: 72rem;
+            max-width: 76rem;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
@@ -403,34 +420,36 @@
             gap: 2rem;
         }
         .cta-section h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
-            letter-spacing: 0.03em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.45rem, 2.5vw, 2rem);
             margin-bottom: 0.5rem;
+            color: var(--cloud);
         }
         .cta-section .sub {
-            color: var(--paper-dim);
-            font-size: 0.9375rem;
+            color: var(--cloud-dim);
+            font-size: 0.8125rem;
+            letter-spacing: 0.06em;
         }
         .cta-section .phone a {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-            font-weight: 300;
-            color: var(--paper);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 400;
+            color: var(--cloud);
             text-decoration: none;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.08em;
             cursor: pointer;
-            transition: color 0.25s ease;
+            transition: color 0.1s ease;
         }
-        .cta-section .phone a:hover { color: var(--taupe); }
+        .cta-section .phone a:hover { color: var(--bronze); }
 
         footer {
             padding: 3rem clamp(1.5rem, 6vw, 5.5rem) 4rem;
             border-top: 1px solid var(--line);
+            background: var(--ink);
         }
         .footer-inner {
-            max-width: 72rem;
+            max-width: 76rem;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
@@ -439,35 +458,33 @@
             gap: 1.5rem;
         }
         .footer-mark {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9375rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: var(--paper-dim);
+            color: var(--cloud-dim);
         }
         .footer-meta {
             font-size: 0.5625rem;
-            letter-spacing: 0.22em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--paper-dim);
+            color: var(--cloud-dim);
             text-align: right;
             line-height: 1.9;
         }
         .footer-meta a {
-            color: var(--brass);
+            color: var(--bronze);
             text-decoration: none;
+            transition: color 0.1s ease;
         }
-        .footer-meta a:hover {
-            color: var(--paper);
-        }
+        .footer-meta a:hover { color: var(--cloud); }
 
-        /* Preview modal — matches Velocity previews (e.g. pure-change) */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(10, 10, 11, 0.88);
+            background: rgba(13, 13, 13, 0.9);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -475,7 +492,7 @@
         }
         .modal-overlay.active { display: flex; }
         .modal-box {
-            background: var(--ink-soft);
+            background: var(--charcoal);
             border: 1px solid var(--border-modal);
             padding: 3.5rem 4rem;
             max-width: 480px;
@@ -491,15 +508,17 @@
             margin-bottom: 1.5rem;
         }
         .modal-title {
-            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 1.75rem;
-            font-weight: 300;
+            font-weight: 400;
             margin-bottom: 1rem;
-            color: var(--paper);
+            color: var(--cloud);
         }
         .modal-body {
-            font-size: 0.8125rem;
-            color: var(--paper-dim);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.04em;
+            color: var(--cloud-dim);
             line-height: 1.8;
             margin-bottom: 2rem;
         }
@@ -511,10 +530,9 @@
             color: var(--brass);
             text-decoration: none;
             margin-bottom: 2rem;
+            transition: color 0.1s ease;
         }
-        .modal-link:hover {
-            color: var(--paper);
-        }
+        .modal-link:hover { color: var(--cloud); }
         .modal-progress {
             width: 100%;
             height: 1px;
@@ -534,7 +552,7 @@
         .modal-close-note {
             font-size: 0.5625rem;
             letter-spacing: 0.2em;
-            color: var(--paper-dim);
+            color: var(--cloud-dim);
             margin-top: 0.75rem;
         }
         @keyframes shrink {
@@ -549,25 +567,11 @@
             .nav-links { display: none; }
             .intro-grid,
             .strip,
-            .fleet-layout {
+            .fleet-bento {
                 grid-template-columns: 1fr;
             }
-            .strip-visual {
-                min-height: 14rem;
-                border-right: none;
-                border-bottom: 1px solid var(--line);
-            }
+            .bento { grid-template-columns: 1fr; }
             .hero-inner { max-width: 100%; }
-            .service-row {
-                grid-template-columns: 2.5rem 1fr;
-                padding: 1.75rem 0;
-            }
-            .notes {
-                border-left: none;
-                padding-left: 0;
-                border-top: 1px solid var(--taupe);
-                padding-top: 2rem;
-            }
         }
     </style>
 </head>
@@ -582,14 +586,12 @@
     </nav>
 
     <section class="hero">
-        <div class="hero-bg" role="img" aria-label="Black Chevrolet Suburban at a snow-lined mountain lodge, dusk"></div>
+        <div class="hero-bg" role="img" aria-label="Black luxury SUV at a snow-lined mountain lodge, blue hour"></div>
         <div class="hero-scrim" aria-hidden="true"></div>
-        <div class="hero-grain" aria-hidden="true"></div>
         <div class="hero-inner">
             <p class="hero-kicker">Roaring Fork Valley · Colorado</p>
-            <h1 class="serif">Private car, <em>mountain roads</em></h1>
-            <div class="hero-line" aria-hidden="true"></div>
-            <p class="hero-sub">Aspen, Snowmass, and Colorado airports · Suburban 4x4 · seven seats</p>
+            <h1>Private car, <em>mountain roads</em></h1>
+            <p class="hero-sub">Aspen, Snowmass, Colorado airports. Suburban 4x4. Seven seats.</p>
             <button type="button" class="cta" onclick="openModal()">Request availability</button>
         </div>
     </section>
@@ -598,80 +600,78 @@
         <div class="intro-grid">
             <p class="intro-label">House</p>
             <div>
-                <h2 class="serif">Roberto and Mirka Gamarra opened ZG Limo after years in <em>hospitality</em>.</h2>
-                <p class="intro-body">Drivers are licensed and insured; schedules build slack for weather. The work is quiet: curbside on time, cabin warm, route chosen for ice and traffic, not theatrics.</p>
+                <h2>Roberto and Mirka Gamarra opened ZG Limo after years in <em>hospitality</em>.</h2>
+                <p class="intro-body">Licensed, insured drivers. Slack in the schedule for weather. Curbside on time, cabin warm, route chosen for ice and traffic.</p>
             </div>
         </div>
     </section>
 
-    <section class="strip">
+    <section class="strip-block">
+        <div class="strip">
         <div class="strip-visual">
-            <img src="assets/at-wheel.png" width="900" height="1200" loading="lazy" decoding="async" alt="Gloved hands on a steering wheel, winter light through the windshield">
+            <img src="assets/at-wheel.png" width="900" height="1200" loading="lazy" decoding="async" alt="Hands on steering wheel, winter light through windshield">
         </div>
         <div class="strip-copy">
-            <h2 class="serif">Winter driving is the product</h2>
-            <p>Ice, passes, and plowed berms are ordinary Tuesday. The point is not a slogan; it is traction, following distance, and knowing which lane moves when the storm hits.</p>
+            <h2>Winter driving is the work</h2>
+            <p>Passes, ice, plowed berms. Traction, following distance, which lane moves when the storm hits.</p>
+        </div>
         </div>
     </section>
 
     <section class="section">
-        <header class="services-head">
-            <h2 class="serif">Itineraries</h2>
-        </header>
-        <div class="services-list">
-            <article class="service-row">
-                <span class="service-num">I</span>
-                <div>
-                    <h3 class="serif">Airports</h3>
-                    <p>Denver, Eagle/Vail, Aspen/Pitkin County, and regional fields. Meet-and-greet where the terminal allows.</p>
-                </div>
-            </article>
-            <article class="service-row">
-                <span class="service-num">II</span>
-                <div>
-                    <h3 class="serif">Valley and ski</h3>
-                    <p>Snowmass, town, and out-valley runs on cleared roads, with room for skis and bags.</p>
-                </div>
-            </article>
-            <article class="service-row">
-                <span class="service-num">III</span>
-                <div>
-                    <h3 class="serif">Hourly</h3>
-                    <p>Dinners, meetings, events. One vehicle and one schedule.</p>
-                </div>
-            </article>
+        <div class="bento-wrap">
+            <p class="bento-label">Itineraries</p>
+            <div class="bento">
+                <article class="bento-cell">
+                    <div class="num">I</div>
+                    <h3>Airports</h3>
+                    <p>Denver, Eagle, Aspen/Pitkin, regional fields. Meet-and-greet where permitted.</p>
+                </article>
+                <article class="bento-cell">
+                    <div class="num">II</div>
+                    <h3>Valley</h3>
+                    <p>Snowmass, town, out-valley on cleared roads. Skis and bags.</p>
+                </article>
+                <article class="bento-cell">
+                    <div class="num">III</div>
+                    <h3>Hourly</h3>
+                    <p>Dinners, meetings, events. One car, one schedule.</p>
+                </article>
+            </div>
         </div>
     </section>
 
     <section class="section fleet">
-        <div class="fleet-layout">
+        <div class="fleet-bento">
             <div class="fleet-visual">
-                <img src="assets/suburban-cabin.png" width="1200" height="960" loading="lazy" decoding="async" alt="Chevrolet Suburban cabin, black leather rows and panoramic roof">
+                <img src="assets/suburban-cabin.png" width="1200" height="960" loading="lazy" decoding="async" alt="Chevrolet Suburban cabin, leather rows">
             </div>
-            <div class="fleet-text">
-                <h2 class="serif">Fleet</h2>
-                <p>Current-generation Chevrolet Suburban 4x4s. Seven adults with luggage when the load is ordinary.</p>
-                <p class="fleet-note">Cabin photograph is representative of layout and trim level, not a guaranteed VIN.</p>
-                <ul class="fleet-details">
-                    <li>Bottled water</li>
-                    <li>Rear entertainment</li>
-                    <li>Satellite radio</li>
-                    <li>Child seats on request</li>
-                </ul>
+            <div class="fleet-panel">
+                <h2>Fleet</h2>
+                <p>Chevrolet Suburban 4x4. Seven adults with luggage on ordinary loads.</p>
+                <p class="fleet-note">Image represents layout and trim, not a guaranteed VIN.</p>
+                <div class="fleet-tags">
+                    <span>Water</span>
+                    <span>Rear screens</span>
+                    <span>Satellite radio</span>
+                    <span>Child seats</span>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="section">
-        <div class="notes">
-            <h2 class="serif">Operating notes</h2>
-            <div class="note">
-                <h3 class="serif">Discretion</h3>
-                <p>Corporate and private clients use the service; the cabin stays private.</p>
-            </div>
-            <div class="note">
-                <h3 class="serif">Punctuality</h3>
-                <p>Buffer is built in. Late planes are watched; early ones do not leave you standing in the cold.</p>
+        <div class="notes-bento">
+            <div class="cell">
+                <h2>Operating notes</h2>
+                <div class="note">
+                    <h3>Discretion</h3>
+                    <p>The cabin stays private.</p>
+                </div>
+                <div class="note">
+                    <h3>Punctuality</h3>
+                    <p>Late planes watched. Early arrivals are not left in the cold.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -679,8 +679,8 @@
     <section class="cta-section">
         <div class="cta-inner">
             <div>
-                <h2 class="serif">Reservations</h2>
-                <p class="sub">Roaring Fork Valley and statewide</p>
+                <h2>Reservations</h2>
+                <p class="sub">Statewide</p>
             </div>
             <div class="phone">
                 <a onclick="openModal()">970 · 309 · 1680</a>
