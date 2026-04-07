@@ -14,7 +14,7 @@
 :root {
   --ink:         #0A0A0B;
   --surface:     #131110;
-  --charcoal:    #2b2c2f;
+  --charcoal:    #2b2c2f;       /* their primary — sidebar, cards */
   --bone:        #EAE0CF;
   --bone-dim:    rgba(234,224,207,0.48);
   --bone-faint:  rgba(234,224,207,0.07);
@@ -23,6 +23,8 @@
   --gold-ghost:  rgba(185,148,59,0.07);
   --border:      rgba(185,148,59,0.16);
   --border-bone: rgba(234,224,207,0.09);
+  --blue:        #1ca8dd;       /* their Tebra blue — nearly nowhere */
+  --blue-ghost:  rgba(28,168,221,0.06);
   --sidebar-w:   272px;
 }
 
@@ -106,9 +108,10 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--border-bone);
+  border-right: 1px solid rgba(43,44,47,0.8);
+  border-top: 2px solid var(--blue);  /* their blue — one deliberate touch */
   padding: 48px 36px;
-  background: var(--surface);
+  background: var(--charcoal);        /* their primary grey, now visible */
   overflow: hidden;
 }
 .sidebar-gold-bar {
@@ -286,7 +289,7 @@ body {
   margin: 48px 0;
 }
 .ed-cred-cell {
-  background: var(--ink);
+  background: var(--charcoal);   /* charcoal surfaces */
   padding: 24px 28px;
 }
 .ed-cred-val {
@@ -382,7 +385,7 @@ body {
   cursor: pointer; transition: color 0.2s;
   display: flex; align-items: center; gap: 10px;
 }
-.svc:hover { color: var(--bone); }
+.svc:hover { color: var(--bone); background: rgba(43,44,47,0.5); }
 .svc-dot {
   width: 3px; height: 3px; border-radius: 50%;
   background: var(--gold); flex-shrink: 0;
@@ -419,6 +422,7 @@ body {
   flex-direction: column;
   text-align: center;
   padding: 100px 64px;
+  background: var(--blue-ghost);  /* blue — barely there, the only tint in main content */
 }
 .closing img {
   position: absolute; inset: 0;
@@ -467,7 +471,7 @@ footer {
   border-top: 1px solid var(--border-bone);
   padding: 28px 64px;
   display: flex; align-items: center; justify-content: space-between;
-  background: var(--surface);
+  background: var(--charcoal);
 }
 .footer-link {
   font-family: 'Raleway', sans-serif;
