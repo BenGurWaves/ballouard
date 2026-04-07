@@ -3,93 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aspen ZG Limo Services | Private Airport Transportation</title>
-    <meta name="description" content="Private airport transportation to and from Aspen, Snowmass, and all Colorado airports. Professional Chevrolet Suburban fleet with experienced mountain drivers.">
-    <meta name="robots" content="index, follow">
+    <title>Aspen ZG Limo | Private Airport Transportation</title>
+    <meta name="description" content="Private airport transportation to and from Aspen, Snowmass, and all Colorado airports.">
     <link rel="canonical" href="https://velocity.calyvent.com/previews/aspenzglimo">
-    
-    <meta property="og:title" content="Aspen ZG Limo Services | Private Airport Transportation">
+    <meta property="og:title" content="Aspen ZG Limo | Private Airport Transportation">
     <meta property="og:description" content="Private airport transportation to and from Aspen, Snowmass, and all Colorado airports.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://velocity.calyvent.com/previews/aspenzglimo">
-    <meta name="twitter:card" content="summary_large_image">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Satoshi:wght@300;400;500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Aspen ZG Limo Services",
-      "image": "https://velocity.calyvent.com/previews/aspenzglimo/assets/hero.jpg",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Aspen",
-        "addressRegion": "CO",
-        "postalCode": "81611",
-        "addressCountry": "US"
-      },
+      "address": { "@type": "PostalAddress", "addressLocality": "Aspen", "addressRegion": "CO", "postalCode": "81611", "addressCountry": "US" },
       "telephone": "+19703091680",
       "url": "https://aspenzglimo.com",
       "priceRange": "$$$",
-      "openingHours": "Mo-Su 00:00-24:00",
-      "areaServed": ["Aspen", "Snowmass", "Roaring Fork Valley", "Colorado"],
-      "serviceType": ["Airport Transportation", "Private Car Service", "Mountain Transportation"],
-      "vehicle": {
-        "@type": "Car",
-        "name": "Chevrolet Suburban 4x4",
-        "seatingCapacity": 7,
-        "luggageCapacity": 7
-      },
-      "review": {
-        "@type": "Review",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Satisfied Client"
-        }
-      }
+      "openingHours": "Mo-Su 00:00-24:00"
     }
     </script>
-    
     <style>
         :root {
-            --ivory: #F5F2EB;
-            --ivory-dark: #E8E4DB;
-            --charcoal: #1A1A1A;
-            --taupe: #8B8380;
-            --greige: #D4CFC7;
-            --olive: #4A4A42;
-            --cream: #FAF8F3;
+            --ink: #0A0A0B;
+            --surface: #131110;
+            --bone: #EAE0CF;
+            --bone-dim: rgba(234,224,207,0.48);
+            --bone-faint: rgba(234,224,207,0.07);
+            --brass: #B9943B;
+            --brass-dim: rgba(185,148,59,0.22);
+            --border: rgba(185,148,59,0.16);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--ivory);
-            color: var(--charcoal);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--ink);
+            color: var(--bone);
             line-height: 1.6;
             font-weight: 300;
         }
-        
-        .serif {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-        }
-        
+        .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
         nav {
             position: fixed;
             top: 0;
@@ -99,377 +55,247 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 4rem;
-            background: rgba(245, 242, 235, 0.95);
+            background: rgba(10,10,11,0.95);
             backdrop-filter: blur(10px);
-            z-index: 1000;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
         }
-        
         .logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 400;
-            letter-spacing: 0.05em;
-            color: var(--charcoal);
+            letter-spacing: 0.1em;
+            color: var(--bone);
             text-decoration: none;
         }
-        
         .nav-links {
             display: flex;
             gap: 2.5rem;
             list-style: none;
         }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--charcoal);
-            font-size: 0.85rem;
-            letter-spacing: 0.08em;
+        .nav-links a, .nav-links button {
+            background: none;
+            border: none;
+            color: var(--bone);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            transition: opacity 0.3s ease;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.3s;
         }
-        
-        .nav-links a:hover {
-            opacity: 0.6;
-        }
-        
+        .nav-links a:hover, .nav-links button:hover { opacity: 0.6; }
         .hero {
-            height: 90vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            padding: 6rem 4rem;
         }
-        
         .hero-image {
             position: absolute;
             inset: 0;
-            background: url('https://images.squarespace-cdn.com/content/v1/63ac6beed9296141d549da28/7caf42db-40ac-4b77-9617-3340b09e43fa/aspen-limo-service35.jpg') center/cover;
-            filter: brightness(0.7);
+            background: url('assets/hero.jpg?v=2') center/cover;
+            filter: brightness(0.5);
         }
-        
         .hero-content {
             position: relative;
             z-index: 1;
             text-align: center;
-            color: var(--cream);
             max-width: 700px;
-            padding: 2rem;
         }
-        
         .hero h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 300;
             letter-spacing: 0.15em;
             margin-bottom: 1rem;
-            text-transform: uppercase;
+            line-height: 1.1;
         }
-        
         .hero p {
             font-size: 1.1rem;
-            letter-spacing: 0.05em;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+            color: var(--bone-dim);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.03em;
         }
-        
-        .cta-button {
+        .cta {
             display: inline-block;
             padding: 1rem 2.5rem;
-            border: 1px solid var(--cream);
-            color: var(--cream);
+            border: 1px solid var(--brass);
+            color: var(--brass);
             text-decoration: none;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            cursor: pointer;
             transition: all 0.4s ease;
+            background: none;
         }
-        
-        .cta-button:hover {
-            background: var(--cream);
-            color: var(--charcoal);
+        .cta:hover {
+            background: var(--brass);
+            color: var(--ink);
         }
-        
         .section {
             padding: 6rem 4rem;
         }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
+        .section-header { text-align: center; margin-bottom: 4rem; }
         .section-header h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.5rem;
             font-weight: 300;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
         }
-        
-        .section-header p {
-            color: var(--taupe);
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        .intro {
-            background: var(--cream);
-        }
-        
-        .intro-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
+        .section-header p { color: var(--bone-dim); max-width: 500px; margin: 0 auto; }
+        .intro { background: var(--surface); }
+        .intro-content { max-width: 800px; margin: 0 auto; text-align: center; }
         .intro-content h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 300;
-            letter-spacing: 0.08em;
-            margin-bottom: 2rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 1.5rem;
             line-height: 1.3;
         }
-        
-        .intro-content p {
-            font-size: 1.1rem;
-            color: var(--taupe);
-            line-height: 1.8;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 2rem;
-        }
-        
+        .intro-content p { color: var(--bone-dim); font-size: 1.05rem; line-height: 1.8; }
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .feature { padding: 2rem; border: 1px solid var(--border); text-align: center; }
         .feature-number {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3rem;
-            color: var(--taupe);
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-        
-        .feature h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-        }
-        
-        .feature p {
-            color: var(--taupe);
-            font-size: 0.95rem;
-        }
-        
-        .fleet {
-            background: var(--charcoal);
-            color: var(--cream);
-        }
-        
-        .fleet-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            align-items: center;
-        }
-        
-        .fleet-image {
-            aspect-ratio: 4/3;
-            background: url('https://images.squarespace-cdn.com/content/v1/63ac6beed9296141d549da28/86910cd4-ac99-49c7-8477-d1c73801dc06/aspen-limo-service38.jpg') center/cover;
-            filter: brightness(0.85);
-        }
-        
-        .fleet-text h2 {
-            font-family: 'Cormorant Garamond', serif;
             font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.05em;
+            color: var(--brass);
+            margin-bottom: 1rem;
+            opacity: 0.6;
         }
-        
-        .fleet-text p {
-            color: var(--greige);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-        
-        .fleet-details {
-            list-style: none;
-            margin-top: 2rem;
-        }
-        
-        .fleet-details li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: var(--greige);
-            font-size: 0.9rem;
-        }
-        
-        .fleet-details li span {
-            color: var(--cream);
-            margin-right: 0.5rem;
-        }
-        
-        .why {
-            background: var(--ivory);
-        }
-        
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .why-item {
-            padding: 2rem;
-            border: 1px solid var(--ivory-dark);
-        }
-        
-        .why-item h3 {
+        .feature h3 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.4rem;
             font-weight: 400;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
-        
-        .why-item p {
-            color: var(--taupe);
-            font-size: 0.95rem;
+        .feature p { color: var(--bone-dim); font-size: 0.9rem; }
+        .fleet { background: var(--surface); }
+        .fleet-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: center; }
+        .fleet-image {
+            aspect-ratio: 4/3;
+            background: url('assets/fleet.jpg?v=2') center/cover;
+            filter: brightness(0.7);
         }
-        
-        .cta-section {
-            background: var(--charcoal);
-            color: var(--cream);
-            text-align: center;
-            padding: 5rem 4rem;
-        }
-        
-        .cta-section h2 {
+        .fleet-text h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 300;
             margin-bottom: 1.5rem;
-            letter-spacing: 0.08em;
         }
-        
-        .cta-section p {
-            color: var(--greige);
-            margin-bottom: 2rem;
+        .fleet-text p { color: var(--bone-dim); margin-bottom: 1.25rem; line-height: 1.7; }
+        .fleet-details { list-style: none; margin-top: 1.5rem; }
+        .fleet-details li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--bone-dim);
+            font-size: 0.85rem;
         }
-        
-        .cta-section .phone {
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-        }
-        
-        .cta-section .phone a {
-            color: var(--cream);
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-        
-        .cta-section .phone a:hover {
-            opacity: 0.6;
-        }
-        
-        .faq {
-            background: var(--cream);
-        }
-        
-        .faq-grid {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .faq-item {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--ivory-dark);
-        }
-        
-        .faq-item h3 {
+        .fleet-details li span { color: var(--brass); margin-right: 0.5rem; }
+        .why { background: var(--ink); }
+        .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; }
+        .why-item { padding: 2rem; border: 1px solid var(--border); }
+        .why-item h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 400;
             margin-bottom: 0.75rem;
         }
-        
-        .faq-item p {
-            color: var(--taupe);
-            font-size: 0.95rem;
+        .why-item p { color: var(--bone-dim); font-size: 0.9rem; }
+        .cta-section {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--ink) 100%);
+            text-align: center;
+            padding: 5rem 4rem;
         }
-        
+        .cta-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 0.06em;
+        }
+        .cta-section p { color: var(--bone-dim); margin-bottom: 2rem; }
+        .cta-section .phone { font-size: 1.4rem; letter-spacing: 0.08em; }
+        .cta-section .phone a { color: var(--bone); text-decoration: none; cursor: pointer; }
+        .cta-section .phone a:hover { color: var(--brass); }
         footer {
-            background: var(--charcoal);
-            color: var(--greige);
+            background: var(--ink);
+            color: var(--bone-dim);
             padding: 3rem 4rem;
             text-align: center;
+            border-top: 1px solid var(--border);
         }
-        
-        footer p {
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-        }
-        
-        footer a {
-            color: var(--greige);
-            text-decoration: none;
+        footer a { color: var(--bone-dim); text-decoration: none; cursor: pointer; }
+        footer a:hover { color: var(--brass); }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,11,0.88);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
             transition: opacity 0.3s;
         }
-        
-        footer a:hover {
-            opacity: 0.6;
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal {
+            background: var(--surface);
+            border: 1px solid rgba(234,224,207,0.09);
+            padding: 3rem;
+            max-width: 480px;
+            text-align: center;
+            position: relative;
         }
-        
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem 2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .section {
-                padding: 4rem 2rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .fleet-content,
-            .why-grid {
-                grid-template-columns: 1fr;
-            }
+        .modal-eyebrow {
+            color: var(--brass);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .modal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        .modal p { color: var(--bone-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
+        .modal a { color: var(--brass); cursor: pointer; }
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--brass);
+            width: 100%;
+            transform-origin: left;
+        }
+        .progress-bar.animating { animation: shrink 5s linear forwards; }
+        @keyframes shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+        @media (max-width: 900px) {
+            nav { padding: 1rem 2rem; }
+            .nav-links { display: none; }
+            .hero { padding: 4rem 2rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .section { padding: 4rem 2rem; }
+            .features, .fleet-content, .why-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="/" class="logo">ZG LIMO</a>
+        <a href="#" class="logo" onclick="openModal(); return false;">ZG LIMO</a>
         <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#fleet">Fleet</a></li>
-            <li><a href="#why">Why Us</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><button onclick="openModal()">Services</button></li>
+            <li><button onclick="openModal()">Fleet</button></li>
+            <li><button onclick="openModal()">Why Us</button></li>
+            <li><button onclick="openModal()">Contact</button></li>
         </ul>
     </nav>
 
@@ -478,18 +304,18 @@
         <div class="hero-content">
             <h1>Aspen ZG Limo</h1>
             <p>Private transportation to and from Aspen, Snowmass, and all Colorado airports</p>
-            <a href="tel:+19703091680" class="cta-button">Call for a Ride</a>
+            <button class="cta" onclick="openModal()">Call for a Ride</button>
         </div>
     </section>
 
     <section class="section intro">
         <div class="intro-content">
             <h2>Private. Reliable. Professional.</h2>
-            <p>For over two decades, we have served Aspen's most discerning clientele. Our experienced drivers navigate mountain conditions with precision, ensuring you arrive safely and on time. Whether you're heading to the airport or exploring the valley, we provide a level of service befitting Aspen's finest.</p>
+            <p>For over two decades, we have served Aspen's most discerning clientele. Our experienced drivers navigate mountain conditions with precision, ensuring you arrive safely and on time.</p>
         </div>
     </section>
 
-    <section class="section features" id="services">
+    <section class="section features">
         <div class="feature">
             <div class="feature-number">01</div>
             <h3>Airport Transfer</h3>
@@ -507,7 +333,7 @@
         </div>
     </section>
 
-    <section class="section fleet" id="fleet">
+    <section class="section fleet">
         <div class="fleet-content">
             <div class="fleet-image"></div>
             <div class="fleet-text">
@@ -524,7 +350,7 @@
         </div>
     </section>
 
-    <section class="section why" id="why">
+    <section class="section why">
         <div class="section-header">
             <h2>Why Choose ZG Limo</h2>
         </div>
@@ -535,7 +361,7 @@
             </div>
             <div class="why-item">
                 <h3>Consistent Excellence</h3>
-                <p>The same professionalism whether you're a first-time visitor or a long-time resident. We treat every client with the same dedication.</p>
+                <p>The same professionalism whether you're a first-time visitor or a long-time resident.</p>
             </div>
             <div class="why-item">
                 <h3>Discretion Assured</h3>
@@ -548,45 +374,46 @@
         </div>
     </section>
 
-    <section class="cta-section" id="contact">
+    <section class="cta-section">
         <h2>Reserve Your Ride</h2>
         <p>Serving Aspen and the Roaring Fork Valley since 2001</p>
         <div class="phone">
-            <a href="tel:+19703091680">970-309-1680</a>
-        </div>
-    </section>
-
-    <section class="section faq">
-        <div class="section-header">
-            <h2>Frequently Asked Questions</h2>
-        </div>
-        <div class="faq-grid">
-            <div class="faq-item">
-                <h3>Do you serve all Colorado airports?</h3>
-                <p>Yes. We provide transportation to and from Denver International Airport (2.5 hours), Aspen-Pitkin County Airport, Eagle County Regional Airport, and Grand Junction Regional Airport.</p>
-            </div>
-            <div class="faq-item">
-                <h3>How far in advance should I book?</h3>
-                <p>We recommend booking 48 hours in advance for airport transfers. For peak season (December through March), 72 hours is advisable. Last-minute availability may be limited.</p>
-            </div>
-            <div class="faq-item">
-                <h3>What is your cancellation policy?</h3>
-                <p>Cancellations made 24+ hours before pickup receive a full refund. Within 24 hours, a 50% fee applies. No-shows are charged in full.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Do you provide child seats?</h3>
-                <p>Yes, upon request. Please specify when booking if you require a car seat or booster seat for a child.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Is tipping included?</h3>
-                <p>Gratuity is not included. Tips are appreciated and can be paid directly to your driver or added to the final invoice.</p>
-            </div>
+            <a onclick="openModal()">970-309-1680</a>
         </div>
     </section>
 
     <footer>
-        <p>Aspen ZG Limo Services &nbsp;|&nbsp; Aspen, CO 81611 &nbsp;|&nbsp; <a href="tel:+19703091680">970-309-1680</a></p>
-        <p style="margin-top: 1rem; opacity: 0.6;">Last updated: April 2026</p>
+        <p><a href="https://velocity.calyvent.com" target="_blank" rel="noopener">© 2026 Velocity by Calyvent. All rights reserved.</a></p>
     </footer>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-eyebrow">Previewed by Velocity</div>
+            <h3>This is a preview.</h3>
+            <p>This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</p>
+            <a href="https://velocity.calyvent.com" target="_blank" rel="noopener" class="cta" style="display:inline-block;">Visit Velocity</a>
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        let modalTimer;
+        function openModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const progressBar = document.getElementById('progressBar');
+            overlay.classList.add('active');
+            progressBar.classList.add('animating');
+            clearTimeout(modalTimer);
+            modalTimer = setTimeout(closeModal, 5000);
+        }
+        function closeModal(event) {
+            const overlay = document.getElementById('modalOverlay');
+            const progressBar = document.getElementById('progressBar');
+            if (event && event.target !== overlay) return;
+            overlay.classList.remove('active');
+            progressBar.classList.remove('animating');
+            clearTimeout(modalTimer);
+        }
+    </script>
 </body>
 </html>
