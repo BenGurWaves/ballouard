@@ -4,294 +4,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moneybag Speaks | Preview</title>
+  <title>Moneybag Speaks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400&display=swap"
     rel="stylesheet">
   <style>
     :root {
-      --base: #F5F5F3;
+      /* The $500k Palette */
       --sycamore: #969582;
       --desert: #B78962;
       --aqua: #97A2AD;
-      --ink: #1C1C1B;
+      --air: #F5F5F3;
+      /* Base cream */
+      --ground: #1A1A18;
+      /* Deep dark warm grey, avoids pure black */
 
-      --font-display: 'Playfair Display', serif;
-      --font-body: 'Roboto', sans-serif;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Inter', sans-serif;
     }
 
+    /* Reset & Base */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: var(--base);
-      color: var(--ink);
+      background-color: var(--air);
+      color: var(--ground);
       font-family: var(--font-body);
-      line-height: 1.6;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
-    }
-
-    h1,
-    h2,
-    h3,
-    .eyebrow {
-      font-family: var(--font-display);
-      font-weight: 400;
-    }
-
-    /* Container */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 5%;
+      cursor: crosshair;
+      /* Gallery feel */
     }
 
     /* Typography */
-    .eyebrow {
-      color: var(--sycamore);
-      font-size: 0.9rem;
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--ground);
+    }
+
+    .meta {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.65rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-
-    h1 {
-      font-size: clamp(3rem, 6vw, 4.5rem);
-      line-height: 1.1;
-      margin-bottom: 2rem;
-      color: var(--ink);
-    }
-
-    h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      color: var(--ink);
-    }
-
-    p.lead {
-      font-size: clamp(1.1rem, 2vw, 1.3rem);
       color: var(--sycamore);
-      margin-bottom: 3rem;
-      max-width: 80%;
     }
 
-    /* Standard Button */
-    .btn {
-      display: inline-block;
-      padding: 1.2rem 2.5rem;
-      background-color: transparent;
-      color: var(--sycamore);
-      border: 1px solid var(--sycamore);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      letter-spacing: 0.05em;
+    /* Slow Web Animations */
+    @keyframes slowFadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes expandLine {
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: 100vw;
+      }
+    }
+
+    .reveal-1 {
+      animation: slowFadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.2s * 1) both;
+    }
+
+    .reveal-2 {
+      animation: slowFadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.2s * 2) both;
+    }
+
+    .reveal-3 {
+      animation: slowFadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.2s * 4) both;
+    }
+
+    /* Non-Standard Navigation */
+    .fixed-nav {
+      position: fixed;
+      top: 50%;
+      left: 3vw;
+      transform: translateY(-50%) rotate(-90deg);
+      transform-origin: left center;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
+
+    .fixed-nav span {
+      font-size: 0.75rem;
       text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--air);
       cursor: pointer;
-      transition: all 0.4s ease;
-      text-decoration: none;
+      padding: 1rem;
     }
 
-    .btn:hover {
-      background-color: var(--sycamore);
-      color: var(--base);
-    }
-
-    .btn-primary {
-      background-color: var(--desert);
-      color: var(--base);
-      border-color: var(--desert);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--base);
+    .fixed-nav span:hover {
       color: var(--desert);
+      transition: color 0.6s ease;
     }
 
-    /* Sections */
-    section {
-      padding: 8rem 0;
+    /* Layout & The Void */
+    .section-void {
+      min-height: 120vh;
+      width: 100vw;
       position: relative;
-    }
-
-    section:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 5%;
-      right: 5%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
-      opacity: 0.3;
-    }
-
-    .nav {
-      padding: 2.5rem 0;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: 0.02em;
-      cursor: pointer;
-    }
-
-    .nav-links button {
-      background: none;
-      border: none;
-      color: var(--aqua);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-left: 2.5rem;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links button:hover {
-      color: var(--sycamore);
     }
 
     /* Hero */
     .hero {
-      min-height: 80vh;
+      align-items: flex-end;
+      padding: 8vw 5vw;
+    }
+
+    .hero-text {
+      width: 60%;
+      margin-left: 20%;
+      /* Asymmetry */
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(4rem, 10vw, 8rem);
+      margin-bottom: 2rem;
+    }
+
+    /* Materiality Texture Block - Replaces the missing 404 images */
+    .material-block {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 45vw;
+      height: 100vh;
+      background: linear-gradient(145deg, var(--sycamore), var(--air));
+      opacity: 0.4;
+      filter: url('#grain');
+      z-index: 0;
+    }
+
+    .material-accent {
+      position: absolute;
+      bottom: 10vh;
+      right: 15vw;
+      width: 20vw;
+      height: 30vh;
+      background: var(--desert);
+      opacity: 0.9;
+      filter: url('#grain') sepia(30%);
+      mix-blend-mode: multiply;
+      z-index: 1;
+      transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .material-accent:hover {
+      transform: scale(1.03) translateY(-10px);
+    }
+
+    /* Editorial Section */
+    .editorial {
+      padding: 15vw 10vw;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      gap: 10vw;
+    }
+
+    .editorial-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-top: 1px solid var(--aqua);
       padding-top: 2rem;
     }
 
-    .hero-image-placeholder {
-      width: 100%;
-      height: 400px;
-      margin-top: 4rem;
-      background: var(--aqua);
-      border: 1px solid rgba(151, 162, 173, 0.4);
-      position: relative;
-      overflow: hidden;
+    .editorial-row.reverse {
+      flex-direction: row-reverse;
     }
 
-    .hero-image-placeholder::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('assets/hero.jpg') center/cover no-repeat;
-      mix-blend-mode: multiply;
-      opacity: 0.7;
+    .ed-number {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--desert);
+      flex: 1;
     }
 
-    /* Value Grid */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+    .ed-content {
+      flex: 3;
+      max-width: 500px;
     }
 
-    .value-card {
-      padding: 3rem;
-      background: rgba(150, 149, 130, 0.05);
-      /* Sycamore very light */
-      border: 1px solid rgba(151, 162, 173, 0.3);
-      /* Aqua border */
-      transition: transform 0.4s ease, background 0.4s ease;
-      cursor: pointer;
-    }
-
-    .value-card:hover {
-      transform: translateY(-5px);
-      background: rgba(150, 149, 130, 0.15);
-      /* Sycamore lightly darker */
-    }
-
-    .value-card .eyebrow {
-      margin-bottom: 1rem;
-      color: var(--aqua);
-    }
-
-    .value-card h3 {
-      font-size: 1.8rem;
+    .ed-content h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
       margin-bottom: 1.5rem;
-      color: var(--ink);
     }
 
-    .value-card p {
+    .ed-content p {
+      font-size: 1rem;
       color: var(--sycamore);
-      font-size: 1.05rem;
+      font-weight: 300;
+      max-width: 80%;
     }
 
-    /* Abstract imagery / Atmosphere Section */
-    .atmosphere-section {
-      width: 100%;
-      height: 500px;
-      background: var(--sycamore);
+    /* Final CTA */
+    .conclusion {
+      min-height: 80vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
+      background: var(--ground);
+      color: var(--air);
       position: relative;
       overflow: hidden;
-      cursor: pointer;
     }
 
-    .atmosphere-section::after {
+    .conclusion::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('assets/texture.jpg') center/cover;
-      opacity: 0.15;
-      mix-blend-mode: overlay;
+      background: var(--aqua);
+      opacity: 0.05;
+      filter: url('#grain');
     }
 
-    .atmosphere-content {
-      text-align: center;
-      position: relative;
+    .conclusion h2 {
+      color: var(--air);
+      font-size: clamp(3rem, 7vw, 6rem);
       z-index: 2;
+      margin-bottom: 3rem;
     }
 
-    .atmosphere-content .eyebrow {
-      color: var(--base);
-    }
-
-    .atmosphere-content h2 {
-      margin-bottom: 0;
-      color: var(--base);
-    }
-
-    /* Footer */
-    footer {
-      padding: 4rem 0;
-      text-align: center;
-      color: var(--aqua);
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-
-    footer a {
-      color: var(--aqua);
+    .editorial-link {
+      color: var(--desert);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       text-decoration: none;
-      transition: color 0.3s ease;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom 0.4s ease;
+      z-index: 2;
+      cursor: pointer;
     }
 
-    footer a:hover {
-      color: var(--sycamore);
+    .editorial-link:hover {
+      border-bottom: 1px solid var(--desert);
     }
 
     /* Modal Spec explicitly adapted for light background */
@@ -301,17 +287,15 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(245, 245, 243, 0.85);
-      /* base 0.85 */
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(26, 26, 24, 0.98);
+      /* ground near-solid */
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .modal-overlay.active {
@@ -320,69 +304,38 @@
     }
 
     .modal-box {
-      width: 90%;
-      max-width: 500px;
-      background-color: var(--base);
-      border: 1px solid rgba(151, 162, 173, 0.3);
-      /* aqua 0.3 */
-      padding: 3.5rem;
+      width: 100%;
+      max-width: 600px;
+      padding: 0 10vw;
       position: relative;
-      transform: translateY(20px);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+      transform: translateY(40px);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
     }
 
     .modal-overlay.active .modal-box {
       transform: translateY(0);
     }
 
-    .modal-eyebrow {
-      color: var(--desert);
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
     .modal-title {
       font-family: var(--font-display);
-      font-size: 2.2rem;
-      color: var(--ink);
+      font-size: 2.5rem;
+      color: var(--air);
       margin-bottom: 1.5rem;
-      line-height: 1.2;
     }
 
     .modal-body {
       color: var(--sycamore);
-      font-size: 1.05rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .modal-link {
-      display: inline-block;
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-bottom: 1px solid var(--aqua);
-      padding-bottom: 0.2rem;
-      transition: color 0.3s ease, border-color 0.3s ease;
-    }
-
-    .modal-link:hover {
-      color: var(--desert);
-      border-color: var(--desert);
+      font-size: 0.9rem;
+      font-weight: 300;
+      margin-bottom: 3rem;
     }
 
     .modal-progress {
       position: absolute;
-      bottom: 0;
+      bottom: -40px;
       left: 0;
-      height: 2px;
+      height: 1px;
       background-color: var(--desert);
       width: 100%;
       transform-origin: left;
@@ -403,22 +356,20 @@
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
+    @media (max-width: 768px) {
+      .hero-text {
+        width: 90%;
+        margin-left: 0;
+      }
+
+      .editorial-row,
+      .editorial-row.reverse {
+        flex-direction: column;
         gap: 2rem;
       }
 
-      .nav-links {
+      .fixed-nav {
         display: none;
-      }
-
-      h1 {
-        font-size: 2.8rem;
-      }
-
-      section {
-        padding: 5rem 0;
       }
     }
   </style>
@@ -426,85 +377,70 @@
 
 <body>
 
-  <div class="container">
-    <!-- Navigation -->
-    <nav class="nav">
-      <div class="logo" onclick="openModal()">Moneybag Speaks</div>
-      <div class="nav-links">
-        <button onclick="openModal()">Methodology</button>
-        <button onclick="openModal()">The Inner Circle</button>
+  <!-- SVG Filter for "Materiality" / Grain -->
+  <svg style="display:none;">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" result="fractal" />
+      <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.1 0" in="fractal"
+        result="coloredNoise" />
+      <feBlend mode="multiply" in="SourceGraphic" in2="coloredNoise" />
+    </filter>
+  </svg>
+
+  <nav class="fixed-nav" onclick="openModal()">
+    <span>Discovery</span>
+    <span>Index</span>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="section-void hero">
+    <div class="material-block"></div>
+    <div class="material-accent"></div>
+
+    <div class="hero-text">
+      <span class="meta reveal-1">001 — The Void</span>
+      <h1 class="reveal-2">Architecture<br>Of Acquisition.</h1>
+      <p class="meta reveal-3" style="max-width: 400px; color: var(--ground); line-height: 1.8;">
+        The algorithm dictates visibility. True authority requires structural separation. Entering the inner circle.
+      </p>
+    </div>
+  </section>
+
+  <!-- Editorial Section -->
+  <section class="editorial">
+    <div class="editorial-row reveal-1">
+      <div class="ed-number">I.</div>
+      <div class="ed-content" onclick="openModal()">
+        <h2>Systems <br>Beneath</h2>
+        <p>Tactics for high-ticket acquisition that operate relentlessly beneath the surface. No superficial marketing,
+          only conversion architecture.</p>
       </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-      <span class="eyebrow">The Real Strategy</span>
-      <h1>Systems of Wealth<br>And Quiet Authority.</h1>
-      <p class="lead">Social media shows you 10% of the blueprint. The algorithm limits what is seen. Step into the
-        architecture of true capital acquisition and unparalleled positioning.</p>
-
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <button class="btn btn-primary" onclick="openModal()">Unlock The Strategy</button>
-        <button class="btn" onclick="openModal()">View The Portfolio</button>
+    <div class="editorial-row reverse reveal-1">
+      <div class="ed-number" style="text-align: right;">II.</div>
+      <div class="ed-content" onclick="openModal()">
+        <h2>Absolute <br>Authority</h2>
+        <p>Command the room. How you speak and carry yourself dictates the capital you command. Precision in execution
+          and presence.</p>
       </div>
+    </div>
+  </section>
 
-      <div class="hero-image-placeholder" onclick="openModal()"></div>
-    </section>
-
-    <!-- Value Section -->
-    <section>
-      <span class="eyebrow">The Foundation</span>
-      <h2>Architecture of Acquisition.</h2>
-      <p class="lead">Mastering the systems the public never sees.</p>
-
-      <div class="grid-2">
-        <div class="value-card" onclick="openModal()">
-          <span class="eyebrow">01</span>
-          <h3>Client Systems</h3>
-          <p>Tactics for high-ticket acquisition that operate relentlessly beneath the surface. No superficial
-            marketing, only conversion architecture.</p>
-        </div>
-        <div class="value-card" onclick="openModal()">
-          <span class="eyebrow">02</span>
-          <h3>Absolute Authority</h3>
-          <p>Command the room. How you speak and carry yourself dictates the capital you command. Precision in execution
-            and presence.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Abstract imagery / Atmosphere Section -->
-    <section style="padding: 4rem 0;">
-      <div class="atmosphere-section" onclick="openModal()">
-        <div class="atmosphere-content">
-          <span class="eyebrow">Private Access</span>
-          <h2>Exclusive Insights.</h2>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section style="text-align: center; padding-bottom: 6rem;">
-      <h2 style="margin-bottom: 2rem;">The Newsletter Is Everything I Can't Post Publicly.</h2>
-      <button class="btn btn-primary" onclick="openModal()">Apply For Access</button>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      &copy; 2026 Velocity by Calyvent. All rights reserved.<br>
-      <a href="https://velocity.calyvent.com" target="_blank"
-        style="margin-top: 1rem; display: inline-block;">velocity.calyvent.com</a>
-    </footer>
-  </div>
+  <!-- Final CTA -->
+  <section class="conclusion">
+    <h2>The Unseen.</h2>
+    <a class="editorial-link" onclick="openModal()">Request Access To The Index</a>
+  </section>
 
   <!-- Modal -->
   <div class="modal-overlay" id="previewModal" onclick="closeModalOnOverlay(event)">
     <div class="modal-box">
-      <span class="modal-eyebrow">PREVIEWED BY VELOCITY</span>
-      <h3 class="modal-title">This is a preview.</h3>
-      <p class="modal-body">This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is
-        not the live site. It is what your digital presence could look like.</p>
-      <a href="https://velocity.calyvent.com" target="_blank" class="modal-link">https://velocity.calyvent.com</a>
+      <span class="meta" style="color: var(--desert); margin-bottom: 1rem; display: block;">Previewed by Velocity</span>
+      <h3 class="modal-title">Atmospheric Depth.</h3>
+      <p class="modal-body">This architecture was forged by Velocity—the bespoke design studio by Calyvent. It is what
+        your digital materiality could feel like.</p>
+      <a href="https://velocity.calyvent.com" target="_blank" class="editorial-link">velocity.calyvent.com</a>
       <div class="modal-progress" id="modalProgress"></div>
     </div>
   </div>
@@ -516,32 +452,40 @@
       const modal = document.getElementById('previewModal');
       const progress = document.getElementById('modalProgress');
 
-      // Reset animation
       progress.style.animation = 'none';
-      progress.offsetHeight; // trigger reflow
+      progress.offsetHeight;
       progress.style.animation = null;
 
       modal.classList.add('active');
 
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      if (timeoutId) clearTimeout(timeoutId);
 
-      timeoutId = setTimeout(() => {
-        closeModal();
-      }, 5000);
+      timeoutId = setTimeout(() => { closeModal(); }, 5000);
     }
 
     function closeModal() {
-      const modal = document.getElementById('previewModal');
-      modal.classList.remove('active');
+      document.getElementById('previewModal').classList.remove('active');
     }
 
     function closeModalOnOverlay(e) {
-      if (e.target === document.getElementById('previewModal')) {
-        closeModal();
-      }
+      if (e.target === document.getElementById('previewModal')) closeModal();
     }
+
+    // Scroll reveal observer for the "Slow Web" feel
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        } else {
+          // Optional: reset for repeatable scroll
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.editorial-row').forEach((el) => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
   </script>
 </body>
 
