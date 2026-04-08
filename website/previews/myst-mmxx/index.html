@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYST MMXX | Alchemical Organic Alloys</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0A0A0B;
+            --bone: #f2f3fc;
+            --slate: #b4b4b4;
+            --charcoal: #3D403C;
+            --brass: #cecaca;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--ink);
+            color: var(--bone);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        ::selection {
+            background: var(--charcoal);
+            color: var(--bone);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+
+        /* Nav */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-link {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--bone);
+            cursor: pointer;
+            position: relative;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./assets/gold_ore.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+            filter: grayscale(80%) sepia(10%) contrast(1.2);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--brass);
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 1.5s ease 0.5s forwards;
+            transform: translateY(20px);
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--slate);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            opacity: 0;
+            animation: fadeUp 1.5s ease 0.8s forwards;
+            transform: translateY(20px);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--ink);
+            background-color: var(--bone);
+            border: 1px solid var(--bone);
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            animation: fadeUp 1.5s ease 1.1s forwards;
+            transform: translateY(20px);
+        }
+
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--bone);
+        }
+
+        /* Section */
+        .section {
+            padding: 10rem 5%;
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10%;
+            align-items: center;
+        }
+
+        .split-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .split-content p {
+            color: var(--slate);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 120%;
+            overflow: hidden;
+            background-color: var(--charcoal);
+        }
+
+        .image-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(50%) brightness(0.8);
+            transition: transform 2s ease;
+        }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery {
+            padding: 5rem 5% 10rem;
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 3rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .artifact {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .artifact-placeholder {
+            width: 100%;
+            padding-bottom: 130%;
+            background-color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artifact-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s;
+        }
+
+        .artifact:hover .artifact-placeholder::after {
+            left: 150%;
+        }
+
+        .artifact h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .artifact span {
+            font-size: 0.8rem;
+            color: var(--slate);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 5%;
+            border-top: 1px solid rgba(242, 243, 252, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--slate);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal */
+        #velocity-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 11, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #velocity-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .velocity-modal {
+            background: var(--ink);
+            border: 1px solid rgba(242, 243, 252, 0.09);
+            padding: 3rem;
+            width: 90%;
+            max-width: 480px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #velocity-modal-overlay.active .velocity-modal {
+            transform: translateY(0);
+        }
+
+        .v-modal-eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.70rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--brass);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .v-modal-title {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--bone);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .v-modal-body {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--slate);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .v-modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--bone);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--slate);
+            padding-bottom: 4px;
+            transition: var(--transition);
+        }
+
+        .v-modal-link:hover {
+            color: var(--brass);
+            border-color: var(--brass);
+        }
+
+        .v-progress-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(242, 243, 252, 0.05);
+        }
+
+        .v-progress-bar {
+            height: 100%;
+            background: var(--brass);
+            width: 100%;
+            transform-origin: left;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            .split-section.reverse .image-wrapper {
+                grid-row: 1;
+            }
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="openModal()">MYST.MMXX</div>
+        <nav class="nav-links">
+            <span class="nav-link" onclick="openModal()">Collections</span>
+            <span class="nav-link" onclick="openModal()">Journal</span>
+            <span class="nav-link" onclick="openModal()">Contact</span>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="eyebrow">Alchemical Organic Alloys</span>
+            <h1 class="hero-title">Ancient Memory.<br>Future Form.</h1>
+            <p class="hero-desc">We exist to resolve a critical disconnect in jewelry: the divide between symbolic meaning and material integrity.</p>
+            <div class="cta-button" onclick="openModal()">Explore Artifacts</div>
+        </div>
+    </section>
+
+    <section class="section split-section">
+        <div class="split-content">
+            <span class="eyebrow">The Origin</span>
+            <h2>Matter Returning to its Highest State.</h2>
+            <p>Drawn from the Earth’s oldest rivers and refined from natural gold nuggets gathered in Australia and the Yukon. Each fragment is melted, purified, and reformed—gold without extraction, without harm. Its light is cyclical, not mined. We preserve its natural crystalline form, alive with the intelligence of the earth.</p>
+            <div class="cta-button" onclick="openModal()">Our Process</div>
+        </div>
+        <div class="image-wrapper" onclick="openModal()" style="cursor: pointer;">
+            <img src="./assets/stone_texture.png" alt="Geological Fracture">
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-header">
+            <span class="eyebrow">Curated Selection</span>
+            <h2>Reliks</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-placeholder"></div>
+                <h3>Ekon // 007</h3>
+                <span>Amalgam</span>
+            </div>
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-placeholder"></div>
+                <h3>Kai // Ghanite</h3>
+                <span>Ikon</span>
+            </div>
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-placeholder"></div>
+                <h3>Tyme</h3>
+                <span>Amalgam</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>&copy; 2026 Velocity by Calyvent. All rights reserved.</div>
+        <div style="cursor: pointer;" onclick="openModal()">Bespoke Digital</div>
+    </footer>
+
+    <!-- Velocity Modal -->
+    <div id="velocity-modal-overlay" onclick="closeModal(event)">
+        <div class="velocity-modal">
+            <span class="v-modal-eyebrow">Previewed by Velocity</span>
+            <h2 class="v-modal-title">This is a preview.</h2>
+            <p class="v-modal-body">This page was designed and built by Velocity &mdash; the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</p>
+            <a href="https://velocity.calyvent.com" target="_blank" class="v-modal-link">Commission a Studio Project &rarr;</a>
+            <div class="v-progress-track">
+                <div class="v-progress-bar" id="v-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timeoutId;
+        const overlay = document.getElementById('velocity-modal-overlay');
+        const progressBar = document.getElementById('v-progress');
+
+        function openModal() {
+            overlay.classList.add('active');
+            
+            // Reset and start animation
+            progressBar.style.transition = 'none';
+            progressBar.style.transform = 'scaleX(1)';
+            
+            // Trigger reflow
+            void progressBar.offsetWidth;
+            
+            progressBar.style.transition = 'transform 5s linear';
+            progressBar.style.transform = 'scaleX(0)';
+
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                closeModal();
+            }, 5000);
+        }
+
+        function closeModal(event) {
+            // Only close if clicking overlay directly or if called programmatically
+            if (!event || event.target === overlay) {
+                overlay.classList.remove('active');
+                clearTimeout(timeoutId);
+            }
+        }
+    </script>
+</body>
+</html>
