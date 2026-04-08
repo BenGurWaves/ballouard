@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moneybag Speaks | Preview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --ink: #0A0A0B;
-      --slate: #91A8AA;
-      --charcoal: #373F45;
-      --steel: #697177;
-      --bone: #F5F6F6;
-      --brass: #B69E66; /* Added subtly for the modal and accents as per quiet luxury standards */
-      
+      --base: #F5F5F3;
+      --sycamore: #969582;
+      --desert: #B78962;
+      --aqua: #97A2AD;
+      --ink: #1C1C1B;
+
       --font-display: 'Playfair Display', serif;
       --font-body: 'Roboto', sans-serif;
     }
@@ -27,15 +29,18 @@
     }
 
     body {
-      background-color: var(--ink);
-      color: var(--bone);
+      background-color: var(--base);
+      color: var(--ink);
       font-family: var(--font-body);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    h1, h2, h3, .eyebrow {
+    h1,
+    h2,
+    h3,
+    .eyebrow {
       font-family: var(--font-display);
       font-weight: 400;
     }
@@ -49,7 +54,7 @@
 
     /* Typography */
     .eyebrow {
-      color: var(--slate);
+      color: var(--sycamore);
       font-size: 0.9rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -61,19 +66,19 @@
       font-size: clamp(3rem, 6vw, 4.5rem);
       line-height: 1.1;
       margin-bottom: 2rem;
-      color: var(--bone);
+      color: var(--ink);
     }
-    
+
     h2 {
       font-size: clamp(2rem, 4vw, 3rem);
       line-height: 1.2;
       margin-bottom: 1.5rem;
-      color: var(--bone);
+      color: var(--ink);
     }
 
     p.lead {
       font-size: clamp(1.1rem, 2vw, 1.3rem);
-      color: var(--slate);
+      color: var(--sycamore);
       margin-bottom: 3rem;
       max-width: 80%;
     }
@@ -83,8 +88,8 @@
       display: inline-block;
       padding: 1.2rem 2.5rem;
       background-color: transparent;
-      color: var(--bone);
-      border: 1px solid var(--slate);
+      color: var(--sycamore);
+      border: 1px solid var(--sycamore);
       font-family: var(--font-body);
       font-size: 0.95rem;
       letter-spacing: 0.05em;
@@ -95,19 +100,19 @@
     }
 
     .btn:hover {
-      background-color: var(--slate);
-      color: var(--ink);
+      background-color: var(--sycamore);
+      color: var(--base);
     }
 
     .btn-primary {
-      background-color: var(--slate);
-      color: var(--ink);
-      border-color: var(--slate);
+      background-color: var(--desert);
+      color: var(--base);
+      border-color: var(--desert);
     }
 
     .btn-primary:hover {
-      background-color: transparent;
-      color: var(--slate);
+      background-color: var(--base);
+      color: var(--desert);
     }
 
     /* Sections */
@@ -123,7 +128,8 @@
       left: 5%;
       right: 5%;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(145, 168, 170, 0.2), transparent);
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      opacity: 0.3;
     }
 
     .nav {
@@ -137,15 +143,15 @@
       font-family: var(--font-display);
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--bone);
+      color: var(--ink);
       letter-spacing: 0.02em;
       cursor: pointer;
     }
-    
+
     .nav-links button {
       background: none;
       border: none;
-      color: var(--steel);
+      color: var(--aqua);
       font-family: var(--font-body);
       font-size: 0.9rem;
       letter-spacing: 0.05em;
@@ -156,7 +162,7 @@
     }
 
     .nav-links button:hover {
-      color: var(--slate);
+      color: var(--sycamore);
     }
 
     /* Hero */
@@ -167,13 +173,13 @@
       justify-content: center;
       padding-top: 2rem;
     }
-    
+
     .hero-image-placeholder {
       width: 100%;
       height: 400px;
       margin-top: 4rem;
-      background: linear-gradient(135deg, var(--charcoal), var(--ink));
-      border: 1px solid rgba(145, 168, 170, 0.15);
+      background: var(--aqua);
+      border: 1px solid rgba(151, 162, 173, 0.4);
       position: relative;
       overflow: hidden;
     }
@@ -186,8 +192,8 @@
       right: 0;
       bottom: 0;
       background: url('assets/hero.jpg') center/cover no-repeat;
-      opacity: 0.8;
-      mix-blend-mode: luminosity;
+      mix-blend-mode: multiply;
+      opacity: 0.7;
     }
 
     /* Value Grid */
@@ -199,60 +205,104 @@
 
     .value-card {
       padding: 3rem;
-      background: rgba(55, 63, 69, 0.2);
-      border: 1px solid rgba(145, 168, 170, 0.08);
+      background: rgba(150, 149, 130, 0.05);
+      /* Sycamore very light */
+      border: 1px solid rgba(151, 162, 173, 0.3);
+      /* Aqua border */
       transition: transform 0.4s ease, background 0.4s ease;
       cursor: pointer;
     }
 
     .value-card:hover {
       transform: translateY(-5px);
-      background: rgba(55, 63, 69, 0.4);
+      background: rgba(150, 149, 130, 0.15);
+      /* Sycamore lightly darker */
     }
 
     .value-card .eyebrow {
       margin-bottom: 1rem;
-      color: var(--steel);
+      color: var(--aqua);
     }
 
     .value-card h3 {
       font-size: 1.8rem;
       margin-bottom: 1.5rem;
-      color: var(--bone);
+      color: var(--ink);
     }
 
     .value-card p {
-      color: var(--slate);
+      color: var(--sycamore);
       font-size: 1.05rem;
+    }
+
+    /* Abstract imagery / Atmosphere Section */
+    .atmosphere-section {
+      width: 100%;
+      height: 500px;
+      background: var(--sycamore);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .atmosphere-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('assets/texture.jpg') center/cover;
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+    }
+
+    .atmosphere-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .atmosphere-content .eyebrow {
+      color: var(--base);
+    }
+
+    .atmosphere-content h2 {
+      margin-bottom: 0;
+      color: var(--base);
     }
 
     /* Footer */
     footer {
       padding: 4rem 0;
       text-align: center;
-      color: var(--steel);
+      color: var(--aqua);
       font-size: 0.85rem;
       letter-spacing: 0.05em;
     }
-    
+
     footer a {
-      color: var(--steel);
+      color: var(--aqua);
       text-decoration: none;
       transition: color 0.3s ease;
     }
-    
+
     footer a:hover {
-      color: var(--slate);
+      color: var(--sycamore);
     }
 
-    /* Modal Spec exactly as requested */
+    /* Modal Spec explicitly adapted for light background */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(10, 10, 11, 0.88);
+      background: rgba(245, 245, 243, 0.85);
+      /* base 0.85 */
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       display: flex;
@@ -272,12 +322,14 @@
     .modal-box {
       width: 90%;
       max-width: 500px;
-      background-color: var(--ink);
-      border: 1px solid rgba(245, 246, 246, 0.09); /* bone 0.09 */
+      background-color: var(--base);
+      border: 1px solid rgba(151, 162, 173, 0.3);
+      /* aqua 0.3 */
       padding: 3.5rem;
       position: relative;
       transform: translateY(20px);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
     }
 
     .modal-overlay.active .modal-box {
@@ -285,7 +337,7 @@
     }
 
     .modal-eyebrow {
-      color: var(--brass);
+      color: var(--desert);
       font-family: var(--font-body);
       font-size: 0.75rem;
       letter-spacing: 0.2em;
@@ -297,33 +349,33 @@
     .modal-title {
       font-family: var(--font-display);
       font-size: 2.2rem;
-      color: var(--bone);
+      color: var(--ink);
       margin-bottom: 1.5rem;
       line-height: 1.2;
     }
 
     .modal-body {
-      color: var(--slate);
+      color: var(--sycamore);
       font-size: 1.05rem;
       margin-bottom: 2.5rem;
     }
 
     .modal-link {
       display: inline-block;
-      color: var(--bone);
+      color: var(--ink);
       font-family: var(--font-body);
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-decoration: none;
-      border-bottom: 1px solid var(--slate);
+      border-bottom: 1px solid var(--aqua);
       padding-bottom: 0.2rem;
       transition: color 0.3s ease, border-color 0.3s ease;
     }
 
     .modal-link:hover {
-      color: var(--brass);
-      border-color: var(--brass);
+      color: var(--desert);
+      border-color: var(--desert);
     }
 
     .modal-progress {
@@ -331,14 +383,19 @@
       bottom: 0;
       left: 0;
       height: 2px;
-      background-color: var(--brass);
+      background-color: var(--desert);
       width: 100%;
       transform-origin: left;
     }
 
     @keyframes progressDown {
-      from { transform: scaleX(1); }
-      to { transform: scaleX(0); }
+      from {
+        transform: scaleX(1);
+      }
+
+      to {
+        transform: scaleX(0);
+      }
     }
 
     .modal-overlay.active .modal-progress {
@@ -351,7 +408,7 @@
         grid-template-columns: 1fr;
         gap: 2rem;
       }
-      
+
       .nav-links {
         display: none;
       }
@@ -359,13 +416,14 @@
       h1 {
         font-size: 2.8rem;
       }
-      
+
       section {
         padding: 5rem 0;
       }
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -382,8 +440,9 @@
     <section class="hero">
       <span class="eyebrow">The Real Strategy</span>
       <h1>Systems of Wealth<br>And Quiet Authority.</h1>
-      <p class="lead">Social media shows you 10% of the blueprint. The algorithm limits what is seen. Step into the architecture of true capital acquisition and unparalleled positioning.</p>
-      
+      <p class="lead">Social media shows you 10% of the blueprint. The algorithm limits what is seen. Step into the
+        architecture of true capital acquisition and unparalleled positioning.</p>
+
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <button class="btn btn-primary" onclick="openModal()">Unlock The Strategy</button>
         <button class="btn" onclick="openModal()">View The Portfolio</button>
@@ -402,23 +461,24 @@
         <div class="value-card" onclick="openModal()">
           <span class="eyebrow">01</span>
           <h3>Client Systems</h3>
-          <p>Tactics for high-ticket acquisition that operate relentlessly beneath the surface. No superficial marketing, only conversion architecture.</p>
+          <p>Tactics for high-ticket acquisition that operate relentlessly beneath the surface. No superficial
+            marketing, only conversion architecture.</p>
         </div>
         <div class="value-card" onclick="openModal()">
           <span class="eyebrow">02</span>
           <h3>Absolute Authority</h3>
-          <p>Command the room. How you speak and carry yourself dictates the capital you command. Precision in execution and presence.</p>
+          <p>Command the room. How you speak and carry yourself dictates the capital you command. Precision in execution
+            and presence.</p>
         </div>
       </div>
     </section>
-    
+
     <!-- Abstract imagery / Atmosphere Section -->
     <section style="padding: 4rem 0;">
-      <div style="width: 100%; height: 500px; background: linear-gradient(135deg, var(--charcoal), var(--ink)); border: 1px solid rgba(145, 168, 170, 0.15); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer;" onclick="openModal()">
-        <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: url('assets/texture.jpg') center/cover; opacity: 0.4; mix-blend-mode: overlay;"></div>
-        <div style="text-align: center; position: relative; z-index: 2;">
-          <span class="eyebrow" style="color:var(--steel);">Private Access</span>
-          <h2 style="margin-bottom: 0;">Exclusive Insights.</h2>
+      <div class="atmosphere-section" onclick="openModal()">
+        <div class="atmosphere-content">
+          <span class="eyebrow">Private Access</span>
+          <h2>Exclusive Insights.</h2>
         </div>
       </div>
     </section>
@@ -432,7 +492,8 @@
     <!-- Footer -->
     <footer>
       &copy; 2026 Velocity by Calyvent. All rights reserved.<br>
-      <a href="https://velocity.calyvent.com" target="_blank" style="margin-top: 1rem; display: inline-block;">velocity.calyvent.com</a>
+      <a href="https://velocity.calyvent.com" target="_blank"
+        style="margin-top: 1rem; display: inline-block;">velocity.calyvent.com</a>
     </footer>
   </div>
 
@@ -441,7 +502,8 @@
     <div class="modal-box">
       <span class="modal-eyebrow">PREVIEWED BY VELOCITY</span>
       <h3 class="modal-title">This is a preview.</h3>
-      <p class="modal-body">This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</p>
+      <p class="modal-body">This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is
+        not the live site. It is what your digital presence could look like.</p>
       <a href="https://velocity.calyvent.com" target="_blank" class="modal-link">https://velocity.calyvent.com</a>
       <div class="modal-progress" id="modalProgress"></div>
     </div>
@@ -453,12 +515,12 @@
     function openModal() {
       const modal = document.getElementById('previewModal');
       const progress = document.getElementById('modalProgress');
-      
+
       // Reset animation
       progress.style.animation = 'none';
       progress.offsetHeight; // trigger reflow
       progress.style.animation = null;
-      
+
       modal.classList.add('active');
 
       if (timeoutId) {
@@ -482,4 +544,5 @@
     }
   </script>
 </body>
+
 </html>
