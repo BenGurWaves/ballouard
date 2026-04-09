@@ -36,32 +36,43 @@ Create the world's most exclusive digital presence — not a "website," but an o
 
 **URL:** `velocity.calyvent.com/previews/jar`
 
-### Cinematic Techniques Applied (5+ from Reference Library)
+### Cinematic Techniques Applied (6+ from Reference Library)
 
 | Technique | Source | Implementation |
 |-----------|--------|----------------|
-| **Full-bleed cinematic hero** | Chanel J12 | 100vh hero with animated gold glow, massive J.A.R. typography |
-| **Scroll-triggered reveals** | Tiffany & Co. | IntersectionObserver opacity + translateY on all sections |
-| **Museum-grade whitespace** | Cartier | Extreme negative space, oversized typography hierarchy |
-| **Immersive storytelling flow** | Prada | Soundless scroll narrative, full-screen sections |
-| **Subtle parallax** | Parmigiani Fleurier | Hero text follows scroll with transform |
-| **Flashlight aesthetic** | Somerset House 2002 | Dark backgrounds, text reveals as if illuminated |
+| **Split-screen asymmetric hero** | Chanel J12 + Nicole Fuller | 55/45 grid, text left, image right with gradient bleed |
+| **Parallax scroll depth** | Tiffany & Co. | Hero image moves at 0.15x scroll speed |
+| **Scroll-triggered reveals** | Tiffany & Co. | IntersectionObserver with 50px translateY |
+| **Museum-grade whitespace** | Cartier | 60% empty space, massive 12vw headlines |
+| **Immersive storytelling flow** | Prada | Continuous scroll, no "section" dividers |
+| **Asymmetric alternating grids** | Nicole Fuller | 40/60 → 60/40 craft rows |
+| **Typography as architecture** | Cartier | Left-aligned only, 1/3 column body text |
 
-### Visual Assets
-- **Place Vendôme image** — Full-bleed 80vh section, cinematic opacity transitions
-- **Pavé texture** — Abstract background in craft section, grayscale, 15% opacity
+### Anti-Template Enforcement
+- ❌ NO centered text blocks (left align only)
+- ❌ NO symmetric columns (asymmetric 55/45, 40/60 splits)
+- ❌ NO dark backgrounds (Spring ivory/cream/sage)
+- ❌ NO card grids or bullet points
+- ✅ Full-bleed imagery with gradient overlays
+- ✅ Massive whitespace on single side
+- ✅ Typography at architectural scale (12vw headlines)
+- ✅ Continuous narrative flow (no section breaks)
 
-### Brand Identity Created (No Existing Site to Extract From)
+### Brand Identity Created — Spring Palette
 
+```css
+--spring-ivory: #FAF8F5       (Warm paper white)
+--spring-cream: #F5F0E8        (Aged parchment)
+--spring-blush: #E8D5D0        (Camellia petals)
+--spring-sage: #C5D1C8         (New growth)
+--spring-gold: #C9B896         (Softened antique gold)
+--spring-mauve: #B8A8A8        (Dried lavender)
+--spring-charcoal: #374151     (Soft black, not harsh)
+
+Typography: Cormorant Garamond (display) + Inter (body)
 ```
---obsidian: #0D0D0D        (Deep blackened metal)
---graphite: #1A1A1A        (Oxidized titanium)
---vendome-gold: #C9A962    (Atelier warmth)
---pansy-purple: #6B4E71    (Iconic earrings reference)
---alabaster: #F5F3EF       (Museum walls)
 
-Typography: Cormorant Garamond + Inter + Playfair Display
-```
+**Why Spring for JAR:** The palette evokes the camellia and pansy pieces JAR is famous for — soft, renewed, breathing. Moves away from "intimidating luxury black" to "inviting artistry."
 
 ---
 
