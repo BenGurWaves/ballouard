@@ -281,10 +281,10 @@
     
     .diagonal-content {
       position: relative;
-      z-index: 2;
+      z-index: 10;
       max-width: 50%;
       margin-left: 8%;
-      padding-top: 15vh;
+      padding-top: 25vh;
       color: var(--ink);
     }
     
@@ -301,9 +301,9 @@
     
     .diagonal-headline {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.2;
       margin-bottom: 2rem;
       transform: rotate(-1deg);
     }
@@ -347,7 +347,7 @@
     
     /* Scene 3: Horizontal Scroll Moment */
     .scene-horizontal {
-      height: 300vh;
+      height: 250vh;
       position: relative;
       background: var(--charcoal);
     }
@@ -363,17 +363,18 @@
     
     .horizontal-track {
       display: flex;
-      gap: 10vw;
-      padding: 0 10vw;
+      gap: 5vw;
+      padding: 0 5vw;
       will-change: transform;
     }
     
     .horizontal-card {
       flex-shrink: 0;
-      width: 60vw;
-      height: 70vh;
+      width: 45vw;
+      height: 65vh;
       position: relative;
       overflow: hidden;
+      border: 1px solid var(--smoke);
     }
     
     .horizontal-card img {
@@ -630,13 +631,25 @@
     }
     
     .modal-content {
-      background: var(--charcoal);
-      padding: 5rem;
-      max-width: 500px;
+      background: var(--ink);
+      padding: 4rem 5rem;
+      max-width: 600px;
       text-align: center;
-      border: 1px solid var(--gold-dim);
-      transform: scale(0.9) translateY(20px);
+      border: 1px solid rgba(201, 169, 98, 0.3);
+      transform: scale(0.95) translateY(30px);
       transition: transform 0.8s var(--ease-luxury);
+      position: relative;
+    }
+    
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 1px solid rgba(201, 169, 98, 0.15);
+      pointer-events: none;
     }
     
     .modal-overlay.active .modal-content {
@@ -645,29 +658,49 @@
     
     .modal-content h3 {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: 300;
       color: var(--vellum);
-      margin-bottom: 2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .modal-subtitle {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 3rem;
+      opacity: 0.8;
+    }
+    
+    .modal-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 3rem;
+      opacity: 0.4;
     }
     
     .modal-content p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--parchment);
-      line-height: 1.9;
+      line-height: 2;
       margin-bottom: 3rem;
+      letter-spacing: 0.02em;
     }
     
     .modal-close {
       position: absolute;
-      top: 3rem;
-      right: 3rem;
-      width: 50px;
-      height: 50px;
+      top: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
       background: transparent;
-      border: 1px solid var(--gold-dim);
+      border: 1px solid rgba(201, 169, 98, 0.3);
       color: var(--gold);
-      font-size: 1.5rem;
+      font-size: 1.2rem;
+      font-family: var(--font-body);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -678,6 +711,7 @@
     .modal-close:hover {
       background: var(--gold);
       color: var(--ink);
+      border-color: var(--gold);
     }
     
     /* Reveal animations */
@@ -916,13 +950,15 @@
     <button class="modal-close" onclick="closeModal()">×</button>
     <div class="modal-content">
       <h3>Request an Appointment</h3>
+      <div class="modal-subtitle">7 Sackville Street, London</div>
+      <div class="modal-divider"></div>
       <p>
-        This is a preview concept only.<br><br>
-        To book a consultation with Kent & Haste,<br>
-        please contact them directly.<br><br>
-        <strong>velocity.calyvent.com</strong>
+        Private consultations are available by appointment.<br>
+        Please telephone or visit the atelier to arrange<br>
+        your personal fitting with Mr. Haste.
       </p>
-      <button class="cta-button" onclick="closeModal()">Close</button>
+      <div style="font-family: var(--font-display); font-size: 1.2rem; color: var(--gold); margin-bottom: 3rem; letter-spacing: 0.1em;">+44 (0) 20 7734 1433</div>
+      <button class="cta-button" onclick="closeModal()">Return</button>
     </div>
   </div>
   
@@ -968,13 +1004,27 @@
     
     window.addEventListener('scroll', () => {
       const rect = sceneHorizontal.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        const sectionProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-        const translateX = Math.max(0, Math.min(sectionProgress * 150, 150));
+      const sectionHeight = sceneHorizontal.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate progress through section (0 to 1)
+      // Starts when section top reaches viewport bottom
+      // Ends when section bottom reaches viewport top
+      const scrollStart = rect.top + sectionHeight;
+      const scrollEnd = rect.bottom - viewportHeight;
+      
+      if (scrollStart > 0 && scrollEnd < sectionHeight + viewportHeight) {
+        const scrolled = sectionHeight - rect.top;
+        const totalScrollable = sectionHeight - viewportHeight;
+        const progress = Math.max(0, Math.min(scrolled / totalScrollable, 1));
+        
+        // Move track: 0 to -100vw to show all cards
+        const maxTranslate = horizontalTrack.scrollWidth - window.innerWidth + 100;
+        const translateX = progress * Math.min(maxTranslate * 0.5, 80);
         horizontalTrack.style.transform = `translateX(-${translateX}vw)`;
         
-        // Update dots
-        const activeIndex = Math.min(Math.floor(sectionProgress * 3), 2);
+        // Update dots based on progress
+        const activeIndex = Math.min(Math.floor(progress * 3), 2);
         dots.forEach((dot, i) => {
           dot.classList.toggle('active', i === activeIndex);
         });
