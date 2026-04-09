@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYST MMXX | Alchemical Organic Alloys</title>
+    <!-- SEO Best Practices -->
+    <meta name="description" content="Sculptural, hand-crafted artifacts forged from traceably sourced raw materials. Ancient memory meets future form.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+        Cinematic Reference Library Techniques Used:
+        1. Chanel J12: Full-bleed cinematic hero with extremley subtle scale/fade and massive refined serif typography. Buttery cubic-bezier hover states.
+        2. Tiffany & Co: Asymmetric scroll layout with deep imagery and minimal text.
+        3. Cartier: Museum-grade product focus with extreme negative space and oversized typography hierarchy (precise tracking).
+        4. Prada: Scroll-triggered section reveals with vanilla JS IntersectionObserver (translateY + opacity).
+        This creates stop-scrolling luxury vs Wix template.
+        */
+
+        :root {
+            --ink: #141614; /* Primary deep charcoal */
+            --ink-light: #3D403C;
+            --stone: #EFEBDC; /* Warm stone/cream for text */
+            --bone: #E5E1DA;
+            --gold: #A98D4C;
+            --gold-light: #C7B175;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --ease-slow: cubic-bezier(0.23, 1, 0.32, 1); /* Buttery expensive transition */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--ink);
+            color: var(--stone);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, .display-text {
+            font-family: var(--font-display);
+            font-weight: 300;
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 10vw, 9rem);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            letter-spacing: -0.01em;
+        }
+
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--bone);
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 2vh;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            max-width: 45ch;
+            color: var(--bone);
+        }
+
+        /* UTILITIES */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s var(--ease-slow), transform 1.2s var(--ease-slow);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.2em 3em;
+            border: 1px solid rgba(239, 235, 220, 0.3);
+            background: transparent;
+            color: var(--stone);
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.6s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--stone);
+            transform: translateY(100%);
+            transition: transform 0.6s var(--ease-slow);
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: var(--ink);
+            border-color: var(--stone);
+        }
+
+        .btn:hover::after {
+            transform: translateY(0);
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            pointer-events: none; /* Let clicks pass through empty space */
+        }
+
+        nav * {
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .nav-links span {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+        }
+
+        /* HERO SECTION - Chanel J12 Style */
+        .hero {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* CSS Placeholder for Image 1 */
+            background: linear-gradient(135deg, var(--ink) 0%, #1a1a17 50%, #2a2518 100%);
+            z-index: 1;
+            transform: scale(1.05); /* For load-in animation */
+            transition: transform 3s var(--ease-slow);
+        }
+        
+        .hero-media::after {
+            content: "Image Placeholder 1: Abstract alchemical workspace with raw gold ore";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-family: monospace;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+
+        .hero.loaded .hero-media {
+            transform: scale(1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 20%, var(--ink) 120%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            width: 100%;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        .hero-title span {
+            display: block;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 1.5s var(--ease-slow), opacity 1.5s var(--ease-slow);
+        }
+
+        .hero.loaded .hero-title span {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .hero.loaded .hero-title span:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        /* STATEMENT SECTION - Cartier Oversized Typo */
+        .statement {
+            padding: 20vh 10vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--ink);
+        }
+
+        .statement h2 {
+            font-size: clamp(2rem, 4vw, 4rem);
+            max-width: 25ch;
+            line-height: 1.2;
+            color: var(--bone);
+        }
+
+        .statement h2 em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        /* ASYMMETRIC GRID - Tiffany Parallax Style */
+        .collection-showcase {
+            padding: 10vh 5vw;
+        }
+
+        .showcase-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            align-items: center;
+            margin-bottom: 25vh;
+        }
+
+        .showcase-item:nth-child(even) {
+            grid-template-columns: 1fr 1.2fr;
+            direction: rtl;
+        }
+
+        .showcase-item:nth-child(even) .showcase-text {
+            direction: ltr;
+        }
+
+        .showcase-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 130%; /* Portrait aspect ratio */
+            overflow: hidden;
+        }
+
+        .showcase-image {
+            position: absolute;
+            top: -10%;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            /* CSS Placeholders */
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.8s var(--ease-slow);
+        }
+
+        .showcase-item:nth-child(1) .showcase-image {
+            background: linear-gradient(to bottom right, #111, #2b271a);
+        }
+        .showcase-item:nth-child(1) .showcase-image::after { content: "Image Placeholder 2: Dark stone & golden light"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
+
+        .showcase-item:nth-child(2) .showcase-image {
+            background: linear-gradient(to top left, #1a1b1a, #0a0a0a);
+        }
+        .showcase-item:nth-child(2) .showcase-image::after { content: "Image Placeholder 3: Dark honed basalt pedestal"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
+
+        .showcase-image-container:hover .showcase-image {
+            transform: scale(1.05); /* Buttery luxury hover */
+        }
+
+        .showcase-text {
+            max-width: 500px;
+        }
+
+        .showcase-text h3 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 2rem;
+        }
+
+        .showcase-text p {
+            margin-bottom: 3rem;
+            color: rgba(229, 225, 218, 0.7);
+        }
+        
+        .spec-list {
+            list-style: none;
+            margin-bottom: 3rem;
+            border-top: 1px solid rgba(229, 225, 218, 0.2);
+            padding-top: 2rem;
+        }
+        
+        .spec-list li {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--bone);
+        }
+
+        /* MATERIALITY FULL BLEED - Prada Immersive */
+        .materiality {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .materiality-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* CSS Placeholder 4 */
+            background: radial-gradient(circle at bottom, #2a2518 0%, var(--ink) 70%);
+            z-index: 1;
+        }
+        .materiality-bg::after { content: "Image Placeholder 4: Elemental landscape / dark ash"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
+
+        .materiality-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            background: rgba(20, 22, 20, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 5rem 4rem;
+            border: 1px solid rgba(239, 235, 220, 0.1);
+        }
+        
+        .materiality-content h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 8rem 4rem 4rem;
+            background-color: var(--ink);
+            border-top: 1px solid rgba(239, 235, 220, 0.1);
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .velocity-badge {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(239, 235, 220, 0.4);
+            transition: color 0.4s ease;
+        }
+
+        .velocity-badge:hover {
+            color: var(--stone);
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 22, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s var(--ease-slow);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.6s var(--ease-slow);
+            transition-delay: 0.2s;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            margin: 0 auto;
+            color: rgba(239, 235, 220, 0.7);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+            .showcase-item, .showcase-item:nth-child(even) {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .statement {
+                padding: 15vh 5vw;
+            }
+            .materiality-content {
+                padding: 4rem 2rem;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">MYST</div>
+        <div class="nav-links">
+            <span onclick="openModal()">Menu</span>
+        </div>
+    </nav>
+
+    <section class="hero transition-layer" id="hero">
+        <div class="hero-media"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-title">
+                <span>ANCIENT MEMORY</span>
+                <span>FUTURE FORM</span>
+            </div>
+            <button class="btn reveal" onclick="openModal()">Discover Artifacts</button>
+        </div>
+    </section>
+
+    <section class="statement reveal">
+        <h2>We create living artifacts—sculptural pieces of uncommon purity, where <em>meaning and purity must exist together.</em></h2>
+    </section>
+
+    <section class="collection-showcase">
+        <div class="showcase-item">
+            <div class="showcase-image-container reveal">
+                <!-- Parallax image -->
+                <div class="showcase-image data-parallax" data-speed="0.1"></div>
+            </div>
+            <div class="showcase-text reveal">
+                <span class="eyebrow">The Signature Collection</span>
+                <h3>IKON</h3>
+                <p>The moment when awareness takes shape. Forged from raw Australian gold, each artifact is a vessel of order and proportion, carrying the logic of civilizations that believed harmony could summon the divine.</p>
+                
+                <ul class="spec-list">
+                    <li><span>Material</span> <span>Raw Australian Gold (.925)</span></li>
+                    <li><span>Refining</span> <span>Ancestral In-House Methods</span></li>
+                    <li><span>Stone</span> <span>Ocean Mined Diamonds</span></li>
+                </ul>
+                
+                <button class="btn" onclick="openModal()">View Collection</button>
+            </div>
+        </div>
+
+        <div class="showcase-item">
+            <div class="showcase-image-container reveal">
+                <div class="showcase-image data-parallax" data-speed="0.1"></div>
+            </div>
+            <div class="showcase-text reveal">
+                <span class="eyebrow">The Genesis Origin</span>
+                <h3>AMALGAM</h3>
+                <p>Relics of origin, shaped by pressure and fire. These pieces hold the texture of creation—the fractures and densities that remind us where permanence began. Built for those who understand traceablity as the ultimate luxury.</p>
+                
+                <ul class="spec-list">
+                    <li><span>Material</span> <span>22K Organic Alloys</span></li>
+                    <li><span>Method</span> <span>Kinetic Hand-Spinning</span></li>
+                    <li><span>Stone</span> <span>Tanzanian Lotus Garnet</span></li>
+                </ul>
+
+                <button class="btn" onclick="openModal()">View Collection</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="materiality reveal">
+        <div class="materiality-bg data-parallax" data-speed="0.05"></div>
+        <div class="materiality-content reveal">
+            <span class="eyebrow">Ethos</span>
+            <h2>Material Truth</h2>
+            <p style="margin: 0 auto 3rem; max-width: 60ch;">We resist the jewelry industry's reliance on opaque sourcing and mass-refined alloys. Every piece of Eco Gold is drawn from the Earth's oldest rivers without harm, creating an unbroken chain of alchemical integrity.</p>
+            <button class="btn" onclick="openModal()">Explore The Process</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo reveal">MYST MMXX</div>
+        <a href="https://velocity.calyvent.com" target="_blank" class="velocity-badge reveal">Architected by Velocity</a>
+    </footer>
+
+    <!-- Universal Modal -->
+    <div class="modal" id="sysModal">
+        <div class="modal-content">
+            <span class="eyebrow">Exclusive Access</span>
+            <h2>Experience MYST</h2>
+            <p>This is a high-end structural preview tailored for MYST MMXX.<br>Full e-commerce integration, immersive 3D viewing, and expanded editorial galleries are available upon official build.</p>
+        </div>
+    </div>
+
+    <script>
+        // Initial Load Animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('hero').classList.add('loaded');
+            }, 100);
+        });
+
+        // Prada-style Scroll Reveals (IntersectionObserver)
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Tiffany / Parmigiani Parallax Engine (Vanilla requestAnimationFrame)
+        const parallaxElements = document.querySelectorAll('.data-parallax');
+        let scrollY = window.scrollY;
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    parallaxElements.forEach(el => {
+                        const speed = parseFloat(el.getAttribute('data-speed')) || 0.1;
+                        // Calculate offset relative to viewport
+                        const rect = el.getBoundingClientRect();
+                        const elementCenter = rect.top + rect.height / 2;
+                        const viewportCenter = window.innerHeight / 2;
+                        const offset = (elementCenter - viewportCenter) * speed;
+                        
+                        el.style.transform = `translateY(${offset}px) scale(1.1)`;
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Modal Functionality
+        const modal = document.getElementById('sysModal');
+        let modalTimeout;
+
+        function openModal() {
+            modal.classList.add('active');
+            
+            clearTimeout(modalTimeout);
+            modalTimeout = setTimeout(() => {
+                closeModal();
+            }, 5000); // Autoclose after 5 seconds per instructions
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        modal.addEventListener('click', closeModal);
+    </script>
+</body>
+</html>
