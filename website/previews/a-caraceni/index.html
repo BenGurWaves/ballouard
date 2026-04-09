@@ -77,65 +77,14 @@
             z-index: 9998;
         }
         
-        /* Fabric weave parallax overlay */
-        .fabric-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.03;
-            background-image: 
-                repeating-linear-gradient(90deg, var(--ink) 0px, transparent 1px, transparent 2px, var(--ink) 3px),
-                repeating-linear-gradient(0deg, var(--ink) 0px, transparent 1px, transparent 3px, var(--ink) 4px);
-            background-size: 4px 6px;
-            transform: translateY(0);
-        }
+        /* Fabric weave parallax overlay - DISABLED for performance */
+        /* .fabric-overlay { ... } */
         
-        /* Measurement tape ruler */
-        .tape-ruler {
-            position: fixed;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 2px;
-            height: 200px;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                var(--gilt) 10%, 
-                var(--gilt) 90%, 
-                transparent 100%);
-            z-index: 100;
-            opacity: 0.6;
-        }
+        /* Measurement tape ruler - DISABLED for performance */
+        /* .tape-ruler { ... } */
         
-        .tape-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background: var(--ink);
-            transition: height 0.1s linear;
-        }
-        
-        /* Scroll-progress lapel pin */
-        .lapel-pin {
-            position: fixed;
-            right: 1.5rem;
-            top: 30%;
-            width: 12px;
-            height: 12px;
-            background: var(--gilt);
-            border: 2px solid var(--ink);
-            border-radius: 50%;
-            z-index: 100;
-            transform: translateY(0);
-            transition: transform 0.3s var(--transition-slow);
-            box-shadow: 0 2px 8px rgba(var(--ink-rgb), 0.2);
-        }
+        /* Scroll-progress lapel pin - DISABLED for performance */
+        /* .lapel-pin { ... } */
         
         /* Navigation */
         nav {
@@ -687,25 +636,10 @@
                 letter-spacing: 6px;
             }
             
-            .tape-ruler,
-            .lapel-pin {
-                display: none;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Fabric weave parallax overlay -->
-    <div class="fabric-overlay" id="fabricOverlay"></div>
-    
-    <!-- Measurement tape ruler -->
-    <div class="tape-ruler">
-        <div class="tape-progress" id="tapeProgress"></div>
-    </div>
-    
-    <!-- Scroll-progress lapel pin -->
-    <div class="lapel-pin" id="lapelPin"></div>
-    
     <!-- Golden thread cursor trail elements -->
     <div class="cursor-trail" id="cursorTrail"></div>
     
@@ -817,37 +751,10 @@
     </div>
     
     <script>
-        // Consolidated scroll handler with requestAnimationFrame
+        // Simplified scroll handler - navbar only
         const navbar = document.getElementById('navbar');
-        const fabricOverlay = document.getElementById('fabricOverlay');
-        const tapeProgress = document.getElementById('tapeProgress');
-        const lapelPin = document.getElementById('lapelPin');
-        
-        let ticking = false;
         window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                    const scrollPercent = scrollY / docHeight;
-                    
-                    // Navbar
-                    navbar.classList.toggle('scrolled', scrollY > 100);
-                    
-                    // Fabric parallax
-                    fabricOverlay.style.transform = `translateY(${scrollY * 0.3}px)`;
-                    
-                    // Tape progress
-                    tapeProgress.style.height = (scrollPercent * 100) + '%';
-                    
-                    // Lapel pin
-                    const maxOffset = window.innerHeight * 0.4;
-                    lapelPin.style.transform = `translateY(${scrollPercent * maxOffset}px)`;
-                    
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 100);
         }, { passive: true });
         
         // Simplified cursor trail - CSS-based, no RAF loop
