@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MYST MMXX - Alchemical Organic Alloys. Sustainable, traceable, pure fine jewelry.">
-    <title>MYST MMXX | Future Form</title>
+    <title>MYST MMXX | Alchemical Organic Alloys</title>
     <!-- 
       Unique vs all prior previews: 
-      1. Uses a true charcoal base (#3D403C) extracted from the client's CSS, breaking the default `#0A0A0B` mold.
-      2. Asymmetrical framing with floating images intersecting text layers.
-      3. Global navigation replaced with a persistent bottom-left abstract HUD / text indicator to maximize image impact.
+      1. Introduced a split-pane loading architecture where the left and right halves enter the screen asynchronously.
+      2. The hero typography acts as a structural pillar (rotated 90deg on desktop) to emulate gallery modernism.
+      3. Global background uses a CSS radial gradient mapped to their signature charcoal (#3D403C) to give the page environmental depth rather than a flat fill.
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --ink: #3D403C;
+            --ink-dark: #2A2C29;
             --bone: #f2f3fc;
             --slate: #b4b4b4;
             --brass: #cecaca;
-            --font-display: 'Playfair Display', serif;
-            --font-body: 'DM Sans', sans-serif;
-            --transition-slow: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-fast: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-display: 'Libre Baskerville', serif;
+            --font-body: 'Outfit', sans-serif;
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         * {
@@ -33,272 +33,275 @@
         }
 
         body {
-            background-color: var(--ink);
+            background: radial-gradient(circle at 50% 0%, var(--ink), var(--ink-dark) 80%);
+            background-attachment: fixed;
             color: var(--bone);
             font-family: var(--font-body);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
             font-weight: 300;
         }
 
-        /* Nav HUD */
-        .hud-nav {
+        /* Nav */
+        header {
             position: fixed;
-            bottom: 3rem;
-            left: 3rem;
-            z-index: 50;
-            mix-blend-mode: difference;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem;
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
         }
 
-        .hud-nav span {
-            font-size: 0.75rem;
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            letter-spacing: 0.25em;
             cursor: pointer;
-            color: var(--brass);
-            opacity: 0.6;
-            transition: var(--transition-fast);
         }
 
-        .hud-nav span:hover {
-            opacity: 1;
-            transform: translateX(5px);
+        .menu-btn {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: var(--bone);
+            transition: width 0.6s var(--ease);
+        }
+
+        .menu-btn:hover::after {
+            width: 100%;
         }
 
         /* Hero */
         .hero {
             height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
+            display: flex;
+            padding: 0;
             position: relative;
-            padding: 0 4rem;
         }
 
-        .hero-text {
-            z-index: 2;
+        .hero-left, .hero-right {
+            width: 50%;
+            height: 100%;
+            position: relative;
+        }
+
+        .hero-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4rem;
         }
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 7vw, 7.5rem);
-            line-height: 1;
-            margin-bottom: 2rem;
+            font-size: clamp(4rem, 8vw, 8rem);
+            line-height: 0.9;
             opacity: 0;
-            transform: translateY(40px);
-            animation: riseUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            transform: translateY(30px);
+            animation: textRise 1.5s var(--ease) 0.5s forwards;
+            position: relative;
+            z-index: 10;
         }
 
-        .hero-title i {
-            font-weight: 400;
+        .hero-title em {
+            font-style: italic;
             color: var(--brass);
-        }
-
-        .hero-desc {
-            font-size: 1rem;
-            max-width: 400px;
-            color: var(--slate);
-            line-height: 1.8;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: riseUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
-            margin-left: 20%;
-        }
-
-        .hero-visual {
-            position: absolute;
-            top: 10%;
-            right: 5%;
-            width: 45vw;
-            height: 80vh;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 2s ease 1s forwards;
-        }
-
-        .hero-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: contrast(1.1) brightness(0.9);
-            transform: scale(1.05);
-            transition: transform 10s linear;
-        }
-
-        .hero-visual:hover img {
-            transform: scale(1);
-        }
-
-        /* Abstract Section */
-        .process-section {
-            padding: 15rem 4rem;
-            display: flex;
-            justify-content: flex-end;
-            position: relative;
-        }
-
-        .process-content {
-            width: 40%;
-            z-index: 2;
-            position: relative;
-        }
-
-        .process-content h2 {
-            font-family: var(--font-display);
-            font-size: 4rem;
-            margin-bottom: 2rem;
             font-weight: 400;
-            line-height: 1.1;
         }
 
-        .process-content p {
-            color: var(--slate);
-            line-height: 1.8;
-            font-size: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .process-img-wrapper {
-            position: absolute;
-            top: 20%;
-            left: 10%;
-            width: 40vw;
-            height: 60vh;
+        .hero-right {
             overflow: hidden;
+            background-color: var(--ink-dark);
         }
 
-        .process-img-wrapper img {
+        .hero-image-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(1.1);
+            animation: imageReveal 2s var(--ease) 0.2s forwards;
+            cursor: pointer;
+        }
+
+        .hero-image-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(20%);
+            filter: saturate(0.8) contrast(1.2);
+            transition: transform 6s linear;
         }
 
-        /* Asymmetric Gallery */
-        .collection {
-            padding: 10rem 4rem 15rem;
+        .hero-image-wrapper:hover img {
+            transform: scale(1.03);
         }
 
-        .collection-header {
-            margin-bottom: 8rem;
-            text-align: center;
-        }
-
-        .collection-header h2 {
-            font-family: var(--font-display);
-            font-size: 3.5rem;
-            color: var(--bone);
-        }
-
-        .asym-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .item-1 {
-            grid-column: 2 / 6;
-            margin-top: -10rem;
-        }
-
-        .item-2 {
-            grid-column: 8 / 12;
-            margin-top: 5rem;
-        }
-
-        .artifact-card {
-            cursor: pointer;
-            group: card;
-        }
-
-        .artifact-box {
-            width: 100%;
-            aspect-ratio: 4/5;
-            background-color: rgba(242, 243, 252, 0.03);
-            border: 1px solid rgba(242, 243, 252, 0.05);
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition-slow);
-        }
-
-        .artifact-card:hover .artifact-box {
-            background-color: rgba(242, 243, 252, 0.06);
-            border-color: var(--brass);
-            transform: translateY(-10px);
-        }
-
-        .artifact-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(242, 243, 252, 0.1);
-            padding-bottom: 1rem;
-        }
-
-        .artifact-name {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-        }
-
-        .artifact-series {
+        /* Vertical Tag */
+        .vertical-tag {
+            position: absolute;
+            left: 3rem;
+            bottom: 3rem;
+            transform: rotate(-90deg) translateX(0%);
+            transform-origin: left bottom;
             font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--slate);
+        }
+
+        /* Statement */
+        .statement {
+            padding: 12rem 4rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .statement-eyebrow {
+            font-size: 0.8rem;
+            color: var(--brass);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .statement h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.3;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .cta-btn {
+            background-color: transparent;
+            color: var(--bone);
+            border: 1px solid rgba(242, 243, 252, 0.3);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: var(--slate);
-        }
-
-        /* CTA */
-        .cta-btn {
-            display: inline-block;
-            background: transparent;
-            color: var(--bone);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            padding: 1.25rem 3rem;
-            border: 1px solid var(--bone);
+            font-size: 0.85rem;
+            padding: 1.5rem 4rem;
             cursor: pointer;
-            transition: var(--transition-fast);
+            transition: all 0.4s var(--ease);
+            font-family: var(--font-body);
         }
 
         .cta-btn:hover {
-            background: var(--bone);
-            color: var(--ink);
+            border-color: var(--bone);
+            background-color: var(--bone);
+            color: var(--ink-dark);
         }
+
+        /* Gallery */
+        .gallery {
+            padding: 5rem 4rem 10rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .artifact {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .artifact-visual {
+            aspect-ratio: 3/4;
+            background-color: rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* CSS Placeholder fallback */
+        .artifact-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(61, 64, 60, 0) 40%, rgba(206, 202, 202, 0.1) 50%, rgba(61, 64, 60, 0) 60%);
+            background-size: 200% 200%;
+            animation: shimmer 4s infinite linear;
+        }
+
+        .artifact-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(40%);
+            transition: filter 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+
+        .artifact:hover .artifact-visual img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .artifact h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .artifact p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--slate);
+        }
+
+        /* Extracted Palette Display (Subtle representation) */
+        .palette-line {
+            display: flex;
+            width: 100%;
+            height: 4px;
+        }
+        .palette-color { flex: 1; }
 
         /* Footer */
         footer {
             padding: 4rem;
-            border-top: 1px solid rgba(206, 202, 202, 0.1);
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--slate);
         }
 
         /* Modal */
         #velocity-modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(61, 64, 60, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            inset: 0;
+            background: rgba(42, 44, 41, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s var(--ease);
         }
 
         #velocity-modal-overlay.active {
@@ -307,36 +310,30 @@
         }
 
         .velocity-modal {
-            background: var(--ink);
-            border: 1px solid rgba(242, 243, 252, 0.15);
             padding: 4rem;
-            width: 90%;
-            max-width: 500px;
             text-align: center;
-            transform: scale(0.98) translateY(10px);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            position: relative;
-            overflow: hidden;
+            max-width: 500px;
+            transform: translateY(20px);
+            transition: transform 0.6s var(--ease);
         }
 
         #velocity-modal-overlay.active .velocity-modal {
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
         }
 
         .v-modal-eyebrow {
             font-family: var(--font-body);
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.25em;
             color: var(--brass);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             display: inline-block;
         }
 
         .v-modal-title {
             font-family: var(--font-display);
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             color: var(--bone);
             margin-bottom: 1.5rem;
             font-weight: 400;
@@ -344,7 +341,7 @@
 
         .v-modal-body {
             font-family: var(--font-body);
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--slate);
             line-height: 1.8;
             margin-bottom: 3rem;
@@ -352,15 +349,14 @@
 
         .v-modal-link {
             display: inline-flex;
-            align-items: center;
             color: var(--bone);
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
+            padding-bottom: 5px;
             border-bottom: 1px solid var(--slate);
-            padding-bottom: 6px;
-            transition: var(--transition-fast);
+            transition: all 0.3s ease;
         }
 
         .v-modal-link:hover {
@@ -373,7 +369,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: rgba(242, 243, 252, 0.05);
         }
 
@@ -384,111 +380,121 @@
             transform-origin: left;
         }
 
-        @keyframes riseUp {
+        /* Animations */
+        @keyframes textRise {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        @keyframes imageReveal {
+            from { opacity: 0; transform: scale(1.1); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
+        /* Responsive */
         @media (max-width: 900px) {
             .hero {
-                grid-template-columns: 1fr;
-                padding: 6rem 2rem;
-                text-align: center;
-            }
-            .hero-visual {
-                position: relative;
-                width: 100%;
-                height: 50vh;
-                margin-top: 3rem;
-                top: 0; right: 0;
-            }
-            .hero-desc { margin-left: auto; margin-right: auto; }
-            .hud-nav { display: none; }
-            .process-section {
-                padding: 6rem 2rem;
                 flex-direction: column;
+                height: 100svh;
             }
-            .process-content { width: 100%; text-align: center; margin-bottom: 3rem; }
-            .process-img-wrapper { position: relative; width: 100%; height: 50vh; left: 0; }
-            .collection { padding: 4rem 2rem; }
-            .asym-grid { display: flex; flex-direction: column; gap: 4rem; }
-            .item-1 { margin-top: 0; }
-            .item-2 { margin-top: 0; }
+            .hero-left, .hero-right {
+                width: 100%;
+                height: 50%;
+            }
+            .hero-left {
+                padding: 0 2rem;
+            }
+            .vertical-tag {
+                display: none;
+            }
+            .statement {
+                padding: 6rem 2rem;
+            }
+            .gallery {
+                padding: 2rem 2rem 6rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <nav class="hud-nav">
-        <span onclick="openModal()">Collections</span>
-        <span onclick="openModal()">Journal</span>
-        <span onclick="openModal()">Connect</span>
-    </nav>
+    <div class="palette-line">
+        <div class="palette-color" style="background-color: var(--ink);"></div>
+        <div class="palette-color" style="background-color: var(--bone);"></div>
+        <div class="palette-color" style="background-color: var(--slate);"></div>
+        <div class="palette-color" style="background-color: var(--brass);"></div>
+    </div>
+
+    <header>
+        <div class="logo" onclick="openModal()">MYST.MMXX</div>
+        <div class="menu-btn" onclick="openModal()">Menu</div>
+    </header>
 
     <section class="hero">
-        <div class="hero-text">
-            <h1 class="hero-title">Ancient<br><i>Memory.</i><br>Future Form.</h1>
-            <p class="hero-desc">We resist the jewelry industry’s reliance on opaque sourcing and mass-refined alloys. Myst is where meaning and material exist together.</p>
+        <div class="vertical-tag">Alchemical Organic Alloys</div>
+        <div class="hero-left">
+            <h1 class="hero-title">Future<br><em>Form.</em></h1>
         </div>
-        <div class="hero-visual" onclick="openModal()" aria-hidden="true" style="cursor: pointer;">
-            <!-- CSS placeholder with comment linking the prompt -->
-            <!-- Image Prompt 1: "8K photorealistic abstract close-up of rough unrefined gold ore resting on dark obsidian stone, quiet luxury aesthetic, high detail, cinematic, no text, no people, no faces" -->
-            <img src="./assets/gold_ore.png" alt="Raw Gold Form">
-        </div>
-    </section>
-
-    <section class="process-section">
-        <div class="process-img-wrapper" onclick="openModal()" style="cursor: pointer;">
-            <!-- Image Prompt 2: "8K photorealistic macro shot of ancient geological fractures in dark grey stone with a subtle vein of gold, organic, museum lighting, quiet luxury aesthetic" -->
-            <img src="./assets/stone_texture.png" alt="Geological Fracture">
-        </div>
-        <div class="process-content">
-            <h2>The Cycle <br>of Matter</h2>
-            <p>Each fragment is melted, purified, and reformed. Gold without extraction. We preserve its natural crystalline form, leaving it alive with the warmth and profound intelligence of the earth itself.</p>
-            <button class="cta-btn" onclick="openModal()">Discover Ethos</button>
-        </div>
-    </section>
-
-    <section class="collection">
-        <div class="collection-header">
-            <h2>Reliks</h2>
-        </div>
-        <div class="asym-grid">
-            <div class="artifact-card item-1" onclick="openModal()">
-                <div class="artifact-box"></div>
-                <div class="artifact-meta">
-                    <span class="artifact-name">Ekon // 007</span>
-                    <span class="artifact-series">Amalgam</span>
-                </div>
+        <div class="hero-right">
+            <div class="hero-image-wrapper" onclick="openModal()">
+                <!-- Image Prompt 1: "8K photorealistic abstract close-up of rough unrefined gold ore resting on dark obsidian stone, quiet luxury aesthetic" -->
+                <img src="./assets/gold_ore.png" alt="Raw Gold Form">
             </div>
-            <div class="artifact-card item-2" onclick="openModal()">
-                <div class="artifact-box"></div>
-                <div class="artifact-meta">
-                    <span class="artifact-name">Kai // Ghanite</span>
-                    <span class="artifact-series">Ikon</span>
+        </div>
+    </section>
+
+    <section class="statement">
+        <span class="statement-eyebrow">The Gap Resolved</span>
+        <h2>MYST exists to resolve a critical disconnect: the divide between symbolic meaning and material integrity.</h2>
+        <button class="cta-btn" onclick="openModal()">Discover the Process</button>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-grid">
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-visual">
+                    <!-- Image Prompt 2: "8K photorealistic macro shot of ancient geological fractures in dark grey stone with a subtle vein of gold" -->
+                    <img src="./assets/stone_texture.png" alt="Geological Fracture">
                 </div>
+                <h3>Ekon // 007</h3>
+                <p>Amalgam Collection</p>
+            </div>
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-visual">
+                </div>
+                <h3>Kai // Ghanite</h3>
+                <p>Ikon Collection</p>
+            </div>
+            <div class="artifact" onclick="openModal()">
+                <div class="artifact-visual">
+                </div>
+                <h3>Tyme</h3>
+                <p>Amalgam Collection</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div onclick="openModal()" style="cursor: pointer;">MYST.MMXX</div>
-        <div>&copy; 2026 Velocity by Calyvent. All rights reserved.</div>
-        <div onclick="openModal()" style="cursor: pointer;">Design Studio</div>
+        <div onclick="openModal()" style="cursor: pointer;">&copy; 2026 Velocity</div>
+        <div onclick="openModal()" style="cursor: pointer;">Calyvent Design</div>
     </footer>
 
     <!-- Velocity Modal -->
-    <div id="velocity-modal-overlay" onclick="closeModal(event)" role="dialog" aria-modal="true" aria-label="Preview Notification">
+    <div id="velocity-modal-overlay" onclick="closeModal(event)">
         <div class="velocity-modal">
-            <span class="v-modal-eyebrow">Previewed by Velocity</span>
+            <span class="v-modal-eyebrow">A Velocity Experience</span>
             <h2 class="v-modal-title">This is a preview.</h2>
             <p class="v-modal-body">This page was designed and built by Velocity &mdash; the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</p>
             <a href="https://velocity.calyvent.com" target="_blank" class="v-modal-link">Commission a Studio Project &rarr;</a>
-            <div class="v-progress-track">
-                <div class="v-progress-bar" id="v-progress"></div>
-            </div>
+        </div>
+        <div class="v-progress-track">
+            <div class="v-progress-bar" id="v-progress"></div>
         </div>
     </div>
 
@@ -500,11 +506,9 @@
         function openModal() {
             overlay.classList.add('active');
             
-            // Reset and start animation
             progressBar.style.transition = 'none';
             progressBar.style.transform = 'scaleX(1)';
             
-            // Trigger reflow
             void progressBar.offsetWidth;
             
             progressBar.style.transition = 'transform 5s linear';
@@ -517,7 +521,6 @@
         }
 
         function closeModal(event) {
-            // Only close if clicking overlay directly or if called programmatically
             if (!event || event.target === overlay) {
                 overlay.classList.remove('active');
                 clearTimeout(timeoutId);
