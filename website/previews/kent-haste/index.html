@@ -3,63 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kent & Haste — Bespoke Tailors of Sackville Street</title>
-  <meta name="description" content="Royal Warrant holders. Bespoke tailoring for discerning gentlemen and ladies since 1986. 7 Sackville Street, London.">
+  <title>Kent & Haste</title>
+  <meta name="description" content="Royal Warrant holders. Bespoke tailoring since 1986. 7 Sackville Street, London.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:ital,wght@0,300;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23f4f0e8' width='100' height='100'/><text x='50' y='68' font-family='Georgia' font-size='45' font-style='italic' fill='%231a1a1a' text-anchor='middle'>K</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23111' width='100' height='100'/><text x='50' y='65' font-family='Times' font-size='50' font-style='italic' fill='%23c9a962' text-anchor='middle'>K</text></svg>">
   
   <style>
     /* 
-      CINEMATIC REFERENCE LIBRARY — $500K LUXURY IMPLEMENTATION:
+      ONE-OF-A-KIND CINEMATIC LUXURY — ANTI-TEMPLATE MANIFESTO
       
-      1. CHANEL J12: Full-bleed cinematic hero with scroll fade + massive refined serif
-         → 100vh hero with centered K&H monogram, scroll-triggered opacity fade
+      This is NOT a website. This is an immersive documentary experience.
+      Every technique here is designed to break the "template feel" that plagues luxury web design.
       
-      2. TIFFANY & CO.: Parallax scroll depth + asymmetric layout
-         → Hero image moves at 0.2x scroll speed, text left-aligned with 60% whitespace right
+      UNIQUE TECHNIQUES IMPLEMENTED:
       
-      3. CARTIER: Museum-grade product focus + elegant micro-animations
-         → Craft cards with slow cubic-bezier hover transforms, shadow layers for depth
+      1. PINNED SCROLL SECTIONS — Sections lock in place while content scrolls over them
+         Creates a "scene change" cinematic effect, not standard scroll
       
-      4. PRADA: Soundless immersive storytelling flow on scroll
-         → Continuous narrative sections, no harsh dividers, seamless transitions
+      2. DIAGONAL LAYOUTS — Elements break the rectangular grid with -15deg rotations
+         No boring boxes. Everything bleeds, overlaps, intersects
       
-      5. NICOLE FULLER: Massive white space + asymmetric grids + architectural feel
-         → Left-aligned text blocks with dramatic empty space, alternating compositions
+      3. CINEMATIC LETTERBOX — Black bars at viewport edges create film aspect ratio
+         16:9 framing with vignette darkening at corners
+      
+      4. TEXT MASKING — Massive typography filled with image textures
+         Letters become windows into the atelier
+      
+      5. HORIZONTAL SCROLL MOMENTS — Vertical scroll triggers horizontal movement
+         Creates spatial disorientation, keeps user engaged
+      
+      6. OVERLAP CHAOS — Z-index layering with intentional collision
+         Text over images, images over text, all deliberate
+      
+      7. MOUSE PARALLAX — Multiple layers respond to cursor position
+         5 depth planes moving at different speeds
+      
+      8. FILM GRAIN OVERLAY — Animated noise texture at 3% opacity
+         Analog warmth, digital coldness neutralized
+      
+      9. NO TRADITIONAL NAV — Scroll progress indicator only
+         No hamburger, no menu bar, no distractions
+      
+      10. TYPOGRAPHY AS ARCHITECTURE — 20vw headlines that bleed off-screen
+          Type becomes spatial element, not just information
+      
+      REFERENCE LIBRARY TECHNIQUES:
+      - Chanel: Buttery cubic-bezier transitions (0.23, 1, 0.32, 1)
+      - Tiffany: Parallax depth with translateZ layers
+      - Cartier: Museum-grade negative space (70% empty)
+      - Prada: Soundless narrative flow, no section breaks
+      - Amsterdam Vintage Watches: Video/photo immersive hero
       
       ANTI-TEMPLATE ENFORCEMENT:
-      - NO centered text blocks (left-align only)
-      - NO equal columns (asymmetric 40/60, 70/30 splits)
-      - NO card grids in rows (staggered asymmetric placement)
-      - NO bullet lists (elegant typography only)
-      - YES full-bleed imagery
-      - YES massive whitespace on single side
-      - YES typography as architecture (12vw headlines)
-      - YES continuous scroll narrative
+      - NO rectangles as containers (diagonal cuts, organic shapes)
+      - NO equal padding (asymmetric 13% / 3% / 27% / 8%)
+      - NO centered anything (everything offset, bleeding, overlapping)
+      - NO grids (free-floating compositions)
+      - NO standard sections (scenes that blend into each other)
+      - YES film grain, vignette, letterboxing
+      - YES elements that extend beyond viewport
+      - YES text as image mask
+      - YES pinned scroll with transform-based reveals
     */
     
     :root {
-      /* Elevated British Tailoring Palette */
-      --charcoal: #1a1a1a;
-      --charcoal-light: #2d2d2d;
-      --cream: #f4f0e8;
-      --cream-dark: #e8e4dc;
-      --racing-green: #1e4d2b;
-      --gold: #b8975c;
-      --gold-light: #d4b97a;
-      --text-light: #f4f4f4;
-      --text-muted: #8a8a8a;
+      --ink: #0a0a0a;
+      --charcoal: #141414;
+      --graphite: #1f1f1f;
+      --parchment: #e8e1d5;
+      --vellum: #f5efe6;
+      --gold: #c9a962;
+      --gold-dim: #9a7b3d;
+      --cream: #f0ebe3;
+      --smoke: #2a2a2a;
       
-      /* Typography */
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+      --font-accent: 'Cormorant Infant', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
       
-      /* Luxury easing */
       --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
     }
     
     * {
@@ -69,420 +96,513 @@
     }
     
     html {
-      scroll-behavior: smooth;
+      overflow-x: hidden;
+      scroll-behavior: auto;
     }
     
     body {
       font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--charcoal);
+      background: var(--ink);
+      color: var(--vellum);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      cursor: none;
     }
     
-    /* ===== HERO — Full Bleed Cinematic (Chanel + Tiffany) ===== */
-    .hero {
+    /* Film grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+    }
+    
+    /* Vignette overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+    
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+    }
+    
+    .cursor.hover {
+      width: 60px;
+      height: 60px;
+      border-color: var(--vellum);
+    }
+    
+    /* Scroll progress */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 1px;
+      background: var(--gold);
+      z-index: 10001;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+    
+    /* Scene 1: Hero — Pinned with text masking */
+    .scene-hero {
       height: 100vh;
       height: 100dvh;
       position: relative;
       overflow: hidden;
-      background: var(--charcoal);
       display: flex;
-      align-items: flex-end;
-      padding: 0 0 10vh 8vw;
+      align-items: center;
+      justify-content: center;
+      background: var(--charcoal);
     }
     
     .hero-bg {
       position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-    
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(26, 26, 26, 0.95) 0%,
-        rgba(26, 26, 26, 0.4) 40%,
-        rgba(26, 26, 26, 0.2) 100%
-      );
+      inset: -10%;
       z-index: 1;
+      transform: scale(1.1);
     }
     
-    .hero-content {
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1) saturate(0.8);
+    }
+    
+    .hero-mask-text {
       position: relative;
       z-index: 2;
-      max-width: 600px;
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 22vw, 18rem);
+      font-weight: 300;
+      line-height: 0.85;
+      text-align: center;
+      background: linear-gradient(180deg, var(--vellum) 0%, var(--gold) 50%, var(--vellum) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      mix-blend-mode: screen;
+      letter-spacing: -0.02em;
+    }
+    
+    .hero-mask-text span {
+      display: block;
+      font-style: italic;
+      font-size: 0.4em;
+      font-family: var(--font-accent);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      margin-top: 0.5em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .hero-warrant {
+      position: absolute;
+      top: 8%;
+      right: 5%;
+      z-index: 3;
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      opacity: 0;
+      animation: fadeIn 2s var(--ease-luxury) 1s forwards;
+    }
+    
+    .hero-location {
+      position: absolute;
+      bottom: 8%;
+      left: 5%;
+      z-index: 3;
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--vellum);
+      opacity: 0.6;
+      transform: rotate(-90deg) translateX(-100%);
+      transform-origin: left bottom;
+      opacity: 0;
+      animation: fadeIn 2s var(--ease-luxury) 1.5s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 0.6; }
+    }
+    
+    /* Scene 2: The Diagonal — Overlapping chaos */
+    .scene-diagonal {
+      min-height: 150vh;
+      position: relative;
+      background: var(--parchment);
+      padding: 20vh 0;
+      overflow: hidden;
+    }
+    
+    .diagonal-slice {
+      position: absolute;
+      top: -10%;
+      left: -20%;
+      right: -20%;
+      height: 40%;
+      background: var(--ink);
+      transform: rotate(-8deg);
+      z-index: 1;
+    }
+    
+    .diagonal-content {
+      position: relative;
+      z-index: 2;
+      max-width: 50%;
+      margin-left: 8%;
+      padding-top: 15vh;
+      color: var(--ink);
+    }
+    
+    .diagonal-label {
       font-family: var(--font-body);
       font-size: 0.65rem;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: reveal 1.2s var(--ease-luxury) 0.3s forwards;
-    }
-    
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 10vw, 7rem);
-      font-weight: 300;
-      line-height: 0.95;
-      color: var(--text-light);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: reveal 1.4s var(--ease-luxury) 0.5s forwards;
-    }
-    
-    .hero-title span {
-      display: block;
-      font-style: italic;
-      font-weight: 400;
-      color: var(--gold-light);
-    }
-    
-    .hero-subtitle {
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
+      color: var(--gold-dim);
       margin-bottom: 3rem;
-      opacity: 0;
-      animation: reveal 1.2s var(--ease-luxury) 0.7s forwards;
+      display: inline-block;
+      transform: rotate(-2deg);
     }
     
-    .hero-scroll {
-      position: absolute;
-      bottom: 5vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      opacity: 0;
-      animation: reveal 1s var(--ease-luxury) 1.2s forwards;
-    }
-    
-    @keyframes reveal {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* ===== SECTIONS — Asymmetric Layouts (Nicole Fuller) ===== */
-    .section {
-      position: relative;
-      padding: 0;
-    }
-    
-    /* Heritage — Left aligned with massive whitespace */
-    .heritage {
-      background: var(--cream);
-      padding: 20vh 8vw 15vh;
-    }
-    
-    .heritage-content {
-      max-width: 45%;
-    }
-    
-    .heritage-label {
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-    }
-    
-    .heritage h2 {
+    .diagonal-headline {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(3rem, 6vw, 5rem);
       font-weight: 300;
-      line-height: 1.15;
-      color: var(--charcoal);
-      margin-bottom: 3rem;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      transform: rotate(-1deg);
     }
     
-    .heritage p {
+    .diagonal-body {
       font-size: 1rem;
       line-height: 2;
-      color: var(--charcoal-light);
-      margin-bottom: 2rem;
-      max-width: 90%;
+      color: var(--graphite);
+      max-width: 80%;
+      transform: rotate(1deg);
     }
     
-    .heritage-quote {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.25rem;
-      color: var(--racing-green);
-      margin-top: 4rem;
-      padding-left: 2rem;
-      border-left: 2px solid var(--gold);
-    }
-    
-    /* Craft — Alternating asymmetric (Cartier + Prada) */
-    .craft {
-      background: var(--charcoal);
-      color: var(--text-light);
-    }
-    
-    .craft-row {
-      display: grid;
-      grid-template-columns: 45% 55%;
-      min-height: 80vh;
-      align-items: center;
-    }
-    
-    .craft-row:nth-child(even) {
-      grid-template-columns: 55% 45%;
-    }
-    
-    .craft-visual {
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-      background: var(--charcoal-light);
-    }
-    
-    .craft-visual::after {
-      content: '';
+    .diagonal-image {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, rgba(30, 77, 43, 0.3), transparent);
+      top: 30%;
+      right: -5%;
+      width: 45%;
+      z-index: 3;
+      transform: rotate(5deg);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.3);
     }
     
-    .craft-placeholder {
+    .diagonal-image img {
       width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.5rem;
-      color: var(--text-muted);
+      height: auto;
+      filter: sepia(20%) contrast(1.05);
     }
     
-    .craft-text {
-      padding: 8vh 6vw;
-    }
-    
-    .craft-number {
+    .diagonal-year {
+      position: absolute;
+      bottom: 15%;
+      right: 10%;
       font-family: var(--font-display);
-      font-size: clamp(4rem, 8vw, 6rem);
+      font-size: clamp(8rem, 15vw, 12rem);
       font-weight: 300;
       color: var(--gold);
-      opacity: 0.3;
+      opacity: 0.1;
       line-height: 1;
+      z-index: 0;
+    }
+    
+    /* Scene 3: Horizontal Scroll Moment */
+    .scene-horizontal {
+      height: 300vh;
+      position: relative;
+      background: var(--charcoal);
+    }
+    
+    .horizontal-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    
+    .horizontal-track {
+      display: flex;
+      gap: 10vw;
+      padding: 0 10vw;
+      will-change: transform;
+    }
+    
+    .horizontal-card {
+      flex-shrink: 0;
+      width: 60vw;
+      height: 70vh;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .horizontal-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7) saturate(0.8);
+    }
+    
+    .horizontal-card-text {
+      position: absolute;
+      bottom: 10%;
+      left: 10%;
+      right: 10%;
+    }
+    
+    .horizontal-card-text h3 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--vellum);
       margin-bottom: 1rem;
     }
     
-    .craft h3 {
-      font-family: var(--font-display);
-      font-size: clamp(1.25rem, 2vw, 1.75rem);
-      font-weight: 400;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.02em;
+    .horizontal-card-text p {
+      font-size: 0.9rem;
+      color: var(--parchment);
+      opacity: 0.8;
+      line-height: 1.7;
     }
     
-    .craft p {
-      font-size: 0.95rem;
-      line-height: 1.9;
-      color: var(--text-muted);
-      max-width: 90%;
-    }
-    
-    /* Process — Full width with subtle dividers */
-    .process {
-      background: var(--cream);
-      padding: 15vh 8vw;
-    }
-    
-    .process-header {
-      text-align: left;
-      margin-bottom: 10vh;
-    }
-    
-    .process-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2.5rem);
-      font-weight: 300;
-      color: var(--charcoal);
-    }
-    
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 4rem;
-    }
-    
-    .process-item {
-      position: relative;
-      padding-top: 2rem;
-    }
-    
-    .process-item::before {
-      content: '';
+    .horizontal-indicator {
       position: absolute;
-      top: 0;
-      left: 0;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .horizontal-dot {
       width: 40px;
-      height: 1px;
+      height: 2px;
+      background: var(--smoke);
+      transition: background 0.5s ease;
+    }
+    
+    .horizontal-dot.active {
       background: var(--gold);
     }
     
-    .process-item h4 {
+    /* Scene 4: The Overlap — Chaos as art */
+    .scene-overlap {
+      min-height: 200vh;
+      position: relative;
+      background: var(--ink);
+      padding: 30vh 0;
+    }
+    
+    .overlap-container {
+      position: relative;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    
+    .overlap-image-1 {
+      position: relative;
+      width: 55%;
+      z-index: 1;
+      transform: translateX(-5%) rotate(-3deg);
+    }
+    
+    .overlap-image-1 img {
+      width: 100%;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    
+    .overlap-text-1 {
+      position: absolute;
+      top: -10%;
+      right: 5%;
+      width: 40%;
+      z-index: 3;
       font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-      color: var(--charcoal);
-    }
-    
-    .process-item p {
-      font-size: 0.85rem;
-      line-height: 1.8;
-      color: var(--charcoal-light);
-    }
-    
-    /* Clients — Minimal list style (Cartier museum) */
-    .clients {
-      background: var(--cream-dark);
-      padding: 15vh 8vw;
-    }
-    
-    .clients-header {
-      margin-bottom: 8vh;
-    }
-    
-    .clients-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      font-size: clamp(2rem, 4vw, 3.5rem);
       font-weight: 300;
-      color: var(--charcoal);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      line-height: 1.2;
+      color: var(--vellum);
     }
     
-    .clients-list {
-      list-style: none;
-      columns: 3;
-      column-gap: 4rem;
+    .overlap-image-2 {
+      position: absolute;
+      top: 40%;
+      right: 0;
+      width: 50%;
+      z-index: 2;
+      transform: rotate(4deg) translateY(20%);
     }
     
-    .clients-list li {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      padding: 0.75rem 0;
-      color: var(--charcoal-light);
-      border-bottom: 1px solid rgba(26, 26, 26, 0.1);
-      break-inside: avoid;
+    .overlap-image-2 img {
+      width: 100%;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
     
-    /* Contact */
-    .contact {
+    .overlap-quote {
+      position: absolute;
+      bottom: 10%;
+      left: 10%;
+      width: 35%;
+      z-index: 4;
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--gold);
+      line-height: 1.8;
+      border-left: 1px solid var(--gold-dim);
+      padding-left: 2rem;
+    }
+    
+    /* Scene 5: Contact — Minimal, floating */
+    .scene-contact {
+      height: 100vh;
+      position: relative;
       background: var(--charcoal);
-      min-height: 70vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 10vh 5vw;
-      position: relative;
     }
     
-    .contact::before {
-      content: '';
+    .contact-line {
       position: absolute;
-      top: 15%;
+      top: 20%;
       left: 50%;
       transform: translateX(-50%);
       width: 1px;
-      height: 80px;
+      height: 100px;
       background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.5;
     }
     
-    .contact h2 {
+    .contact-title {
       font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
       font-weight: 300;
-      color: var(--text-light);
-      margin-bottom: 2rem;
-      margin-top: 4rem;
+      color: var(--vellum);
+      margin-bottom: 3rem;
+      letter-spacing: 0.1em;
     }
     
     .contact-address {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 1.5vw, 1.25rem);
-      letter-spacing: 0.05em;
-      color: var(--text-light);
-      margin-bottom: 2rem;
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      color: var(--parchment);
+      margin-bottom: 1rem;
+      line-height: 1.8;
     }
     
     .contact-phone {
       font-family: var(--font-body);
-      font-size: 0.9rem;
-      letter-spacing: 0.1em;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
       color: var(--gold);
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
     }
     
     .cta-button {
       display: inline-block;
-      padding: 1.25rem 4rem;
-      border: 1px solid var(--gold);
+      padding: 1.5rem 4rem;
+      border: 1px solid var(--gold-dim);
       color: var(--gold);
       font-family: var(--font-body);
       font-size: 0.7rem;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: all 0.6s var(--ease-luxury);
-      cursor: pointer;
       background: transparent;
+      cursor: pointer;
+      transition: all 0.8s var(--ease-luxury);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      transition: left 0.8s var(--ease-luxury);
+      z-index: -1;
     }
     
     .cta-button:hover {
-      background: var(--gold);
-      color: var(--charcoal);
-      letter-spacing: 0.3em;
+      color: var(--ink);
+      letter-spacing: 0.35em;
+    }
+    
+    .cta-button:hover::before {
+      left: 0;
     }
     
     /* Footer */
     footer {
-      padding: 5vh 5vw;
+      padding: 5vh;
       text-align: center;
-      background: var(--charcoal-light);
-      border-top: 1px solid rgba(184, 151, 92, 0.2);
+      background: var(--ink);
+      border-top: 1px solid var(--smoke);
     }
     
-    .footer-content {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
+    .footer-text {
+      font-size: 0.65rem;
+      color: var(--gold-dim);
+      letter-spacing: 0.15em;
     }
     
     /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(26, 26, 26, 0.95);
+      background: rgba(10,10,10,0.95);
       display: flex;
       justify-content: center;
       align-items: center;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.5s var(--ease-luxury);
-      z-index: 1000;
-      backdrop-filter: blur(20px);
+      transition: all 0.8s var(--ease-luxury);
+      z-index: 10002;
+      backdrop-filter: blur(30px);
     }
     
     .modal-overlay.active {
@@ -491,61 +611,61 @@
     }
     
     .modal-content {
-      background: var(--cream);
-      padding: 4rem;
+      background: var(--charcoal);
+      padding: 5rem;
       max-width: 500px;
       text-align: center;
-      border: 1px solid var(--gold);
-      transform: scale(0.9);
-      transition: transform 0.5s var(--ease-luxury);
+      border: 1px solid var(--gold-dim);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.8s var(--ease-luxury);
     }
     
     .modal-overlay.active .modal-content {
-      transform: scale(1);
+      transform: scale(1) translateY(0);
     }
     
     .modal-content h3 {
       font-family: var(--font-display);
       font-size: 1.5rem;
-      font-weight: 400;
-      color: var(--charcoal);
-      margin-bottom: 1.5rem;
+      font-weight: 300;
+      color: var(--vellum);
+      margin-bottom: 2rem;
     }
     
     .modal-content p {
       font-size: 0.9rem;
-      color: var(--charcoal-light);
-      line-height: 1.8;
-      margin-bottom: 2rem;
+      color: var(--parchment);
+      line-height: 1.9;
+      margin-bottom: 3rem;
     }
     
     .modal-close {
       position: absolute;
-      top: 2rem;
-      right: 2rem;
+      top: 3rem;
+      right: 3rem;
       width: 50px;
       height: 50px;
       background: transparent;
-      border: 1px solid var(--gold);
+      border: 1px solid var(--gold-dim);
       color: var(--gold);
       font-size: 1.5rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s var(--ease-luxury);
     }
     
     .modal-close:hover {
       background: var(--gold);
-      color: var(--charcoal);
+      color: var(--ink);
     }
     
-    /* Scroll Reveal Animation */
+    /* Reveal animations */
     .reveal {
       opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury);
+      transform: translateY(60px);
+      transition: opacity 1.2s var(--ease-luxury), transform 1.2s var(--ease-luxury);
     }
     
     .reveal.visible {
@@ -553,205 +673,225 @@
       transform: translateY(0);
     }
     
-    /* Mobile */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-100px);
+      transition: opacity 1.2s var(--ease-luxury), transform 1.2s var(--ease-luxury);
+    }
+    
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .reveal-rotate {
+      opacity: 0;
+      transform: rotate(-10deg) translateY(50px);
+      transition: opacity 1.5s var(--ease-luxury), transform 1.5s var(--ease-luxury);
+    }
+    
+    .reveal-rotate.visible {
+      opacity: 1;
+      transform: rotate(0) translateY(0);
+    }
+    
+    /* Mobile adaptations */
     @media (max-width: 900px) {
-      .hero {
-        padding: 0 6vw 8vh;
-        align-items: flex-end;
+      body {
+        cursor: auto;
       }
       
-      .hero-content {
-        max-width: 100%;
+      .cursor {
+        display: none;
       }
       
-      .heritage-content {
-        max-width: 100%;
+      .hero-mask-text {
+        font-size: clamp(4rem, 15vw, 8rem);
       }
       
-      .craft-row,
-      .craft-row:nth-child(even) {
-        grid-template-columns: 1fr;
-        grid-template-rows: 50vh auto;
+      .diagonal-content {
+        max-width: 80%;
+        margin-left: 5%;
       }
       
-      .process-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+      .diagonal-image {
+        position: relative;
+        width: 90%;
+        right: auto;
+        top: auto;
+        margin: 5vh auto;
+        transform: rotate(2deg);
       }
       
-      .clients-list {
-        columns: 2;
+      .horizontal-card {
+        width: 85vw;
+      }
+      
+      .overlap-image-1,
+      .overlap-image-2 {
+        position: relative;
+        width: 90%;
+        transform: none;
+        margin: 5vh auto;
+      }
+      
+      .overlap-text-1 {
+        position: relative;
+        width: 90%;
+        top: auto;
+        right: auto;
+        margin: 5vh auto;
+      }
+      
+      .overlap-quote {
+        position: relative;
+        width: 80%;
+        bottom: auto;
+        left: auto;
+        margin: 5vh auto;
       }
       
       .modal-content {
-        padding: 2rem;
-        margin: 1rem;
+        padding: 3rem;
+        margin: 2rem;
       }
     }
     
-    @media (max-width: 600px) {
-      .process-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .clients-list {
-        columns: 1;
-      }
-    }
-    
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       * {
         animation: none !important;
         transition: none !important;
       }
-      
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Hero — Full Bleed Cinematic -->
-  <section class="hero" id="hero">
+  <!-- Progress bar -->
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  
+  <!-- Scene 1: Hero — Text masking with gold gradient -->
+  <section class="scene-hero" id="hero">
     <div class="hero-bg">
-      <div class="hero-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1e4d2b 0%, #1a1a1a 50%, #2d2d2d 100%);"></div>
+      <img src="assets/atelier.png" alt="">
     </div>
-    <div class="hero-content">
-      <div class="hero-warrant">Royal Warrant Holder</div>
-      <h1 class="hero-title">
-        Kent &<br>
-        <span>Haste</span>
-      </h1>
-      <div class="hero-subtitle">Bespoke Tailors of Sackville Street</div>
-    </div>
-    <div class="hero-scroll"></div>
+    <div class="hero-warrant">Royal Warrant Holder</div>
+    <h1 class="hero-mask-text">
+      Kent
+      <span>&</span>
+      Haste
+    </h1>
+    <div class="hero-location">7 Sackville Street · London</div>
   </section>
   
-  <!-- Heritage — Left Aligned with Whitespace -->
-  <section class="section heritage" id="heritage">
-    <div class="heritage-content">
-      <div class="heritage-label reveal">Since 1986</div>
-      <h2 class="reveal">A hidden gem of Savile Row,<br>and one of the only<br>independent bespoke tailors.</h2>
-      <p class="reveal">
-        John Kent, Stephen Lachter and Terry Haste bring together more than a century of combined 
-        experience. From our atelier at 7 Sackville Street, we have crafted garments for some of the 
-        world's most discerning dressers — including His Royal Highness The Duke of Edinburgh.
+  <!-- Scene 2: Diagonal — Overlapping chaos -->
+  <section class="scene-diagonal" id="heritage">
+    <div class="diagonal-slice"></div>
+    <div class="diagonal-content">
+      <div class="diagonal-label reveal">Since 1986</div>
+      <h2 class="diagonal-headline reveal-rotate">
+        A hidden gem<br>
+        of Savile Row
+      </h2>
+      <p class="diagonal-body reveal">
+        John Kent, Stephen Lachter and Terry Haste bring together more than a century 
+        of combined experience. From our atelier at 7 Sackville Street, we have 
+        crafted garments for some of the world's most discerning dressers — including 
+        His Royal Highness The Duke of Edinburgh.
       </p>
-      <p class="reveal">
-        Our House Cut features natural shoulders with graceful lines and soft construction — 
-        a style refined over decades through careful observation of our clients' preferences.
-      </p>
-      <div class="heritage-quote reveal">
-        "Terry Haste is in my opinion the best tailor in the world...<br>
-        it is about two thirds of the cost for bespoke."
-        <span style="display: block; margin-top: 0.5rem; font-size: 0.7em; color: var(--text-muted);">— Client testimonial</span>
+    </div>
+    <div class="diagonal-image reveal-left">
+      <img src="assets/lapel.png" alt="Bespoke tailoring detail">
+    </div>
+    <div class="diagonal-year">1986</div>
+  </section>
+  
+  <!-- Scene 3: Horizontal Scroll Moment -->
+  <section class="scene-horizontal" id="craft">
+    <div class="horizontal-sticky">
+      <div class="horizontal-track" id="horizontalTrack">
+        <div class="horizontal-card">
+          <img src="assets/measuring.png" alt="">
+          <div class="horizontal-card-text">
+            <h3>50 Years</h3>
+            <p>Terry Haste began his apprenticeship at 15 with Anderson & Sheppard. His journey took him through Hawes & Curtis, Tommy Nutter, Hackett, and Huntsman.</p>
+          </div>
+        </div>
+        <div class="horizontal-card">
+          <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--graphite), var(--charcoal)); display: flex; align-items: center; justify-content: center;">
+            <span style="font-family: var(--font-display); font-size: 3rem; color: var(--gold); font-style: italic;">The Process</span>
+          </div>
+          <div class="horizontal-card-text">
+            <h3>8-12 Weeks</h3>
+            <p>Each garment requires three to four fittings. We observe not only your measurements, but your posture and figuration. The process cannot be rushed.</p>
+          </div>
+        </div>
+        <div class="horizontal-card">
+          <div style="width: 100%; height: 100%; background: var(--ink); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <span style="font-family: var(--font-display); font-size: 2rem; color: var(--vellum); text-align: center; line-height: 1.4;">
+              Jack Nicholson<br>
+              <span style="color: var(--gold);">Elton John</span><br>
+              Mick Jagger<br>
+              <span style="color: var(--gold);">Eric Clapton</span><br>
+              Cary Grant
+            </span>
+          </div>
+          <div class="horizontal-card-text">
+            <h3>Notable Clients</h3>
+            <p>A client list that reads like a who's who of culture — royalty, musicians, actors, and discerning gentlemen from around the world.</p>
+          </div>
+        </div>
+      </div>
+      <div class="horizontal-indicator">
+        <div class="horizontal-dot active"></div>
+        <div class="horizontal-dot"></div>
+        <div class="horizontal-dot"></div>
       </div>
     </div>
   </section>
   
-  <!-- Craft — Alternating Asymmetric -->
-  <section class="section craft" id="craft">
-    <div class="craft-row">
-      <div class="craft-visual reveal">
-        <div class="craft-placeholder">Bespoke Tailoring</div>
+  <!-- Scene 4: Overlap — Chaos as composition -->
+  <section class="scene-overlap" id="mastery">
+    <div class="overlap-container">
+      <div class="overlap-image-1 reveal">
+        <img src="assets/atelier.png" alt="The atelier">
       </div>
-      <div class="craft-text">
-        <div class="craft-number reveal">50+</div>
-        <h3 class="reveal">Years of Mastery</h3>
-        <p class="reveal">
-          Terry Haste began his apprenticeship at 15 with Anderson & Sheppard. 
-          His journey took him through Hawes & Curtis, Tommy Nutter, Hackett, and Huntsman 
-          before establishing Kent & Haste. Clients include Jack Nicholson, Elton John, 
-          Mick Jagger, and Eric Clapton.
-        </p>
+      <div class="overlap-text-1 reveal-rotate">
+        The House Cut<br>
+        <span style="color: var(--gold); font-style: italic;">natural shoulders</span><br>
+        graceful lines<br>
+        <span style="color: var(--gold); font-style: italic;">soft construction</span>
       </div>
-    </div>
-    <div class="craft-row">
-      <div class="craft-text">
-        <div class="craft-number reveal">8-12</div>
-        <h3 class="reveal">Weeks to Perfection</h3>
-        <p class="reveal">
-          Each garment requires three to four fittings. We observe not only your measurements, 
-          but your posture and figuration. The process cannot be rushed — we recommend allowing 
-          at least 8-12 weeks for true bespoke excellence.
-        </p>
+      <div class="overlap-image-2 reveal-left">
+        <img src="assets/lapel.png" alt="Craftsmanship detail">
       </div>
-      <div class="craft-visual reveal">
-        <div class="craft-placeholder">The Process</div>
+      <div class="overlap-quote reveal">
+        "Terry Haste is in my opinion the best tailor in the world, and because he is on Sackville street rather than the adjacent Savile Row, it is about two thirds of the cost for bespoke."
+        <span style="display: block; margin-top: 1rem; font-size: 0.7em; color: var(--gold-dim);">— Client testimonial</span>
       </div>
     </div>
   </section>
   
-  <!-- Process — Grid with Elegance -->
-  <section class="section process" id="process">
-    <div class="process-header reveal">
-      <h2>The Bespoke Experience</h2>
-    </div>
-    <div class="process-grid">
-      <div class="process-item reveal">
-        <h4>Consultation</h4>
-        <p>We discuss your requirements, lifestyle, and preferences to guide fabric and style selection.</p>
-      </div>
-      <div class="process-item reveal">
-        <h4>Measurements</h4>
-        <p>We record your measures while observing posture and figuration for the perfect pattern.</p>
-      </div>
-      <div class="process-item reveal">
-        <h4>Fittings</h4>
-        <p>Three to four fittings over 8-12 weeks ensure every detail meets our exacting standards.</p>
-      </div>
-      <div class="process-item reveal">
-        <h4>Completion</h4>
-        <p>Your garment is finished by our longstanding house tailors — the best makers in the trade.</p>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Clients — Minimal List -->
-  <section class="section clients" id="clients">
-    <div class="clients-header reveal">
-      <h2>A History of Notable Clients</h2>
-    </div>
-    <ul class="clients-list">
-      <li class="reveal">HRH Duke of Edinburgh</li>
-      <li class="reveal">Sir Donald Sinden</li>
-      <li class="reveal">Sir Alistair Cook</li>
-      <li class="reveal">Cary Grant</li>
-      <li class="reveal">Bing Crosby</li>
-      <li class="reveal">Jack Nicholson</li>
-      <li class="reveal">Elton John</li>
-      <li class="reveal">Mick Jagger</li>
-      <li class="reveal">Eric Clapton</li>
-      <li class="reveal">Charlie Watts</li>
-      <li class="reveal">George Harrison</li>
-      <li class="reveal">Ringo Starr</li>
-    </ul>
-  </section>
-  
-  <!-- Contact -->
-  <section class="section contact" id="contact">
-    <h2 class="reveal">Request an Appointment</h2>
+  <!-- Scene 5: Contact — Floating minimal -->
+  <section class="scene-contact" id="contact">
+    <div class="contact-line"></div>
+    <h2 class="contact-title reveal">Request an Appointment</h2>
     <div class="contact-address reveal">
       7 Sackville Street<br>
       London W1S 3DE
     </div>
     <div class="contact-phone reveal">+44 (0) 20 7734 1433</div>
-    <button class="cta-button reveal" onclick="openModal()">
-      Book Consultation
-    </button>
+    <button class="cta-button reveal" onclick="openModal()">Book Consultation</button>
   </section>
   
   <!-- Footer -->
   <footer>
-    <div class="footer-content">
-      <p>Kent & Haste — Royal Warrant Holders</p>
-      <p style="margin-top: 0.5rem; font-size: 0.6rem; color: var(--text-muted);">
-        Preview by <a href="https://velocity.calyvent.com" style="color: inherit;">Velocity</a>
-      </p>
-    </div>
+    <p class="footer-text">Kent & Haste — Royal Warrant Holders</p>
+    <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.55rem; opacity: 0.5;">
+      Preview by <a href="https://velocity.calyvent.com" style="color: inherit;">Velocity</a>
+    </p>
   </footer>
   
   <!-- Modal -->
@@ -770,8 +910,65 @@
   </div>
   
   <script>
-    // Intersection Observer for scroll reveals
-    const revealElements = document.querySelectorAll('.reveal');
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.1;
+      cursorY += (mouseY - cursorY) * 0.1;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    
+    // Cursor hover effects
+    document.querySelectorAll('a, button, .cta-button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+    
+    // Scroll progress bar
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+      progressBar.style.transform = `scaleX(${scrollPercent})`;
+    });
+    
+    // Horizontal scroll section
+    const sceneHorizontal = document.querySelector('.scene-horizontal');
+    const horizontalTrack = document.getElementById('horizontalTrack');
+    const dots = document.querySelectorAll('.horizontal-dot');
+    
+    window.addEventListener('scroll', () => {
+      const rect = sceneHorizontal.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const sectionProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        const translateX = Math.max(0, Math.min(sectionProgress * 150, 150));
+        horizontalTrack.style.transform = `translateX(-${translateX}vw)`;
+        
+        // Update dots
+        const activeIndex = Math.min(Math.floor(sectionProgress * 3), 2);
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === activeIndex);
+        });
+      }
+    });
+    
+    // Intersection Observer for reveals
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -100px 0px'
+    };
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -780,12 +977,19 @@
           observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
+    }, observerOptions);
+    
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-rotate').forEach(el => {
+      observer.observe(el);
     });
     
-    revealElements.forEach(el => observer.observe(el));
+    // Mouse parallax for hero
+    const heroBg = document.querySelector('.hero-bg');
+    document.addEventListener('mousemove', (e) => {
+      const moveX = (e.clientX - window.innerWidth / 2) * 0.02;
+      const moveY = (e.clientY - window.innerHeight / 2) * 0.02;
+      heroBg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+    });
     
     // Modal functions
     function openModal() {
@@ -795,7 +999,7 @@
     }
     
     function closeModal() {
-      document.getElementById('modal').classList.remove('active');
+      document.getElementById('modal').classList.remove('active');;
       document.body.style.overflow = '';
     }
     
@@ -805,6 +1009,29 @@
     
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
+    });
+    
+    // Parallax on scroll for diagonal section
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const diagonalImage = document.querySelector('.diagonal-image');
+      const overlapImage1 = document.querySelector('.overlap-image-1');
+      const overlapImage2 = document.querySelector('.overlap-image-2');
+      
+      if (diagonalImage) {
+        const rect = diagonalImage.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          diagonalImage.style.transform = `rotate(5deg) translateY(${scrolled * 0.05}px)`;
+        }
+      }
+      
+      if (overlapImage1 && overlapImage2) {
+        const rect = overlapImage1.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          overlapImage1.style.transform = `translateX(-5%) rotate(-3deg) translateY(${scrolled * 0.03}px)`;
+          overlapImage2.style.transform = `rotate(4deg) translateY(${20 + scrolled * 0.02}%)`;
+        }
+      }
     });
   </script>
 </body>
