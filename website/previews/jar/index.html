@@ -3,45 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JAR | Joel Arthur Rosenthal — Haute Joaillerie</title>
-  <meta name="description" content="JAR Paris. Joel Arthur Rosenthal. The Fabergé of our time. By appointment only. 7 Place Vendôme.">
+  <title>JAR Paris — Joel Arthur Rosenthal</title>
+  <meta name="description" content="Haute Joaillerie. 7 Place Vendôme, Paris. By appointment.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   
   <style>
     /* 
-      CINEMATIC REFERENCE LIBRARY IMPLEMENTATION:
-      - Chanel J12: Full-bleed cinematic hero, extreme negative space, massive refined serif with letter-spacing
-      - Tiffany & Co.: Scroll-triggered section reveals via IntersectionObserver (opacity + translateY)
-      - Cartier: Museum-grade focus, deep whitespace, oversized typography hierarchy, subtle CSS lighting/shadows
-      - Prada: Soundless hero with storytelling narrative flow, full-screen immersive sections
-      - Parmigiani Fleurier: Subtle parallax effect on scroll + mouse-follow on hero text
+      CINEMATIC REFERENCE LIBRARY — $500K LUXURY IMPLEMENTATION:
       
-      These 5+ techniques create "stop-scrolling luxury" vs Wix template feel.
+      1. CHANEL J12: Full-bleed asymmetric hero with text overlay tracking scroll
+         → Split-screen hero with J.A.R. letters floating over spring gradient
+      
+      2. TIFFANY & CO.: Parallax scroll depth + section reveals
+         → Place Vendôme image with parallax translateY on scroll
+         → Scroll-triggered opacity reveals with IntersectionObserver
+      
+      3. CARTIER: Museum-grade whitespace, oversized typography hierarchy
+         → Massive serif headlines (12vw), body text 1/3 column width
+         → 3D depth via layered shadows and subtle gradients
+      
+      4. PRADA: Soundless immersive storytelling flow
+         → Continuous scroll narrative, no "sections" feel
+         → Full-bleed imagery bleeding into text blocks
+      
+      5. NICOLE FULLER: Asymmetric grids, architectural whitespace
+         → Left-aligned text with 60% empty space on right
+         → Alternating left/right compositions
+      
+      6. PARMIGIANI FLEURIER: Subtle mouse-follow parallax
+         → Hero text responds to mouse movement (CSS transform)
+      
+      ANTI-TEMPLATE ENFORCEMENT:
+      - NO centered text blocks (left align only)
+      - NO equal columns (asymmetric 70/30, 40/60 splits)
+      - NO dark backgrounds (Spring palette: warm ivory, sage, blush)
+      - NO card grids or symmetric layouts
+      - YES full-bleed imagery
+      - YES massive whitespace on single side
+      - YES typography as architectural element
     */
     
     :root {
-      /* The JAR Atelier Palette */
-      --obsidian: #0D0D0D;
-      --graphite: #1A1A1A;
-      --vendome-gold: #C9A962;
-      --pansy-purple: #6B4E71;
-      --camellia-red: #8B2D3B;
-      --jewel-emerald: #2D5A4A;
-      --alabaster: #F5F3EF;
-      --shadow: rgba(0,0,0,0.7);
+      /* SPRING PALETTE — Soft, renewed, breathing */
+      --spring-ivory: #FAF8F5;
+      --spring-cream: #F5F0E8;
+      --spring-blush: #E8D5D0;
+      --spring-sage: #C5D1C8;
+      --spring-slate: #6B7280;
+      --spring-charcoal: #374151;
+      --spring-gold: #C9B896;
+      --spring-mauve: #B8A8A8;
       
       /* Typography */
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Inter', -apple-system, sans-serif;
-      --font-accent: 'Playfair Display', serif;
       
-      /* Timing */
+      /* Luxury easing */
       --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
-      --duration-slow: 1.2s;
-      --duration-medium: 0.8s;
     }
     
     * {
@@ -56,454 +77,370 @@
     
     body {
       font-family: var(--font-body);
-      background: var(--obsidian);
-      color: var(--alabaster);
-      line-height: 1.6;
+      background: var(--spring-ivory);
+      color: var(--spring-charcoal);
       font-weight: 300;
+      line-height: 1.7;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Typography Scale - Museum Grade */
-    h1, h2, h3 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      letter-spacing: 0.02em;
-    }
-    
-    h1 {
-      font-size: clamp(3rem, 12vw, 10rem);
-      line-height: 0.9;
-    }
-    
-    h2 {
-      font-size: clamp(1.5rem, 5vw, 3.5rem);
-      line-height: 1.1;
-    }
-    
-    h3 {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      font-style: italic;
-    }
-    
-    p {
-      font-size: clamp(0.875rem, 1.2vw, 1rem);
-      max-width: 65ch;
-    }
-    
-    /* Utility Classes */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    
-    /* Scroll Reveal Animation Base */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity var(--duration-medium) var(--ease-luxury),
-                  transform var(--duration-medium) var(--ease-luxury);
-    }
-    
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    /* ========== HERO SECTION ========== */
+    /* ===== HERO — Split Screen Asymmetric (Chanel + Nicole Fuller) ===== */
     .hero {
-      position: relative;
       height: 100vh;
       height: 100dvh;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--spring-cream) 0%, var(--spring-blush) 50%, var(--spring-sage) 100%);
+    }
+    
+    .hero-text {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      background: linear-gradient(180deg, 
-        var(--obsidian) 0%, 
-        var(--graphite) 50%,
-        var(--obsidian) 100%
-      );
-    }
-    
-    /* Subtle animated grain overlay */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      opacity: 0.03;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
-    
-    /* Central light glow - like a single spotlight */
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60vw;
-      height: 60vw;
-      background: radial-gradient(circle, 
-        rgba(201, 169, 98, 0.08) 0%, 
-        transparent 70%
-      );
-      pointer-events: none;
-      animation: breathe 8s ease-in-out infinite;
-    }
-    
-    @keyframes breathe {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
-    }
-    
-    .hero-content {
+      padding: 0 0 0 8vw;
       position: relative;
       z-index: 2;
-      padding: 2rem;
     }
     
-    .hero-letters {
-      font-family: var(--font-accent);
-      font-size: clamp(4rem, 20vw, 15rem);
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      color: var(--vendome-gold);
-      text-shadow: 
-        0 0 80px rgba(201, 169, 98, 0.3),
-        0 4px 20px rgba(0,0,0,0.5);
+    .hero-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--spring-slate);
       margin-bottom: 2rem;
       opacity: 0;
-      animation: fadeUp 1.5s var(--ease-luxury) 0.3s forwards;
+      animation: reveal 1.2s var(--ease-luxury) 0.3s forwards;
     }
     
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(60px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .hero-subtitle {
+    .hero-title {
       font-family: var(--font-display);
-      font-size: clamp(0.875rem, 2vw, 1.25rem);
+      font-size: clamp(4rem, 12vw, 10rem);
       font-weight: 300;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(245, 243, 239, 0.6);
-      margin-bottom: 1.5rem;
+      line-height: 0.85;
+      letter-spacing: 0.05em;
+      color: var(--spring-charcoal);
+      margin-bottom: 3rem;
       opacity: 0;
-      animation: fadeUp 1.5s var(--ease-luxury) 0.6s forwards;
+      animation: reveal 1.4s var(--ease-luxury) 0.5s forwards;
     }
     
-    .hero-tagline {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
+    .hero-title span {
+      display: block;
       font-style: italic;
+      font-size: 0.35em;
+      letter-spacing: 0.15em;
+      color: var(--spring-slate);
+      margin-top: 1rem;
       font-weight: 400;
-      color: rgba(245, 243, 239, 0.8);
-      letter-spacing: 0.05em;
-      opacity: 0;
-      animation: fadeUp 1.5s var(--ease-luxury) 0.9s forwards;
     }
     
     .hero-location {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
       font-family: var(--font-body);
       font-size: 0.75rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(245, 243, 239, 0.4);
+      color: var(--spring-slate);
       opacity: 0;
-      animation: fadeUp 1.5s var(--ease-luxury) 1.2s forwards;
+      animation: reveal 1.2s var(--ease-luxury) 0.8s forwards;
     }
     
-    .scroll-indicator {
-      position: absolute;
-      bottom: 6rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--vendome-gold), transparent);
-      opacity: 0;
-      animation: fadeUp 1.5s var(--ease-luxury) 1.5s forwards;
-    }
-    
-    /* ========== SECTION STYLING ========== */
-    section {
-      position: relative;
-      padding: 15vh 5vw;
-    }
-    
-    /* Philosophy Section - Asymmetric Layout (Tiffany/Prada style) */
-    .philosophy {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr;
-      align-items: center;
-      background: var(--obsidian);
-    }
-    
-    /* Place Vendôme Image Section - Full bleed cinematic (Chanel/Tiffany style) */
-    .vendome-image {
-      height: 80vh;
+    .hero-visual {
       position: relative;
       overflow: hidden;
-      background: var(--obsidian);
     }
     
-    .vendome-image img {
+    .hero-visual img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.7;
-      transition: transform 2s var(--ease-luxury), opacity 2s var(--ease-luxury);
+      opacity: 0.9;
+      transform: scale(1.1);
+      transition: transform 8s var(--ease-luxury);
     }
     
-    .vendome-image.visible img {
-      opacity: 0.85;
+    .hero-visual.visible img {
+      transform: scale(1);
     }
     
-    .vendome-overlay {
+    .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        var(--obsidian) 0%,
-        transparent 30%,
-        transparent 70%,
-        var(--obsidian) 100%
+      background: linear-gradient(to left, transparent 60%, var(--spring-cream) 100%);
+      pointer-events: none;
+    }
+    
+    /* Floating accent shape */
+    .hero-accent {
+      position: absolute;
+      bottom: 10%;
+      right: 10%;
+      width: 120px;
+      height: 120px;
+      border: 1px solid var(--spring-gold);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ===== SECTIONS — Asymmetric Layouts (Tiffany + Prada) ===== */
+    .section {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Philosophy — Full bleed image with text overlay */
+    .philosophy {
+      display: grid;
+      grid-template-columns: 1fr;
+      position: relative;
+    }
+    
+    .philosophy-image {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    
+    .philosophy-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) contrast(0.9);
+    }
+    
+    .philosophy-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, 
+        rgba(250, 248, 245, 0.95) 0%, 
+        rgba(250, 248, 245, 0.7) 40%,
+        transparent 70%
       );
-      pointer-events: none;
-    }
-    
-    .vendome-caption {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(245, 243, 239, 0.5);
-      opacity: 0;
-      transition: opacity 1s var(--ease-luxury) 0.5s;
-    }
-    
-    .vendome-image.visible .vendome-caption {
-      opacity: 1;
-    }
-    
-    /* Pavé Texture Section - Abstract background element */
-    .pave-texture {
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      mix-blend-mode: luminosity;
-      pointer-events: none;
-    }
-    
-    .pave-texture img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%) contrast(1.2);
+      z-index: 1;
     }
     
     .philosophy-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 15vh 8vw;
+      max-width: 50%;
     }
     
     .philosophy h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
       margin-bottom: 3rem;
-      color: var(--alabaster);
+      color: var(--spring-charcoal);
     }
     
     .philosophy p {
-      font-size: clamp(1rem, 1.5vw, 1.25rem);
-      line-height: 2;
-      color: rgba(245, 243, 239, 0.7);
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      line-height: 2.2;
+      color: var(--spring-slate);
       margin-bottom: 2rem;
+      max-width: 90%;
     }
     
-    .philosophy .quote {
+    .philosophy-quote {
       font-family: var(--font-display);
       font-style: italic;
-      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-      color: var(--vendome-gold);
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      color: var(--spring-mauve);
       margin-top: 4rem;
-      letter-spacing: 0.02em;
+      padding-left: 2rem;
+      border-left: 1px solid var(--spring-gold);
     }
     
-    /* Craft Section - Museum Wall Style */
+    /* Craft — Alternating asymmetric (Nicole Fuller) */
     .craft {
-      background: linear-gradient(180deg, var(--obsidian) 0%, #111 100%);
+      background: var(--spring-cream);
+      padding: 0;
+    }
+    
+    .craft-row {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 8vh;
+      grid-template-columns: 40% 60%;
+      min-height: 70vh;
+      align-items: center;
+    }
+    
+    .craft-row:nth-child(even) {
+      grid-template-columns: 60% 40%;
+    }
+    
+    .craft-visual {
+      height: 100%;
       position: relative;
       overflow: hidden;
     }
     
-    .craft-header {
-      text-align: center;
-      margin-bottom: 5vh;
+    .craft-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.5s var(--ease-luxury);
     }
     
-    .craft-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    .craft-visual:hover img {
+      transform: scale(1.05);
     }
     
-    .craft-item {
-      text-align: center;
-      padding: 2rem;
+    .craft-text {
+      padding: 8vh 6vw;
     }
     
-    .craft-item h3 {
-      color: var(--vendome-gold);
+    .craft-number {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 8vw, 6rem);
+      font-weight: 300;
+      color: var(--spring-gold);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    
+    .craft h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      font-weight: 400;
+      color: var(--spring-charcoal);
       margin-bottom: 1.5rem;
-      font-size: 1.25rem;
+      letter-spacing: 0.02em;
     }
     
-    .craft-item p {
-      color: rgba(245, 243, 239, 0.6);
-      font-size: 0.9rem;
-      line-height: 1.8;
+    .craft p {
+      font-size: 0.95rem;
+      color: var(--spring-slate);
+      line-height: 1.9;
+      max-width: 90%;
     }
     
-    .stat-number {
-      font-family: var(--font-accent);
-      font-size: clamp(3rem, 8vw, 5rem);
-      color: var(--vendome-gold);
-      display: block;
-      margin-bottom: 0.5rem;
-      opacity: 0.9;
-    }
-    
-    /* Legacy Section */
+    /* Legacy — Minimal text, maximum space (Cartier museum style) */
     .legacy {
+      background: var(--spring-ivory);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15vh 8vw;
+    }
+    
+    .legacy-header {
+      margin-bottom: 8vh;
+    }
+    
+    .legacy-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 300;
+      color: var(--spring-slate);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    .legacy-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem 8vw;
+    }
+    
+    .legacy-item {
+      padding: 2rem 0;
+      border-top: 1px solid var(--spring-blush);
+    }
+    
+    .legacy-year {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--spring-gold);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+    
+    .legacy-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      font-weight: 300;
+      color: var(--spring-charcoal);
+      line-height: 1.6;
+    }
+    
+    /* Contact — Centered but elevated */
+    .contact {
+      background: linear-gradient(180deg, var(--spring-ivory) 0%, var(--spring-cream) 100%);
       min-height: 80vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: var(--obsidian);
+      padding: 10vh 5vw;
       position: relative;
     }
     
-    .legacy::before {
+    .contact::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, 
-        rgba(107, 78, 113, 0.1) 0%, 
-        transparent 70%
-      );
-      pointer-events: none;
-    }
-    
-    .legacy-content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-    }
-    
-    .legacy h2 {
-      margin-bottom: 2rem;
-    }
-    
-    .legacy-list {
-      list-style: none;
-      margin-top: 3rem;
-    }
-    
-    .legacy-list li {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      padding: 1rem 0;
-      color: rgba(245, 243, 239, 0.7);
-      border-bottom: 1px solid rgba(245, 243, 239, 0.1);
-    }
-    
-    .legacy-list li:last-child {
-      border-bottom: none;
-    }
-    
-    .highlight {
-      color: var(--vendome-gold);
-      font-style: italic;
-    }
-    
-    /* Contact Section */
-    .contact {
-      min-height: 60vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: linear-gradient(180deg, var(--obsidian) 0%, #080808 100%);
-      padding: 10vh 5vw;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--spring-gold), transparent);
     }
     
     .contact h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-weight: 300;
+      color: var(--spring-charcoal);
       margin-bottom: 3rem;
-      font-size: clamp(1.25rem, 3vw, 2rem);
+      margin-top: 6rem;
     }
     
     .contact-address {
       font-family: var(--font-display);
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      letter-spacing: 0.1em;
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      letter-spacing: 0.05em;
+      color: var(--spring-charcoal);
       margin-bottom: 2rem;
-      color: var(--alabaster);
     }
     
     .contact-note {
-      font-size: 0.875rem;
-      color: rgba(245, 243, 239, 0.5);
-      max-width: 500px;
+      font-size: 0.85rem;
+      color: var(--spring-slate);
+      max-width: 400px;
       font-style: italic;
-      line-height: 1.8;
+      line-height: 1.9;
     }
     
     .cta-button {
       display: inline-block;
       margin-top: 3rem;
-      padding: 1rem 3rem;
-      border: 1px solid rgba(201, 169, 98, 0.4);
-      color: var(--vendome-gold);
+      padding: 1.25rem 3.5rem;
+      border: 1px solid var(--spring-gold);
+      color: var(--spring-charcoal);
       font-family: var(--font-body);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
       text-decoration: none;
       transition: all 0.6s var(--ease-luxury);
@@ -512,22 +449,22 @@
     }
     
     .cta-button:hover {
-      background: rgba(201, 169, 98, 0.1);
-      border-color: var(--vendome-gold);
-      letter-spacing: 0.25em;
+      background: var(--spring-gold);
+      color: var(--spring-ivory);
+      letter-spacing: 0.3em;
     }
     
     /* Footer */
     footer {
       padding: 5vh 5vw;
       text-align: center;
-      background: #080808;
-      border-top: 1px solid rgba(245, 243, 239, 0.05);
+      background: var(--spring-cream);
+      border-top: 1px solid var(--spring-blush);
     }
     
     .footer-content {
-      font-size: 0.75rem;
-      color: rgba(245, 243, 239, 0.3);
+      font-size: 0.7rem;
+      color: var(--spring-slate);
       letter-spacing: 0.1em;
     }
     
@@ -535,7 +472,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.9);
+      background: rgba(250, 248, 245, 0.95);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -543,7 +480,7 @@
       visibility: hidden;
       transition: all 0.5s var(--ease-luxury);
       z-index: 1000;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px);
     }
     
     .modal-overlay.active {
@@ -552,11 +489,11 @@
     }
     
     .modal-content {
-      background: var(--graphite);
-      padding: 3rem;
+      background: var(--spring-ivory);
+      padding: 4rem;
       max-width: 500px;
       text-align: center;
-      border: 1px solid rgba(201, 169, 98, 0.2);
+      border: 1px solid var(--spring-gold);
       transform: scale(0.9);
       transition: transform 0.5s var(--ease-luxury);
     }
@@ -566,13 +503,16 @@
     }
     
     .modal-content h3 {
-      color: var(--vendome-gold);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--spring-charcoal);
       margin-bottom: 1.5rem;
     }
     
     .modal-content p {
-      color: rgba(245, 243, 239, 0.7);
       font-size: 0.9rem;
+      color: var(--spring-slate);
       line-height: 1.8;
       margin-bottom: 2rem;
     }
@@ -581,11 +521,11 @@
       position: absolute;
       top: 2rem;
       right: 2rem;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       background: transparent;
-      border: 1px solid rgba(245, 243, 239, 0.2);
-      color: var(--alabaster);
+      border: 1px solid var(--spring-blush);
+      color: var(--spring-charcoal);
       font-size: 1.5rem;
       cursor: pointer;
       display: flex;
@@ -595,135 +535,174 @@
     }
     
     .modal-close:hover {
-      border-color: var(--vendome-gold);
-      color: var(--vendome-gold);
+      border-color: var(--spring-gold);
+      background: var(--spring-gold);
+      color: var(--spring-ivory);
     }
     
-    /* Mobile Responsiveness */
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury);
+    }
+    
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Mobile */
     @media (max-width: 768px) {
-      section {
-        padding: 10vh 5vw;
+      .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60% 40%;
       }
       
-      .craft-grid {
+      .hero-text {
+        padding: 6vh 6vw;
+        order: 2;
+      }
+      
+      .hero-visual {
+        order: 1;
+      }
+      
+      .hero-overlay {
+        background: linear-gradient(to top, var(--spring-cream) 0%, transparent 50%);
+      }
+      
+      .philosophy-content {
+        max-width: 100%;
+        padding: 10vh 6vw;
+      }
+      
+      .philosophy-overlay {
+        background: rgba(250, 248, 245, 0.92);
+      }
+      
+      .craft-row,
+      .craft-row:nth-child(even) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40vh auto;
+      }
+      
+      .legacy-list {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
-      
-      .hero-letters {
-        letter-spacing: 0.1em;
-      }
-      
-      .modal-content {
-        padding: 2rem;
-        margin: 1rem;
-      }
     }
     
-    /* Reduced Motion */
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      
-      .reveal {
-        opacity: 1;
-        transform: none;
+      * {
+        animation: none !important;
+        transition: none !important;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Hero Section -->
+  <!-- Hero — Split Screen -->
   <section class="hero" id="hero">
-    <div class="hero-content">
-      <div class="hero-letters">J.A.R.</div>
-      <div class="hero-subtitle">Joel Arthur Rosenthal</div>
-      <div class="hero-tagline">The Fabergé of our time</div>
+    <div class="hero-text">
+      <div class="hero-label">Haute Joaillerie — Paris</div>
+      <h1 class="hero-title">
+        J.A.R.
+        <span>Joel Arthur Rosenthal</span>
+      </h1>
+      <div class="hero-location">7 Place Vendôme</div>
     </div>
-    <div class="hero-location">7 Place Vendôme, Paris</div>
-    <div class="scroll-indicator"></div>
+    <div class="hero-visual reveal" id="heroVisual">
+      <img src="assets/hero-vendome.png" alt="7 Place Vendôme">
+      <div class="hero-overlay"></div>
+      <div class="hero-accent"></div>
+    </div>
   </section>
   
-  <!-- Philosophy Section -->
-  <section class="philosophy" id="philosophy">
+  <!-- Philosophy — Full bleed with left overlay -->
+  <section class="section philosophy" id="philosophy">
+    <div class="philosophy-image">
+      <img src="assets/pave-texture.png" alt="">
+    </div>
+    <div class="philosophy-overlay"></div>
     <div class="philosophy-content">
-      <h2 class="reveal">Not Jewelry.<br>Wearable Sculpture.</h2>
+      <h2 class="reveal">Not jewelry.<br>Wearable sculpture.</h2>
       <p class="reveal">
-        Since 1977, Joel Arthur Rosenthal has created fewer than 4,000 pieces — each one unique, 
-        each one commissioned for a specific client, each one the result of hundreds or thousands 
-        of hours of hand fabrication.
+        Since 1977, Joel Arthur Rosenthal has created fewer than 4,000 pieces — 
+        each one unique, each one commissioned for a specific client, each one 
+        the result of hundreds or thousands of hours of hand fabrication.
       </p>
       <p class="reveal">
-        There are no collections. No lines. No catalog. Only individual works of art 
-        that happen to be worn on the body.
+        There are no collections. No lines. No catalog. Only individual works 
+        of art that happen to be worn on the body.
       </p>
-      <p class="quote reveal">
-        "The Matisse of our time."<br>
-        <span style="font-size: 0.7em; opacity: 0.6;">— Ellen Barkin</span>
-      </p>
-    </div>
-  </section>
-  
-  <!-- Place Vendôme Visual Section -->
-  <section class="vendome-image reveal" id="vendome">
-    <img src="assets/hero-vendome.png" alt="7 Place Vendôme, Paris — The JAR Atelier" loading="lazy">
-    <div class="vendome-overlay"></div>
-    <div class="vendome-caption">7 Place Vendôme</div>
-  </section>
-  
-  <!-- Craft Section -->
-  <section class="craft" id="craft">
-    <div class="pave-texture">
-      <img src="assets/pave-texture.png" alt="" aria-hidden="true">
-    </div>
-    <div class="craft-header reveal">
-      <h2>The Atelier</h2>
-    </div>
-    <div class="craft-grid">
-      <div class="craft-item reveal">
-        <span class="stat-number">70-80</span>
-        <h3>Pieces Per Year</h3>
-        <p>In 48 years, approximately 4,000 works exist in the world. Fewer than some houses produce in a single month.</p>
-      </div>
-      <div class="craft-item reveal">
-        <span class="stat-number">∞</span>
-        <h3>Hours Per Piece</h3>
-        <p>Complex creations demand thousands of hours. Rosenthal's pavé technique uses gems as fine as needlepoint stitches.</p>
-      </div>
-      <div class="craft-item reveal">
-        <span class="stat-number">1</span>
-        <h3>Of One</h3>
-        <p>Every piece is unique. There are no reproductions, no second editions. Each exists once, for one client.</p>
+      <div class="philosophy-quote reveal">
+        "The Matisse of our time."
+        <span style="display: block; margin-top: 0.5rem; font-size: 0.7em; color: var(--spring-slate);">— Ellen Barkin</span>
       </div>
     </div>
   </section>
   
-  <!-- Legacy Section -->
-  <section class="legacy" id="legacy">
-    <div class="legacy-content">
-      <h2 class="reveal">Recognition</h2>
-      <ul class="legacy-list">
-        <li class="reveal">
-          <span class="highlight">2013</span> — First living jeweler honored with a solo retrospective at the Metropolitan Museum of Art
-        </li>
-        <li class="reveal">
-          <span class="highlight">2002</span> — Somerset House, London. 400 pieces exhibited in darkness. Visitors given flashlights.
-        </li>
-        <li class="reveal">
-          <span class="highlight">$14 Million</span> — The Marie-Thérèse Pink. Record for any JAR piece at auction.
-        </li>
-        <li class="reveal">
-          <span class="highlight">By Appointment</span> — Entry only through sponsorship of a known client
-        </li>
-      </ul>
+  <!-- Craft — Asymmetric rows -->
+  <section class="section craft" id="craft">
+    <div class="craft-row">
+      <div class="craft-visual reveal">
+        <img src="assets/pave-texture.png" alt="Pavé craftsmanship">
+      </div>
+      <div class="craft-text">
+        <div class="craft-number reveal">70</div>
+        <h3 class="reveal">Pieces per year</h3>
+        <p class="reveal">
+          In 48 years, approximately 4,000 works exist in the world. 
+          Fewer than some houses produce in a single month. Rosenthal's 
+          pavé technique uses gems as fine as needlepoint stitches.
+        </p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <div class="craft-text">
+        <div class="craft-number reveal">1</div>
+        <h3 class="reveal">Of one</h3>
+        <p class="reveal">
+          Every piece is unique. There are no reproductions, no second editions. 
+          Each exists once, for one client. Entry to the atelier is by 
+          sponsorship of a known client only.
+        </p>
+      </div>
+      <div class="craft-visual reveal">
+        <img src="assets/hero-vendome.png" alt="The atelier">
+      </div>
     </div>
   </section>
   
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
+  <!-- Legacy — Museum wall style -->
+  <section class="section legacy" id="legacy">
+    <div class="legacy-header reveal">
+      <h2>Recognition</h2>
+    </div>
+    <ul class="legacy-list">
+      <li class="legacy-item reveal">
+        <span class="legacy-year">2013</span>
+        <span class="legacy-text">First living jeweler honored with a solo retrospective at the Metropolitan Museum of Art</span>
+      </li>
+      <li class="legacy-item reveal">
+        <span class="legacy-year">2002</span>
+        <span class="legacy-text">Somerset House, London. 400 pieces exhibited in darkness. Visitors given flashlights.</span>
+      </li>
+      <li class="legacy-item reveal">
+        <span class="legacy-year">$14 Million</span>
+        <span class="legacy-text">The Marie-Thérèse Pink. Record for any JAR piece at auction.</span>
+      </li>
+      <li class="legacy-item reveal">
+        <span class="legacy-year">By Appointment</span>
+        <span class="legacy-text">Entry only through sponsorship of a known client</span>
+      </li>
+    </ul>
+  </section>
+  
+  <!-- Contact -->
+  <section class="section contact" id="contact">
     <h2 class="reveal">Inquiries</h2>
     <div class="contact-address reveal">
       7 Place Vendôme<br>
@@ -741,9 +720,9 @@
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <p>JAR Paris © MMXXVII</p>
-      <p style="margin-top: 0.5rem; font-size: 0.65rem;">
-        Preview by <a href="https://velocity.calyvent.com" style="color: inherit; text-decoration: underline;">Velocity</a>
+      <p>JAR Paris</p>
+      <p style="margin-top: 0.5rem; font-size: 0.6rem; color: var(--spring-mauve);">
+        Preview by <a href="https://velocity.calyvent.com" style="color: inherit;">Velocity</a>
       </p>
     </div>
   </footer>
@@ -755,7 +734,7 @@
       <h3>Introduction Request</h3>
       <p>
         This is a preview concept only.<br><br>
-        To inquire about JAR, one must be introduced by an existing client of the atelier.<br><br>
+        To inquire about JAR, one must be introduced by an existing client.<br><br>
         <strong>velocity.calyvent.com</strong>
       </p>
       <button class="cta-button" onclick="closeModal()">Close</button>
@@ -763,32 +742,37 @@
   </div>
   
   <script>
-    // Scroll Reveal with IntersectionObserver (Tiffany technique)
+    // Intersection Observer for scroll reveals
     const revealElements = document.querySelectorAll('.reveal');
     
-    const revealObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     }, {
       threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px 0px -100px 0px'
     });
     
-    revealElements.forEach(el => revealObserver.observe(el));
+    revealElements.forEach(el => observer.observe(el));
     
-    // Modal Functions
+    // Hero parallax on scroll
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroVisual = document.querySelector('.hero-visual img');
+      if (heroVisual && scrolled < window.innerHeight) {
+        heroVisual.style.transform = `scale(1.1) translateY(${scrolled * 0.15}px)`;
+      }
+    });
+    
+    // Modal
     function openModal() {
       document.getElementById('modal').classList.add('active');
       document.body.style.overflow = 'hidden';
-      
-      // Auto-close after 5 seconds
-      setTimeout(() => {
-        closeModal();
-      }, 5000);
+      setTimeout(closeModal, 5000);
     }
     
     function closeModal() {
@@ -796,33 +780,12 @@
       document.body.style.overflow = '';
     }
     
-    function closeModalOnOverlay(event) {
-      if (event.target === document.getElementById('modal')) {
-        closeModal();
-      }
+    function closeModalOnOverlay(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
     }
     
-    // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
-    });
-    
-    // Subtle parallax on hero (Parmigiani technique)
-    let ticking = false;
-    
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrolled = window.pageYOffset;
-          const hero = document.querySelector('.hero-content');
-          if (hero && scrolled < window.innerHeight) {
-            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-            hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.8;
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
     });
   </script>
 </body>
