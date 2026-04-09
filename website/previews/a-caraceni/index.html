@@ -92,7 +92,6 @@
                 repeating-linear-gradient(0deg, var(--ink) 0px, transparent 1px, transparent 3px, var(--ink) 4px);
             background-size: 4px 6px;
             transform: translateY(0);
-            will-change: transform;
         }
         
         /* Measurement tape ruler */
@@ -818,75 +817,52 @@
     </div>
     
     <script>
-        // Navigation scroll effect
+        // Consolidated scroll handler with requestAnimationFrame
         const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // Fabric weave parallax
         const fabricOverlay = document.getElementById('fabricOverlay');
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            fabricOverlay.style.transform = `translateY(${scrollY * 0.3}px)`;
-        });
-        
-        // Measurement tape ruler progress
         const tapeProgress = document.getElementById('tapeProgress');
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            tapeProgress.style.height = scrollPercent + '%';
-        });
-        
-        // Scroll-progress lapel pin
         const lapelPin = document.getElementById('lapelPin');
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = scrollTop / docHeight;
-            const maxOffset = window.innerHeight * 0.4;
-            const offset = scrollPercent * maxOffset;
-            lapelPin.style.transform = `translateY(${offset}px)`;
-        });
         
-        // Golden thread cursor trail
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPercent = scrollY / docHeight;
+                    
+                    // Navbar
+                    navbar.classList.toggle('scrolled', scrollY > 100);
+                    
+                    // Fabric parallax
+                    fabricOverlay.style.transform = `translateY(${scrollY * 0.3}px)`;
+                    
+                    // Tape progress
+                    tapeProgress.style.height = (scrollPercent * 100) + '%';
+                    
+                    // Lapel pin
+                    const maxOffset = window.innerHeight * 0.4;
+                    lapelPin.style.transform = `translateY(${scrollPercent * maxOffset}px)`;
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        // Simplified cursor trail - CSS-based, no RAF loop
         const cursorTrail = document.getElementById('cursorTrail');
-        let mouseX = 0, mouseY = 0;
-        let trailX = 0, trailY = 0;
+        let trailTimeout;
         
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            cursorTrail.style.left = e.clientX + 'px';
+            cursorTrail.style.top = e.clientY + 'px';
             cursorTrail.style.opacity = '0.6';
-        });
-        
-        document.addEventListener('mouseleave', () => {
-            cursorTrail.style.opacity = '0';
-        });
-        
-        function animateTrail() {
-            trailX += (mouseX - trailX) * 0.1;
-            trailY += (mouseY - trailY) * 0.1;
-            cursorTrail.style.left = trailX + 'px';
-            cursorTrail.style.top = trailY + 'px';
-            requestAnimationFrame(animateTrail);
-        }
-        animateTrail();
-        
-        // Fade out trail after inactivity
-        let trailTimeout;
-        document.addEventListener('mousemove', () => {
             clearTimeout(trailTimeout);
             trailTimeout = setTimeout(() => {
                 cursorTrail.style.opacity = '0';
-            }, 500);
-        });
+            }, 300);
+        }, { passive: true });
         
         // Quote fade-sequence (Intersection Observer)
         const testimonials = document.querySelectorAll('.testimonial');
