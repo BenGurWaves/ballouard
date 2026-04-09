@@ -638,36 +638,57 @@
     
     .modal-content h3 {
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 300;
       color: var(--vellum);
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.08em;
     }
     
-    .modal-subtitle {
-      font-family: var(--font-accent);
-      font-style: italic;
-      font-size: 1rem;
+    .modal-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 3rem;
-      opacity: 0.8;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
     }
     
     .modal-divider {
-      width: 60px;
+      width: 40px;
       height: 1px;
       background: var(--gold);
-      margin: 0 auto 3rem;
-      opacity: 0.4;
+      margin: 2rem auto;
+      opacity: 0.3;
     }
     
-    .modal-content p {
-      font-size: 0.85rem;
+    .modal-body {
+      font-size: 0.8rem;
       color: var(--parchment);
       line-height: 2;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.03em;
+    }
+    
+    .modal-contact {
       margin-bottom: 3rem;
-      letter-spacing: 0.02em;
+    }
+    
+    .modal-phone {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .modal-address {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--parchment);
+      opacity: 0.6;
     }
     
     .modal-close {
@@ -924,16 +945,19 @@
   <div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
     <button class="modal-close" onclick="closeModal()">×</button>
     <div class="modal-content">
-      <h3>Request an Appointment</h3>
-      <div class="modal-subtitle">7 Sackville Street, London</div>
+      <div class="modal-eyebrow">Concept Preview</div>
+      <h3>Velocity Design Study</h3>
       <div class="modal-divider"></div>
-      <p>
-        Private consultations are available by appointment.<br>
-        Please telephone or visit the atelier to arrange<br>
-        your personal fitting with Mr. Haste.
+      <p class="modal-body">
+        This is a demonstration of the Kent & Haste digital experience.<br><br>
+        No bookings can be made through this interface.<br>
+        To arrange an appointment, please contact the atelier directly.
       </p>
-      <div style="font-family: var(--font-display); font-size: 1.2rem; color: var(--gold); margin-bottom: 3rem; letter-spacing: 0.1em;">+44 (0) 20 7734 1433</div>
-      <button class="cta-button" onclick="closeModal()">Return</button>
+      <div class="modal-contact">
+        <div class="modal-phone">+44 (0) 20 7734 1433</div>
+        <div class="modal-address">7 Sackville Street, London W1S 3DE</div>
+      </div>
+      <button class="cta-button" onclick="closeModal()">Return to Preview</button>
     </div>
   </div>
   
@@ -1003,7 +1027,6 @@
     function openModal() {
       document.getElementById('modal').classList.add('active');
       document.body.style.overflow = 'hidden';
-      setTimeout(closeModal, 5000);
     }
     
     function closeModal() {
@@ -1017,6 +1040,19 @@
     
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
+    });
+    
+    // Intercept all button clicks to show preview modal
+    document.querySelectorAll('button, .cta-button, a[href="#"], a[href=""]').forEach(btn => {
+      // Skip the modal's own close button
+      if (btn.classList.contains('modal-close')) return;
+      if (btn.closest('.modal-content')) return;
+      
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
     });
     
     // Parallax on scroll for diagonal section
