@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MYST MMXX - Alchemical Organic Alloys. Sustainable, traceable, pure fine jewelry.">
-    <title>MYST MMXX | The Memory of Earth</title>
+    <title>MYST MMXX | Alchemical Future</title>
     <!-- 
       Cinematic Reference: 
-      1. Chanel J12: Extreme negative space + massive refined serif (Playfair Display) with generous letter-spacing.
-      2. Tiffany & Co.: Parallax scroll depth on the hero image to set an immersive tone.
-      3. Cartier: Museum-grade product focus, discarding symmetric templates in favor of unconstrained asymmetric layouts.
-      4. Prada: Elegant fade/zoom transitions on scroll via IntersectionObserver to build narrative storytelling over static content.
-      This creates stop-scrolling luxury vs a basic template structure. 
+      1. Chanel J12: Zero "centered text blocks" or buttons. Massive, tracking-perfect typography breaking the grid boundaries.
+      2. Nicole Fuller: Complete abandonment of grids and cards. Artifacts command 150vh of purely dedicated scrolling depth.
+      3. Prada: Storytelling flow. The narrative triggers purely on scroll intersection.
+      4. Tiffany: Parallax image depth where the image holds still while the mask scrolls away.
+      This explicitly breaks all typical column/card/text-block templates.
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
         :root {
             --ink: #3D403C;
             --bone: #f2f3fc;
             --slate: #b4b4b4;
             --brass: #cecaca;
-            --font-display: 'Playfair Display', serif;
-            --font-body: 'DM Sans', sans-serif;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
             --ease-luxe: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
@@ -42,341 +42,272 @@
             font-weight: 300;
         }
 
-        ::selection {
-            background: var(--brass);
-            color: var(--ink);
+        ::selection { background: var(--bone); color: var(--ink); }
+
+        /* Global smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Navigation: Abstract HUD, avoiding 'template' header rows */
+        .hud {
+            position: fixed;
+            top: 4rem;
+            left: 4rem;
+            right: 4rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 900;
+            mix-blend-mode: difference;
+            pointer-events: none;
         }
 
-        /* Prada Scroll Reveal Utility Classes */
-        .reveal {
+        .hud-logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .hud-trigger {
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: color 0.6s var(--ease-luxe);
+        }
+
+        .hud-trigger:hover { color: var(--brass); }
+
+        /* Scene 1: The Monolith Hero (Pure Image + Giant Type, no buttons) */
+        .scene-monolith {
+            position: relative;
+            height: 120vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .monolith-media {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            will-change: transform;
+        }
+
+        .monolith-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(80%) sepia(20%) brightness(0.65);
+            animation: slowBreath 20s infinite alternate linear;
+        }
+
+        @keyframes slowBreath {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .monolith-type {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display);
+            font-size: clamp(8rem, 20vw, 25rem);
+            line-height: 0.8;
+            letter-spacing: -0.04em;
+            color: var(--bone);
+            mix-blend-mode: overlay;
             opacity: 0;
-            transform: translateY(60px);
-            transition: all 1.8s var(--ease-luxe);
+            animation: cinematicFadeIn 4s var(--ease-cinematic) 1s forwards;
+            pointer-events: none;
+            white-space: nowrap;
         }
 
-        .reveal.active {
+        @keyframes cinematicFadeIn {
+            from { opacity: 0; filter: blur(20px); transform: translate(-50%, -40%); }
+            to { opacity: 0.8; filter: blur(0); transform: translate(-50%, -50%); }
+        }
+
+        /* Scene 2: The Philosophy (Extreme Whitespace, Asymmetrical Typsetting) */
+        .scene-ethos {
+            background-color: var(--ink);
+            position: relative;
+            z-index: 10;
+            padding: 30vh 10vw 25vh;
+        }
+
+        .ethos-text {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            line-height: 1.1;
+            color: var(--slate);
+            max-width: 80vw;
+            margin-left: 10vw;
+        }
+
+        .ethos-text span {
+            display: block;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 2s var(--ease-cinematic);
+        }
+
+        .ethos-text.active span {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .reveal-delay-1 { transition-delay: 0.15s; }
-        .reveal-delay-2 { transition-delay: 0.3s; }
-        .reveal-delay-3 { transition-delay: 0.45s; }
+        .ethos-text span:nth-child(2) { color: var(--bone); font-style: italic; transition-delay: 0.2s; }
+        .ethos-text span:nth-child(3) { margin-left: 15vw; transition-delay: 0.4s; }
 
-        /* Nav */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 3rem 4rem;
+        /* Scene 3: The Artifact Exhibition (No cards, no rows) */
+        .scene-exhibition {
+            background-color: var(--ink);
+            position: relative;
+            z-index: 10;
+            padding-bottom: 30vh;
+        }
+
+        /* Artifact 1: Massive Left Alignment */
+        .exhibition-piece {
+            position: relative;
+            height: 150vh;
+            width: 100vw;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 100;
+        }
+
+        .piece-media {
+            width: 65vw;
+            height: 85vh;
+            margin-left: 5vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .piece-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 3s var(--ease-luxe), transform 3s var(--ease-luxe);
+            transform: scale(1.1);
+        }
+
+        .piece-media:hover img {
+            filter: grayscale(0%);
+            transform: scale(1);
+        }
+
+        /* Float metadata freely over the void, not in a box */
+        .piece-meta {
+            position: absolute;
+            right: 15vw;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30vw;
             mix-blend-mode: difference;
         }
 
-        .logo {
+        .piece-meta h3 {
             font-family: var(--font-display);
-            font-size: 1.25rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .menu-link {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            cursor: pointer;
-            color: var(--bone);
-            position: relative;
-        }
-
-        .menu-link::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background-color: var(--bone);
-            transition: width 0.7s var(--ease-luxe);
-        }
-
-        .menu-link:hover::after { width: 100%; }
-
-        /* Chanel J12 Hero */
-        .hero {
-            position: relative;
-            height: 110vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* Tiffany Parallax Background */
-        .parallax-bg {
-            position: absolute;
-            top: -10%;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            z-index: -1;
-            will-change: transform;
-        }
-
-        .parallax-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(80%) sepia(30%) contrast(1.1) brightness(0.6);
-            /* Initial cinematic scale-in */
-            animation: cinematicZoom 10s var(--ease-luxe) forwards;
-            transform-origin: center;
-        }
-
-        @keyframes cinematicZoom {
-            0% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        .hero-content {
-            text-align: center;
-            width: 100%;
-            padding: 0 2rem;
-            z-index: 2;
-            margin-top: -10vh;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(3.5rem, 8vw, 9rem);
-            line-height: 1;
-            letter-spacing: -0.01em;
-            font-weight: 400;
-            text-transform: none;
-            opacity: 0;
-            animation: textRise 2.5s var(--ease-luxe) 0.5s forwards;
-            transform: translateY(40px);
-        }
-
-        .hero-title i {
-            display: block;
-            color: var(--brass);
+            font-size: clamp(4rem, 8vw, 9rem);
+            line-height: 0.8;
             font-weight: 300;
-            transform: translateX(5%);
+            color: var(--bone);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transition: all 2s var(--ease-cinematic);
+            transform: translateX(-50px);
         }
 
-        @keyframes textRise {
-            to { opacity: 1; transform: translateY(0); }
+        .exhibition-piece.active .piece-meta h3 {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 12vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 60px;
-            background: rgba(242, 243, 252, 0.2);
-            overflow: hidden;
-        }
-
-        .scroll-line {
-            width: 100%;
-            height: 100%;
-            background: var(--bone);
-            transform: translateY(-100%);
-            animation: scrollLine 2s var(--ease-luxe) infinite;
-        }
-
-        @keyframes scrollLine {
-            0% { transform: translateY(-100%); }
-            50% { transform: translateY(0%); }
-            100% { transform: translateY(100%); }
-        }
-
-        /* Narrative Section */
-        .narrative {
-            padding: 20rem 10% 15rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .narrative-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.25;
-            font-weight: 400;
-            max-width: 800px;
-            margin-bottom: 4rem;
-        }
-
-        .narrative-body {
-            font-size: 1.1rem;
-            color: var(--slate);
-            line-height: 2;
-            max-width: 500px;
-            margin-left: auto;
-        }
-
-        /* Cartier Asymmetric Museum Grid */
-        .museum-exhibition {
-            padding: 0 5% 15rem;
-            position: relative;
-        }
-
-        .exhibition-intro {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            color: var(--brass);
-            margin-bottom: 8rem;
-            padding-left: 10%;
-        }
-
-        .artifact-grid {
+        .piece-meta .specs {
             display: flex;
             flex-direction: column;
-            gap: 15rem;
+            gap: 1.5rem;
+            opacity: 0;
+            transition: all 2s var(--ease-cinematic) 0.3s;
+            transform: translateX(-30px);
         }
 
-        .artifact-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10%;
+        .exhibition-piece.active .specs {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .artifact-row:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .artifact-visual {
-            width: 55%;
-            position: relative;
-            aspect-ratio: 4/5;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .artifact-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(40%);
-            /* Smooth cinematic hover from Cartier */
-            transition: transform 1.8s var(--ease-luxe), filter 1.8s var(--ease-luxe);
-            will-change: transform;
-        }
-
-        .artifact-visual:hover img {
-            transform: scale(1.06);
-            filter: grayscale(0%);
-        }
-
-        .artifact-meta {
-            width: 35%;
-        }
-
-        .artifact-series {
-            font-family: var(--font-body);
+        .spec {
             font-size: 0.65rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--slate);
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .artifact-name {
-            font-family: var(--font-display);
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-        }
-
-        /* Parmigiani Micro-Reveals: Asymmetric spec reveals */
-        .artifact-specs {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 3rem;
-            border-left: 1px solid rgba(242, 243, 252, 0.1);
-            padding-left: 2rem;
-        }
-
-        .spec-item {
-            font-size: 0.85rem;
             color: var(--brass);
-            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(242, 243, 252, 0.1);
+            padding-bottom: 0.5rem;
+            width: max-content;
         }
 
-        .cta-btn {
-            display: inline-block;
-            background: transparent;
-            color: var(--bone);
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            padding: 1.25rem 3.5rem;
-            border: 1px solid rgba(242, 243, 252, 0.3);
-            cursor: pointer;
-            transition: all 0.8s var(--ease-luxe);
+        /* Abstract Action Area (No standard button block) */
+        .scene-action {
+            height: 100vh;
+            background-color: var(--ink);
+            z-index: 10;
             position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .cta-btn::before {
+        .interact-trigger {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-style: italic;
+            color: var(--slate);
+            cursor: pointer;
+            transition: all 1s var(--ease-luxe);
+            position: relative;
+        }
+
+        .interact-trigger::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
+            left: 0;
+            bottom: -10px;
+            width: 0%;
+            height: 2px;
             background: var(--bone);
-            transition: transform 0.8s var(--ease-luxe);
-            z-index: -1;
+            transition: width 1s var(--ease-luxe);
         }
 
-        .cta-btn:hover {
-            color: var(--ink);
-            border-color: var(--bone);
+        .interact-trigger:hover {
+            color: var(--bone);
+            transform: scale(1.05);
         }
 
-        .cta-btn:hover::before {
-            transform: translateX(100%);
-        }
+        .interact-trigger:hover::after { width: 100%; }
 
-        /* Final Spacer / Footer */
-        footer {
-            padding: 6rem 5%;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid rgba(242, 243, 252, 0.05);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--slate);
-        }
-
-        /* Modal styling */
+        /* Velocity Premiere Modal */
         #velocity-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(61, 64, 60, 0.96);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: var(--ink);
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.8s var(--ease-luxe);
+            transition: opacity 1.2s var(--ease-cinematic);
         }
 
         #velocity-modal-overlay.active {
@@ -386,184 +317,169 @@
 
         .velocity-modal {
             padding: 4rem;
-            max-width: 550px;
+            max-width: 700px;
             text-align: center;
-            transform: scale(0.95) translateY(20px);
-            transition: transform 0.8s var(--ease-luxe);
+            transform: scale(1.1);
+            transition: transform 1.2s var(--ease-cinematic);
         }
 
         #velocity-modal-overlay.active .velocity-modal {
-            transform: scale(1) translateY(0);
-        }
-
-        .v-modal-eyebrow {
-            font-size: 0.65rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--brass);
-            margin-bottom: 2rem;
-            display: block;
+            transform: scale(1);
         }
 
         .v-modal-title {
             font-family: var(--font-display);
-            font-size: 2.8rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 300;
+            color: var(--bone);
+            margin-bottom: 2rem;
+            font-style: italic;
         }
 
         .v-modal-body {
-            font-size: 1.05rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             color: var(--slate);
-            line-height: 1.8;
-            margin-bottom: 3.5rem;
+            line-height: 2.2;
+            margin-bottom: 4rem;
         }
 
         .v-modal-link {
-            color: var(--bone);
+            color: var(--brass);
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            letter-spacing: 0.25em;
-            border-bottom: 1px solid var(--slate);
-            padding-bottom: 8px;
-            transition: all 0.4s ease;
+            transition: all 0.6s var(--ease-luxe);
+            border-bottom: 1px solid transparent;
         }
 
         .v-modal-link:hover {
-            color: var(--brass);
-            border-color: var(--brass);
+            color: var(--bone);
+            border-bottom-color: var(--bone);
         }
 
-        .v-progress-track {
+        .v-progress {
             position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 2px;
-            background: rgba(242, 243, 252, 0.05);
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100px;
+            background: rgba(242, 243, 252, 0.1);
         }
 
-        .v-progress-bar {
-            height: 100%; width: 100%;
-            background: var(--brass);
-            transform-origin: left;
+        .v-progress-fill {
+            width: 100%;
+            background: var(--bone);
+            height: 0%;
         }
 
         @media (max-width: 900px) {
-            header { padding: 2rem; }
-            .hero-title { font-size: 4rem; }
-            .narrative { padding: 10rem 5% 8rem; }
-            .narrative-title { font-size: 2rem; margin-bottom: 2rem; }
-            .narrative-body { margin-left: 0; }
-            .artifact-row, .artifact-row:nth-child(even) {
-                flex-direction: column;
-                gap: 4rem;
-            }
-            .artifact-visual, .artifact-meta { width: 100%; }
+            .hud { top: 2rem; left: 2rem; right: 2rem; }
+            .monolith-type { font-size: 25vw; }
+            .ethos-text { margin-left: 0; font-size: 10vw; }
+            .ethos-text span:nth-child(3) { margin-left: 0; }
+            .piece-media { width: 90vw; height: 60vh; }
+            .piece-meta { position: relative; width: 90vw; right: 0; left: 5vw; top: 0; transform: none; mix-blend-mode: normal; margin-top: 3rem; }
+            .exhibition-piece { flex-direction: column; height: auto; margin-bottom: 15vh; }
+            .piece-meta h3 { transform: none; font-size: 15vw; }
+            .piece-meta .specs { transform: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo" onclick="openModal()">MYST.MMXX</div>
-        <div class="menu-link" onclick="openModal()">Collections</div>
-    </header>
+    <nav class="hud">
+        <div class="hud-logo" onclick="openModal()">MMXX</div>
+        <div class="hud-trigger" onclick="openModal()">Explore</div>
+    </nav>
 
-    <section class="hero">
-        <div class="parallax-bg" id="parallaxLayer">
-            <!-- Image Prompt 1: 8K photorealistic abstract close-up of rough unrefined gold ore resting on dark obsidian stone, quiet luxury aesthetic, high detail, cinematic -->
-            <img src="./assets/gold_ore.png" alt="Raw Geological Structure">
+    <!-- Scene 1: Cinematic Monolith Hero -->
+    <section class="scene-monolith">
+        <!-- Parallax Background locked to position via CSS fixed, revealed initially via scale -->
+        <div class="monolith-media" id="prlx-bg">
+            <!-- Image Prompt 1: 8K photorealistic abstract close-up of rough unrefined gold ore resting on dark obsidian stone -->
+            <img src="./assets/gold_ore.png" alt="Raw Environment">
         </div>
-        <div class="hero-content">
-            <h1 class="hero-title">Ancient Memory.<br><i>Future Form.</i></h1>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
+        <div class="monolith-type" id="prlx-text">MYST</div>
+    </section>
+
+    <!-- Scene 2: Extreme Whitespace Narrative -->
+    <section class="scene-ethos">
+        <div class="ethos-text" data-reveal>
+            <span>We exist to resolve</span>
+            <span>a critical disconnect</span>
+            <span>in physical matter.</span>
         </div>
     </section>
 
-    <section class="narrative">
-        <h2 class="narrative-title reveal">We resist the jewelry industry tracking of mass-refined alloys and hollow aesthetics.</h2>
-        <p class="narrative-body reveal reveal-delay-1">MYST exists to resolve a critical disconnect: the divide between symbolic meaning and material integrity. We source natural gold nuggets gathered in Australia, leaving the unextracted form intact. Every artifact lives alongside the profound intelligence of the earth itself.</p>
-    </section>
-
-    <section class="museum-exhibition">
-        <div class="exhibition-intro reveal">I. The Amalgam Exhibition</div>
-        
-        <div class="artifact-grid">
-            <!-- Artifact 1 -->
-            <div class="artifact-row">
-                <div class="artifact-visual reveal" onclick="openModal()">
-                    <!-- Image Prompt 2: 8K photorealistic macro shot of ancient geological fractures in dark grey stone with a subtle vein of gold, organic, museum lighting -->
-                    <img src="./assets/stone_texture.png" alt="Ekon 007 Structure">
-                </div>
-                <div class="artifact-meta reveal reveal-delay-2">
-                    <span class="artifact-series">Amalgam Series // .925</span>
-                    <h3 class="artifact-name">Ekon 007</h3>
-                    <div class="artifact-specs">
-                        <span class="spec-item">Raw Australian Gold</span>
-                        <span class="spec-item">Fractal Composition</span>
-                        <span class="spec-item">Unrefined Weight: 24g</span>
-                    </div>
-                    <button class="cta-btn" onclick="openModal()">View Artifact</button>
-                </div>
+    <!-- Scene 3: Unrestrained Museum Exhibition -->
+    <section class="scene-exhibition">
+        <!-- Massively scaled asynchronous artifact display -->
+        <div class="exhibition-piece" data-reveal>
+            <div class="piece-media" onclick="openModal()">
+                <!-- Image Prompt 2: 8K photorealistic macro shot of ancient geological fractures in dark grey stone -->
+                <img src="./assets/stone_texture.png" alt="Relik Fracture">
             </div>
-
-            <!-- Artifact 2 -->
-            <div class="artifact-row">
-                <div class="artifact-visual reveal" onclick="openModal()">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(61, 64, 60, 1), rgba(42, 44, 41, 1)); display: flex; align-items: center; justify-content: center; font-family: 'DM Sans'; font-size: 0.7rem; letter-spacing: 0.2rem; color: #b4b4b4;">GEOMETRIC OBSERVATION</div>
-                </div>
-                <div class="artifact-meta reveal reveal-delay-1">
-                    <span class="artifact-series">Ikon Collection // Origin</span>
-                    <h3 class="artifact-name">Kai Ghanite</h3>
-                    <div class="artifact-specs">
-                        <span class="spec-item">Architectural Cut</span>
-                        <span class="spec-item">Suspended Geometries</span>
-                        <span class="spec-item">100% Traceable</span>
-                    </div>
-                    <button class="cta-btn" onclick="openModal()">View Artifact</button>
+            <div class="piece-meta">
+                <h3 onclick="openModal()" style="cursor:pointer">Ekon 007</h3>
+                <div class="specs">
+                    <div class="spec">Amalgam Collection</div>
+                    <div class="spec">Raw Australian Gold</div>
+                    <div class="spec">Undisturbed Form</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div onclick="openModal()" style="cursor: pointer;">Velocity by Calyvent</div>
-        <div onclick="openModal()" style="cursor: pointer;">&copy; 2026 Studio Index</div>
-    </footer>
+    <!-- Scene 4: Cinematic Action Prompt -->
+    <section class="scene-action">
+        <div class="interact-trigger" onclick="openModal()">Initiate Contact</div>
+    </section>
 
-    <!-- Velocity Modal -->
-    <div id="velocity-modal-overlay" onclick="closeModal(event)" role="dialog" aria-modal="true">
+    <!-- Velocity Premiere Modal -->
+    <div id="velocity-modal-overlay" onclick="closeModal(event)">
         <div class="velocity-modal">
-            <span class="v-modal-eyebrow">Previewed by Velocity</span>
-            <h2 class="v-modal-title">This is a preview.</h2>
-            <p class="v-modal-body">This cinematic experience was designed and built by Velocity &mdash; the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look and feel like.</p>
-            <a href="https://velocity.calyvent.com" target="_blank" class="v-modal-link">Commission a Studio Project &rarr;</a>
+            <h2 class="v-modal-title">A Perspective.</h2>
+            <p class="v-modal-body">This cinematic experience was established by Velocity Studio.<br>It represents the visual threshold that separates mass commerce from true artifact architecture.</p>
+            <a href="https://velocity.calyvent.com" target="_blank" class="v-modal-link">Velocity by Calyvent</a>
         </div>
-        <div class="v-progress-track">
-            <div class="v-progress-bar" id="v-progress"></div>
+        <div class="v-progress">
+            <div class="v-progress-fill" id="v-progress"></div>
         </div>
     </div>
 
     <script>
-        // Tiffany Parallax Implementation
-        const parallaxLayer = document.getElementById('parallaxLayer');
+        // Tiffany Parallax & Cartier Fade Logic
+        const bgLayer = document.getElementById('prlx-bg');
+        const textLayer = document.getElementById('prlx-text');
+        
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            if (scrolled < window.innerHeight * 1.5) {
-                parallaxLayer.style.transform = `translateY(${scrolled * 0.4}px)`;
+            const y = window.pageYOffset;
+            
+            // Background moves up slowly
+            if(bgLayer && y < window.innerHeight * 1.5) {
+                bgLayer.style.transform = `translateY(-${y * 0.3}px)`;
+            }
+            
+            // Text fades out fast and moves up
+            if(textLayer && y < window.innerHeight) {
+                const opacity = 1 - (y / (window.innerHeight * 0.5));
+                textLayer.style.opacity = Math.max(0, opacity);
+                textLayer.style.transform = `translate(-50%, calc(-50% - ${y * 0.8}px))`;
             }
         });
 
-        // Prada Fade/Zoom Reveal via IntersectionObserver
+        // Prada Intersection Observer (Storytelling Reveals)
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
+            rootMargin: '-10% 0px',
             threshold: 0.15
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
@@ -572,9 +488,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
 
         // Modal Logic
         let timeoutId;
@@ -585,12 +499,12 @@
             overlay.classList.add('active');
             
             progressBar.style.transition = 'none';
-            progressBar.style.transform = 'scaleX(1)';
+            progressBar.style.height = '100%';
             
             void progressBar.offsetWidth;
             
-            progressBar.style.transition = 'transform 5s linear';
-            progressBar.style.transform = 'scaleX(0)';
+            progressBar.style.transition = 'height 5s linear';
+            progressBar.style.height = '0%';
 
             clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
