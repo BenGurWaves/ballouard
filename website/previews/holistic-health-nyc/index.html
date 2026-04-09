@@ -8,7 +8,8 @@
     <title>Soul-Centered Therapy — Dr. Laurie Greenberg, PhD</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <style>
         /*
          * ═══════════════════════════════════════════════════════════════
@@ -882,20 +883,18 @@
         }
         .footer__copy {
             font-size: 0.7rem;
-            color: var(--whisper);
-            opacity: 0.5;
+            color: #7A7E92;
             letter-spacing: 0.05em;
         }
         .footer__velocity {
             font-size: 0.6rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--whisper);
-            opacity: 0.3;
+            color: #6B6F83;
             text-decoration: none;
-            transition: opacity 0.4s;
+            transition: color 0.4s;
         }
-        .footer__velocity:hover { opacity: 0.6; }
+        .footer__velocity:hover { color: var(--whisper); }
 
         /* ─── MODAL ─── */
         .modal-overlay {
