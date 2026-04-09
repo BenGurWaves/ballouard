@@ -193,21 +193,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* CSS Placeholder for Image 1 */
-            background: linear-gradient(135deg, var(--ink) 0%, #1a1a17 50%, #2a2518 100%);
+            background: url('assets/hero.png') center/cover;
             z-index: 1;
             transform: scale(1.05); /* For load-in animation */
             transition: transform 3s var(--ease-slow);
-        }
-        
-        .hero-media::after {
-            content: "Image Placeholder 1: Abstract alchemical workspace with raw gold ore";
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-family: monospace;
-            font-size: 10px;
-            opacity: 0.3;
         }
 
         .hero.loaded .hero-media {
@@ -320,14 +309,12 @@
         }
 
         .showcase-item:nth-child(1) .showcase-image {
-            background: linear-gradient(to bottom right, #111, #2b271a);
+            background: url('assets/close_up.png') center/cover;
         }
-        .showcase-item:nth-child(1) .showcase-image::after { content: "Image Placeholder 2: Dark stone & golden light"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
 
         .showcase-item:nth-child(2) .showcase-image {
-            background: linear-gradient(to top left, #1a1b1a, #0a0a0a);
+            background: url('assets/pedestal.png') center/cover;
         }
-        .showcase-item:nth-child(2) .showcase-image::after { content: "Image Placeholder 3: Dark honed basalt pedestal"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
 
         .showcase-image-container:hover .showcase-image {
             transform: scale(1.05); /* Buttery luxury hover */
@@ -381,11 +368,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* CSS Placeholder 4 */
-            background: radial-gradient(circle at bottom, #2a2518 0%, var(--ink) 70%);
+            background: url('assets/elemental.png') center/cover;
             z-index: 1;
         }
-        .materiality-bg::after { content: "Image Placeholder 4: Elemental landscape / dark ash"; position: absolute; bottom: 20px; left: 20px; font-family: monospace; font-size: 10px; opacity: 0.3; }
 
         .materiality-content {
             position: relative;
