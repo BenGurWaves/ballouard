@@ -814,22 +814,82 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        /* Accessibility: Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gold);
+            color: var(--bg-deep);
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            text-transform: uppercase;
+            z-index: 10001;
+            transition: top 0.3s ease;
+        }
+        
+        .skip-link:focus {
+            top: 1rem;
+            outline: 3px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+        
+        /* Focus Visible Styles */
+        :focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 3px;
+        }
+        
+        .btn:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 3px;
+        }
+        
+        /* Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+            
+            .testimonial-card {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="scroll-container" id="scrollBg"></div>
     
+    <main id="main-content">
+    
     <!-- Navigation -->
-    <nav>
-        <a href="#" class="logo" onclick="openModal(); return false;">VEDIC ASTROLOGY GURU</a>
-        <ul class="nav-links">
-            <li><a href="#services" onclick="openModal(); return false;">Services</a></li>
-            <li><a href="#about" onclick="openModal(); return false;">About</a></li>
-            <li><a href="#courses" onclick="openModal(); return false;">Courses</a></li>
-            <li><a href="#corporate" onclick="openModal(); return false;">Corporate</a></li>
-            <li><a href="#contact" onclick="openModal(); return false;">Contact</a></li>
+    <nav role="navigation" aria-label="Main navigation">
+        <a href="#" class="logo" onclick="openModal(); return false;" aria-label="Vedic Astrology Guru home">VEDIC ASTROLOGY GURU</a>
+        <ul class="nav-links" role="menubar">
+            <li role="none"><a href="#services" onclick="openModal(); return false;" role="menuitem" aria-label="View our services">Services</a></li>
+            <li role="none"><a href="#about" onclick="openModal(); return false;" role="menuitem" aria-label="Learn about our practice">About</a></li>
+            <li role="none"><a href="#courses" onclick="openModal(); return false;" role="menuitem" aria-label="Explore our courses">Courses</a></li>
+            <li role="none"><a href="#corporate" onclick="openModal(); return false;" role="menuitem" aria-label="Corporate wellness programs">Corporate</a></li>
+            <li role="none"><a href="#contact" onclick="openModal(); return false;" role="menuitem" aria-label="Get in touch">Contact</a></li>
         </ul>
     </nav>
+    </main>
     
     <!-- Hero Section -->
     <section class="hero">
@@ -1061,24 +1121,24 @@
     </section>
     
     <!-- Footer -->
-    <footer>
+    <footer role="contentinfo">
         <div class="footer-left">
             <span class="footer-brand">Vedic Astrology Guru</span>
             <span class="footer-copy">© 2026 Velocity by Calyvent. All rights reserved.</span>
         </div>
         <div class="footer-right">
-            <a href="#" onclick="openModal(); return false;">Privacy</a>
-            <a href="#" onclick="openModal(); return false;">Terms</a>
-            <a href="#" onclick="openModal(); return false;">Contact</a>
+            <a href="#" onclick="openModal(); return false;" aria-label="Read our privacy policy">Privacy</a>
+            <a href="#" onclick="openModal(); return false;" aria-label="Read our terms of service">Terms</a>
+            <a href="#" onclick="openModal(); return false;" aria-label="Contact us">Contact</a>
         </div>
     </footer>
     
     <!-- Modal -->
-    <div class="modal-overlay" id="modal">
+    <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
         <div class="modal-content">
-            <div class="modal-icon">✦</div>
-            <h3>This is a Velocity Preview</h3>
-            <p>This elegant preview showcases what your Vedic Astrology Guru website could become—a premium digital experience with integrated booking, cinematic design, and quiet luxury aesthetics that match your three decades of mastery.</p>
+            <div class="modal-icon" aria-hidden="true">✦</div>
+            <h3 id="modal-title">This is a Velocity Preview</h3>
+            <p id="modal-desc">This elegant preview showcases what your Vedic Astrology Guru website could become—a premium digital experience with integrated booking, cinematic design, and quiet luxury aesthetics that match your three decades of mastery.</p>
             <a href="https://velocity.calyvent.com" class="modal-cta" target="_blank">Discover Velocity →</a>
         </div>
     </div>
