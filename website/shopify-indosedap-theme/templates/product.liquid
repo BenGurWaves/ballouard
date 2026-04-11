@@ -1,0 +1,36 @@
+{% assign product = product or all_products['sample-product'] %}
+<section class="hero">
+  <div class="container">
+    <div class="media">
+      {% if product.images.size > 0 %}
+        <img src="{{ product.images.first | img_url: '1024x' }}" alt="{{ product.title }}">
+      {% else %}
+        <img src="/{{ 'assets/placeholder-logo.svg' }}" alt="product">
+      {% endif %}
+    </div>
+    <div class="meta">
+      <h1 class="product-title">{{ product.title }}</h1>
+      <p class="product-price">{{ product.price | money }}</p>
+      <form method="post" action="/cart/add">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button class="btn primary">Add to cart</button>
+      </form>
+
+      {% include 'email_signup' %}
+
+      <div class="marketplaces">
+        <p class="muted">Also available on:</p>
+        <a class="badge" href="#">Shopee</a>
+        <a class="badge" href="#">Lazada</a>
+        <a class="badge" href="#">Amazon</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="details container">
+  <h2>About this coffee</h2>
+  <p>{{ product.description | strip_html | truncate: 500 }}</p>
+
+  <button class="btn" onclick="openModal('<p>Thank you — this is a Velocity preview mockup of what your product page could be. Visit velocity.calyvent.com</p>')">Preview modal</button>
+</section>

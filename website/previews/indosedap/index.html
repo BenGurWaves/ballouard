@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Indosedap — Quiet Luxury Coffee</title>
+  <link rel="icon" href="./assets/placeholder-logo.svg">
+  <style>
+    :root{--brand-ink:#2b1e16;--brand-warm:#7a4b2a;--accent:#c99a68;--bg:#fffdfa}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,system-ui;color:var(--brand-ink);background:var(--bg);line-height:1.45}
+    .container{max-width:980px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid #f0ebe6}
+    .logo{height:44px}
+    .hero{display:grid;grid-template-columns:1fr;gap:18px;padding:28px 0}
+    .hero img{width:100%;border-radius:8px;box-shadow:0 12px 30px rgba(11,8,6,0.08)}
+    .meta{padding:6px}
+    .product-title{font-size:20px;margin:0 0 8px;font-weight:700}
+    .product-price{color:var(--brand-warm);font-size:18px;margin-bottom:12px}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;border:0;background:var(--brand-ink);color:#fff;cursor:pointer}
+    .email-signup input{padding:10px;border-radius:8px;border:1px solid #e6dfd9;width:60%;max-width:320px}
+    .marketplaces .badge{display:inline-block;padding:6px 10px;border-radius:6px;background:#f6f0ec;margin-right:8px;color:var(--brand-ink);text-decoration:none}
+    .velocity-modal{position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .28s}
+    .velocity-modal.open{pointer-events:auto;opacity:1;background:rgba(6,5,4,0.45)}
+    .velocity-modal-inner{background:#fff;padding:20px;border-radius:10px;max-width:520px;box-shadow:0 30px 80px rgba(11,8,6,0.2)}
+    @media(min-width:900px){.hero{grid-template-columns:55% 40%}.product-title{font-size:28px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="./assets/placeholder-logo.svg" alt="Indosedap" class="logo">
+      <nav><a href="#">Shop</a></nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="media"><img src="./assets/coffee-hero.jpg" alt="Single origin espresso"></div>
+        <div class="meta">
+          <h1 class="product-title">Single Origin Espresso — Sumatra</h1>
+          <p class="product-price">$18.00</p>
+          <button class="btn" onclick="alert('Add to cart — demo')">Add to cart</button>
+
+          <div class="email-signup" style="margin-top:12px">
+            <form onsubmit="event.preventDefault(); alert('Email captured — demo');">
+              <input type="email" placeholder="Join our coffee club — 10% off" required>
+              <button class="btn" style="background:var(--accent);color:var(--brand-ink);margin-left:8px">Join</button>
+            </form>
+          </div>
+
+          <div class="marketplaces" style="margin-top:14px">
+            <p style="margin:0 0 8px;color:#7b6f67">Also available on</p>
+            <a class="badge" href="#">Shopee</a>
+            <a class="badge" href="#">Lazada</a>
+            <a class="badge" href="#">Amazon</a>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:20px 0">
+        <h2>About this coffee</h2>
+        <p>Bold, earthy notes with a syrupy body and chocolate finish. Roasted for espresso and filter.</p>
+        <button class="btn" onclick="openModal()" style="margin-top:12px">Preview modal</button>
+      </section>
+    </main>
+  </div>
+
+  <div id="velocity-modal" class="velocity-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="velocity-modal-inner">
+      <button class="close-modal" aria-label="Close" onclick="document.getElementById('velocity-modal').classList.remove('open')">✕</button>
+      <div id="velocity-modal-body"><p>This is a Velocity preview mockup of what your site could look like. Visit https://velocity.calyvent.com</p></div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(){document.getElementById('velocity-modal').classList.add('open');setTimeout(function(){document.getElementById('velocity-modal').classList.remove('open')},5000)}
+  </script>
+</body>
+</html>

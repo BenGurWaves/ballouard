@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ page_title | escape }}</title>
+    <link rel="stylesheet" href="/{{ 'assets/styles.css' }}">
+    <link rel="icon" href="/{{ 'placeholder-logo.svg' }}">
+
+    <!-- GA4: replace G-XXXXXXX -->
+    <script>
+      /* Insert GA4 snippet here (replace ID) */
+    </script>
+
+    <!-- Facebook Pixel: replace PIXEL_ID -->
+    <script>
+      /* Insert Facebook/Meta Pixel here (replace ID) */
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="brand">
+          <img src="/{{ 'assets/placeholder-logo.svg' }}" alt="Indosedap logo" class="logo">
+        </a>
+        <nav class="nav">
+          <a href="/collections/all">Shop</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% include 'modal' %}
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© {{ 'now' | date: '%Y' }} Indosedap. All rights reserved.</p>
+        <p class="muted">Marketplace: <a href="#">Shopee</a> · <a href="#">Lazada</a> · <a href="#">Amazon</a></p>
+      </div>
+    </footer>
+
+    <script>
+      function openModal(html){
+        var modal = document.getElementById('velocity-modal');
+        var body = document.getElementById('velocity-modal-body');
+        body.innerHTML = html || body.innerHTML;
+        modal.classList.add('open');
+        setTimeout(function(){ modal.classList.remove('open'); }, 5000);
+      }
+      document.addEventListener('click', function(e){
+        if(e.target.matches('.close-modal')){
+          document.getElementById('velocity-modal').classList.remove('open');
+        }
+      });
+    </script>
+  </body>
+</html>

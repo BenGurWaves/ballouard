@@ -1,0 +1,30 @@
+{% comment %}
+Post-purchase survey snippet.
+Place the HTML from this snippet into Shopify Admin → Settings → Checkout → Order status page (Additional scripts)
+Or include server-side on the Thank You page if using Shopify Plus.
+
+This example opens a small modal linking to a short survey (hosted on Typeform/Google Forms) and passes order info.
+Replace `SURVEY_URL` with your survey endpoint. To capture order data, use Liquid variables available on the order status page.
+{% endcomment %}
+
+<script>
+  (function(){
+    // only run on order status page where Liquid variables are available
+    var orderId = '{{ order.order_number | default: '' }}';
+    var email = '{{ order.email | default: '' }}';
+    var amount = '{{ order.total_price | default: '' }}';
+    if(!orderId) return;
+
+    var surveyUrl = 'https://example.typeform.com/to/XXX?order=' + encodeURIComponent(orderId) + '&email=' + encodeURIComponent(email);
+
+    // small delay so page assets settle
+    setTimeout(function(){
+      var html = '<div style="padding:12px;font-family:Inter,Arial;">' +
+        '<h3 style="margin:0 0 8px">Quick favor — 30s survey</h3>' +
+        '<p style="margin:0 0 12px">Share feedback on your order and get 10% off your next purchase.</p>' +
+        '<a href="' + surveyUrl + '" target="_blank" style="display:inline-block;padding:10px 14px;background:#7a4b2a;color:#fff;border-radius:8px;text-decoration:none">Take survey</a>' +
+        '</div>';
+      if(window.openModal) openModal(html);
+    }, 1400);
+  })();
+</script>

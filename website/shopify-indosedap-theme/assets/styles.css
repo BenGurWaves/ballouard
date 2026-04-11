@@ -1,0 +1,37 @@
+:root{
+  --brand-ink:#2b1e16; /* deep espresso */
+  --brand-warm:#7a4b2a; /* roasted brown */
+  --accent:#c99a68; /* cream */
+  --muted:#7b6f67;
+  --bg:#fffdfa;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Helvetica Neue', Arial; color:var(--brand-ink); background:var(--bg); margin:0; line-height:1.45}
+.container{max-width:980px;margin:0 auto;padding:20px}
+.site-header{padding:18px 0;border-bottom:1px solid #f0ebe6}
+.logo{height:44px}
+.nav a{margin-left:18px;color:var(--brand-ink);text-decoration:none}
+.hero{display:grid;grid-template-columns:1fr;gap:18px;padding:28px 0}
+.hero .media img{width:100%;height:auto;border-radius:6px;box-shadow:0 12px 30px rgba(11,8,6,0.08)}
+.product-title{font-size:20px;margin:0 0 8px;font-weight:700}
+.product-price{color:var(--brand-warm);font-size:18px;margin-bottom:12px}
+.btn{display:inline-block;padding:10px 16px;border-radius:8px;border:0;background:transparent;cursor:pointer}
+.btn.primary{background:var(--brand-ink);color:#fff}
+.btn.secondary{background:var(--accent);color:var(--brand-ink)}
+.email-signup{margin-top:14px}
+.email-signup input[type=email]{padding:10px;border-radius:8px;border:1px solid #e6dfd9;width:60%;max-width:320px}
+.marketplaces .badge{display:inline-block;padding:6px 10px;border-radius:6px;background:#f6f0ec;margin-right:8px;color:var(--brand-ink);text-decoration:none}
+.details{padding:24px 0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.velocity-modal{position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .28s}
+.velocity-modal.open{pointer-events:auto;opacity:1;background:rgba(6,5,4,0.45)}
+.velocity-modal-inner{background:#fff;padding:20px;border-radius:10px;max-width:520px;box-shadow:0 30px 80px rgba(11,8,6,0.2)}
+.close-modal{position:absolute;right:8px;top:8px;background:transparent;border:0;font-size:18px}
+
+/* Responsive: at >=900px show two-column hero */
+@media(min-width:900px){
+  .hero{grid-template-columns:55% 40%}
+  .product-title{font-size:28px}
+}

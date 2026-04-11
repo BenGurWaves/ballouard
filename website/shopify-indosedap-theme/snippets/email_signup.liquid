@@ -1,0 +1,13 @@
+<div class="email-signup">
+  <form id="email-capture" method="post" action="/contact#contact_form">
+    <label for="email" class="sr-only">Email</label>
+    <input id="email" name="contact[email]" type="email" placeholder="Join our coffee club — 10% off first order" required>
+    <button class="btn secondary" type="submit">Join</button>
+  </form>
+  <p class="muted small">We send roast updates and exclusive drops. Manage preferences anytime.</p>
+  <script>
+    document.getElementById('email-capture').addEventListener('submit', function(e){
+      /* Hook this to Klaviyo or Shopify Email via action change or JS API */
+    });
+  </script>
+</div>

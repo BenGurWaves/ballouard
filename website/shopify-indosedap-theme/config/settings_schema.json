@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Indosedap theme settings",
+    "settings": [
+      {"type":"image_picker","id":"logo","label":"Logo"},
+      {"type":"color","id":"color_primary","label":"Primary color","default":"#2b1e16"},
+      {"type":"color","id":"color_accent","label":"Accent color","default":"#c99a68"}
+    ]
+  }
+]
