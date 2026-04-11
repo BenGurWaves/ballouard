@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pöhlmann-Bresan — Saxon Watchmaking Atelier</title>
+  <meta name="description" content="Independent watchmaking atelier in Dresden. Hand-finished mechanical timepieces. Limited editions of 48.">
+  <link rel="icon" href="https://velocity.calyvent.com/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* === STYLE COMMENT ===
+    ARCHETYPE: The Heritage Estate
+    - Traditional, Rich, Established honoring Saxon watchmaking heritage
+    - Typography: Old Standard TT + Lato Thin
+    - Palette: Deep Bone (#F9F9F6), Deep Charcoal (#1A1A1A), Gold (#C5A059), Steel (#8A9199)
+    
+    LUXURY DESIGN TECHNIQUES APPLIED:
+    1. Chanel J12 — full-bleed cinematic hero, extreme negative space, massive refined serif
+    2. Amsterdam Vintage Watches — restrained cinematic hero, full-page photos
+    3. Parmigiani Fleurier — asymmetric scroll reveals, refined parallax
+    4. Tiffany & Co. — generous whitespace with fade/zoom transitions
+    
+    5+ ORIGINAL ELEMENTS UNIQUE TO THIS PREVIEW:
+    1. The Movement Theater — full-screen skeletonized movement section with CSS blend modes
+    2. Golden Ratio Typography — headlines using φ (1.618) ratios for mathematical precision
+    3. The Atelier Desk — signature workbench visual establishing workshop authenticity
+    4. Horological Grain — custom noise texture at 0.04 opacity mimicking German silver finish
+    5. Saxon Sunburst — radial gradients evoking Glashütte sunburst decoration
+    6. Micro-Screw Detail — CSS animated gold screws referencing 14k eccentric adjusting screws
+    
+    VELOCITY EMERGENCY OVERRIDE APPLIED:
+    ✓ Visual Grain (0.03 opacity noise overlay)
+    ✓ 70/30 Rule for Imagery (cinematic 21:9 sections)
+    ✓ Sophisticated Layering (glass-like text blocks with backdrop blur)
+    
+    UNIQUE SEED GENERATOR (P-B = O-U range): Micro-Typography Focus
+    - Extreme attention to letter-spacing, precision hierarchy reflecting watchmaking craft
+    === END STYLE COMMENT === */
+    
+    :root {
+      /* Heritage Estate Archetype Colors */
+      --color-bone: #F9F9F6;
+      --color-cream: #F0EDE8;
+      --color-charcoal: #1A1A1A;
+      --color-gold: #C5A059;
+      --color-gold-glow: rgba(197, 160, 89, 0.2);
+      --color-steel: #8A9199;
+      --color-night-grey: #3D4550;
+      --color-night-blue: #1A253A;
+      --color-ink: #0D0D0D;
+      
+      /* Typography Scale using Golden Ratio (φ = 1.618) */
+      --text-base: 16px;
+      --text-xs: calc(var(--text-base) / 1.618);
+      --text-sm: calc(var(--text-base) / 1.272);
+      --text-lg: calc(var(--text-base) * 1.272);
+      --text-xl: calc(var(--text-base) * 1.618);
+      --text-2xl: calc(var(--text-base) * 2.618);
+      --text-3xl: calc(var(--text-base) * 4.236);
+      --text-4xl: calc(var(--text-base) * 6.854);
+      
+      /* Spacing */
+      --space-xs: 0.618rem;
+      --space-sm: 1rem;
+      --space-md: 1.618rem;
+      --space-lg: 2.618rem;
+      --space-xl: 4.236rem;
+      --space-2xl: 6.854rem;
+      --space-3xl: 11.09rem;
+      
+      /* Transitions */
+      --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+      --duration-slow: 1.2s;
+      --duration-medium: 0.8s;
+      --duration-fast: 0.4s;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      font-size: var(--text-base);
+    }
+    
+    body {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      background-color: var(--color-bone);
+      color: var(--color-charcoal);
+      line-height: 1.618;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Visual Grain — subtle film texture */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color-bone);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.8s var(--ease-luxury), visibility 0.8s;
+    }
+    
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .preloader-logo {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-charcoal);
+      margin-bottom: var(--space-lg);
+      opacity: 0;
+      animation: fadeInUp 1s var(--ease-luxury) 0.3s forwards;
+    }
+    
+    .preloader-sub {
+      font-size: var(--text-xs);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--color-steel);
+      opacity: 0;
+      animation: fadeInUp 1s var(--ease-luxury) 0.6s forwards;
+    }
+    
+    .preloader-line {
+      width: 60px;
+      height: 1px;
+      background: var(--color-gold);
+      margin-top: var(--space-md);
+      transform: scaleX(0);
+      animation: expandLine 1.5s var(--ease-luxury) 1s forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes expandLine {
+      to {
+        transform: scaleX(1);
+      }
+    }
+    
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 26, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9997;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s var(--ease-luxury);
+      backdrop-filter: blur(20px);
+    }
+    
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background: var(--color-bone);
+      padding: var(--space-2xl);
+      max-width: 600px;
+      text-align: left;
+      border: 1px solid var(--color-gold);
+      position: relative;
+      transform: translateY(30px);
+      transition: transform 0.5s var(--ease-luxury);
+    }
+    
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: 1px solid var(--color-steel);
+      cursor: pointer;
+      font-size: var(--text-lg);
+      color: var(--color-charcoal);
+      transition: all 0.3s var(--ease-luxury);
+    }
+    
+    .modal-close:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold);
+    }
+    
+    .modal-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-xl);
+      font-weight: 400;
+      margin-bottom: var(--space-md);
+      color: var(--color-charcoal);
+    }
+    
+    .modal-text {
+      font-size: var(--text-base);
+      line-height: 1.8;
+      color: var(--color-night-grey);
+      margin-bottom: var(--space-md);
+    }
+    
+    .modal-link {
+      color: var(--color-gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-gold);
+      transition: all 0.3s var(--ease-luxury);
+    }
+    
+    .modal-link:hover {
+      border-bottom-color: transparent;
+    }
+    
+    /* Navigation — clean, no blend mode */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(249,249,246,0.95) 0%, transparent 100%);
+      transition: all 0.6s var(--ease-luxury);
+    }
+    
+    .nav-logo {
+      font-family: 'Old Standard TT', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-charcoal);
+      text-decoration: none;
+      font-weight: 400;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-steel);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 6px;
+      transition: color 0.4s var(--ease-luxury);
+    }
+    
+    .nav-links a:hover {
+      color: var(--color-charcoal);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-gold);
+      transition: width 0.5s var(--ease-luxury);
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero — Full viewport, asymmetric elegance */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 45% 55%;
+      position: relative;
+      background: var(--color-bone);
+    }
+    
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem 6rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--color-steel);
+      margin-bottom: 2rem;
+      display: block;
+    }
+    
+    .hero-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: clamp(3rem, 6vw, 7rem);
+      font-weight: 400;
+      line-height: 0.95;
+      color: var(--color-charcoal);
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.03em;
+    }
+    
+    .hero-title em {
+      font-style: italic;
+      color: var(--color-night-blue);
+      display: block;
+      margin-top: 0.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--color-night-grey);
+      max-width: 380px;
+      line-height: 1.9;
+      margin-bottom: 3rem;
+    }
+    
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 2.5rem;
+      border: 1px solid var(--color-charcoal);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-charcoal);
+      transition: all 0.6s var(--ease-luxury);
+      background: transparent;
+      cursor: pointer;
+      width: fit-content;
+    }
+    
+    .hero-cta::after {
+      content: '→';
+      transition: transform 0.4s var(--ease-luxury);
+    }
+    
+    .hero-cta:hover {
+      background: var(--color-charcoal);
+      color: var(--color-bone);
+      padding-left: 3rem;
+    }
+    
+    .hero-cta:hover::after {
+      transform: translateX(8px);
+    }
+    
+    .hero-visual {
+      position: relative;
+      background: linear-gradient(145deg, var(--color-night-grey) 0%, var(--color-ink) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: conic-gradient(from 0deg, transparent 0%, rgba(197, 160, 89, 0.03) 50%, transparent 100%);
+      animation: slowRotate 80s linear infinite;
+    }
+    
+    @keyframes slowRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .hero-watch {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--color-bone);
+      padding: 4rem;
+    }
+    
+    .watch-brand {
+      font-family: 'Old Standard TT', serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    
+    .watch-model {
+      font-size: 0.65rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 3rem;
+    }
+    
+    .watch-face {
+      width: 280px;
+      height: 280px;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(249,249,246,0.03) 0%, transparent 70%);
+    }
+    
+    .watch-face::before {
+      content: '';
+      position: absolute;
+      width: 94%;
+      height: 94%;
+      border: 1px solid rgba(138, 145, 153, 0.15);
+      border-radius: 50%;
+    }
+    
+    .watch-center-point {
+      width: 14px;
+      height: 14px;
+      background: var(--color-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(197, 160, 89, 0.4);
+      position: relative;
+    }
+    
+    .watch-center-point::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(to top, var(--color-gold), transparent);
+      transform: translate(-50%, -100%) rotate(30deg);
+      transform-origin: bottom center;
+    }
+    
+    .watch-center-point::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to top, rgba(249,249,246,0.6), transparent);
+      transform: translate(-50%, -100%) rotate(-60deg);
+      transform-origin: bottom center;
+    }
+    
+    .watch-specs {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-steel);
+      margin-top: 3rem;
+    }
+    
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--color-steel);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    
+    .scroll-line {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, var(--color-steel), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+    
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; width: 40px; }
+      50% { opacity: 1; width: 60px; }
+    }
+    
+    /* Heritage — Elegant asymmetric */
+    .heritage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--color-cream);
+    }
+    
+    .heritage-visual {
+      background: linear-gradient(135deg, var(--color-steel) 0%, var(--color-night-grey) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem;
+      position: relative;
+    }
+    
+    .workshop-scene {
+      text-align: center;
+      color: var(--color-bone);
+      z-index: 2;
+    }
+    
+    .atelier-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: var(--color-gold);
+    }
+    
+    .atelier-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+    }
+    
+    .micro-screws {
+      position: absolute;
+      bottom: 4rem;
+      right: 4rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .screw {
+      width: 10px;
+      height: 10px;
+      background: var(--color-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+      animation: screwRotate 12s linear infinite;
+    }
+    
+    .screw:nth-child(2) {
+      animation-delay: -4s;
+    }
+    
+    .screw:nth-child(3) {
+      animation-delay: -8s;
+    }
+    
+    @keyframes screwRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .heritage-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem;
+      background: var(--color-bone);
+    }
+    
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 1.5rem;
+    }
+    
+    .heritage-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--color-charcoal);
+      margin-bottom: 2rem;
+    }
+    
+    .heritage-text {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--color-night-grey);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+    
+    .heritage-quote {
+      font-family: 'Old Standard TT', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--color-night-blue);
+      border-left: 2px solid var(--color-gold);
+      padding-left: 1.5rem;
+      margin: 2.5rem 0;
+      line-height: 1.6;
+    }
+    
+    /* Movement — Refined theater */
+    .movement {
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--color-ink) 0%, var(--color-night-blue) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 6rem;
+    }
+    
+    .movement-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    
+    .movement-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 2rem;
+    }
+    
+    .movement-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      color: var(--color-bone);
+      margin-bottom: 4rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .movement-visual {
+      width: 400px;
+      height: 400px;
+      margin: 0 auto 4rem;
+      position: relative;
+    }
+    
+    .movement-circle {
+      position: absolute;
+      border: 1px solid rgba(197, 160, 89, 0.15);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .movement-circle:nth-child(1) {
+      width: 100%;
+      height: 100%;
+      animation: pulseCircle 8s ease-in-out infinite;
+    }
+    
+    .movement-circle:nth-child(2) {
+      width: 75%;
+      height: 75%;
+      animation: pulseCircle 8s ease-in-out infinite 0.5s;
+    }
+    
+    .movement-circle:nth-child(3) {
+      width: 50%;
+      height: 50%;
+      animation: pulseCircle 8s ease-in-out infinite 1s;
+    }
+    
+    .movement-circle:nth-child(4) {
+      width: 25%;
+      height: 25%;
+      border-color: rgba(197, 160, 89, 0.3);
+      animation: pulseCircle 8s ease-in-out infinite 1.5s;
+    }
+    
+    @keyframes pulseCircle {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+      50% { transform: translate(-50%, -50%) scale(1.03); opacity: 0.5; }
+    }
+    
+    .movement-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, var(--color-gold) 0%, transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(197, 160, 89, 0.3);
+    }
+    
+    .movement-specs {
+      display: flex;
+      justify-content: center;
+      gap: 5rem;
+      margin-bottom: 3rem;
+    }
+    
+    .spec-item {
+      text-align: center;
+    }
+    
+    .spec-value {
+      font-family: 'Old Standard TT', serif;
+      font-size: 2rem;
+      color: var(--color-bone);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .spec-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-steel);
+    }
+    
+    .movement-text {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--color-steel);
+      line-height: 1.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Product Section */
+    .product {
+      min-height: 120vh;
+      background: var(--color-bone);
+      display: flex;
+      align-items: center;
+      padding: var(--space-3xl) 0;
+      position: relative;
+    }
+    
+    .product-content {
+      width: 40%;
+      padding: 0 var(--space-2xl) 0 15vw;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .product-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-3xl);
+      font-weight: 400;
+      color: var(--color-charcoal);
+      margin-bottom: var(--space-md);
+    }
+    
+    .product-subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-gold);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .product-details {
+      list-style: none;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .product-details li {
+      font-size: var(--text-sm);
+      color: var(--color-night-grey);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid rgba(138, 145, 153, 0.2);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .product-details li span:first-child {
+      color: var(--color-steel);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: var(--text-xs);
+    }
+    
+    .product-price {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-2xl);
+      color: var(--color-charcoal);
+      margin-bottom: var(--space-lg);
+    }
+    
+    .product-price span {
+      font-size: var(--text-sm);
+      color: var(--color-steel);
+      margin-left: var(--space-sm);
+    }
+    
+    .product-cta {
+      display: inline-block;
+      padding: var(--space-md) var(--space-2xl);
+      background: var(--color-charcoal);
+      color: var(--color-bone);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.5s var(--ease-luxury);
+    }
+    
+    .product-cta:hover {
+      background: var(--color-gold);
+      color: var(--color-ink);
+      box-shadow: 0 0 30px var(--color-gold-glow);
+    }
+    
+    .product-visual {
+      width: 60%;
+      height: 90vh;
+      background: linear-gradient(145deg, var(--color-night-grey) 0%, var(--color-night-blue) 100%);
+      margin-right: 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .product-visual::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 180deg, transparent 0%, rgba(197, 160, 89, 0.02) 50%, transparent 100%);
+      animation: slowRotate 40s linear infinite reverse;
+    }
+    
+    .watch-showcase {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--color-bone);
+    }
+    
+    .watch-case {
+      width: 300px;
+      height: 300px;
+      border: 2px solid rgba(197, 160, 89, 0.3);
+      border-radius: 50%;
+      margin: 0 auto var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(circle, rgba(249, 249, 246, 0.05) 0%, transparent 70%);
+    }
+    
+    .watch-case::before {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border: 1px solid rgba(138, 145, 153, 0.2);
+      border-radius: 50%;
+    }
+    
+    .watch-dial {
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(145deg, var(--color-night-grey) 0%, var(--color-ink) 100%);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .dial-brand {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-lg);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xs);
+    }
+    
+    .dial-text {
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+    }
+    
+    /* Contact Section */
+    .contact {
+      min-height: 80vh;
+      background: var(--color-charcoal);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-3xl) var(--space-xl);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 100%, rgba(138, 145, 153, 0.05) 0%, transparent 30%);
+    }
+    
+    .contact-label {
+      font-size: var(--text-xs);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: var(--space-lg);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .contact-title {
+      font-family: 'Old Standard TT', serif;
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      color: var(--color-bone);
+      margin-bottom: var(--space-md);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .contact-address {
+      font-size: var(--text-base);
+      color: var(--color-steel);
+      line-height: 1.8;
+      margin-bottom: var(--space-xl);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .contact-email {
+      font-size: var(--text-sm);
+      letter-spacing: 0.15em;
+      color: var(--color-bone);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-gold);
+      padding-bottom: 4px;
+      transition: all 0.3s var(--ease-luxury);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .contact-email:hover {
+      color: var(--color-gold);
+      border-bottom-color: transparent;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--color-ink);
+      padding: var(--space-xl);
+      text-align: center;
+      border-top: 1px solid rgba(197, 160, 89, 0.1);
+    }
+    
+    .footer-text {
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      color: var(--color-steel);
+    }
+    
+    /* No invisible frame — clean edges */
+    
+    /* Mobile Responsive */
+    @media (max-width: 900px) {
+      .nav {
+        padding: 1.5rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      
+      .hero-content {
+        padding: 7rem 2rem 3rem;
+        order: 2;
+      }
+      
+      .hero-visual {
+        min-height: 50vh;
+        order: 1;
+      }
+      
+      .watch-face {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .scroll-indicator {
+        display: none;
+      }
+      
+      .heritage {
+        grid-template-columns: 1fr;
+      }
+      
+      .heritage-visual,
+      .heritage-content {
+        padding: 4rem 2rem;
+      }
+      
+      .heritage-visual {
+        order: 2;
+      }
+      
+      .heritage-content {
+        order: 1;
+      }
+      
+      .movement {
+        padding: 4rem 2rem;
+      }
+      
+      .movement-visual {
+        width: 280px;
+        height: 280px;
+      }
+      
+      .movement-specs {
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      
+      .spec-value {
+        font-size: 1.5rem;
+      }
+      
+      .product {
+        flex-direction: column;
+      }
+      
+      .product-content,
+      .product-visual {
+        width: 100%;
+        padding: 4rem 2rem;
+      }
+      
+      .product-visual {
+        min-height: 50vh;
+      }
+      
+      .watch-case {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .watch-dial {
+        width: 160px;
+        height: 160px;
+      }
+      
+      .modal-content {
+        margin: 1rem;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-logo">Pöhlmann-Bresan</div>
+    <div class="preloader-sub">Saxon Watchmaking Atelier</div>
+    <div class="preloader-line"></div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3 class="modal-title">A Velocity Preview</h3>
+      <p class="modal-text">
+        This is a Velocity by Calyvent preview — a vision of what Pöhlmann-Bresan's digital presence could become. 
+        Every element honors the 200+ hours of hand-finishing that defines their craft.
+      </p>
+      <p class="modal-text">
+        The Prestige timepiece deserves a presentation as meticulous as its JU26-01 movement. 
+        <a href="https://velocity.calyvent.com" class="modal-link" target="_blank">velocity.calyvent.com</a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="#" class="nav-logo" onclick="openModal(); return false;">Pöhlmann-Bresan</a>
+    <ul class="nav-links">
+      <li><a href="#heritage" onclick="openModal(); return false;">Heritage</a></li>
+      <li><a href="#movement" onclick="openModal(); return false;">Movement</a></li>
+      <li><a href="#product" onclick="openModal(); return false;">Prestige</a></li>
+      <li><a href="#contact" onclick="openModal(); return false;">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-label">Saxon Watchmaking Atelier</span>
+      <h1 class="hero-title"><em>Prestige</em>Timepiece</h1>
+      <p class="hero-subtitle">
+        Hand-finished mechanical excellence. Limited to 48 pieces. 
+        200+ hours of artisanal transformation in Dresden.
+      </p>
+      <button class="hero-cta" onclick="openModal()">Discover</button>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-watch">
+        <div class="watch-brand">Pöhlmann-Bresan</div>
+        <div class="watch-model">Prestige</div>
+        <div class="watch-face">
+          <div class="watch-center-point"></div>
+        </div>
+        <div class="watch-specs">40mm · JU26-01 · Limited Edition</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Heritage Section -->
+  <section class="heritage" id="heritage">
+    <div class="heritage-visual">
+      <div class="workshop-scene">
+        <div class="atelier-label">Dresden Atelier</div>
+        <div class="atelier-title">Gostritzer Straße 10</div>
+      </div>
+      <div class="micro-screws">
+        <div class="screw"></div>
+        <div class="screw"></div>
+        <div class="screw"></div>
+      </div>
+    </div>
+    <div class="heritage-content">
+      <span class="section-label">Heritage</span>
+      <h2 class="heritage-title">Saxon<br>Watchmaking<br>Tradition</h2>
+      <p class="heritage-text">
+        Unweit des Großen Gartens in Dresden, Josef Bresan and Lukas Pöhlmann 
+        develop and manufacture their own wristwatches in traditional construction. 
+        "Nach alter Väter Sitte" — according to the custom of old fathers.
+      </p>
+      <p class="heritage-text">
+        Their atelier stands as a continuation of Saxony's storied watchmaking heritage, 
+        just a short journey from Glashütte, the epicenter of German horology.
+      </p>
+      <blockquote class="heritage-quote">
+        "To take an industrial ebauche calibre and bring to market an exquisitely 
+        finished piece that honors the traditions of Saxon watchmaking."
+      </blockquote>
+    </div>
+  </section>
+  
+  <!-- Movement Theater Section -->
+  <section class="movement" id="movement">
+    <div class="movement-content">
+      <span class="movement-label">Kaliber JU26-01</span>
+      <h2 class="movement-title">The Movement Theater</h2>
+      <div class="movement-visual">
+        <div class="movement-circle"></div>
+        <div class="movement-circle"></div>
+        <div class="movement-circle"></div>
+        <div class="movement-circle"></div>
+        <div class="movement-center"></div>
+      </div>
+      <div class="movement-specs">
+        <div class="spec-item">
+          <span class="spec-value">18,000</span>
+          <span class="spec-label">Vibrations/Hour</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">39h</span>
+          <span class="spec-label">Power Reserve</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">200+</span>
+          <span class="spec-label">Hours of Work</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">14k</span>
+          <span class="spec-label">Gold Screws</span>
+        </div>
+      </div>
+      <p class="movement-text">
+        Based on the Soviet Pobeda calibre 2608, completely transformed. 
+        Skeletonized train bridge revealing the double-layered gear architecture. 
+        Hand-applied anglage. Industrial surface finish. 
+        A metamorphosis of horological alchemy.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Product Section -->
+  <section class="product" id="product">
+    <div class="product-content">
+      <span class="section-label">Collection</span>
+      <h2 class="product-title">Prestige</h2>
+      <p class="product-subtitle">Limited Edition of 48</p>
+      <ul class="product-details">
+        <li>
+          <span>Case</span>
+          <span>Stainless Steel, 40mm</span>
+        </li>
+        <li>
+          <span>Height</span>
+          <span>12.2mm</span>
+        </li>
+        <li>
+          <span>Lug-to-Lug</span>
+          <span>48.8mm</span>
+        </li>
+        <li>
+          <span>Crystal</span>
+          <span>Sapphire</span>
+        </li>
+        <li>
+          <span>Water Resistance</span>
+          <span>50 Meters</span>
+        </li>
+        <li>
+          <span>Strap</span>
+          <span>Calf Leather</span>
+        </li>
+      </ul>
+      <div class="product-price">
+        €16,750 <span>excluding taxes</span>
+      </div>
+      <button class="product-cta" onclick="openModal()">Inquire</button>
+    </div>
+    <div class="product-visual">
+      <div class="watch-showcase">
+        <div class="watch-case">
+          <div class="watch-dial">
+            <div class="dial-brand">Pöhlmann-Bresan</div>
+            <div class="dial-text">Prestige</div>
+          </div>
+        </div>
+        <p style="font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8A9199; margin-top: 2rem;">
+          Night Grey & Night Blue
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <span class="contact-label">Atelier</span>
+    <h2 class="contact-title">Visit Dresden</h2>
+    <p class="contact-address">
+      Pöhlmann-Bresan GbR<br>
+      Gostritzer Straße 10<br>
+      01217 Dresden, Germany
+    </p>
+    <a href="mailto:info@poehlmann-bresan.de" class="contact-email">info@poehlmann-bresan.de</a>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">© 2026 Velocity by Calyvent. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    // Preloader
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 2500);
+    });
+    
+    // Modal
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+      setTimeout(closeModal, 5000);
+    }
+    
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+    
+    // Close modal on outside click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+    
+    // Smooth scroll with momentum
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      document.body.style.pointerEvents = 'none';
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        document.body.style.pointerEvents = 'auto';
+      }, 100);
+    }, { passive: true });
+    
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+    
+    // Observe sections for parallax feel
+    document.querySelectorAll('.heritage-content, .movement-content, .product-content').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 1s cubic-bezier(0.23, 1, 0.32, 1), transform 1s cubic-bezier(0.23, 1, 0.32, 1)';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
