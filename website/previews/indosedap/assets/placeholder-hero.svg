@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="686" viewBox="0 0 1600 686">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#1b1b1b" stop-opacity="1"/><stop offset="1" stop-color="#0b0d0f" stop-opacity="1"/></linearGradient>
-  </defs>
-  <rect width="1600" height="686" fill="url(#g)" />
-  <g fill="#d1d1c7" font-family="Playfair Display, serif" font-size="54">
-    <text x="80" y="360">Indosedap</text>
-  </g>
-</svg>

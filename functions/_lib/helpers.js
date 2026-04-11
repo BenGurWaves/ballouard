@@ -1,6 +1,5 @@
 /**
  * Shared helpers for Cloudflare Pages Functions
- * Password hashing (PBKDF2), session management, CORS, JSON responses
  */
 
 export function getCorsHeaders(request) {
@@ -36,63 +35,12 @@ export function corsPreflightResponse(request = null) {
   });
 }
 
-// ── Password hashing (Web Crypto PBKDF2) ─────────────────
-
-export async function hashPassword(password, salt) {
-  const enc = new TextEncoder();
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw',
-    enc.encode(password),
-    { name: 'PBKDF2' },
-    false,
-    ['deriveBits']
-  );
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: 'PBKDF2',
-      salt: enc.encode(salt),
-      iterations: 100000,
-      hash: 'SHA-256',
-    },
-    keyMaterial,
-    256
-  );
-  return btoa(String.fromCharCode(...new Uint8Array(bits)));
-}
-
 // ── ID generation ─────────────────────────────────────────
 
 export function generateId() {
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-}
-
-// ── Session management ────────────────────────────────────
-
-export async function createSession(kv, email) {
-  const sessionId = generateId();
-  const session = { email, created_at: new Date().toISOString() };
-  await kv.put(`session:${sessionId}`, JSON.stringify(session), {
-    expirationTtl: 86400 * 30,
-  });
-  return sessionId;
-}
-
-export async function getSession(kv, request) {
-  const cookie = request.headers.get('Cookie') || '';
-  const match = cookie.match(/session=([a-f0-9]+)/);
-  if (!match) return null;
-  try {
-    const data = await kv.get(`session:${match[1]}`, { type: 'json' });
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-export function sessionCookie(sessionId, maxAge = 86400 * 30) {
-  return `session=${sessionId}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
 }
 
 // ── KV helper ─────────────────────────────────────────────
