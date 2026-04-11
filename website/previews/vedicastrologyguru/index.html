@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0B0D0F">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Vedic Astrology Guru</title>
     <meta name="description" content="Thirty years of Vedic astrology mastery. Personalized consultations in New Delhi and worldwide.">
     
@@ -616,20 +619,113 @@
             transform: translateY(0);
         }
         
-        /* Responsive */
+        /* Mobile Navigation */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 101;
+            background: none;
+            border: none;
+        }
+        
+        .menu-toggle span {
+            width: 24px;
+            height: 1px;
+            background: #fff;
+            transition: all var(--duration-medium) var(--ease-velocity);
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--obsidian);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--duration-medium) var(--ease-velocity);
+        }
+        
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-family: var(--font-serif);
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: 0.05em;
+            transition: color var(--duration-medium) var(--ease-velocity);
+        }
+        
+        .mobile-menu a:hover {
+            color: var(--bronze);
+        }
+        
+        /* Responsive — Tablet & Mobile */
         @media (max-width: 900px) {
             nav {
-                padding: 2rem 4vw;
+                padding: 1.5rem 5vw;
                 mix-blend-mode: normal;
-                background: var(--obsidian);
+                background: transparent;
+            }
+            
+            .nav-logo {
+                font-size: 1rem;
             }
             
             .nav-links {
                 display: none;
             }
             
+            .menu-toggle {
+                display: flex;
+            }
+            
             section {
-                padding: 14rem 4vw;
+                padding: 10rem 5vw;
+            }
+            
+            .hero {
+                padding: 8rem 5vw 6rem;
+                min-height: 100svh;
+            }
+            
+            .hero h1 {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                margin-bottom: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+                max-width: 100%;
             }
             
             .intro-section {
@@ -637,37 +733,174 @@
                 max-width: 100%;
             }
             
+            .intro-section h2 {
+                font-size: clamp(1.75rem, 8vw, 2.5rem);
+                margin-bottom: 3rem;
+            }
+            
+            .manifesto-section h2 {
+                font-size: clamp(1.75rem, 8vw, 2.5rem);
+            }
+            
+            .manifesto-quote {
+                font-size: 1.25rem;
+            }
+            
             .service-float {
-                gap: 10rem;
+                gap: 8rem;
             }
             
             .service-item:nth-child(n) {
                 margin-left: 0;
             }
             
+            .service-item h3 {
+                font-size: clamp(1.25rem, 5vw, 1.5rem);
+            }
+            
             .philosophy-section {
                 grid-template-columns: 1fr;
-                gap: 6rem;
+                gap: 4rem;
             }
             
             .philosophy-visual {
-                aspect-ratio: 16/10;
+                aspect-ratio: 4/3;
                 max-width: 100%;
             }
             
             .philosophy-visual::after {
-                inset: 2rem;
+                inset: 1.5rem;
+            }
+            
+            .philosophy-content h2 {
+                font-size: clamp(1.75rem, 8vw, 2.5rem);
+            }
+            
+            .philosophy-quote {
+                font-size: 1.15rem;
+                padding-left: 1.5rem;
+                margin-top: 3rem;
+            }
+            
+            .approach-section h2 {
+                font-size: clamp(1.75rem, 8vw, 2.5rem);
+            }
+            
+            .approach-list {
+                gap: 4rem;
+            }
+            
+            .cta-section {
+                padding: 10rem 5vw;
+            }
+            
+            .cta-section h2 {
+                font-size: clamp(2rem, 10vw, 3rem);
             }
             
             footer {
                 flex-direction: column;
-                gap: 3rem;
+                gap: 2.5rem;
                 text-align: center;
                 align-items: center;
+                padding: 6rem 5vw;
             }
             
             .footer-right {
                 text-align: center;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+                max-width: 90vw;
+            }
+            
+            .modal-content h3 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Small Mobile */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: clamp(2rem, 11vw, 2.75rem);
+            }
+            
+            .hero-description {
+                font-size: 0.95rem;
+                line-height: 1.9;
+            }
+            
+            section {
+                padding: 8rem 5vw;
+            }
+            
+            .service-float {
+                gap: 6rem;
+            }
+            
+            .philosophy-visual::after {
+                inset: 1rem;
+            }
+            
+            .philosophy-quote {
+                font-size: 1.05rem;
+            }
+            
+            .cta-link {
+                font-size: 0.65rem;
+                letter-spacing: 0.2em;
+            }
+        }
+        
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .service-item,
+            .approach-item {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .service-item:active,
+            .approach-item:active {
+                opacity: 0.7;
+                transition: opacity 0.1s ease;
+            }
+            
+            .cta-link:hover {
+                color: var(--bronze);
+                border-color: var(--bronze);
+                letter-spacing: 0.25em;
+            }
+            
+            .modal-cta:hover {
+                color: var(--bronze);
+                letter-spacing: 0.25em;
+            }
+            
+            .nav-logo:active {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Prevent text selection on interactive elements */
+        .service-item,
+        .approach-item,
+        .menu-toggle,
+        .cta-link,
+        .nav-logo {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* iOS Safe Area */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            nav {
+                padding-top: max(1.5rem, env(safe-area-inset-top));
+            }
+            
+            .hero {
+                padding-bottom: max(6rem, env(safe-area-inset-bottom));
             }
         }
         
@@ -696,7 +929,19 @@
             <li><a href="#approach" onclick="openModal(); return false;">Approach</a></li>
             <li><a href="#contact" onclick="openModal(); return false;">Contact</a></li>
         </ul>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
+    
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <a href="#services" onclick="closeMobileMenu(); openModal(); return false;">Services</a>
+        <a href="#philosophy" onclick="closeMobileMenu(); openModal(); return false;">Philosophy</a>
+        <a href="#approach" onclick="closeMobileMenu(); openModal(); return false;">Approach</a>
+        <a href="#contact" onclick="closeMobileMenu(); openModal(); return false;">Contact</a>
+    </div>
     
     <main>
         <section class="hero">
@@ -831,6 +1076,38 @@
             }
         });
         
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let isMenuOpen = false;
+        
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            menuToggle.classList.toggle('active', isMenuOpen);
+            mobileMenu.classList.toggle('active', isMenuOpen);
+            menuToggle.setAttribute('aria-expanded', isMenuOpen);
+            mobileMenu.setAttribute('aria-hidden', !isMenuOpen);
+            document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+        }
+        
+        function closeMobileMenu() {
+            isMenuOpen = false;
+            menuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        menuToggle.addEventListener('click', toggleMobileMenu);
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isMenuOpen) {
+                closeMobileMenu();
+            }
+        });
+        
         // Scroll Reveal — Mist Emergence
         const observerOptions = {
             threshold: 0.15,
@@ -848,6 +1125,15 @@
         document.querySelectorAll('.reveal').forEach(el => {
             observer.observe(el);
         });
+        
+        // iOS Safari 100vh fix
+        const setVh = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        
+        setVh();
+        window.addEventListener('resize', setVh);
     </script>
 </body>
 </html>
