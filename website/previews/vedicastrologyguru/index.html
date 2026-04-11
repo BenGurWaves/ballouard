@@ -136,7 +136,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 4rem 6vw;
+            padding: 16rem 24vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -187,14 +187,18 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 10rem 6vw 8rem;
+            padding: 40rem 24vw 32rem;
             background: 
-                linear-gradient(180deg, rgba(11, 13, 15, 0.3) 0%, rgba(11, 13, 15, 0.85) 100%),
+                linear-gradient(180deg, rgba(11, 13, 15, 0.35) 0%, rgba(11, 13, 15, 0.9) 100%),
                 url('assets/hero.png');
             background-size: cover;
             background-position: center 30%;
             position: relative;
             overflow: hidden;
+            /* cinematic image treatment */
+            filter: saturate(0.82) contrast(0.96) grayscale(0.06);
+            background-repeat: no-repeat;
+            aspect-ratio: 21 / 9;
         }
         
         /* Soft Vignette */
@@ -243,7 +247,7 @@
         
         /* Sections — 4x Extreme Whitespace */
         section {
-            padding: 24rem 6vw;
+            padding: 96rem 24vw;
             position: relative;
         }
         
@@ -255,11 +259,11 @@
         /* Introduction — Asymmetric Floating */
         .intro-section {
             max-width: 600px;
-            margin-left: 15vw;
+            margin-left: 60vw;
         }
         
         .intro-section h2 {
-            margin-bottom: 5rem;
+            margin-bottom: 20rem;
             color: var(--text-light);
         }
         
@@ -279,7 +283,7 @@
         
         .manifesto-section h2 {
             color: var(--text-dark);
-            margin-bottom: 6rem;
+            margin-bottom: 24rem;
         }
         
         .manifesto-quote {
@@ -299,7 +303,7 @@
         .service-float {
             display: flex;
             flex-direction: column;
-            gap: 16rem;
+            gap: 64rem;
             max-width: 900px;
             margin: 0 auto;
         }
@@ -307,15 +311,15 @@
         .service-item {
             display: flex;
             flex-direction: column;
-            gap: 3rem;
+            gap: 12rem;
             position: relative;
         }
         
         /* Asymmetric positioning */
-        .service-item:nth-child(1) { margin-left: -10vw; }
-        .service-item:nth-child(2) { margin-left: 5vw; }
-        .service-item:nth-child(3) { margin-left: -5vw; }
-        .service-item:nth-child(4) { margin-left: 8vw; }
+        .service-item:nth-child(1) { margin-left: -40vw; }
+        .service-item:nth-child(2) { margin-left: 20vw; }
+        .service-item:nth-child(3) { margin-left: -20vw; }
+        .service-item:nth-child(4) { margin-left: 32vw; }
         
         .service-number {
             font-family: var(--font-serif);
@@ -339,31 +343,34 @@
         }
         
         /* Philosophy — Split Asymmetry with Image */
+        /* Philosophy — remove grid, use gallery float asymmetry */
         .philosophy-section {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 12rem;
+            display: flex;
+            gap: 48rem;
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
+            flex-wrap: nowrap;
         }
         
         .philosophy-visual {
-            aspect-ratio: 4/5;
+            width: 75%;
+            aspect-ratio: 21 / 9;
             background: url('assets/philosophy.png');
             background-size: cover;
             background-position: center;
             position: relative;
-            filter: saturate(0.85) contrast(0.95);
+            filter: saturate(0.78) contrast(0.94) grayscale(0.06);
+            object-fit: cover;
         }
         
         /* Ultra-diffuse glow border — Anti-Shadow Rule */
         .philosophy-visual::before {
             content: '';
             position: absolute;
-            inset: -20px;
+            inset: -80px;
             background: var(--bronze-muted);
-            filter: blur(40px);
+            filter: blur(160px);
             z-index: -1;
             opacity: 0.6;
         }
@@ -371,22 +378,22 @@
         .philosophy-visual::after {
             content: '';
             position: absolute;
-            inset: 3rem;
+            inset: 12rem;
             border: 1px solid var(--bronze);
             opacity: 0.25;
         }
         
         .philosophy-content h2 {
-            margin-bottom: 5rem;
+            margin-bottom: 20rem;
             color: var(--text-light);
         }
         
         .philosophy-content p {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: var(--text-muted-light);
-            line-height: 2.2;
-            margin-bottom: 3rem;
-            max-width: 440px;
+            line-height: 2.6;
+            margin-bottom: 12rem;
+            max-width: 540px;
         }
         
         .philosophy-quote {
@@ -395,8 +402,8 @@
             font-style: italic;
             color: var(--bronze);
             line-height: 1.7;
-            margin-top: 6rem;
-            padding-left: 3rem;
+            margin-top: 24rem;
+            padding-left: 12rem;
             border-left: 1px solid var(--bronze);
             opacity: 0.7;
         }
@@ -415,18 +422,18 @@
         
         .approach-section > p {
             color: var(--text-muted-dark);
-            margin-bottom: 12rem;
+            margin-bottom: 48rem;
             font-size: 1rem;
         }
         
         .approach-list {
             display: flex;
             flex-direction: column;
-            gap: 8rem;
+            gap: 32rem;
         }
         
         .approach-item {
-            padding: 4rem 0;
+            padding: 16rem 0;
             border-top: 1px solid var(--border-dark);
         }
         
@@ -436,7 +443,7 @@
         
         .approach-item h3 {
             font-size: 1.25rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 6rem;
             color: var(--text-dark);
             font-weight: 300;
         }
@@ -454,9 +461,11 @@
                 url('assets/corporate.png');
             background-size: cover;
             background-position: center top;
-            padding: 20rem 6vw;
+            padding: 80rem 24vw;
             text-align: center;
             position: relative;
+            filter: saturate(0.86) contrast(0.96) grayscale(0.04);
+            aspect-ratio: 21 / 9;
         }
         
         .cta-section::before {
@@ -507,7 +516,7 @@
         
         /* Footer — Minimal, Floating */
         footer {
-            padding: 10rem 6vw;
+            padding: 40rem 24vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
@@ -557,7 +566,7 @@
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all var(--duration-medium) var(--ease-velocity);
+            transition: opacity var(--duration-medium) var(--ease-velocity), visibility 0s linear var(--duration-medium);
         }
         
         .modal-overlay.active {
@@ -568,13 +577,15 @@
         .modal-content {
             text-align: center;
             max-width: 500px;
-            padding: 3rem;
+            padding: 12rem;
             transform: translateY(20px);
-            transition: transform var(--duration-slow) var(--ease-velocity);
+            transition: transform var(--duration-slow) var(--ease-velocity), opacity var(--duration-medium) var(--ease-velocity);
+            opacity: 0;
         }
         
         .modal-overlay.active .modal-content {
             transform: translateY(0);
+            opacity: 1;
         }
         
         .modal-content h3 {
@@ -610,8 +621,8 @@
         /* Scroll Reveal — Mist Emergence */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all var(--duration-slow) var(--ease-velocity);
+            transform: translateY(20px);
+            transition: opacity var(--duration-slow) var(--ease-velocity), transform var(--duration-slow) var(--ease-velocity);
         }
         
         .reveal.active {
@@ -747,7 +758,7 @@
             }
             
             .service-float {
-                gap: 8rem;
+                gap: 32rem;
             }
             
             .service-item:nth-child(n) {
@@ -759,8 +770,9 @@
             }
             
             .philosophy-section {
-                grid-template-columns: 1fr;
-                gap: 4rem;
+                display: flex;
+                flex-direction: column;
+                gap: 16rem;
             }
             
             .philosophy-visual {
@@ -1067,7 +1079,7 @@
             document.getElementById('modal').classList.add('active');
             setTimeout(() => {
                 document.getElementById('modal').classList.remove('active');
-            }, 6000);
+            }, 5000);
         }
         
         document.getElementById('modal').addEventListener('click', function(e) {
