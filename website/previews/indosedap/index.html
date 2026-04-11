@@ -395,23 +395,50 @@
     transform:translateY(0);
   }
 
-  /* Responsive */
+  /* Responsive — Mobile Perfect */
   @media(max-width:900px){
+    /* Loader mobile sizing */
+    #loader div:first-child{font-size:1.75rem}
+    
+    /* Navigation */
     .nav-links{display:none}
-    .menu-toggle{display:block}
-    section{padding:120px 6vw}
+    .menu-toggle{display:block;font-size:1.25rem;padding:8px}
+    nav{padding:32px 6vw}
+    
+    /* Hero mobile optimization */
+    .hero{min-height:90vh;padding:0 6vw 12vh}
+    .hero h1{font-size:clamp(36px, 10vw, 56px);letter-spacing:-0.02em}
+    .hero p{font-size:1rem;max-width:100%}
+    
+    /* Section spacing mobile */
+    section{padding:100px 6vw}
+    
+    /* Plating grids stack */
     .plating-40-60,
     .plating-60-40{
       grid-template-columns:1fr;
-      gap:48px;
+      gap:40px;
     }
-    .plating-offset{margin-top:60px}
+    .plating-offset{margin-top:40px}
     .text-offset,
     .text-offset-right{padding:0}
-    .gallery-duo{grid-template-columns:1fr}
+    
+    /* Gallery single column */
+    .gallery-duo{grid-template-columns:1fr;gap:16px;margin-top:48px}
     .gallery-duo .image-frame:first-child{transform:none}
-    footer{flex-direction:column;align-items:flex-start;gap:32px}
-    .footer-meta{text-align:left}
+    .gallery-duo .image-frame{aspect-ratio:4/5}
+    
+    /* Touch targets */
+    .text-link{padding:8px 0;display:inline-block}
+    
+    /* Footer mobile */
+    footer{padding:120px 6vw 60px;flex-direction:column;align-items:flex-start;gap:24px}
+    .footer-brand{font-size:1.25rem}
+    .footer-meta{text-align:left;font-size:0.65rem;letter-spacing:0.15em}
+    
+    /* Modal mobile */
+    .modal-content{padding:48px 32px}
+    .modal-content h3{font-size:1.5rem}
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -421,6 +448,17 @@
   </style>
 </head>
 <body>
+  <!-- Elegant Loader -->
+  <div id="loader" style="position:fixed;inset:0;background:var(--obsidian);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10001;transition:opacity 0.8s var(--ease-velocity),visibility 0.8s;">
+    <div style="font-family:var(--serif);font-size:2rem;font-weight:300;letter-spacing:-0.03em;color:var(--cream);opacity:0;animation:loaderFade 2s var(--ease-velocity) forwards;">
+      Indosedap
+    </div>
+    <div style="width:60px;height:1px;background:var(--taupe);margin-top:24px;transform:scaleX(0);animation:loaderLine 2.5s var(--ease-velocity) forwards;"></div>
+  </div>
+  <style>
+    @keyframes loaderFade{0%{opacity:0;transform:translateY(10px)}30%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+    @keyframes loaderLine{0%{transform:scaleX(0)}40%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+  </style>
   <nav>
     <a href="#" class="nav-brand" onclick="openModal();return false">Indosedap</a>
     <div class="nav-links">
@@ -515,6 +553,20 @@
   </div>
 
   <script>
+    // Elegant loader removal (max 3 seconds)
+    window.addEventListener('load', function(){
+      setTimeout(function(){
+        const loader = document.getElementById('loader');
+        if(loader){
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          setTimeout(()=>loader.remove(), 800);
+        }
+        // Trigger first reveal immediately after loader
+        document.querySelector('.hero .reveal')?.classList.add('active');
+      }, 2200);
+    });
+
     function openModal(){
       const modal = document.getElementById('velocity-modal');
       modal.classList.add('active');
