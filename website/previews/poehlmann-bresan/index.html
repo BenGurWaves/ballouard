@@ -8,48 +8,62 @@
     <link rel="icon" type="image/x-icon" href="https://velocity.calyvent.com/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:opsz,wght@8..144,100;8..144,200;8..144,300&family=Inter:wght@100;200;300;400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         /*
         ============================================
         LUXURY DESIGN LIBRARY TECHNIQUES APPLIED:
-        1. Chanel J12 — Extreme negative space, massive refined serif (Old Standard TT)
-        2. Tiffany & Co. — Asymmetric full-screen sections, scroll reveals
-        3. Cartier — Deep whitespace, subtle 3D lighting on typographic elements
-        4. Prada — Immersive narrative flow with generous whitespace
-        5. Parmigiani Fleurier — Asymmetric scroll reveals for caliber section
+        1. Chanel J12 — Full-bleed cinematic hero, extreme negative space
+        2. Tiffany & Co. — Asymmetric full-screen sections, parallax depth
+        3. Cartier — Deep whitespace, subtle 3D lighting on typography
+        4. Prada — Immersive narrative flow, generous whitespace
+        5. Parmigiani Fleurier — Asymmetric scroll reveals
         ============================================
         
-        UNIQUENESS ENGINE INVENTIONS (Micro-Typography Focus):
-        1. Kinetic Letter-Spacing — Spec text expands/contracts on scroll
-        2. Typewriter Reveal — Technical specs animate character-by-character
-        3. Split-Text Architecture — Headlines fracture and realign on interaction
-        4. Variable Weight Axis — "JU26-01" shifts from Thin to Bold on hover
-        5. Baseline Grid Visualization — Subtle horizontal rules as design element
-        6. Ink-Bleed Transition — Links diffuse like ink on paper
+        VELOCITY EMERGENCY OVERRIDE APPLIED:
+        1. Visual Grain — 0.03 opacity noise overlay (body::before)
+        2. 70/30 Rule — 21:9 cinematic imagery with massive whitespace
+        3. Sophisticated Layering — Floating glass text blocks with backdrop-blur
         ============================================
         
-        STYLE MATRIX: The Heritage Estate
-        Typography: Old Standard TT + Lato Thin
-        Palette: Bone (#F9F9F6) + Wrought Iron (#3D3D3D) + Saxon Gold (#C9A227)
+        UNIQUENESS ENGINE (Micro-Typography Focus):
+        1. Kinetic Letter-Spacing — Text expands/contracts on scroll
+        2. Variable Weight JU26-01 — Caliber reference shifts 100→300 weight
+        3. Split-Text Architecture — Headlines fracture and reveal
+        4. Baseline Grid Visualization — Horizontal rules as design element
+        5. Glow Typography — Gold text with animated text-shadow
+        6. Atmospheric Type — Letters fade into Black Hole background
+        ============================================
         
-        COLOR INTEGRATION LAW (90/9/1):
-        90% — Bone (#F9F9F6) — archival paper warmth
-        9% — Wrought Iron (#3D3D3D) — desaturated charcoal
-        1% — Saxon Gold (#C9A227) — 1px nav border, active states
+        STYLE MATRIX: The Noir Artisan
+        Typography: Big Shoulders Display (100-300) + Inter Thin
+        
+        BRAND COLOR ELEVATION PROTOCOL:
+        Black Hole Foundation: #050505 (strict enforcement, no mid-grays)
+        Metals Accent: #D4AF37 with text-shadow: 0 0 15px rgba(212,175,55,0.2)
+        Text Luminosity: #FFFFFF (7:1 contrast ratio)
+        Atmospheric Gradient: radial-gradient(circle at center, #111 0%, #050505 100%)
+        
+        90/9/1 COLOR INTEGRATION:
+        90% — #050505 (Black Hole Foundation)
+        9% — #1A1A1A (desaturated nachtgrau)
+        1% — #D4AF37 (Saxon gold nav border/active states)
         ============================================
         */
         
         :root {
-            --heritage-bone: #F9F9F6;
-            --heritage-parchment: #F0EEE9;
-            --heritage-wrought: #3D3D3D;
-            --heritage-iron: #5C5C5C;
-            --heritage-gold: #C9A227;
-            --heritage-umber: #8B7355;
+            --void: #050505;
+            --depth: #0A0A0A;
+            --surface: #111111;
+            --elevation: #1A1A1A;
+            --saxon-gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --text-tertiary: #666666;
             
-            --font-serif: 'Old Standard TT', Georgia, serif;
-            --font-sans: 'Lato', sans-serif;
+            --font-display: 'Big Shoulders Display', sans-serif;
+            --font-body: 'Inter', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
             
             --transition-luxury: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
@@ -64,30 +78,51 @@
         
         html {
             scroll-behavior: smooth;
-            font-size: 16px;
+            background: var(--void);
         }
         
         body {
-            font-family: var(--font-sans);
-            font-weight: 300;
-            background: var(--heritage-bone);
-            color: var(--heritage-wrought);
-            line-height: 1.7;
-            letter-spacing: 0.01em;
+            font-family: var(--font-body);
+            font-weight: 200;
+            background: var(--void);
+            color: var(--text-primary);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
             overflow-x: hidden;
         }
         
-        /* PRELOADER — Luxury fade-out animation (3-4s max) */
+        /* VELOCITY EMERGENCY OVERRIDE — Visual Grain (The Soul) */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9998;
+            mix-blend-mode: overlay;
+        }
+        
+        /* Atmospheric Background */
+        .atmosphere {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, var(--surface) 0%, var(--void) 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* PRELOADER — 3.5s luxury fade-out */
         .preloader {
             position: fixed;
             inset: 0;
-            background: var(--heritage-wrought);
+            background: var(--void);
             z-index: 99999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 1.2s var(--transition-luxury), visibility 1.2s;
+            transition: opacity 1.5s var(--transition-luxury), visibility 1.5s;
         }
         
         .preloader.hidden {
@@ -96,75 +131,70 @@
             pointer-events: none;
         }
         
-        .preloader-text {
-            font-family: var(--font-serif);
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            font-weight: 400;
-            color: var(--heritage-bone);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            animation: letterBreathe 2s ease-in-out infinite;
-        }
-        
-        .preloader-sub {
+        .preloader-caliber {
             font-family: var(--font-mono);
             font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            color: var(--heritage-gold);
-            margin-top: 2rem;
+            letter-spacing: 0.5em;
+            color: var(--saxon-gold);
             text-transform: uppercase;
-            opacity: 0;
-            animation: fadeIn 0.8s 0.5s forwards;
+            margin-bottom: 3rem;
+            animation: letterPulse 2s ease-in-out infinite;
+        }
+        
+        .preloader-brand {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 100;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-primary);
         }
         
         .preloader-line {
             width: 1px;
             height: 0;
-            background: var(--heritage-gold);
-            margin-top: 2rem;
+            background: var(--saxon-gold);
+            margin-top: 3rem;
+            box-shadow: 0 0 20px var(--saxon-gold);
             animation: lineGrow 2s var(--transition-luxury) forwards;
         }
         
-        @keyframes letterBreathe {
-            0%, 100% { letter-spacing: 0.3em; }
-            50% { letter-spacing: 0.35em; }
+        @keyframes letterPulse {
+            0%, 100% { letter-spacing: 0.5em; opacity: 0.7; }
+            50% { letter-spacing: 0.55em; opacity: 1; }
         }
         
         @keyframes lineGrow {
-            to { height: 60px; }
+            to { height: 80px; }
         }
         
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        /* Navigation — 1px gold top border per Color Law */
+        /* Header — 1px Saxon gold border (90/9/1 Rule) */
         header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 1.5rem 4vw;
+            padding: 2rem 4vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, var(--heritage-bone), transparent);
-            border-top: 1px solid var(--heritage-gold);
+            border-top: 1px solid var(--saxon-gold);
+            background: linear-gradient(to bottom, var(--void) 0%, transparent 100%);
         }
         
         .logo {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 200;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--heritage-wrought);
+            color: var(--text-primary);
         }
         
         .logo span {
-            font-weight: 700;
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
+            text-shadow: 0 0 15px var(--gold-glow);
         }
         
         nav {
@@ -174,57 +204,40 @@
         
         nav a {
             font-family: var(--font-mono);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--heritage-iron);
+            color: var(--text-secondary);
             text-decoration: none;
-            position: relative;
             transition: color var(--transition-luxury);
             cursor: pointer;
         }
         
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -10%;
-            right: -10%;
-            height: 1px;
-            background: var(--heritage-gold);
-            transform: scaleX(0);
-            transition: transform var(--transition-luxury);
-        }
-        
         nav a:hover {
-            color: var(--heritage-wrought);
+            color: var(--saxon-gold);
+            text-shadow: 0 0 10px var(--gold-glow);
         }
         
-        nav a:hover::before {
-            transform: scaleX(1);
-        }
-        
-        /* Typography Hierarchy — Micro-Typography Focus */
+        /* Typography */
         h1, h2, h3 {
-            font-family: var(--font-serif);
-            font-weight: 400;
-            line-height: 1.1;
+            font-family: var(--font-display);
+            font-weight: 100;
+            line-height: 1;
         }
         
         h1 {
-            font-size: clamp(3rem, 12vw, 10rem);
+            font-size: clamp(4rem, 15vw, 12rem);
             letter-spacing: -0.02em;
-            font-style: italic;
         }
         
         h2 {
-            font-size: clamp(2rem, 6vw, 5rem);
+            font-size: clamp(2.5rem, 8vw, 6rem);
             letter-spacing: 0.02em;
         }
         
         h3 {
-            font-size: clamp(1.25rem, 3vw, 2rem);
-            font-weight: 700;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 200;
         }
         
         .mono {
@@ -235,48 +248,115 @@
             font-weight: 300;
         }
         
-        /* Hero — Extreme whitespace, massive serif */
+        /* Glow Text Effect */
+        .glow-gold {
+            color: var(--saxon-gold);
+            text-shadow: 0 0 15px var(--gold-glow);
+            transition: text-shadow var(--transition-luxury);
+        }
+        
+        .glow-gold:hover {
+            text-shadow: 0 0 25px var(--gold-glow), 0 0 40px var(--gold-glow);
+        }
+        
+        /* HERO — 70/30 Rule: 21:9 cinematic with massive whitespace */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 20vh 8vw 10vh;
             position: relative;
+            overflow: hidden;
         }
         
-        .hero::after {
+        /* 70% Cinematic Image Area */
+        .hero-visual {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70vh;
+            background: linear-gradient(135deg, var(--elevation) 0%, var(--surface) 50%, var(--depth) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-visual::after {
             content: '';
             position: absolute;
-            bottom: 10vh;
-            left: 8vw;
-            right: 8vw;
-            height: 1px;
-            background: linear-gradient(90deg, var(--heritage-wrought), transparent 80%);
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 60%, var(--void) 100%);
+        }
+        
+        .caliber-sculpture {
+            width: 40vw;
+            max-width: 500px;
+            aspect-ratio: 1;
+            border: 1px solid var(--saxon-gold);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                0 0 0 1px var(--saxon-gold),
+                0 0 60px var(--gold-glow),
+                inset 0 0 100px rgba(212, 175, 55, 0.1);
+            animation: slowPulse 8s ease-in-out infinite;
+        }
+        
+        .caliber-sculpture::before {
+            content: 'JU26-01';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: var(--saxon-gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+        
+        @keyframes slowPulse {
+            0%, 100% { box-shadow: 0 0 0 1px var(--saxon-gold), 0 0 60px var(--gold-glow), inset 0 0 100px rgba(212, 175, 55, 0.1); }
+            50% { box-shadow: 0 0 0 1px var(--saxon-gold), 0 0 100px var(--gold-glow), inset 0 0 120px rgba(212, 175, 55, 0.15); }
+        }
+        
+        /* 30% Whitespace with elegant sentence */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            margin-top: -10vh;
+            padding: 0 8vw;
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 8vh 8vw;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
         }
         
         .hero-label {
             font-family: var(--font-mono);
             font-size: 0.65rem;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.4em;
+            color: var(--saxon-gold);
             text-transform: uppercase;
-            color: var(--heritage-iron);
             margin-bottom: 3rem;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
         }
         
         .hero-label::before {
             content: '';
-            width: 40px;
+            width: 60px;
             height: 1px;
-            background: var(--heritage-gold);
+            background: var(--saxon-gold);
+            box-shadow: 0 0 10px var(--gold-glow);
         }
         
+        /* Split-Text Architecture */
         .hero-title {
-            max-width: 900px;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
         
         .hero-title .line {
@@ -287,101 +367,86 @@
         .hero-title .line span {
             display: block;
             transform: translateY(100%);
-            animation: revealUp 1.2s var(--transition-luxury) forwards;
+            opacity: 0;
+            animation: revealUp 1.5s var(--transition-luxury) forwards;
         }
         
-        .hero-title .line:nth-child(2) span {
-            animation-delay: 0.2s;
-        }
-        
-        .hero-title .line:nth-child(3) span {
-            animation-delay: 0.4s;
-        }
+        .hero-title .line:nth-child(1) span { animation-delay: 0.3s; }
+        .hero-title .line:nth-child(2) span { animation-delay: 0.5s; }
+        .hero-title .line:nth-child(3) span { animation-delay: 0.7s; }
         
         @keyframes revealUp {
-            to { transform: translateY(0); }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
-        .hero-spec {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            color: var(--heritage-iron);
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s 0.8s forwards;
-        }
-        
-        .hero-description {
-            max-width: 400px;
-            font-size: 1rem;
-            line-height: 1.9;
-            color: var(--heritage-iron);
+        .hero-sentence {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 200;
+            line-height: 2;
+            color: var(--text-secondary);
+            max-width: 500px;
             margin-left: auto;
-            margin-right: 15vw;
-            margin-top: -5vh;
+            letter-spacing: 0.05em;
             opacity: 0;
-            animation: fadeIn 1s 1s forwards;
+            animation: fadeIn 1.5s 1s forwards;
         }
         
-        /* Story Section — Asymmetric layout */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Story Section — Asymmetric with 70/30 */
         .story {
-            padding: 15vh 0;
-            display: grid;
-            grid-template-columns: 45vw 1fr;
-            gap: 0;
             min-height: 100vh;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            position: relative;
         }
         
         .story-visual {
-            background: var(--heritage-parchment);
+            background: linear-gradient(135deg, var(--surface) 0%, var(--elevation) 100%);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .caliber-schematic {
-            width: 60%;
-            aspect-ratio: 1;
-            border: 1px solid var(--heritage-umber);
-            border-radius: 50%;
-            position: relative;
-            animation: slowRotate 120s linear infinite;
-        }
-        
-        .caliber-schematic::before,
-        .caliber-schematic::after {
+        .story-visual::before {
             content: '';
             position: absolute;
-            border: 1px solid var(--heritage-umber);
+            inset: 10%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 50%;
+            animation: rotate 120s linear infinite;
         }
         
-        .caliber-schematic::before {
-            inset: 15%;
-        }
-        
-        .caliber-schematic::after {
-            inset: 30%;
-            border-color: var(--heritage-gold);
-        }
-        
-        @keyframes slowRotate {
+        @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         
+        /* SOPHISTICATED LAYERING: Floating glass text */
         .story-content {
-            padding: 10vh 8vw;
+            padding: 10vh 4vw;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+            margin-left: -5vw;
+            position: relative;
+            z-index: 10;
         }
         
         .story-content .mono {
-            margin-bottom: 2rem;
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
+            margin-bottom: 3rem;
         }
         
         .story-content h2 {
@@ -390,220 +455,233 @@
         }
         
         .story-content p {
-            font-size: 1.05rem;
-            line-height: 2;
-            color: var(--heritage-iron);
+            font-size: 0.95rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
         }
         
-        /* Collection — Typography as architecture */
-        .collection {
-            padding: 15vh 8vw;
-            background: var(--heritage-parchment);
+        /* Timeline with kinetic typography */
+        .timeline {
+            margin-top: 4rem;
+            border-top: 1px solid var(--elevation);
+            padding-top: 3rem;
         }
         
-        .collection-header {
-            margin-bottom: 10vh;
+        .timeline-item {
+            margin-bottom: 3rem;
+            transition: letter-spacing var(--transition-luxury);
         }
         
-        .collection-header .mono {
-            display: block;
-            margin-bottom: 2rem;
-            color: var(--heritage-gold);
+        .timeline-item:hover {
+            letter-spacing: 0.05em;
         }
         
-        .collection-header h2 {
-            max-width: 600px;
-        }
-        
-        .watches {
-            display: flex;
-            flex-direction: column;
-            gap: 15vh;
-        }
-        
-        .watch-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5vw;
-            align-items: center;
-            padding: 5vh 0;
-            border-bottom: 1px solid var(--heritage-umber);
-        }
-        
-        .watch-item:last-child {
-            border-bottom: none;
-        }
-        
-        .watch-visual {
-            aspect-ratio: 1;
-            background: var(--heritage-bone);
-            border: 1px solid var(--heritage-umber);
-            border-radius: 50%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                inset 0 0 60px rgba(0,0,0,0.05),
-                0 20px 60px rgba(0,0,0,0.1);
-        }
-        
-        .watch-face {
-            width: 85%;
-            height: 85%;
-            border-radius: 50%;
-            background: var(--heritage-wrought);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .watch-face.nachtblau {
-            background: #1E2A3A;
-        }
-        
-        .watch-marker {
-            position: absolute;
-            width: 2px;
-            height: 8px;
-            background: var(--heritage-gold);
-        }
-        
-        .watch-hands {
-            width: 2px;
-            height: 30%;
-            background: var(--heritage-bone);
-            position: absolute;
-            top: 20%;
-            transform-origin: bottom center;
-            animation: tick 60s linear infinite;
-        }
-        
-        @keyframes tick {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .watch-details h3 {
+        .timeline-year {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--saxon-gold);
+            text-shadow: 0 0 10px var(--gold-glow);
             margin-bottom: 0.5rem;
         }
         
-        .watch-details .mono {
+        .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+        }
+        
+        /* Collection — Cinematic 70/30 layout */
+        .collection {
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .collection-header {
+            padding: 15vh 8vw 5vh;
+            text-align: center;
+        }
+        
+        .collection-header .mono {
+            color: var(--saxon-gold);
             margin-bottom: 2rem;
             display: block;
         }
         
-        .spec-list {
-            list-style: none;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            line-height: 2.2;
-            color: var(--heritage-iron);
+        .watch-showcase {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            min-height: 80vh;
+            border-top: 1px solid var(--elevation);
+        }
+        
+        .watch-visual-large {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--void) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .watch-visual-large::before {
+            content: '';
+            position: absolute;
+            width: 60%;
+            aspect-ratio: 21/9;
+            background: radial-gradient(circle at center, var(--elevation) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+        
+        .watch-case-large {
+            width: 35vw;
+            max-width: 400px;
+            aspect-ratio: 1;
+            border: 2px solid var(--saxon-gold);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 0 2px var(--void),
+                0 0 80px var(--gold-glow),
+                inset 0 0 60px rgba(212, 175, 55, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .watch-info {
+            padding: 8vh 4vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+            margin-left: -3vw;
+        }
+        
+        .watch-info h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .watch-info .mono {
+            color: var(--text-tertiary);
             margin-bottom: 3rem;
         }
         
         .watch-price {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            font-style: italic;
-            color: var(--heritage-wrought);
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 100;
+            color: var(--saxon-gold);
+            text-shadow: 0 0 15px var(--gold-glow);
+            margin-bottom: 1rem;
         }
         
         .watch-limited {
-            display: inline-block;
             font-family: var(--font-mono);
             font-size: 0.65rem;
             letter-spacing: 0.2em;
-            text-transform: uppercase;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--heritage-gold);
-            color: var(--heritage-gold);
-            margin-top: 1.5rem;
+            color: var(--text-tertiary);
+            padding: 1rem 0;
+            border-top: 1px solid var(--elevation);
+            border-bottom: 1px solid var(--elevation);
         }
         
-        /* Technical — Micro-typography specifications */
+        /* Technical — Variable Weight JU26-01 */
         .technical {
-            padding: 15vh 8vw;
-            min-height: 100vh;
+            padding: 20vh 8vw;
+            text-align: center;
+            background: radial-gradient(circle at center, var(--surface) 0%, var(--void) 70%);
         }
         
         .technical-label {
             font-family: var(--font-mono);
             font-size: 0.7rem;
             letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
             margin-bottom: 3rem;
-        }
-        
-        .technical h2 {
-            font-size: clamp(4rem, 15vw, 12rem);
-            letter-spacing: 0.05em;
-            margin-bottom: 5vh;
-            font-weight: 100;
-            transition: font-weight var(--transition-luxury);
-        }
-        
-        .technical h2:hover {
-            font-weight: 700;
-        }
-        
-        .caliber-specs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3vw;
-            margin-top: 8vh;
-        }
-        
-        .spec-block {
-            border-top: 1px solid var(--heritage-umber);
-            padding-top: 2rem;
-        }
-        
-        .spec-block .mono {
             display: block;
+        }
+        
+        /* Variable Weight on Hover */
+        .caliber-name {
+            font-family: var(--font-display);
+            font-size: clamp(5rem, 20vw, 15rem);
+            font-weight: 100;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 5vh;
+            transition: font-weight var(--transition-luxury), text-shadow var(--transition-luxury);
+            cursor: default;
+        }
+        
+        .caliber-name:hover {
+            font-weight: 300;
+            text-shadow: 0 0 40px var(--gold-glow);
+        }
+        
+        .caliber-name .gold {
+            color: var(--saxon-gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .spec-item {
+            border-top: 1px solid var(--elevation);
+            padding-top: 2rem;
+            transition: border-color var(--transition-luxury), letter-spacing var(--transition-luxury);
+        }
+        
+        .spec-item:hover {
+            border-color: var(--saxon-gold);
+            letter-spacing: 0.03em;
+        }
+        
+        .spec-item .mono {
+            color: var(--text-tertiary);
             margin-bottom: 1rem;
-            color: var(--heritage-iron);
+            display: block;
         }
         
-        .spec-block p {
+        .spec-item p {
             font-size: 0.95rem;
+            color: var(--text-secondary);
             line-height: 1.8;
-            color: var(--heritage-wrought);
         }
         
-        /* Contact — Ink-bleed aesthetic */
+        /* Contact */
         .contact {
             padding: 15vh 8vw;
-            background: var(--heritage-wrought);
-            color: var(--heritage-bone);
             text-align: center;
+            border-top: 1px solid var(--elevation);
         }
         
         .contact .mono {
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
             margin-bottom: 2rem;
         }
         
         .contact h2 {
-            color: var(--heritage-bone);
             margin-bottom: 3rem;
         }
         
         .contact > p {
-            max-width: 500px;
+            max-width: 400px;
             margin: 0 auto 5rem;
-            font-weight: 300;
-            opacity: 0.8;
+            color: var(--text-secondary);
+            line-height: 2;
         }
         
         .contact-grid {
             display: flex;
             justify-content: center;
-            gap: 6vw;
+            gap: 8vw;
             margin-bottom: 5rem;
         }
         
@@ -612,14 +690,14 @@
         }
         
         .contact-item .mono {
-            color: var(--heritage-umber);
+            color: var(--text-tertiary);
             margin-bottom: 1rem;
         }
         
         .contact-item p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             line-height: 1.8;
-            opacity: 0.9;
         }
         
         .cta-button {
@@ -629,23 +707,25 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             padding: 1.5rem 4rem;
-            background: var(--heritage-gold);
-            color: var(--heritage-wrought);
+            background: transparent;
+            color: var(--saxon-gold);
+            border: 1px solid var(--saxon-gold);
             text-decoration: none;
             transition: all var(--transition-luxury);
             cursor: pointer;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
         }
         
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(201, 162, 39, 0.3);
+            background: var(--saxon-gold);
+            color: var(--void);
+            box-shadow: 0 0 40px var(--gold-glow);
         }
         
         /* Footer */
         footer {
             padding: 3vh 8vw;
-            background: var(--heritage-wrought);
-            border-top: 1px solid var(--heritage-iron);
+            border-top: 1px solid var(--elevation);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -653,26 +733,27 @@
         
         footer p {
             font-family: var(--font-mono);
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             letter-spacing: 0.1em;
-            color: var(--heritage-iron);
+            color: var(--text-tertiary);
         }
         
         footer a {
-            color: var(--heritage-umber);
+            color: var(--text-tertiary);
             text-decoration: none;
             transition: color var(--transition-luxury);
         }
         
         footer a:hover {
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
+            text-shadow: 0 0 10px var(--gold-glow);
         }
         
         /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(61, 61, 61, 0.98);
+            background: rgba(5, 5, 5, 0.98);
             backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
@@ -692,27 +773,28 @@
             max-width: 500px;
             padding: 4rem;
             text-align: center;
-            border: 1px solid var(--heritage-gold);
-            background: var(--heritage-bone);
-            color: var(--heritage-wrought);
+            border: 1px solid var(--saxon-gold);
+            background: var(--void);
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.2);
         }
         
         .modal-content h3 {
-            font-family: var(--font-serif);
+            font-family: var(--font-display);
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            color: var(--heritage-wrought);
+            color: var(--saxon-gold);
+            text-shadow: 0 0 15px var(--gold-glow);
         }
         
         .modal-content p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.8;
             margin-bottom: 1.5rem;
-            color: var(--heritage-iron);
+            color: var(--text-secondary);
         }
         
         .modal-content .mono {
-            color: var(--heritage-gold);
+            color: var(--saxon-gold);
         }
         
         .modal-close {
@@ -721,24 +803,26 @@
             right: 2rem;
             width: 50px;
             height: 50px;
-            border: 1px solid var(--heritage-gold);
+            border: 1px solid var(--saxon-gold);
             background: transparent;
-            color: var(--heritage-bone);
+            color: var(--text-primary);
             font-size: 1.5rem;
             cursor: pointer;
             transition: all var(--transition-luxury);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
         }
         
         .modal-close:hover {
-            background: var(--heritage-gold);
-            color: var(--heritage-wrought);
+            background: var(--saxon-gold);
+            color: var(--void);
+            box-shadow: 0 0 30px var(--gold-glow);
         }
         
-        /* Scroll Reveal Animation */
+        /* Scroll Reveal */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s var(--transition-luxury), transform 0.8s var(--transition-luxury);
+            transform: translateY(60px);
+            transition: opacity 1s var(--transition-luxury), transform 1s var(--transition-luxury);
         }
         
         .reveal.active {
@@ -748,43 +832,42 @@
         
         /* Mobile */
         @media (max-width: 900px) {
-            html {
-                font-size: 14px;
-            }
+            html { font-size: 14px; }
             
-            header {
-                padding: 1rem 5vw;
-            }
+            header { padding: 1.5rem 5vw; }
+            nav { display: none; }
             
-            nav {
-                display: none;
-            }
+            .hero-visual { height: 50vh; }
+            .caliber-sculpture { width: 60vw; }
             
-            .hero {
-                padding: 15vh 5vw 10vh;
-            }
-            
-            .hero-description {
-                margin-left: 0;
-                margin-right: 0;
-                margin-top: 3rem;
+            .hero-content {
+                margin-top: 0;
+                padding: 5vh 5vw;
             }
             
             .story {
                 grid-template-columns: 1fr;
             }
             
-            .story-visual {
-                min-height: 50vh;
+            .story-content {
+                margin-left: 0;
+                border-left: none;
+                border-top: 1px solid rgba(212, 175, 55, 0.2);
             }
             
-            .watch-item {
+            .watch-showcase {
                 grid-template-columns: 1fr;
-                gap: 3rem;
             }
             
-            .caliber-specs {
-                grid-template-columns: 1fr;
+            .watch-info {
+                margin-left: 0;
+                border-left: none;
+                border-top: 1px solid rgba(212, 175, 55, 0.2);
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
             }
             
             .contact-grid {
@@ -793,9 +876,7 @@
                 align-items: center;
             }
             
-            .contact-item {
-                text-align: center;
-            }
+            .contact-item { text-align: center; }
             
             footer {
                 flex-direction: column;
@@ -806,11 +887,13 @@
     </style>
 </head>
 <body>
+    <div class="atmosphere"></div>
+    
     <!-- Preloader -->
     <div class="preloader" id="preloader">
-        <div class="preloader-text">Pöhlmann-Bresan</div>
+        <div class="preloader-caliber">Kaliber</div>
+        <div class="preloader-brand">Pöhlmann-Bresan</div>
         <div class="preloader-line"></div>
-        <div class="preloader-sub">Manufakturkaliber · Dresden</div>
     </div>
     
     <!-- Header -->
@@ -824,113 +907,99 @@
         </nav>
     </header>
     
-    <!-- Hero -->
+    <!-- Hero — 70/30 Rule -->
     <section class="hero">
-        <div class="hero-label">Unabhängige Uhrmacher · Gegründet 2021</div>
-        <h1 class="hero-title">
-            <div class="line"><span>Präzision</span></div>
-            <div class="line"><span>in</span></div>
-            <div class="line"><span>Reinkultur</span></div>
-        </h1>
-        <div class="hero-spec">Kaliber JU26-01 · Handaufzug · Limitiert auf 24 Stück</div>
-        <p class="hero-description">
-            Handgefertigte Armbanduhren aus Dresden. Jedes Werk entsteht in unserer Werkstatt 
-            — von der Konstruktion bis zur Feinregulierung. Unabhängig. Präzise. Unverwechselbar.
-        </p>
+        <div class="hero-visual">
+            <div class="caliber-sculpture"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-label">Unabhängige Uhrmacher · Dresden</div>
+            <h1 class="hero-title">
+                <div class="line"><span>Präzision</span></div>
+                <div class="line"><span>jenseits</span></div>
+                <div class="line"><span>der Zeit</span></div>
+            </h1>
+            <p class="hero-sentence">
+                Handgefertigte Armbanduhren mit eigenem Kaliber JU26-01. 
+                Limitiert auf 24 Stück.
+            </p>
+        </div>
     </section>
     
-    <!-- Story -->
+    <!-- Story — Asymmetric with Sophisticated Layering -->
     <section class="story">
-        <div class="story-visual">
-            <div class="caliber-schematic"></div>
-        </div>
+        <div class="story-visual"></div>
         <div class="story-content reveal">
             <div class="mono">Unsere Geschichte</div>
-            <h2>Von der Idee zur Manufaktur</h2>
+            <h2>Von der Idee<br>zur Manufaktur</h2>
             <p>
-                Nach Jahren bei Lang & Heyne, einem der renommiertesten deutschen Uhrenhersteller, 
-                sammelten Lukas Pöhlmann und Josef Bresan Erfahrung in der feinsten Uhrmacherkunst. 
-                2019 begannen sie mit dem Aufbau einer eigenen Werkstatt in Dresden.
+                Nach Jahren bei Lang & Heyne sammelten Lukas Pöhlmann und Josef Bresan 
+                Erfahrung in der feinsten Uhrmacherkunst. 2019 begannen sie mit dem 
+                Aufbau einer eigenen Werkstatt in Dresden.
             </p>
             <p>
-                Aus dieser Zusammenarbeit entstand das Kaliber JU26-01 — ein handaufzugwerk 
-                mit Breguet-Spirale und 14K-Gold-Exzentergewichten. Jedes Detail reflektiert 
-                ihre Überzeugung: Unabhängigkeit bedeutet absolute Kontrolle über Qualität.
+                Das Kaliber JU26-01 entstand aus dieser Zusammenarbeit — ein handaufzugwerk 
+                mit Breguet-Spirale und 14K-Gold-Exzentergewichten.
             </p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2019</div>
+                    <p>Gründung der Werkstatt</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <p>Gründung Pöhlmann-Bresan GbR</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <p>Präsentation Prestige Kollektion</p>
+                </div>
+            </div>
         </div>
     </section>
     
-    <!-- Collection -->
+    <!-- Collection — 70/30 Cinematic -->
     <section class="collection">
         <div class="collection-header reveal">
             <div class="mono">Prestige Kollektion</div>
             <h2>Zwei Varianten.<br>Eine Philosophie.</h2>
         </div>
         
-        <div class="watches">
-            <div class="watch-item reveal">
-                <div class="watch-visual">
-                    <div class="watch-face">
-                        <div class="watch-marker" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
-                        <div class="watch-hands"></div>
-                    </div>
-                </div>
-                <div class="watch-details">
-                    <h3>Prestige nachtgrau</h3>
-                    <span class="mono">Referenz NG · 40mm · Edelstahl</span>
-                    <ul class="spec-list">
-                        <li>Gehäuse: Edelstahl, 5 bar Wasserdicht</li>
-                        <li>Werk: JU26-01 Handaufzug</li>
-                        <li>Zifferblatt: Aluminium, lackiert</li>
-                        <li>Zeiger: Schwertzeiger, poliert</li>
-                        <li>Glas: Saphir, einseitig entspiegelt</li>
-                    </ul>
-                    <div class="watch-price">€16.750</div>
-                    <div class="watch-limited">Limitiert auf 24 Stück</div>
-                </div>
+        <div class="watch-showcase">
+            <div class="watch-visual-large">
+                <div class="watch-case-large"></div>
             </div>
-            
-            <div class="watch-item reveal">
-                <div class="watch-visual">
-                    <div class="watch-face nachtblau">
-                        <div class="watch-marker" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
-                        <div class="watch-hands"></div>
-                    </div>
-                </div>
-                <div class="watch-details">
-                    <h3>Prestige nachtblau</h3>
-                    <span class="mono">Referenz NB · 40mm · Edelstahl</span>
-                    <ul class="spec-list">
-                        <li>Gehäuse: Edelstahl, 5 bar Wasserdicht</li>
-                        <li>Werk: JU26-01 Handaufzug</li>
-                        <li>Zifferblatt: Aluminium, lackiert</li>
-                        <li>Zeiger: Schwertzeiger, poliert</li>
-                        <li>Glas: Saphir, einseitig entspiegelt</li>
-                    </ul>
-                    <div class="watch-price">€16.750</div>
-                    <div class="watch-limited">Limitiert auf 24 Stück</div>
-                </div>
+            <div class="watch-info reveal">
+                <h3>Prestige <span class="gold">nachtgrau</span></h3>
+                <div class="mono">Referenz NG · 40mm · JU26-01</div>
+                <div class="watch-price">€16.750</div>
+                <div class="watch-limited">Limitiert auf 24 Stück</div>
             </div>
         </div>
     </section>
     
-    <!-- Technical -->
+    <!-- Technical — Variable Weight JU26-01 -->
     <section class="technical">
         <div class="technical-label reveal">Technische Daten</div>
-        <h2 class="reveal">JU26-01</h2>
-        
-        <div class="caliber-specs">
-            <div class="spec-block reveal">
+        <div class="caliber-name reveal">
+            <span class="gold">JU</span>26<span class="gold">-</span>01
+        </div>
+        <div class="specs-grid reveal">
+            <div class="spec-item">
                 <span class="mono">Gangreserve</span>
                 <p>39 Stunden<br>Volle Leistung</p>
             </div>
-            <div class="spec-block reveal">
+            <div class="spec-item">
                 <span class="mono">Unruh</span>
                 <p>14K Gold-Exzenter<br>Breguet-Spirale</p>
             </div>
-            <div class="spec-block reveal">
+            <div class="spec-item">
                 <span class="mono">Finish</span>
                 <p>Zinnpolierte Schrauben<br>Doppelter Sonnenschliff</p>
+            </div>
+            <div class="spec-item">
+                <span class="mono">Gehäuse</span>
+                <p>40mm · Edelstahl<br>5 bar Wasserdicht</p>
             </div>
         </div>
     </section>
@@ -939,12 +1008,12 @@
     <section class="contact">
         <div class="mono reveal">Kontakt</div>
         <h2 class="reveal">Erwerb auf Anfrage</h2>
-        <p class="reveal">Unsere Uhren sind exklusiv erhältlich über autorisierte Fachhändler oder direkt bei uns in Dresden.</p>
+        <p class="reveal">Exklusiv erhältlich über autorisierte Fachhändler oder direkt bei uns in Dresden.</p>
         
         <div class="contact-grid reveal">
             <div class="contact-item">
                 <div class="mono">Atelier</div>
-                <p>Pöhlmann-Bresan GbR<br>Gostritzer Straße 10<br>01217 Dresden · Germany</p>
+                <p>Gostritzer Straße 10<br>01217 Dresden · Germany</p>
             </div>
             <div class="contact-item">
                 <div class="mono">Email</div>
@@ -974,16 +1043,14 @@
         <div class="modal-content">
             <h3>Velocity Preview</h3>
             <p>
-                Dies ist eine exklusive Website-Preview, erstellt von <strong>Velocity</strong> 
-                — einem Design-Studio für unabhängige Marken.
+                Dies ist eine exklusive Website-Preview, erstellt von <strong>Velocity</strong>.
             </p>
             <p>
                 Diese Demonstration zeigt das Potenzial einer neuen digitalen 
-                Präsenz für Pöhlmann-Bresan. Der tatsächliche Erwerb erfolgt 
-                ausschließlich über die offiziellen Kanäle des Unternehmens.
+                Präsenz für Pöhlmann-Bresan.
             </p>
             <p class="mono">
-                <a href="https://velocity.calyvent.com" style="color: #C9A227; text-decoration: none;">
+                <a href="https://velocity.calyvent.com" style="color: #D4AF37; text-decoration: none;">
                     velocity.calyvent.com
                 </a>
             </p>
@@ -991,11 +1058,11 @@
     </div>
     
     <script>
-        // Preloader — 2s luxury fade-out (optimized for LCP)
+        // Preloader — 3.5s luxury fade-out
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('preloader').classList.add('hidden');
-            }, 2000);
+            }, 3500);
         });
         
         // Modal
@@ -1015,7 +1082,7 @@
         // Scroll Reveal
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -100px 0px'
         };
         
         const observer = new IntersectionObserver((entries) => {
