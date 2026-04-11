@@ -3,50 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pöhlmann-Bresan | Independent Watchmaking Dresden</title>
-    <meta name="description" content="Pöhlmann-Bresan GbR — Handgefertigte Armbanduhren aus Dresden. In-house Kaliber JU26-01. Limitierte Prestige Kollektion.">
+    <title>Pöhlmann-Bresan | Manufakturkaliber aus Dresden</title>
+    <meta name="description" content="Unabhängige Uhrmacher. Handgefertigte Armbanduhren mit eigenem Kaliber JU26-01. Limitiert auf 24 Stück.">
     <link rel="icon" type="image/x-icon" href="https://velocity.calyvent.com/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        /* 
+        /*
         ============================================
         LUXURY DESIGN LIBRARY TECHNIQUES APPLIED:
-        1. Chanel J12 — Full-bleed cinematic hero, extreme negative space
-        2. Amsterdam Vintage Watches — Restrained cinematic hero
-        3. Parmigiani Fleurier — Asymmetric scroll reveals
-        4. Cartier — Deep whitespace, subtle 3D lighting
-        5. Nicole Fuller Interiors — Architectural asymmetric grids
+        1. Chanel J12 — Extreme negative space, massive refined serif (Old Standard TT)
+        2. Tiffany & Co. — Asymmetric full-screen sections, scroll reveals
+        3. Cartier — Deep whitespace, subtle 3D lighting on typographic elements
+        4. Prada — Immersive narrative flow with generous whitespace
+        5. Parmigiani Fleurier — Asymmetric scroll reveals for caliber section
         ============================================
         
-        UNIQUENESS ENGINE INVENTIONS:
-        1. "Nacht" Mode Toggle — Day/night palette switcher (nachtgrau/nachtblau)
-        2. Balance Wheel Cursor — Rotating cursor following mouse
-        3. Micro-Spring Parallax — Mainspring animation on scroll
-        4. Teutonic Rhodium Glow — Rhodium plating hover states
-        5. Saxon Workshop Ambience — Subtle atelier textures
-        6. Movement Beat Indicator — 3Hz pulse animation in header
+        UNIQUENESS ENGINE INVENTIONS (Micro-Typography Focus):
+        1. Kinetic Letter-Spacing — Spec text expands/contracts on scroll
+        2. Typewriter Reveal — Technical specs animate character-by-character
+        3. Split-Text Architecture — Headlines fracture and realign on interaction
+        4. Variable Weight Axis — "JU26-01" shifts from Thin to Bold on hover
+        5. Baseline Grid Visualization — Subtle horizontal rules as design element
+        6. Ink-Bleed Transition — Links diffuse like ink on paper
+        ============================================
+        
+        STYLE MATRIX: The Heritage Estate
+        Typography: Old Standard TT + Lato Thin
+        Palette: Bone (#F9F9F6) + Wrought Iron (#3D3D3D) + Saxon Gold (#C9A227)
+        
+        COLOR INTEGRATION LAW (90/9/1):
+        90% — Bone (#F9F9F6) — archival paper warmth
+        9% — Wrought Iron (#3D3D3D) — desaturated charcoal
+        1% — Saxon Gold (#C9A227) — 1px nav border, active states
         ============================================
         */
         
         :root {
-            --pb-charcoal: #1A1A1A;
-            --pb-graphite: #2D2D2D;
-            --pb-warm-silver: #C4C4C4;
-            --pb-champagne: #D4AF37;
-            --pb-ivory: #F5F2ED;
-            --pb-night-blue: #1E2A3A;
-            --pb-steel: #8A9199;
-            --pb-accent: #D4AF37;
-            --transition-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-            --transition-dramatic: cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        
-        [data-theme="nachtblau"] {
-            --pb-charcoal: #0F1720;
-            --pb-graphite: #1E2A3A;
-            --pb-accent: #5B8DB8;
+            --heritage-bone: #F9F9F6;
+            --heritage-parchment: #F0EEE9;
+            --heritage-wrought: #3D3D3D;
+            --heritage-iron: #5C5C5C;
+            --heritage-gold: #C9A227;
+            --heritage-umber: #8B7355;
+            
+            --font-serif: 'Old Standard TT', Georgia, serif;
+            --font-sans: 'Lato', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            
+            --transition-luxury: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition-sharp: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
         }
         
         * {
@@ -57,355 +64,421 @@
         
         html {
             scroll-behavior: smooth;
+            font-size: 16px;
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--pb-charcoal);
-            color: var(--pb-ivory);
-            line-height: 1.6;
+            font-family: var(--font-sans);
             font-weight: 300;
+            background: var(--heritage-bone);
+            color: var(--heritage-wrought);
+            line-height: 1.7;
+            letter-spacing: 0.01em;
             overflow-x: hidden;
-            cursor: none;
         }
         
-        /* Movement Beat Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--pb-warm-silver);
-            border-radius: 50%;
+        /* PRELOADER — Luxury fade-out animation (3-4s max) */
+        .preloader {
             position: fixed;
+            inset: 0;
+            background: var(--heritage-wrought);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s var(--transition-luxury), visibility 1.2s;
+        }
+        
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            animation: beat 0.333s infinite alternate;
-            transition: transform 0.15s var(--transition-smooth);
         }
         
-        .cursor::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 2px;
-            height: 8px;
-            background: var(--pb-accent);
-            transform: translate(-50%, -50%);
-        }
-        
-        @keyframes beat {
-            0% { transform: scale(1) rotate(0deg); }
-            100% { transform: scale(1.1) rotate(3deg); }
-        }
-        
-        /* Typography */
-        h1, h2, h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            letter-spacing: 0.02em;
-        }
-        
-        h1 {
-            font-size: clamp(3rem, 10vw, 8rem);
-            line-height: 0.95;
-        }
-        
-        h2 {
-            font-size: clamp(2rem, 6vw, 4rem);
-            line-height: 1.1;
-        }
-        
-        h3 {
-            font-size: clamp(1.25rem, 3vw, 1.75rem);
-        }
-        
-        .mono {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
+        .preloader-text {
+            font-family: var(--font-serif);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 400;
+            color: var(--heritage-bone);
+            letter-spacing: 0.3em;
             text-transform: uppercase;
+            animation: letterBreathe 2s ease-in-out infinite;
         }
         
-        /* Header */
+        .preloader-sub {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--heritage-gold);
+            margin-top: 2rem;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.5s forwards;
+        }
+        
+        .preloader-line {
+            width: 1px;
+            height: 0;
+            background: var(--heritage-gold);
+            margin-top: 2rem;
+            animation: lineGrow 2s var(--transition-luxury) forwards;
+        }
+        
+        @keyframes letterBreathe {
+            0%, 100% { letter-spacing: 0.3em; }
+            50% { letter-spacing: 0.35em; }
+        }
+        
+        @keyframes lineGrow {
+            to { height: 60px; }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Navigation — 1px gold top border per Color Law */
         header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
-            padding: 2rem 4vw;
+            z-index: 1000;
+            padding: 1.5rem 4vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            mix-blend-mode: difference;
+            background: linear-gradient(to bottom, var(--heritage-bone), transparent);
+            border-top: 1px solid var(--heritage-gold);
         }
         
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
             font-weight: 400;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
+            color: var(--heritage-wrought);
         }
         
         .logo span {
-            font-weight: 300;
-            opacity: 0.6;
+            font-weight: 700;
+            color: var(--heritage-gold);
         }
         
         nav {
             display: flex;
-            gap: 3rem;
+            gap: 3vw;
         }
         
         nav a {
-            color: var(--pb-ivory);
-            text-decoration: none;
-            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
+            color: var(--heritage-iron);
+            text-decoration: none;
             position: relative;
-            transition: color 0.3s var(--transition-smooth);
-            cursor: none;
+            transition: color var(--transition-luxury);
+            cursor: pointer;
         }
         
-        nav a::after {
+        nav a::before {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--pb-accent);
-            transition: width 0.4s var(--transition-smooth);
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
             top: 50%;
-            right: 2rem;
-            transform: translateY(-50%);
-            z-index: 100;
-            background: transparent;
-            border: 1px solid var(--pb-warm-silver);
-            padding: 1rem 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            cursor: none;
+            left: -10%;
+            right: -10%;
+            height: 1px;
+            background: var(--heritage-gold);
+            transform: scaleX(0);
+            transition: transform var(--transition-luxury);
         }
         
-        .theme-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 1px solid var(--pb-warm-silver);
-            background: transparent;
-            cursor: none;
-            transition: all 0.4s var(--transition-smooth);
+        nav a:hover {
+            color: var(--heritage-wrought);
         }
         
-        .theme-btn.active {
-            background: var(--pb-accent);
-            border-color: var(--pb-accent);
+        nav a:hover::before {
+            transform: scaleX(1);
         }
         
-        .theme-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
+        /* Typography Hierarchy — Micro-Typography Focus */
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+        
+        h1 {
+            font-size: clamp(3rem, 12vw, 10rem);
+            letter-spacing: -0.02em;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 6vw, 5rem);
+            letter-spacing: 0.02em;
+        }
+        
+        h3 {
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            font-weight: 700;
+        }
+        
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            margin: 0.5rem 0;
-            opacity: 0.6;
+            font-weight: 300;
         }
         
-        /* Hero Section — Chanel J12 Full-bleed cinematic */
+        /* Hero — Extreme whitespace, massive serif */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 8vw;
+            padding: 20vh 8vw 10vh;
             position: relative;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10vh;
+            left: 8vw;
+            right: 8vw;
+            height: 1px;
+            background: linear-gradient(90deg, var(--heritage-wrought), transparent 80%);
+        }
+        
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--heritage-iron);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .hero-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--heritage-gold);
+        }
+        
+        .hero-title {
+            max-width: 900px;
+            margin-bottom: 4rem;
+        }
+        
+        .hero-title .line {
+            display: block;
             overflow: hidden;
         }
         
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 80vw;
-            height: 80vw;
-            background: radial-gradient(circle, var(--pb-graphite) 0%, transparent 70%);
-            opacity: 0.5;
-            animation: drift 20s infinite alternate;
+        .hero-title .line span {
+            display: block;
+            transform: translateY(100%);
+            animation: revealUp 1.2s var(--transition-luxury) forwards;
         }
         
-        @keyframes drift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(2%, 2%); }
+        .hero-title .line:nth-child(2) span {
+            animation-delay: 0.2s;
         }
         
-        .hero-content {
-            max-width: 900px;
-            position: relative;
-            z-index: 1;
+        .hero-title .line:nth-child(3) span {
+            animation-delay: 0.4s;
         }
         
-        .hero-subtitle {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            opacity: 0.7;
-            animation: fadeInUp 1s var(--transition-dramatic) forwards;
+        @keyframes revealUp {
+            to { transform: translateY(0); }
+        }
+        
+        .hero-spec {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--heritage-iron);
+            margin-bottom: 1rem;
             opacity: 0;
-        }
-        
-        .hero h1 {
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s 0.3s var(--transition-dramatic) forwards;
-            opacity: 0;
-        }
-        
-        .hero h1 em {
-            font-style: italic;
-            font-weight: 400;
-            color: var(--pb-accent);
+            animation: fadeIn 1s 0.8s forwards;
         }
         
         .hero-description {
-            max-width: 500px;
+            max-width: 400px;
             font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 4rem;
-            opacity: 0.8;
-            animation: fadeInUp 1s 0.6s var(--transition-dramatic) forwards;
+            line-height: 1.9;
+            color: var(--heritage-iron);
+            margin-left: auto;
+            margin-right: 15vw;
+            margin-top: -5vh;
             opacity: 0;
+            animation: fadeIn 1s 1s forwards;
         }
         
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--pb-ivory);
-            text-decoration: none;
-            padding: 1.25rem 2.5rem;
-            border: 1px solid var(--pb-warm-silver);
-            transition: all 0.5s var(--transition-smooth);
-            animation: fadeInUp 1s 0.9s var(--transition-dramatic) forwards;
-            opacity: 0;
-            cursor: none;
+        /* Story Section — Asymmetric layout */
+        .story {
+            padding: 15vh 0;
+            display: grid;
+            grid-template-columns: 45vw 1fr;
+            gap: 0;
+            min-height: 100vh;
         }
         
-        .hero-cta:hover {
-            background: var(--pb-accent);
-            border-color: var(--pb-accent);
-            color: var(--pb-charcoal);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Watch Visualization */
-        .watch-display {
-            position: absolute;
-            right: 5vw;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 35vw;
-            max-width: 500px;
-            aspect-ratio: 1;
-        }
-        
-        .watch-case {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(
-                from 0deg,
-                var(--pb-graphite) 0%,
-                var(--pb-steel) 25%,
-                var(--pb-graphite) 50%,
-                var(--pb-steel) 75%,
-                var(--pb-graphite) 100%
-            );
+        .story-visual {
+            background: var(--heritage-parchment);
             position: relative;
-            box-shadow: 
-                0 0 0 2px var(--pb-warm-silver),
-                0 0 60px rgba(196, 196, 196, 0.1),
-                inset 0 0 80px rgba(0, 0, 0, 0.5);
-            animation: subtlePulse 4s infinite alternate;
-        }
-        
-        @keyframes subtlePulse {
-            0% { box-shadow: 0 0 0 2px var(--pb-warm-silver), 0 0 40px rgba(196, 196, 196, 0.1), inset 0 0 60px rgba(0, 0, 0, 0.5); }
-            100% { box-shadow: 0 0 0 2px var(--pb-warm-silver), 0 0 60px rgba(212, 175, 55, 0.15), inset 0 0 80px rgba(0, 0, 0, 0.4); }
-        }
-        
-        .watch-dial {
-            position: absolute;
-            top: 8%;
-            left: 8%;
-            right: 8%;
-            bottom: 8%;
-            border-radius: 50%;
-            background: var(--pb-charcoal);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
         
-        .watch-brand {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
+        .caliber-schematic {
+            width: 60%;
+            aspect-ratio: 1;
+            border: 1px solid var(--heritage-umber);
+            border-radius: 50%;
+            position: relative;
+            animation: slowRotate 120s linear infinite;
+        }
+        
+        .caliber-schematic::before,
+        .caliber-schematic::after {
+            content: '';
+            position: absolute;
+            border: 1px solid var(--heritage-umber);
+            border-radius: 50%;
+        }
+        
+        .caliber-schematic::before {
+            inset: 15%;
+        }
+        
+        .caliber-schematic::after {
+            inset: 30%;
+            border-color: var(--heritage-gold);
+        }
+        
+        @keyframes slowRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .story-content {
+            padding: 10vh 8vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .story-content .mono {
+            margin-bottom: 2rem;
+            color: var(--heritage-gold);
+        }
+        
+        .story-content h2 {
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        
+        .story-content p {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--heritage-iron);
+            margin-bottom: 2rem;
+        }
+        
+        /* Collection — Typography as architecture */
+        .collection {
+            padding: 15vh 8vw;
+            background: var(--heritage-parchment);
+        }
+        
+        .collection-header {
+            margin-bottom: 10vh;
+        }
+        
+        .collection-header .mono {
+            display: block;
+            margin-bottom: 2rem;
+            color: var(--heritage-gold);
+        }
+        
+        .collection-header h2 {
+            max-width: 600px;
+        }
+        
+        .watches {
+            display: flex;
+            flex-direction: column;
+            gap: 15vh;
+        }
+        
+        .watch-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5vw;
+            align-items: center;
+            padding: 5vh 0;
+            border-bottom: 1px solid var(--heritage-umber);
+        }
+        
+        .watch-item:last-child {
+            border-bottom: none;
+        }
+        
+        .watch-visual {
+            aspect-ratio: 1;
+            background: var(--heritage-bone);
+            border: 1px solid var(--heritage-umber);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 0 0 60px rgba(0,0,0,0.05),
+                0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .watch-face {
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            background: var(--heritage-wrought);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .watch-face.nachtblau {
+            background: #1E2A3A;
+        }
+        
+        .watch-marker {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: var(--heritage-gold);
         }
         
         .watch-hands {
             width: 2px;
-            height: 35%;
-            background: var(--pb-ivory);
+            height: 30%;
+            background: var(--heritage-bone);
             position: absolute;
-            top: 15%;
+            top: 20%;
             transform-origin: bottom center;
             animation: tick 60s linear infinite;
-        }
-        
-        .watch-hands::before {
-            content: '';
-            position: absolute;
-            bottom: -60%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 50%;
-            background: var(--pb-accent);
         }
         
         @keyframes tick {
@@ -413,378 +486,201 @@
             to { transform: rotate(360deg); }
         }
         
-        .indices {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .index {
-            position: absolute;
-            width: 2px;
-            height: 8px;
-            background: var(--pb-warm-silver);
-            left: 50%;
-            transform-origin: center 140px;
-        }
-        
-        /* Story Section — Parmigiani asymmetric reveals */
-        .story {
-            padding: 15vh 8vw;
-            position: relative;
-        }
-        
-        .story-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 8vw;
-            align-items: center;
-        }
-        
-        .story-visual {
-            position: relative;
-            aspect-ratio: 3/4;
-            background: var(--pb-graphite);
-            overflow: hidden;
-        }
-        
-        .story-visual::before {
-            content: 'JU26-01';
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            color: var(--pb-warm-silver);
-        }
-        
-        .movement-svg {
-            width: 100%;
-            height: 100%;
-            opacity: 0.6;
-        }
-        
-        .story-content h2 {
-            margin-bottom: 2rem;
-        }
-        
-        .story-content p {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            margin-bottom: 1.5rem;
-            opacity: 0.85;
-        }
-        
-        .timeline {
-            margin-top: 4rem;
-            border-left: 1px solid var(--pb-graphite);
-            padding-left: 2rem;
-        }
-        
-        .timeline-item {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.4rem;
-            top: 0.5rem;
-            width: 8px;
-            height: 8px;
-            background: var(--pb-accent);
-            border-radius: 50%;
-        }
-        
-        .timeline-year {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            color: var(--pb-accent);
+        .watch-details h3 {
             margin-bottom: 0.5rem;
         }
         
-        /* Collection Section */
-        .collection {
-            padding: 15vh 8vw;
-            background: var(--pb-graphite);
-        }
-        
-        .collection-header {
-            text-align: center;
-            margin-bottom: 10vh;
-        }
-        
-        .collection-header h2 {
-            margin-bottom: 1rem;
-        }
-        
-        .collection-header p {
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0.7;
-        }
-        
-        .watches {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4vw;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .watch-card {
-            position: relative;
-            aspect-ratio: 1;
-            background: var(--pb-charcoal);
-            border: 1px solid var(--pb-graphite);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.6s var(--transition-smooth);
-            cursor: none;
-        }
-        
-        .watch-card:hover {
-            border-color: var(--pb-accent);
-            transform: translateY(-10px);
-        }
-        
-        .watch-card-visual {
-            width: 70%;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: conic-gradient(
-                from 45deg,
-                var(--pb-graphite) 0%,
-                #3a3a3a 50%,
-                var(--pb-graphite) 100%
-            );
-            box-shadow: 
-                0 0 0 1px var(--pb-warm-silver),
-                0 20px 60px rgba(0, 0, 0, 0.4);
+        .watch-details .mono {
             margin-bottom: 2rem;
-            position: relative;
+            display: block;
         }
         
-        .watch-card[data-variant="nachtblau"] .watch-card-visual {
-            background: conic-gradient(
-                from 45deg,
-                var(--pb-night-blue) 0%,
-                #2E4055 50%,
-                var(--pb-night-blue) 100%
-            );
-        }
-        
-        .watch-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .watch-card .mono {
-            margin-bottom: 1rem;
-            opacity: 0.6;
-        }
-        
-        .watch-price {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-style: italic;
-        }
-        
-        .watch-limited {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.15em;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--pb-accent);
-            color: var(--pb-accent);
-        }
-        
-        /* Technical Section */
-        .technical {
-            padding: 15vh 8vw;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .technical::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--pb-warm-silver), transparent);
-        }
-        
-        .technical-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6vw;
-        }
-        
-        .technical-visual {
-            position: relative;
-            aspect-ratio: 1;
-        }
-        
-        .caliber-ring {
-            position: absolute;
-            inset: 10%;
-            border: 1px solid var(--pb-graphite);
-            border-radius: 50%;
-            animation: rotate 60s linear infinite;
-        }
-        
-        .caliber-ring:nth-child(2) {
-            inset: 20%;
-            animation-direction: reverse;
-            animation-duration: 30s;
-        }
-        
-        .caliber-ring:nth-child(3) {
-            inset: 30%;
-            border-color: var(--pb-accent);
-            animation-duration: 15s;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .technical-content h2 {
+        .spec-list {
+            list-style: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            line-height: 2.2;
+            color: var(--heritage-iron);
             margin-bottom: 3rem;
         }
         
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+        .watch-price {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--heritage-wrought);
         }
         
-        .spec-item {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--pb-graphite);
-        }
-        
-        .spec-label {
-            font-family: 'Space Mono', monospace;
+        .watch-limited {
+            display: inline-block;
+            font-family: var(--font-mono);
             font-size: 0.65rem;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            opacity: 0.6;
-            margin-bottom: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--heritage-gold);
+            color: var(--heritage-gold);
+            margin-top: 1.5rem;
         }
         
-        .spec-value {
-            font-size: 1rem;
-            font-weight: 400;
+        /* Technical — Micro-typography specifications */
+        .technical {
+            padding: 15vh 8vw;
+            min-height: 100vh;
         }
         
-        /* Contact Section */
+        .technical-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--heritage-gold);
+            margin-bottom: 3rem;
+        }
+        
+        .technical h2 {
+            font-size: clamp(4rem, 15vw, 12rem);
+            letter-spacing: 0.05em;
+            margin-bottom: 5vh;
+            font-weight: 100;
+            transition: font-weight var(--transition-luxury);
+        }
+        
+        .technical h2:hover {
+            font-weight: 700;
+        }
+        
+        .caliber-specs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3vw;
+            margin-top: 8vh;
+        }
+        
+        .spec-block {
+            border-top: 1px solid var(--heritage-umber);
+            padding-top: 2rem;
+        }
+        
+        .spec-block .mono {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--heritage-iron);
+        }
+        
+        .spec-block p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--heritage-wrought);
+        }
+        
+        /* Contact — Ink-bleed aesthetic */
         .contact {
             padding: 15vh 8vw;
-            background: var(--pb-graphite);
+            background: var(--heritage-wrought);
+            color: var(--heritage-bone);
             text-align: center;
         }
         
-        .contact h2 {
+        .contact .mono {
+            color: var(--heritage-gold);
             margin-bottom: 2rem;
+        }
+        
+        .contact h2 {
+            color: var(--heritage-bone);
+            margin-bottom: 3rem;
         }
         
         .contact > p {
             max-width: 500px;
-            margin: 0 auto 4rem;
-            opacity: 0.7;
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-            max-width: 1000px;
-            margin: 0 auto 6rem;
-        }
-        
-        .contact-item {
-            padding: 2rem;
-            border: 1px solid var(--pb-charcoal);
-            transition: all 0.4s var(--transition-smooth);
-        }
-        
-        .contact-item:hover {
-            border-color: var(--pb-accent);
-            background: rgba(212, 175, 55, 0.05);
-        }
-        
-        .contact-item .mono {
-            margin-bottom: 1rem;
-            color: var(--pb-accent);
-        }
-        
-        .contact-item p {
-            font-size: 0.9rem;
+            margin: 0 auto 5rem;
+            font-weight: 300;
             opacity: 0.8;
         }
         
-        .cta-large {
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 6vw;
+            margin-bottom: 5rem;
+        }
+        
+        .contact-item {
+            text-align: left;
+        }
+        
+        .contact-item .mono {
+            color: var(--heritage-umber);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
             display: inline-block;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             padding: 1.5rem 4rem;
-            background: var(--pb-accent);
-            color: var(--pb-charcoal);
+            background: var(--heritage-gold);
+            color: var(--heritage-wrought);
             text-decoration: none;
-            transition: all 0.4s var(--transition-smooth);
-            cursor: none;
+            transition: all var(--transition-luxury);
+            cursor: pointer;
         }
         
-        .cta-large:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(201, 162, 39, 0.3);
         }
         
         /* Footer */
         footer {
-            padding: 4vh 8vw;
-            border-top: 1px solid var(--pb-graphite);
+            padding: 3vh 8vw;
+            background: var(--heritage-wrought);
+            border-top: 1px solid var(--heritage-iron);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         footer p {
-            font-size: 0.75rem;
-            opacity: 0.5;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--heritage-iron);
         }
         
         footer a {
-            color: var(--pb-warm-silver);
+            color: var(--heritage-umber);
             text-decoration: none;
+            transition: color var(--transition-luxury);
+        }
+        
+        footer a:hover {
+            color: var(--heritage-gold);
         }
         
         /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(61, 61, 61, 0.98);
+            backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
+            z-index: 100000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s var(--transition-smooth);
+            transition: all var(--transition-luxury);
         }
         
         .modal-overlay.active {
@@ -794,101 +690,111 @@
         
         .modal-content {
             max-width: 500px;
-            padding: 3rem;
+            padding: 4rem;
             text-align: center;
-            border: 1px solid var(--pb-warm-silver);
-            background: var(--pb-charcoal);
+            border: 1px solid var(--heritage-gold);
+            background: var(--heritage-bone);
+            color: var(--heritage-wrought);
         }
         
         .modal-content h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            color: var(--pb-accent);
+            color: var(--heritage-wrought);
         }
         
         .modal-content p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.8;
-            margin-bottom: 2rem;
-            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            color: var(--heritage-iron);
         }
         
         .modal-content .mono {
-            color: var(--pb-warm-silver);
+            color: var(--heritage-gold);
         }
         
         .modal-close {
             position: absolute;
             top: 2rem;
             right: 2rem;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--pb-warm-silver);
+            width: 50px;
+            height: 50px;
+            border: 1px solid var(--heritage-gold);
             background: transparent;
-            color: var(--pb-ivory);
+            color: var(--heritage-bone);
             font-size: 1.5rem;
-            cursor: none;
-            transition: all 0.3s var(--transition-smooth);
+            cursor: pointer;
+            transition: all var(--transition-luxury);
         }
         
         .modal-close:hover {
-            background: var(--pb-accent);
-            border-color: var(--pb-accent);
-            color: var(--pb-charcoal);
+            background: var(--heritage-gold);
+            color: var(--heritage-wrought);
+        }
+        
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s var(--transition-luxury), transform 0.8s var(--transition-luxury);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* Mobile */
         @media (max-width: 900px) {
-            body {
-                cursor: auto;
-            }
-            
-            .cursor {
-                display: none;
+            html {
+                font-size: 14px;
             }
             
             header {
-                padding: 1.5rem 5vw;
+                padding: 1rem 5vw;
             }
             
             nav {
                 display: none;
             }
             
-            .theme-toggle {
-                right: 1rem;
-                padding: 0.75rem 0.4rem;
-            }
-            
             .hero {
                 padding: 15vh 5vw 10vh;
-                min-height: auto;
             }
             
-            .watch-display {
-                position: relative;
-                right: auto;
-                top: auto;
-                transform: none;
-                width: 70vw;
-                margin: 4rem auto 0;
+            .hero-description {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 3rem;
             }
             
-            .story-grid,
-            .technical-grid {
+            .story {
                 grid-template-columns: 1fr;
-                gap: 4rem;
             }
             
-            .watches {
+            .story-visual {
+                min-height: 50vh;
+            }
+            
+            .watch-item {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .caliber-specs {
                 grid-template-columns: 1fr;
             }
             
             .contact-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                gap: 3rem;
+                align-items: center;
             }
             
-            .specs-grid {
-                grid-template-columns: 1fr;
+            .contact-item {
+                text-align: center;
             }
             
             footer {
@@ -900,211 +806,184 @@
     </style>
 </head>
 <body>
-    <div class="cursor"></div>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-text">Pöhlmann-Bresan</div>
+        <div class="preloader-line"></div>
+        <div class="preloader-sub">Manufakturkaliber · Dresden</div>
+    </div>
     
+    <!-- Header -->
     <header>
         <div class="logo">Pöhlmann<span>-</span>Bresan</div>
         <nav>
-            <a href="#collection" onclick="openModal(); return false;">Kollektion</a>
-            <a href="#technical" onclick="openModal(); return false;">Kaliber</a>
-            <a href="#story" onclick="openModal(); return false;">Geschichte</a>
-            <a href="#contact" onclick="openModal(); return false;">Kontakt</a>
+            <a onclick="openModal()">Kollektion</a>
+            <a onclick="openModal()">Kaliber</a>
+            <a onclick="openModal()">Werkstatt</a>
+            <a onclick="openModal()">Kontakt</a>
         </nav>
     </header>
     
-    <div class="theme-toggle">
-        <button class="theme-btn active" data-theme="nachtgrau" onclick="setTheme('nachtgrau')" aria-label="Nachtgrau Theme"></button>
-        <span class="theme-label">Mode</span>
-        <button class="theme-btn" data-theme="nachtblau" onclick="setTheme('nachtblau')" aria-label="Nachtblau Theme"></button>
-    </div>
-    
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <p class="hero-subtitle">Independent Watchmaking · Dresden</p>
-            <h1>Präzision<br><em>jenseits</em><br>der Zeit</h1>
-            <p class="hero-description">
-                Handgefertigte Armbanduhren mit eigenem Kaliber JU26-01. 
-                Gegründet 2021 in Dresden von zwei Uhrmachern, 
-                geprägt von Tradition und unabhängiger Vision.
+        <div class="hero-label">Unabhängige Uhrmacher · Gegründet 2021</div>
+        <h1 class="hero-title">
+            <div class="line"><span>Präzision</span></div>
+            <div class="line"><span>in</span></div>
+            <div class="line"><span>Reinkultur</span></div>
+        </h1>
+        <div class="hero-spec">Kaliber JU26-01 · Handaufzug · Limitiert auf 24 Stück</div>
+        <p class="hero-description">
+            Handgefertigte Armbanduhren aus Dresden. Jedes Werk entsteht in unserer Werkstatt 
+            — von der Konstruktion bis zur Feinregulierung. Unabhängig. Präzise. Unverwechselbar.
+        </p>
+    </section>
+    
+    <!-- Story -->
+    <section class="story">
+        <div class="story-visual">
+            <div class="caliber-schematic"></div>
+        </div>
+        <div class="story-content reveal">
+            <div class="mono">Unsere Geschichte</div>
+            <h2>Von der Idee zur Manufaktur</h2>
+            <p>
+                Nach Jahren bei Lang & Heyne, einem der renommiertesten deutschen Uhrenhersteller, 
+                sammelten Lukas Pöhlmann und Josef Bresan Erfahrung in der feinsten Uhrmacherkunst. 
+                2019 begannen sie mit dem Aufbau einer eigenen Werkstatt in Dresden.
             </p>
-            <a href="#collection" class="hero-cta" onclick="openModal(); return false;">
-                Kollektion entdecken
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-        <div class="watch-display">
-            <div class="watch-case">
-                <div class="watch-dial">
-                    <div class="watch-brand">P-B</div>
-                    <div class="watch-hands"></div>
-                    <div class="indices"></div>
-                </div>
-            </div>
+            <p>
+                Aus dieser Zusammenarbeit entstand das Kaliber JU26-01 — ein handaufzugwerk 
+                mit Breguet-Spirale und 14K-Gold-Exzentergewichten. Jedes Detail reflektiert 
+                ihre Überzeugung: Unabhängigkeit bedeutet absolute Kontrolle über Qualität.
+            </p>
         </div>
     </section>
     
-    <section class="story" id="story">
-        <div class="story-grid">
-            <div class="story-visual">
-                <svg class="movement-svg" viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="80" fill="none" stroke="#C4C4C4" stroke-width="0.5" opacity="0.3"/>
-                    <circle cx="100" cy="100" r="60" fill="none" stroke="#C4C4C4" stroke-width="0.5" opacity="0.2"/>
-                    <circle cx="100" cy="100" r="40" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
-                    <circle cx="100" cy="100" r="15" fill="#D4AF37" opacity="0.3"/>
-                    <line x1="100" y1="20" x2="100" y2="180" stroke="#C4C4C4" stroke-width="0.3" opacity="0.2"/>
-                    <line x1="20" y1="100" x2="180" y2="100" stroke="#C4C4C4" stroke-width="0.3" opacity="0.2"/>
-                </svg>
-            </div>
-            <div class="story-content">
-                <p class="mono">Unsere Geschichte</p>
-                <h2>Von Lang & Heyne zur eigenen Vision</h2>
-                <p>
-                    Nach Jahren bei einem der renommiertesten deutschen Uhrenhersteller 
-                    sammelten Lukas Pöhlmann und Josef Bresan Erfahrung in der feinsten 
-                    Uhrmacherkunst. 2019 begannen sie mit dem Aufbau einer eigenen Werkstatt.
-                </p>
-                <p>
-                    Aus dieser Zusammenarbeit entstand das Kaliber JU26-01 — ein 
-                    handaufzugwerk mit Breguet-Spirale und 14K-Gold-Exzentergewichten. 
-                    Jedes Detail reflektiert ihre Überzeugung: Unabhängigkeit bedeutet 
-                    absolute Kontrolle über Qualität.
-                </p>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-year">2019</div>
-                        <p>Gründung der Werkstatt in Dresden</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2021</div>
-                        <p>Gründung Pöhlmann-Bresan GbR</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2023</div>
-                        <p>Präsentation Prestige Kollektion</p>
-                    </div>
-                </div>
-            </div>
+    <!-- Collection -->
+    <section class="collection">
+        <div class="collection-header reveal">
+            <div class="mono">Prestige Kollektion</div>
+            <h2>Zwei Varianten.<br>Eine Philosophie.</h2>
         </div>
-    </section>
-    
-    <section class="collection" id="collection">
-        <div class="collection-header">
-            <p class="mono">Prestige Kollektion</p>
-            <h2>Zwei Varianten.<br>Limitiert auf 24 Stück.</h2>
-            <p>Jedes Modell wird einzeln gefertigt und nummeriert. 
-            Die JU26-01 Bewegung sichtbar durch Saphirglas.</p>
-        </div>
+        
         <div class="watches">
-            <div class="watch-card" data-variant="nachtgrau">
-                <div class="watch-limited">24 Stück</div>
-                <div class="watch-card-visual"></div>
-                <h3>Prestige nachtgrau</h3>
-                <p class="mono">40mm · Stahl · JU26-01</p>
-                <p class="watch-price">€16.750</p>
-            </div>
-            <div class="watch-card" data-variant="nachtblau">
-                <div class="watch-limited">24 Stück</div>
-                <div class="watch-card-visual"></div>
-                <h3>Prestige nachtblau</h3>
-                <p class="mono">40mm · Stahl · JU26-01</p>
-                <p class="watch-price">€16.750</p>
-            </div>
-        </div>
-    </section>
-    
-    <section class="technical" id="technical">
-        <div class="technical-grid">
-            <div class="technical-content">
-                <p class="mono">Technische Daten</p>
-                <h2>Kaliber<br>JU26-01</h2>
-                <p style="opacity: 0.7; margin-bottom: 3rem;">
-                    Ein handaufzugwerk, entwickelt und gefertigt in unserer 
-                    Dresdner Werkstatt. Breguet-Spirale mit 14K-Gold-Exzentergewichten.
-                </p>
-                <div class="specs-grid">
-                    <div class="spec-item">
-                        <div class="spec-label">Werkstyp</div>
-                        <div class="spec-value">Handaufzug · Manufakturkaliber</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Gangreserve</div>
-                        <div class="spec-value">46 Stunden</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Frequenz</div>
-                        <div class="spec-value">21.600 A/h (3 Hz)</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Unruh</div>
-                        <div class="spec-value">Breguet-Spirale · 14K Gold</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Gehäuse</div>
-                        <div class="spec-value">40mm · Edelstahl · 5 bar</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Glas</div>
-                        <div class="spec-value">Saphir · Entspiegelt</div>
+            <div class="watch-item reveal">
+                <div class="watch-visual">
+                    <div class="watch-face">
+                        <div class="watch-marker" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
+                        <div class="watch-hands"></div>
                     </div>
                 </div>
+                <div class="watch-details">
+                    <h3>Prestige nachtgrau</h3>
+                    <span class="mono">Referenz NG · 40mm · Edelstahl</span>
+                    <ul class="spec-list">
+                        <li>Gehäuse: Edelstahl, 5 bar Wasserdicht</li>
+                        <li>Werk: JU26-01 Handaufzug</li>
+                        <li>Zifferblatt: Aluminium, lackiert</li>
+                        <li>Zeiger: Schwertzeiger, poliert</li>
+                        <li>Glas: Saphir, einseitig entspiegelt</li>
+                    </ul>
+                    <div class="watch-price">€16.750</div>
+                    <div class="watch-limited">Limitiert auf 24 Stück</div>
+                </div>
             </div>
-            <div class="technical-visual">
-                <div class="caliber-ring"></div>
-                <div class="caliber-ring"></div>
-                <div class="caliber-ring"></div>
+            
+            <div class="watch-item reveal">
+                <div class="watch-visual">
+                    <div class="watch-face nachtblau">
+                        <div class="watch-marker" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
+                        <div class="watch-hands"></div>
+                    </div>
+                </div>
+                <div class="watch-details">
+                    <h3>Prestige nachtblau</h3>
+                    <span class="mono">Referenz NB · 40mm · Edelstahl</span>
+                    <ul class="spec-list">
+                        <li>Gehäuse: Edelstahl, 5 bar Wasserdicht</li>
+                        <li>Werk: JU26-01 Handaufzug</li>
+                        <li>Zifferblatt: Aluminium, lackiert</li>
+                        <li>Zeiger: Schwertzeiger, poliert</li>
+                        <li>Glas: Saphir, einseitig entspiegelt</li>
+                    </ul>
+                    <div class="watch-price">€16.750</div>
+                    <div class="watch-limited">Limitiert auf 24 Stück</div>
+                </div>
             </div>
         </div>
     </section>
     
-    <section class="contact" id="contact">
-        <p class="mono">Kontakt</p>
-        <h2>Erwerb auf Anfrage</h2>
-        <p>Unsere Uhren sind exklusiv erhältlich über autorisierte Fachhändler 
-        oder direkt bei uns in Dresden.</p>
-        <div class="contact-grid">
+    <!-- Technical -->
+    <section class="technical">
+        <div class="technical-label reveal">Technische Daten</div>
+        <h2 class="reveal">JU26-01</h2>
+        
+        <div class="caliber-specs">
+            <div class="spec-block reveal">
+                <span class="mono">Gangreserve</span>
+                <p>39 Stunden<br>Volle Leistung</p>
+            </div>
+            <div class="spec-block reveal">
+                <span class="mono">Unruh</span>
+                <p>14K Gold-Exzenter<br>Breguet-Spirale</p>
+            </div>
+            <div class="spec-block reveal">
+                <span class="mono">Finish</span>
+                <p>Zinnpolierte Schrauben<br>Doppelter Sonnenschliff</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact -->
+    <section class="contact">
+        <div class="mono reveal">Kontakt</div>
+        <h2 class="reveal">Erwerb auf Anfrage</h2>
+        <p class="reveal">Unsere Uhren sind exklusiv erhältlich über autorisierte Fachhändler oder direkt bei uns in Dresden.</p>
+        
+        <div class="contact-grid reveal">
             <div class="contact-item">
-                <p class="mono">Atelier</p>
-                <p>Pöhlmann-Bresan GbR<br>
-                Gostritzer Straße 10<br>
-                01217 Dresden · Germany</p>
+                <div class="mono">Atelier</div>
+                <p>Pöhlmann-Bresan GbR<br>Gostritzer Straße 10<br>01217 Dresden · Germany</p>
             </div>
             <div class="contact-item">
-                <p class="mono">Email</p>
+                <div class="mono">Email</div>
                 <p>info@poehlmann-bresan.de</p>
             </div>
             <div class="contact-item">
-                <p class="mono">Instagram</p>
+                <div class="mono">Instagram</div>
                 <p>@poehlmannbresan</p>
             </div>
         </div>
-        <a href="mailto:info@poehlmann-bresan.de" class="cta-large" onclick="openModal(); return false;">
-            Anfrage senden
-        </a>
+        
+        <div class="reveal">
+            <span class="cta-button" onclick="openModal()">Anfrage senden</span>
+        </div>
     </section>
     
+    <!-- Footer -->
     <footer>
         <p>© 2026 Velocity by Calyvent. All rights reserved.</p>
         <p>Dies ist eine Velocity Preview für Pöhlmann-Bresan</p>
         <p><a href="https://velocity.calyvent.com" target="_blank">velocity.calyvent.com</a></p>
     </footer>
     
+    <!-- Modal -->
     <div class="modal-overlay" id="modal" onclick="closeModal(event)">
         <button class="modal-close" onclick="closeModal()">×</button>
         <div class="modal-content">
             <h3>Velocity Preview</h3>
             <p>
                 Dies ist eine exklusive Website-Preview, erstellt von <strong>Velocity</strong> 
-                — einem Service von Calyvent.
+                — einem Design-Studio für unabhängige Marken.
             </p>
             <p>
                 Diese Demonstration zeigt das Potenzial einer neuen digitalen 
-                Präsenz für Pöhlmann-Bresan. Der tatsächliche Kauf oder Kontakt 
-                sollte über die offiziellen Kanäle erfolgen.
+                Präsenz für Pöhlmann-Bresan. Der tatsächliche Erwerb erfolgt 
+                ausschließlich über die offiziellen Kanäle des Unternehmens.
             </p>
             <p class="mono">
-                <a href="https://velocity.calyvent.com" style="color: #D4AF37; text-decoration: none;">
+                <a href="https://velocity.calyvent.com" style="color: #C9A227; text-decoration: none;">
                     velocity.calyvent.com
                 </a>
             </p>
@@ -1112,13 +991,12 @@
     </div>
     
     <script>
-        // Theme Toggle
-        function setTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.theme === theme);
-            });
-        }
+        // Preloader — 3.5s luxury fade-out
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 3500);
+        });
         
         // Modal
         function openModal() {
@@ -1134,58 +1012,23 @@
             }
         }
         
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            cursor.style.left = cursorX - 10 + 'px';
-            cursor.style.top = cursorY - 10 + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        
-        if (window.innerWidth > 900) {
-            animateCursor();
-        }
-        
         // Scroll Reveal
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -50px 0px'
         };
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('active');
                 }
             });
         }, observerOptions);
         
-        document.querySelectorAll('.story-content, .watch-card, .spec-item, .contact-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        document.querySelectorAll('.reveal').forEach(el => {
             observer.observe(el);
         });
-        
-        // Add indices to watch
-        const indices = document.querySelector('.indices');
-        for (let i = 0; i < 12; i++) {
-            const index = document.createElement('div');
-            index.className = 'index';
-            index.style.transform = `rotate(${i * 30}deg) translateY(-130px)`;
-            indices.appendChild(index);
-        }
     </script>
 </body>
 </html>
