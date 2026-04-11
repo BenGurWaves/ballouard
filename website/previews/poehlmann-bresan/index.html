@@ -991,11 +991,11 @@
     </div>
     
     <script>
-        // Preloader — 3.5s luxury fade-out
+        // Preloader — 2s luxury fade-out (optimized for LCP)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('preloader').classList.add('hidden');
-            }, 3500);
+            }, 2000);
         });
         
         // Modal
