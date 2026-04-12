@@ -12,11 +12,11 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0a;
-  --sf:#0f0f0e;
-  --tx:#ccc8bf;
-  --dim:rgba(204,200,191,.22);
-  --gold:#a08c6c;
+  --bg:#090908;
+  --sf:#0e0e0d;
+  --tx:#c8c4bb;
+  --dim:rgba(200,196,187,.2);
+  --gold:#9a876b;
   --e:cubic-bezier(.16,1,.3,1);
 }
 html{overflow-x:hidden;scrollbar-width:none}
@@ -30,278 +30,253 @@ a,button{cursor:none}
 body::after{
   content:'';position:fixed;inset:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity:.012;pointer-events:none;z-index:9999;
+  opacity:.012;pointer-events:none;z-index:9998;
 }
 
+/* ═══ CURSOR — soft dot with 1-second pulse (ticking) ═══ */
 .cur{
   position:fixed;width:8px;height:8px;
-  background:rgba(204,200,191,.5);border-radius:50%;
-  pointer-events:none;z-index:10000;
-  transform:translate(-50%,-50%);
-  transition:width .35s var(--e),height .35s var(--e),background .3s;
+  background:rgba(200,196,187,.45);border-radius:50%;
+  pointer-events:none;z-index:10000;transform:translate(-50%,-50%);
+  transition:width .35s var(--e),height .35s var(--e),background .3s,border .3s;
   mix-blend-mode:difference;
+  animation:tick 1s ease-in-out infinite;
 }
-.cur.h{width:44px;height:44px;background:rgba(204,200,191,.06);border:1px solid rgba(204,200,191,.25)}
+@keyframes tick{0%,100%{box-shadow:0 0 0 0 rgba(200,196,187,0)}50%{box-shadow:0 0 0 3px rgba(200,196,187,.06)}}
+.cur.h{width:48px;height:48px;background:transparent;border:1px solid rgba(200,196,187,.2);animation:none}
 
-/* ═══ PRELOADER — character-by-character build ═══ */
-.pre{position:fixed;inset:0;background:var(--bg);z-index:10001;display:flex;align-items:center;justify-content:center}
-.pre.go{clip-path:inset(0 0 100% 0);transition:clip-path 1.2s var(--e)}
-.pre-word{
-  font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;
-  letter-spacing:.4em;text-transform:uppercase;color:var(--tx);
-  display:flex;overflow:hidden;
+/* ═══ SCROLL PROGRESS — rotating gold hand ═══ */
+.progress{
+  position:fixed;bottom:28px;right:28px;width:36px;height:36px;z-index:100;
+  opacity:.3;transition:opacity .5s;
 }
-.pre-word span{display:inline-block;transform:translateY(100%);animation:charUp .5s var(--e) forwards}
-@keyframes charUp{to{transform:translateY(0)}}
+.progress.scrolled{opacity:.6}
+.progress svg{width:100%;height:100%}
+.progress-track{fill:none;stroke:rgba(200,196,187,.06);stroke-width:1}
+.progress-hand{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;
+  stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 0s}
 
-/* ═══ NAV — shrinks, hides on scroll-down, reveals on scroll-up ═══ */
+/* ═══ PRELOADER — engraving reveal ═══ */
+.pre{position:fixed;inset:0;background:var(--bg);z-index:10001;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pre.go{clip-path:inset(0 0 100% 0);transition:clip-path 1.4s var(--e)}
+.pre-brand{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--tx);
+  clip-path:inset(0 100% 0 0);animation:engrave 1.6s cubic-bezier(.4,0,.2,1) .3s forwards;
+}
+.pre-line{
+  width:0;height:1px;background:var(--gold);margin-top:16px;
+  animation:lineGrow .8s var(--e) 1.5s forwards;
+}
+@keyframes engrave{to{clip-path:inset(0 0% 0 0)}}
+@keyframes lineGrow{to{width:48px}}
+
+/* ═══ NAV ═══ */
 nav{
   position:fixed;top:0;left:0;right:0;
   display:flex;justify-content:space-between;align-items:center;
-  padding:28px 5vw;z-index:100;
+  padding:26px 5vw;z-index:100;
   transition:transform .5s var(--e),padding .5s var(--e),background .5s;
-  background:transparent;
 }
-nav.scrolled{
-  padding:16px 5vw;
-  background:rgba(10,10,10,.85);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-}
+nav.scrolled{padding:14px 5vw;background:rgba(9,9,8,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 nav.hidden{transform:translateY(-100%)}
-.nm{
-  font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:300;
-  letter-spacing:.3em;text-transform:uppercase;color:var(--tx);text-decoration:none;
-  transition:opacity .4s;
-}
-.nb{
-  font-family:'Inter',sans-serif;font-size:9px;font-weight:300;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--tx);opacity:.3;
-  background:none;border:none;transition:opacity .4s;will-change:transform;
-}
+.nm{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--tx);text-decoration:none}
+.nb{font-family:'Inter',sans-serif;font-size:9px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--tx);opacity:.25;background:none;border:none;transition:opacity .4s;will-change:transform}
 .nb:hover{opacity:1}
 
 /* ═══ HERO ═══ */
-.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 0 10vh 5vw}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;filter:saturate(.65) brightness(.3) contrast(1.08)}
-.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 35%);z-index:1}
-.hero-c{position:relative;z-index:2;max-width:560px}
-.h-eye{font-size:9px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.h-t{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,10vw,10rem);line-height:.82;letter-spacing:-.04em;margin-bottom:14px}
-.h-sub{font-size:13px;font-weight:200;line-height:1.85;color:var(--dim);max-width:320px}
-/* Clip-reveal wrappers for hero text */
-.clip-w{overflow:hidden}
-.clip-w>*{transform:translateY(100%);opacity:0}
+.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 0 9vh 5vw}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;filter:saturate(.55) brightness(.25) contrast(1.12)}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--bg),transparent 30%),linear-gradient(to right,rgba(9,9,8,.3),transparent 50%);z-index:1}
+.hero-c{position:relative;z-index:2;max-width:540px}
+.clip-w{overflow:hidden;display:block}
+.clip-w>*{transform:translateY(105%);opacity:0}
+.h-eye{font-size:9px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+.h-t{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4.5rem,11vw,11rem);line-height:.8;letter-spacing:-.05em;display:block}
+.h-sub{font-size:13px;font-weight:200;line-height:1.9;color:var(--dim);max-width:300px;margin-top:16px;display:block}
 
-/* ═══ PINNED SECTION ═══ */
-.pin{position:relative;background:var(--bg)}
-.pin-inner{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.pin-img{width:50vw;max-width:640px;will-change:transform;filter:saturate(.75) contrast(1.05) brightness(.75)}
-.pin-tx{position:absolute;z-index:2;max-width:420px;opacity:0}
-.pin-tx.l{left:5vw;text-align:left}
-.pin-tx.r{right:5vw;text-align:right}
-.pin-tx.c{left:50%;transform:translateX(-50%);text-align:center}
-.pt-eye{font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.pt-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.35rem,2.4vw,2.1rem);line-height:1.35;letter-spacing:-.005em}
-.pt-p{font-size:12px;font-weight:200;line-height:1.9;color:var(--dim);margin-top:12px;max-width:340px}
-.pin-tx.r .pt-p{margin-left:auto}
+/* ═══ LOUPE SECTION — circular vignette closes in ═══ */
+.loupe{position:relative;background:var(--bg)}
+.loupe-inner{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+/* Vignette overlay — starts as full viewport, closes to circle */
+.loupe-vignette{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  box-shadow:0 0 0 0vmax rgba(9,9,8,.92);
+  transition:box-shadow 0s;border-radius:50%;
+}
+.loupe-img{width:48vw;max-width:600px;will-change:transform;filter:saturate(.65) contrast(1.08) brightness(.65);position:relative;z-index:1}
+.loupe-tx{position:absolute;z-index:4;max-width:400px;opacity:0;will-change:transform}
+.loupe-tx.l{left:5vw;text-align:left}
+.loupe-tx.r{right:5vw;text-align:right}
+.loupe-tx.c{left:50%;transform:translateX(-50%);text-align:center}
+.lt-eye{font-size:8px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.lt-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.4;letter-spacing:-.005em}
+.lt-p{font-size:12px;font-weight:200;line-height:1.95;color:var(--dim);margin-top:10px;max-width:320px}
+.loupe-tx.r .lt-p{margin-left:auto}
 
-/* ═══ FULL IMAGES with overlapping parallax ═══ */
-.fi{width:100%;height:90vh;position:relative;overflow:hidden;clip-path:inset(100% 0 0 0);transition:clip-path 1.8s var(--e)}
-.fi.vis{clip-path:inset(0)}
-.fi img{width:100%;height:120%;object-fit:cover;will-change:transform;filter:saturate(.7) contrast(1.05) brightness(.85);transition:filter 1s}
-.fi:hover img{filter:saturate(.85) contrast(1.05) brightness(.9)}
-.fi-cap{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:32px 5vw;background:linear-gradient(to top,rgba(10,10,10,.4),transparent)}
-.fi-cap span{font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+/* ═══ FULL IMAGE — focus pull (blur to sharp) ═══ */
+.fi{width:100%;height:88vh;position:relative;overflow:hidden}
+.fi img{width:100%;height:120%;object-fit:cover;will-change:transform;filter:saturate(.65) contrast(1.08) brightness(.8) blur(4px);transition:filter 1.2s var(--e)}
+.fi.sharp img{filter:saturate(.75) contrast(1.05) brightness(.85) blur(0px)}
+.fi:hover img{filter:saturate(.85) contrast(1.05) brightness(.88) blur(0px)}
+.fi-cap{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:28px 5vw;background:linear-gradient(to top,rgba(9,9,8,.35),transparent)}
+.fi-cap span{font-size:7px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--dim)}
 
 /* ═══ PHRASE ═══ */
-.phrase{min-height:65vh;display:flex;align-items:center;justify-content:center;padding:0 12vw;text-align:center}
-.phrase p{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.2rem,2.2vw,1.9rem);line-height:1.5;color:var(--tx);max-width:600px}
+.phrase{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:0 14vw;text-align:center}
+.phrase p{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.15rem,2vw,1.7rem);line-height:1.55;color:var(--tx);max-width:580px}
 
-/* ═══ SPECS ═══ */
-.specs{padding:14vh 5vw;border-top:1px solid rgba(204,200,191,.025);border-bottom:1px solid rgba(204,200,191,.025)}
-.specs-row{display:flex;justify-content:center;gap:clamp(32px,6vw,80px);flex-wrap:wrap}
-.sp-n{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--tx);line-height:1;text-align:center}
-.sp-l{font-size:7px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:6px;text-align:center}
+/* ═══ SPECS — count up ═══ */
+.specs{padding:13vh 5vw;border-top:1px solid rgba(200,196,187,.02);border-bottom:1px solid rgba(200,196,187,.02)}
+.specs-row{display:flex;justify-content:center;gap:clamp(28px,5.5vw,72px);flex-wrap:wrap}
+.sp{text-align:center}
+.sp-n{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,2.8vw,2.5rem);font-weight:300;color:var(--tx);line-height:1}
+.sp-l{font-size:7px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-top:6px}
 
-/* ═══ PRODUCT DETAILS ═══ */
+/* ═══ PRODUCT ═══ */
 .det{display:grid;grid-template-columns:5fr 6fr;min-height:100vh}
 .det-s{display:flex;flex-direction:column;justify-content:center;padding:10vh 5vw;background:var(--sf)}
-.det-n{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(2.5rem,4vw,4.2rem);line-height:.9;letter-spacing:-.02em;margin-bottom:4px}
-.det-ed{font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:40px}
+.det-n{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(2.5rem,4vw,4.5rem);line-height:.88;letter-spacing:-.03em;margin-bottom:4px}
+.det-ed{font-size:8px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:40px}
 .det-list{list-style:none;margin-bottom:40px}
-.det-list li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(204,200,191,.025);font-size:12px;font-weight:200}
-.det-list li span:first-child{font-size:8px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center}
-.det-pr{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:2px}
-.det-tax{font-size:10px;color:var(--dim);margin-bottom:32px}
-.mag{
-  display:inline-block;padding:12px 42px;
-  border:1px solid rgba(204,200,191,.08);color:var(--tx);background:transparent;
-  font-family:'Inter',sans-serif;font-size:9px;font-weight:300;
-  letter-spacing:.18em;text-transform:uppercase;
-  transition:background .5s var(--e),border-color .5s;will-change:transform;
-}
-.mag:hover{background:rgba(204,200,191,.02);border-color:rgba(204,200,191,.18)}
+.det-list li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(200,196,187,.02);font-size:12px;font-weight:200}
+.det-list li span:first-child{font-size:7px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center}
+.det-pr{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;margin-bottom:2px}
+.det-tax{font-size:10px;color:var(--dim);margin-bottom:28px}
+.mag{display:inline-block;padding:11px 40px;border:1px solid rgba(200,196,187,.06);color:var(--tx);background:transparent;font-family:'Inter',sans-serif;font-size:8px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;transition:background .5s var(--e),border-color .5s;will-change:transform}
+.mag:hover{background:rgba(200,196,187,.015);border-color:rgba(200,196,187,.14)}
 .det-img{position:relative;overflow:hidden}
-.det-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.7) brightness(.85);transition:transform 10s var(--e),filter 1s}
-.det-img:hover img{transform:scale(1.015);filter:saturate(.85) brightness(.9)}
+.det-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.65) brightness(.8);transition:transform 10s var(--e),filter 1.2s}
+.det-img:hover img{transform:scale(1.01);filter:saturate(.8) brightness(.85)}
 
-/* ═══ CINEMATIC FINALE ═══ */
-.finale{
-  min-height:80vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  padding:20vh 10vw;
-}
-.fin-mark{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:clamp(4rem,9vw,9rem);line-height:.85;letter-spacing:-.04em;
-  color:var(--tx);margin-bottom:20px;
-}
-.fin-sub{
-  font-size:9px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--dim);margin-bottom:40px;
-}
-.fin-addr{font-size:12px;font-weight:200;line-height:1.9;color:var(--dim);margin-bottom:28px}
-.fin-email{
-  font-size:10px;font-weight:300;letter-spacing:.1em;color:var(--tx);
-  text-decoration:none;position:relative;padding-bottom:2px;
-}
+/* ═══ FINALE ═══ */
+.finale{min-height:75vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18vh 10vw}
+.fin-mark{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,10vw,10rem);line-height:.82;letter-spacing:-.05em;color:var(--tx);margin-bottom:18px}
+.fin-sub{font-size:8px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:36px}
+.fin-addr{font-size:12px;font-weight:200;line-height:2;color:var(--dim);margin-bottom:24px}
+.fin-email{font-size:10px;font-weight:300;letter-spacing:.08em;color:var(--tx);text-decoration:none;position:relative;padding-bottom:2px}
 .fin-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--gold);transition:width .4s var(--e)}
 .fin-email:hover::after{width:0}
 
-footer{padding:28px 5vw;text-align:center;border-top:1px solid rgba(204,200,191,.02)}
-.fc{font-size:8px;font-weight:200;color:rgba(204,200,191,.1);letter-spacing:.06em}
+footer{padding:24px 5vw;text-align:center;border-top:1px solid rgba(200,196,187,.015)}
+.fc{font-size:7px;font-weight:200;color:rgba(200,196,187,.08);letter-spacing:.08em}
 
 /* modal */
-.mo{position:fixed;inset:0;background:rgba(10,10,10,.92);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);display:flex;align-items:center;justify-content:center;z-index:10002;opacity:0;visibility:hidden;transition:opacity .6s var(--e),visibility .6s}
+.mo{position:fixed;inset:0;background:rgba(9,9,8,.94);backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);display:flex;align-items:center;justify-content:center;z-index:10002;opacity:0;visibility:hidden;transition:opacity .6s var(--e),visibility .6s}
 .mo.on{opacity:1;visibility:visible}
-.mo-box{max-width:400px;text-align:center;padding:44px 36px;border:1px solid rgba(204,200,191,.035);position:relative}
-.mo-x{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--dim);font-size:14px;font-family:'Inter',sans-serif}
-.mo-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.2rem;margin-bottom:12px}
-.mo-p{font-size:12px;font-weight:200;line-height:1.9;color:var(--dim);margin-bottom:18px}
-.mo-a{font-size:8px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;position:relative;padding-bottom:2px}
+.mo-box{max-width:380px;text-align:center;padding:40px 32px;border:1px solid rgba(200,196,187,.03);position:relative}
+.mo-x{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--dim);font-size:13px;font-family:'Inter',sans-serif}
+.mo-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.15rem;margin-bottom:10px}
+.mo-p{font-size:11px;font-weight:200;line-height:2;color:var(--dim);margin-bottom:16px}
+.mo-a{font-size:7px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;position:relative;padding-bottom:2px}
 .mo-a::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--gold)}
 .mo-timer{position:absolute;bottom:0;left:0;height:1px;background:var(--gold);animation:mt 5s linear forwards}
 @keyframes mt{from{width:100%}to{width:0}}
 
-.rv{opacity:0;transform:translateY(14px)}
+.rv{opacity:0;transform:translateY(12px)}
 .rv.in{opacity:1;transform:translateY(0);transition:opacity 1s var(--e),transform 1.2s var(--e)}
 
 @media(max-width:900px){
   .cur{display:none}body,a,button{cursor:auto}
-  .pin-img{width:80vw}
-  .pin-tx.l,.pin-tx.r{position:relative;left:auto;right:auto;text-align:left;padding:0 6vw}
-  .pin-tx.r .pt-p{margin-left:0}
+  .progress{display:none}
+  .loupe-img{width:75vw}
+  .loupe-tx.l,.loupe-tx.r{position:relative;left:auto;right:auto;text-align:left;padding:0 6vw}
+  .loupe-tx.r .lt-p{margin-left:0}
   .det{grid-template-columns:1fr}
-  .det-s{padding:10vh 6vw;order:2}
-  .det-img{min-height:50vh;order:1}
+  .det-s{padding:10vh 6vw;order:2}.det-img{min-height:50vh;order:1}
   .fi{height:55vh}
-  .phrase{min-height:45vh;padding:0 6vw}
-  .specs-row{gap:24px}
-  .fin-mark{font-size:clamp(2.5rem,12vw,5rem)}
+  .phrase{min-height:40vh;padding:0 6vw}
+  .specs-row{gap:20px}
+  .fin-mark{font-size:clamp(2.5rem,13vw,5rem)}
 }
 </style>
 </head>
 <body>
 <div class="cur" id="cur"></div>
 
-<!-- PRELOADER — character build -->
+<!-- SCROLL PROGRESS — rotating arc -->
+<div class="progress" id="prog">
+  <svg viewBox="0 0 36 36"><circle class="progress-track" cx="18" cy="18" r="16"/><circle class="progress-hand" id="progHand" cx="18" cy="18" r="16" transform="rotate(-90 18 18)"/></svg>
+</div>
+
+<!-- PRELOADER — engraving reveal -->
 <div class="pre" id="pre">
-  <div class="pre-word" id="preWord"></div>
+  <div class="pre-brand">Pöhlmann-Bresan</div>
+  <div class="pre-line"></div>
 </div>
 
 <!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nm">Pöhlmann-Bresan</a>
-  <button class="nb mag" onclick="openModal()">Inquire</button>
-</nav>
+<nav id="nav"><a href="#" class="nm">Pöhlmann-Bresan</a><button class="nb mag" onclick="openModal()">Inquire</button></nav>
 
 <!-- HERO -->
 <section class="hero">
-  <img class="hero-img" id="heroImg" src="./assets/hero-watch.png" alt="Prestige" data-speed="0.94">
+  <img class="hero-img" id="hImg" src="./assets/hero-watch.png" alt="Prestige">
   <div class="hero-grad"></div>
   <div class="hero-c">
-    <div class="clip-w"><p class="h-eye" id="e1">Saxon Watchmaking Atelier · Dresden</p></div>
-    <div class="clip-w"><h1 class="h-t" id="e2">Prestige</h1></div>
-    <div class="clip-w"><p class="h-sub" id="e3">Hand-finished mechanical excellence.<br>Limited to 48 pieces worldwide.</p></div>
+    <span class="clip-w"><span class="h-eye" id="e1">Saxon Watchmaking · Dresden</span></span>
+    <span class="clip-w"><span class="h-t" id="e2">Prestige</span></span>
+    <span class="clip-w"><span class="h-sub" id="e3">Hand-finished mechanical excellence.<br>Limited to 48 pieces.</span></span>
   </div>
 </section>
 
-<!-- PINNED WATCH — 5000px of scroll runway -->
-<section class="pin" id="pin">
-  <div class="pin-inner">
-    <img class="pin-img" id="pinImg" src="./assets/product-detail.png" alt="Prestige">
-    <div class="pin-tx l" id="pt1">
-      <div class="pt-eye">Heritage</div>
-      <h2 class="pt-h">Nach alter Väter Sitte — according to the custom of old fathers.</h2>
-      <p class="pt-p">Josef Bresan and Lukas Pöhlmann develop and manufacture their own wristwatches in traditional construction.</p>
+<!-- LOUPE SECTION — vignette closes, watch magnifies, text reveals -->
+<section class="loupe" id="loupe">
+  <div class="loupe-inner">
+    <div class="loupe-vignette" id="vignette"></div>
+    <img class="loupe-img" id="loupeImg" src="./assets/product-detail.png" alt="Prestige detail">
+    <div class="loupe-tx l" id="lt1">
+      <div class="lt-eye">Heritage</div>
+      <h2 class="lt-h">Nach alter Väter Sitte — according to the custom of old fathers.</h2>
+      <p class="lt-p">Josef Bresan and Lukas Pöhlmann develop and manufacture their own wristwatches in traditional construction.</p>
     </div>
-    <div class="pin-tx r" id="pt2">
-      <div class="pt-eye">The Movement</div>
-      <h2 class="pt-h">Kaliber JU26-01. A metamorphosis of horological alchemy.</h2>
-      <p class="pt-p">Based on the Soviet Pobeda calibre 2608. Completely transformed. Hand-applied anglage. Skeletonized train bridge.</p>
+    <div class="loupe-tx r" id="lt2">
+      <div class="lt-eye">The Movement</div>
+      <h2 class="lt-h">Kaliber JU26-01. A metamorphosis of horological alchemy.</h2>
+      <p class="lt-p">Based on the Soviet Pobeda 2608. Completely transformed. Hand-applied anglage. Skeletonized train bridge.</p>
     </div>
-    <div class="pin-tx c" id="pt3">
-      <div class="pt-eye">Finishing</div>
-      <h2 class="pt-h">Every surface finished by hand.<br>Two hundred hours of devotion.</h2>
+    <div class="loupe-tx c" id="lt3">
+      <div class="lt-eye">Finishing</div>
+      <h2 class="lt-h">Every surface finished by hand.<br>Two hundred hours of devotion.</h2>
     </div>
   </div>
 </section>
 
-<!-- ATELIER -->
-<div class="fi clip-el">
-  <img src="./assets/atelier-workshop.png" alt="Dresden atelier" loading="lazy" data-speed="0.92">
-  <div class="fi-cap"><span>Gostritzer Straße 10 · Dresden</span></div>
-</div>
+<!-- ATELIER — focus pull -->
+<div class="fi" id="fi1"><img src="./assets/atelier-workshop.png" alt="Dresden atelier" loading="lazy"><div class="fi-cap"><span>Gostritzer Straße 10 · Dresden</span></div></div>
 
 <!-- PHRASE -->
 <div class="phrase"><p>To take an industrial ebauche calibre and bring to market an exquisitely finished piece that honors the traditions of Saxon watchmaking.</p></div>
 
-<!-- MOVEMENT -->
-<div class="fi clip-el">
-  <img src="./assets/movement-macro.png" alt="Kaliber JU26-01" loading="lazy" data-speed="0.92">
-  <div class="fi-cap"><span>Kaliber JU26-01 · Hand-Finished</span></div>
-</div>
+<!-- MOVEMENT — focus pull -->
+<div class="fi" id="fi2"><img src="./assets/movement-macro.png" alt="Kaliber JU26-01" loading="lazy"><div class="fi-cap"><span>Kaliber JU26-01 · Hand-Finished</span></div></div>
 
 <!-- SPECS -->
-<div class="specs">
-  <div class="specs-row rv">
-    <div><div class="sp-n">18,000</div><div class="sp-l">Vibrations / Hour</div></div>
-    <div><div class="sp-n">39h</div><div class="sp-l">Power Reserve</div></div>
-    <div><div class="sp-n">200+</div><div class="sp-l">Hours of Finishing</div></div>
-    <div><div class="sp-n">14k</div><div class="sp-l">Gold Screws</div></div>
-    <div><div class="sp-n">48</div><div class="sp-l">Pieces Worldwide</div></div>
-  </div>
-</div>
+<div class="specs"><div class="specs-row" id="specsRow">
+  <div class="sp"><div class="sp-n" data-count="18000" data-format="comma">0</div><div class="sp-l">Vibrations / Hour</div></div>
+  <div class="sp"><div class="sp-n" data-count="39" data-suffix="h">0</div><div class="sp-l">Power Reserve</div></div>
+  <div class="sp"><div class="sp-n" data-count="200" data-prefix="" data-suffix="+">0</div><div class="sp-l">Hours of Finishing</div></div>
+  <div class="sp"><div class="sp-n" data-count="14" data-suffix="k">0</div><div class="sp-l">Gold Screws</div></div>
+  <div class="sp"><div class="sp-n" data-count="48">0</div><div class="sp-l">Pieces Worldwide</div></div>
+</div></div>
 
 <!-- FOUNDERS -->
-<div class="fi clip-el">
-  <img src="./assets/founders-portrait.png" alt="Josef Bresan and Lukas Pöhlmann" loading="lazy">
-</div>
+<div class="fi" id="fi3"><img src="./assets/founders-portrait.png" alt="Josef Bresan and Lukas Pöhlmann" loading="lazy"></div>
 
 <!-- PRODUCT -->
 <section class="det">
   <div class="det-s">
-    <div class="pt-eye rv">Collection</div>
+    <div class="lt-eye rv">Collection</div>
     <h2 class="det-n rv">Prestige</h2>
     <div class="det-ed rv">Limited Edition of 48</div>
-    <ul class="det-list rv">
-      <li><span>Case</span><span>Stainless Steel, 40mm</span></li>
-      <li><span>Height</span><span>12.2mm</span></li>
-      <li><span>Lug-to-Lug</span><span>48.8mm</span></li>
-      <li><span>Crystal</span><span>Sapphire</span></li>
-      <li><span>Water Resistance</span><span>50 Meters</span></li>
-      <li><span>Strap</span><span>Calf Leather</span></li>
-    </ul>
+    <ul class="det-list rv"><li><span>Case</span><span>Stainless Steel, 40mm</span></li><li><span>Height</span><span>12.2mm</span></li><li><span>Lug-to-Lug</span><span>48.8mm</span></li><li><span>Crystal</span><span>Sapphire</span></li><li><span>Water Resistance</span><span>50 Meters</span></li><li><span>Strap</span><span>Calf Leather</span></li></ul>
     <div class="det-pr rv">€16,750</div>
     <div class="det-tax rv">Excluding taxes</div>
     <button class="mag rv" onclick="openModal()">Inquire</button>
   </div>
-  <div class="det-img">
-    <img src="./assets/hero-watch.png" alt="Prestige" loading="lazy">
-  </div>
+  <div class="det-img"><img src="./assets/hero-watch.png" alt="Prestige" loading="lazy"></div>
 </section>
 
-<!-- CINEMATIC FINALE -->
+<!-- FINALE -->
 <section class="finale" id="finale">
   <div class="fin-mark">Pöhlmann<br>Bresan</div>
   <div class="fin-sub">Saxon Watchmaking Atelier · Est. Dresden</div>
@@ -311,39 +286,21 @@ footer{padding:28px 5vw;text-align:center;border-top:1px solid rgba(204,200,191,
 
 <footer><div class="fc">&copy; 2026 Velocity by Calyvent. All rights reserved.</div></footer>
 
-<!-- MODAL -->
-<div class="mo" id="mo">
-  <div class="mo-box">
-    <button class="mo-x" onclick="closeModal()">&times;</button>
-    <h3 class="mo-h">A Velocity Preview</h3>
-    <p class="mo-p">A vision of what Pöhlmann-Bresan's digital presence could become.</p>
-    <a href="https://velocity.calyvent.com" target="_blank" class="mo-a">Discover Velocity</a>
-    <div class="mo-timer" id="mot"></div>
-  </div>
-</div>
+<div class="mo" id="mo"><div class="mo-box"><button class="mo-x" onclick="closeModal()">&times;</button><h3 class="mo-h">A Velocity Preview</h3><p class="mo-p">A vision of what Pöhlmann-Bresan's digital presence could become.</p><a href="https://velocity.calyvent.com" target="_blank" class="mo-a">Discover Velocity</a><div class="mo-timer" id="mot"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="https://unpkg.com/split-type"></script>
 <script>
-// ── Lenis + GSAP sync ──
+// ── LENIS + GSAP ──
 const lenis=new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
 gsap.registerPlugin(ScrollTrigger);
 lenis.on('scroll',ScrollTrigger.update);
 gsap.ticker.add(t=>{lenis.raf(t*1000)});
 gsap.ticker.lagSmoothing(0);
 
-// ── Preloader — character-by-character ──
-const brand='PÖHLMANN-BRESAN';
-const pw=document.getElementById('preWord');
-[...brand].forEach((c,i)=>{
-  const s=document.createElement('span');
-  s.textContent=c===' '?'\u00A0':c;
-  s.style.animationDelay=`${.08+i*.04}s`;
-  pw.appendChild(s);
-});
-
+// ── PRELOADER ──
 setTimeout(()=>{
   document.getElementById('pre').classList.add('go');
   setTimeout(()=>{
@@ -352,105 +309,121 @@ setTimeout(()=>{
         const el=document.getElementById(id);
         el.style.transition='transform .9s cubic-bezier(.16,1,.3,1),opacity .9s cubic-bezier(.16,1,.3,1)';
         el.style.transform='translateY(0)';el.style.opacity='1';
-      },i*200);
+      },i*220);
     });
-  },400);
-},2400);
+  },450);
+},2600);
 
-// ── NAV — shrink + hide/show on scroll direction ──
-let lastScroll=0,navHidden=false;
-const nav=document.getElementById('nav');
+// ── SCROLL PROGRESS — circular arc ──
+const progHand=document.getElementById('progHand');
+const circumference=2*Math.PI*16;
+progHand.style.strokeDasharray=circumference;
+progHand.style.strokeDashoffset=circumference;
+lenis.on('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  const p=window.scrollY/h;
+  progHand.style.strokeDashoffset=circumference-(p*circumference);
+  document.getElementById('prog').classList.toggle('scrolled',p>.02);
+});
+
+// ── NAV — shrink + hide/show ──
+let lastY=0,navH=false;const nav=document.getElementById('nav');
 lenis.on('scroll',({scroll})=>{
-  // Shrink
-  nav.classList.toggle('scrolled',scroll>80);
-  // Hide on down, show on up
-  const delta=scroll-lastScroll;
-  if(scroll>300){
-    if(delta>4&&!navHidden){nav.classList.add('hidden');navHidden=true}
-    if(delta<-4&&navHidden){nav.classList.remove('hidden');navHidden=false}
-  }else{nav.classList.remove('hidden');navHidden=false}
-  lastScroll=scroll;
+  nav.classList.toggle('scrolled',scroll>60);
+  if(scroll>250){const d=scroll-lastY;if(d>3&&!navH){nav.classList.add('hidden');navH=true}if(d<-3&&navH){nav.classList.remove('hidden');navH=false}}
+  else{nav.classList.remove('hidden');navH=false}
+  lastY=scroll;
 });
 
-// ── PINNED WATCH — 5000px runway ──
-const ptl=gsap.timeline({
-  scrollTrigger:{trigger:'#pin',pin:true,start:'top top',end:'+=5000',scrub:1,anticipatePin:1}
-});
-ptl
-  .fromTo('#pinImg',{scale:1,filter:'saturate(.7) brightness(.6)'},{scale:2.5,filter:'saturate(.85) brightness(.8)',transformOrigin:'52% 44%',duration:8,ease:'none'})
-  .fromTo('#pt1',{opacity:0,y:14},{opacity:1,y:0,duration:.6,ease:'power3.out'},.8)
-  .to('#pt1',{opacity:0,y:-8,duration:.4},2.2)
-  .fromTo('#pt2',{opacity:0,y:14},{opacity:1,y:0,duration:.6,ease:'power3.out'},3)
-  .to('#pt2',{opacity:0,y:-8,duration:.4},4.6)
-  .fromTo('#pt3',{opacity:0,y:14},{opacity:1,y:0,duration:.6,ease:'power3.out'},5.5)
-  .to('#pt3',{opacity:0,y:-8,duration:.4},7);
+// ── HERO PARALLAX ──
+gsap.to('#hImg',{y:'12%',ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 
-// ── Split text on phrases ──
+// ── LOUPE SECTION — watch zooms, vignette closes, text reveals ──
+const ltl=gsap.timeline({scrollTrigger:{trigger:'#loupe',pin:true,start:'top top',end:'+=6000',scrub:1,anticipatePin:1}});
+ltl
+  // Watch: scale + brighten
+  .fromTo('#loupeImg',{scale:1,filter:'saturate(.6) contrast(1.08) brightness(.55)'},{scale:2.8,filter:'saturate(.85) contrast(1.05) brightness(.82)',transformOrigin:'52% 44%',duration:10,ease:'none'})
+  // Vignette: inset box-shadow closes in like a loupe
+  .fromTo('#vignette',{boxShadow:'0 0 0 0vmax rgba(9,9,8,.92)'},{boxShadow:'0 0 0 50vmax rgba(9,9,8,.92)',borderRadius:'50%',duration:3,ease:'power2.inOut'},0)
+  .to('#vignette',{boxShadow:'0 0 0 0vmax rgba(9,9,8,.92)',duration:2,ease:'power2.inOut'},4)
+  // Text 1
+  .fromTo('#lt1',{opacity:0,y:12},{opacity:1,y:0,duration:.5,ease:'power3.out'},1)
+  .to('#lt1',{opacity:0,y:-6,duration:.35},2.8)
+  // Text 2
+  .fromTo('#lt2',{opacity:0,y:12},{opacity:1,y:0,duration:.5,ease:'power3.out'},3.8)
+  .to('#lt2',{opacity:0,y:-6,duration:.35},5.8)
+  // Text 3
+  .fromTo('#lt3',{opacity:0,y:12},{opacity:1,y:0,duration:.5,ease:'power3.out'},6.5)
+  .to('#lt3',{opacity:0,y:-6,duration:.35},8.5);
+
+// ── FOCUS PULL on full images (blur → sharp) ──
+document.querySelectorAll('.fi').forEach(fi=>{
+  ScrollTrigger.create({trigger:fi,start:'top 80%',onEnter:()=>fi.classList.add('sharp'),once:true});
+});
+// Parallax on .fi images
+document.querySelectorAll('.fi img').forEach(img=>{
+  gsap.to(img,{y:'-12%',ease:'none',scrollTrigger:{trigger:img.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
+});
+
+// ── SPLIT TEXT — phrases ──
 try{
   document.querySelectorAll('.phrase p').forEach(p=>{
     const s=new SplitType(p,{types:'words'});
-    gsap.from(s.words,{opacity:0,y:10,stagger:.035,duration:.6,ease:'power3.out',
-      scrollTrigger:{trigger:p,start:'top 78%'}});
+    gsap.from(s.words,{opacity:0,y:8,filter:'blur(2px)',stagger:.03,duration:.55,ease:'power3.out',
+      scrollTrigger:{trigger:p,start:'top 76%'}});
   });
 }catch(e){}
 
-// ── Clip reveals ──
-document.querySelectorAll('.clip-el').forEach(el=>{
-  ScrollTrigger.create({trigger:el,start:'top 88%',onEnter:()=>el.classList.add('vis'),once:true});
-});
+// ── COUNT-UP SPECS ──
+let specsCounted=false;
+ScrollTrigger.create({trigger:'#specsRow',start:'top 78%',onEnter:()=>{
+  if(specsCounted)return;specsCounted=true;
+  document.querySelectorAll('.sp-n[data-count]').forEach(el=>{
+    const target=parseInt(el.dataset.count);
+    const suffix=el.dataset.suffix||'';
+    const fmt=el.dataset.format==='comma';
+    gsap.to({v:0},{v:target,duration:2,ease:'power2.out',
+      onUpdate:function(){
+        let n=Math.round(this.targets()[0].v);
+        el.textContent=(fmt?n.toLocaleString():n)+suffix;
+      }
+    });
+  });
+}});
 
-// ── Parallax on full images — subtle 8-15% offset ──
-document.querySelectorAll('.fi img[data-speed]').forEach(img=>{
-  gsap.to(img,{y:'-10%',ease:'none',scrollTrigger:{trigger:img.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
-});
-
-// ── Hero parallax ──
-gsap.to('#heroImg',{y:'8%',ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
-
-// ── Scroll reveals ──
+// ── SCROLL REVEALS ──
 document.querySelectorAll('.rv').forEach(el=>{
   ScrollTrigger.create({trigger:el,start:'top 84%',onEnter:()=>el.classList.add('in'),once:true});
 });
 
-// ── Finale — slow fade-in, 800ms ──
-gsap.from('#finale .fin-mark',{opacity:0,y:16,duration:.8,ease:'power2.out',
-  scrollTrigger:{trigger:'#finale',start:'top 70%'}});
-gsap.from('#finale .fin-sub',{opacity:0,y:10,duration:.7,ease:'power2.out',delay:.15,
-  scrollTrigger:{trigger:'#finale',start:'top 70%'}});
-gsap.from('#finale .fin-addr',{opacity:0,y:10,duration:.7,ease:'power2.out',delay:.25,
-  scrollTrigger:{trigger:'#finale',start:'top 70%'}});
-gsap.from('#finale .fin-email',{opacity:0,y:8,duration:.6,ease:'power2.out',delay:.35,
-  scrollTrigger:{trigger:'#finale',start:'top 70%'}});
+// ── FINALE ──
+gsap.from('#finale .fin-mark',{opacity:0,y:14,duration:.9,ease:'power2.out',scrollTrigger:{trigger:'#finale',start:'top 68%'}});
+gsap.from('#finale .fin-sub',{opacity:0,y:8,duration:.7,delay:.12,ease:'power2.out',scrollTrigger:{trigger:'#finale',start:'top 68%'}});
+gsap.from('#finale .fin-addr',{opacity:0,y:8,duration:.7,delay:.22,ease:'power2.out',scrollTrigger:{trigger:'#finale',start:'top 68%'}});
+gsap.from('#finale .fin-email',{opacity:0,y:6,duration:.6,delay:.3,ease:'power2.out',scrollTrigger:{trigger:'#finale',start:'top 68%'}});
 
-// ── Cursor ──
-const cur=document.getElementById('cur');let cx=0,cy=0;
-document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY});
-gsap.ticker.add(()=>{gsap.set(cur,{left:cx,top:cy})});
-// Use GSAP quickTo for cursor smoothing
-const qx=gsap.quickTo(cur,'left',{duration:.15,ease:'power2.out'});
-const qy=gsap.quickTo(cur,'top',{duration:.15,ease:'power2.out'});
+// ── CURSOR — gsap.quickTo for silk ──
+const cur=document.getElementById('cur');
+const qx=gsap.quickTo(cur,'left',{duration:.12,ease:'power2.out'});
+const qy=gsap.quickTo(cur,'top',{duration:.12,ease:'power2.out'});
 document.addEventListener('mousemove',e=>{qx(e.clientX);qy(e.clientY)});
 document.querySelectorAll('a,button,.mag,.nb').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('h'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('h'));
 });
 
-// ── Magnetic buttons ──
+// ── MAGNETIC ──
 document.querySelectorAll('.mag').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
     const r=btn.getBoundingClientRect();
-    gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.2,y:(e.clientY-r.top-r.height/2)*.2,duration:.25,ease:'power2.out'});
+    gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.18,y:(e.clientY-r.top-r.height/2)*.18,duration:.2,ease:'power2.out'});
   });
   btn.addEventListener('mouseleave',()=>{gsap.to(btn,{x:0,y:0,duration:.5,ease:'elastic.out(1,.4)'})});
 });
 
-// ── Modal ──
+// ── MODAL ──
 let mt;
-function openModal(){
-  document.getElementById('mo').classList.add('on');
-  const t=document.getElementById('mot');t.style.animation='none';t.offsetHeight;t.style.animation='mt 5s linear forwards';
-  clearTimeout(mt);mt=setTimeout(closeModal,5000);
-}
+function openModal(){document.getElementById('mo').classList.add('on');const t=document.getElementById('mot');t.style.animation='none';t.offsetHeight;t.style.animation='mt 5s linear forwards';clearTimeout(mt);mt=setTimeout(closeModal,5000)}
 function closeModal(){document.getElementById('mo').classList.remove('on');clearTimeout(mt)}
 document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 </script>
