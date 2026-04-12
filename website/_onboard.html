@@ -248,19 +248,22 @@ async function init() {
       });
     }
     VERIFIED_EMAIL = emailVal;
-    // Now setup the rest of the form
-    if (lead.submitted_at) prefill(lead.full_data || {});
-    setupSocials((lead.full_data&&lead.full_data.phase1&&lead.full_data.phase1.socials)||[]);
-    setupUrlBlocks('inspirationList','addInspiration',true,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.inspiration)||[]);
-    setupUrlBlocks('antiList','addAnti',false,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.anti_inspiration)||[]);
-    document.getElementById('startingPoint').addEventListener('change',function(){ document.getElementById('existingUrlField').style.display=this.value==='existing'?'':'none'; });
-  document.querySelectorAll('input[name="domainChoice"]').forEach(r=>r.addEventListener('change',function(){ document.getElementById('domainNameField').style.display=this.value==='velocity_provides'?'':'none'; }));
-    document.getElementById('dueDate').min = new Date(Date.now()+48*3600000).toISOString().split('T')[0];
-    bindNav();
-    // Pre-fill email in phase 1
-    document.getElementById('email').value = VERIFIED_EMAIL;
-    goTo(1);
-    btn.disabled = false; btn.textContent = 'Continue \u2192';
+    try {
+      if (lead.submitted_at) prefill(lead.full_data || {});
+      setupSocials((lead.full_data&&lead.full_data.phase1&&lead.full_data.phase1.socials)||[]);
+      setupUrlBlocks('inspirationList','addInspiration',true,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.inspiration)||[]);
+      setupUrlBlocks('antiList','addAnti',false,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.anti_inspiration)||[]);
+      document.getElementById('startingPoint').addEventListener('change',function(){ document.getElementById('existingUrlField').style.display=this.value==='existing'?'':'none'; });
+      document.querySelectorAll('input[name="domainChoice"]').forEach(r=>r.addEventListener('change',function(){ document.getElementById('domainNameField').style.display=this.value==='velocity_provides'?'':'none'; }));
+      document.getElementById('dueDate').min = new Date(Date.now()+48*3600000).toISOString().split('T')[0];
+      bindNav();
+      document.getElementById('email').value = VERIFIED_EMAIL;
+      goTo(1);
+    } catch(setupErr) {
+      console.error('Form setup error:', setupErr);
+      alert('Something went wrong loading the form. Please refresh and try again.');
+    }
+    btn.disabled = false; btn.textContent = 'Continue →';
   };
   // Allow enter key on email field
   document.getElementById('signinEmail').addEventListener('keydown', function(e) {

@@ -239,6 +239,7 @@ function renderLeads(){
   fl.forEach(l=>{
     const card=document.getElementById('c-'+l.id);
     card.querySelector('.card-hdr').onclick=()=>document.getElementById('d-'+l.id).classList.toggle('open');
+    document.getElementById('d-'+l.id).addEventListener('click',e=>e.stopPropagation());
     // Quote
     const qi=card.querySelector('.qi'),sq=card.querySelector('.sq');
     if(sq&&!l.is_paid)sq.onclick=async()=>{const amt=Math.round(parseFloat(qi.value)*100);if(isNaN(amt))return;sq.disabled=true;await aupd(l.token,{quote_amount:amt});toast('Quote saved');sq.disabled=false;await reload();};
@@ -247,21 +248,21 @@ function renderLeads(){
     if(ss)ss.onchange=async()=>{await aupd(l.token,{status:ss.value});toast('Status updated');await reload();};
     // Comment save
     const ct=card.querySelector('.ct'),sc=card.querySelector('.sc'),cl=card.querySelector('.cl-input');
-    if(sc)sc.onclick=async()=>{sc.disabled=true;await aupd(l.token,{admin_comment:ct.value.trim(),admin_comment_link:cl?cl.value.trim():''});toast('Message sent');sc.disabled=false;await reload();};
+    if(sc)sc.onclick=async()=>{sc.disabled=true;await aupd(l.token,{admin_comment:ct.value.trim(),admin_comment_link:cl?ensureUrl(cl.value):''});toast('Message sent');sc.disabled=false;await reload();};
     // Site link
     const sl=card.querySelector('.sl'),ss2=card.querySelector('.ssl');
-    if(ss2)ss2.onclick=async()=>{ss2.disabled=true;await aupd(l.token,{site_link:sl.value.trim()});toast('Site link saved');ss2.disabled=false;await reload();};
+    if(ss2)ss2.onclick=async()=>{ss2.disabled=true;await aupd(l.token,{site_link:ensureUrl(sl.value)});toast('Site link saved');ss2.disabled=false;await reload();};
     // Copy links
     card.querySelectorAll('.clink[data-copy]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(btn.dataset.copy);toast('Copied');};});
     // Individual client view
     const viewBtn=card.querySelector('.view-btn');
-    if(viewBtn)viewBtn.onclick=e=>{e.stopPropagation();window.open('/admin/client/'+l.token,'_blank');};
+    if(viewBtn)viewBtn.onclick=e=>{e.stopPropagation();window.open('/admin/client/'+l.token+'?s='+encodeURIComponent(SEC),'_blank');};
     // Delete
     const delBtn=card.querySelector('.del-btn'),confirm1=card.querySelector('.confirm1'),confirm2=card.querySelector('.confirm2');
-    if(delBtn)delBtn.onclick=e=>{e.stopPropagation();confirm1.classList.toggle('show');};
+    if(delBtn)delBtn.onclick=e=>{e.stopPropagation();confirm1.style.display=confirm1.style.display==='block'?'none':'block';};
     if(confirm1){
-      confirm1.querySelector('.conf-yes').onclick=async e=>{e.stopPropagation();confirm1.classList.remove('show');confirm2.classList.add('show');};
-      confirm1.querySelector('.conf-no').onclick=e=>{e.stopPropagation();confirm1.classList.remove('show');};
+      confirm1.querySelector('.conf-yes').onclick=async e=>{e.stopPropagation();confirm1.style.display='none';confirm2.style.display='block';};
+      confirm1.querySelector('.conf-no').onclick=e=>{e.stopPropagation();confirm1.style.display='none';};
     }
     if(confirm2){
       confirm2.querySelector('.conf-yes2').onclick=async e=>{
@@ -269,7 +270,7 @@ function renderLeads(){
         await fetch('/api/leads/delete',{method:'DELETE',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({token:l.token})});
         toast('Lead deleted');await reload();
       };
-      confirm2.querySelector('.conf-no2').onclick=e=>{e.stopPropagation();confirm2.classList.remove('show');};
+      confirm2.querySelector('.conf-no2').onclick=e=>{e.stopPropagation();confirm2.style.display='none';};
     }
   });
 }
@@ -393,6 +394,7 @@ function buildCard(l){
 function dr(k,v){return v?`<div class="drow"><span class="dkey">${k}</span><span class="dval">${esc(String(v))}</span></div>`:''}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
+function ensureUrl(v){if(!v)return '';v=v.trim();if(v&&!v.match(/^https?:\/\//))v='https://'+v;return v;}
 async function aupd(token,patch){
   await fetch('/api/leads/admin-update',{method:'PATCH',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({token,...patch})});
 }

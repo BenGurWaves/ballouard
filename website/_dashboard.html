@@ -323,7 +323,7 @@ function renderDash(lead,justPaid=false){
     const banner=document.getElementById('msgBanner');
     const exp=new Date(lead.admin_comment.created_at).getTime()+86400000;
     const hoursLeft=Math.max(0,Math.floor((exp-Date.now())/3600000));
-    banner.innerHTML=`<div class="msg-banner"><div class="msg-text">${esc(lead.admin_comment.text)}</div>${lead.admin_comment.link?`<a href="${esc(lead.admin_comment.link)}" class="msg-link" target="_blank" rel="noopener noreferrer">${esc(lead.admin_comment.link)} ↗</a>`:''}${hoursLeft>0?`<div class="msg-exp">This message disappears in ${hoursLeft}h</div>`:''}</div>`;
+    banner.innerHTML=`<div class="msg-banner"><div style="font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:.6rem">Message from The Velocity Team</div><div class="msg-text">${esc(lead.admin_comment.text)}</div>${lead.admin_comment.link?`<a href="${esc(lead.admin_comment.link)}" class="msg-link" target="_blank" rel="noopener noreferrer">View Link ↗</a>`:''}${hoursLeft>0?`<div class="msg-exp">This message expires in ${hoursLeft}h</div>`:''}</div>`;
     show('msgBanner');
   }
 
