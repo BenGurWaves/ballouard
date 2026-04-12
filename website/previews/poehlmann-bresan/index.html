@@ -1,1345 +1,734 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pöhlmann-Bresan — Saxon Watchmaking Atelier</title>
-  <meta name="description" content="Independent watchmaking atelier in Dresden. Hand-finished mechanical timepieces. Limited editions of 48.">
-  <link rel="icon" href="https://velocity.calyvent.com/favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
-  
-  <style>
-    /* === STYLE COMMENT ===
-    ARCHETYPE: The Heritage Estate
-    - Traditional, Rich, Established honoring Saxon watchmaking heritage
-    - Typography: Old Standard TT + Lato Thin
-    - Palette: Deep Bone (#F9F9F6), Deep Charcoal (#1A1A1A), Gold (#C5A059), Steel (#8A9199)
-    
-    LUXURY DESIGN TECHNIQUES APPLIED:
-    1. Chanel J12 — full-bleed cinematic hero, extreme negative space, massive refined serif
-    2. Amsterdam Vintage Watches — restrained cinematic hero, full-page photos
-    3. Parmigiani Fleurier — asymmetric scroll reveals, refined parallax
-    4. Tiffany & Co. — generous whitespace with fade/zoom transitions
-    
-    5+ ORIGINAL ELEMENTS UNIQUE TO THIS PREVIEW:
-    1. The Movement Theater — full-screen skeletonized movement section with CSS blend modes
-    2. Golden Ratio Typography — headlines using φ (1.618) ratios for mathematical precision
-    3. The Atelier Desk — signature workbench visual establishing workshop authenticity
-    4. Horological Grain — custom noise texture at 0.04 opacity mimicking German silver finish
-    5. Saxon Sunburst — radial gradients evoking Glashütte sunburst decoration
-    6. Micro-Screw Detail — CSS animated gold screws referencing 14k eccentric adjusting screws
-    
-    VELOCITY EMERGENCY OVERRIDE APPLIED:
-    ✓ Visual Grain (0.03 opacity noise overlay)
-    ✓ 70/30 Rule for Imagery (cinematic 21:9 sections)
-    ✓ Sophisticated Layering (glass-like text blocks with backdrop blur)
-    
-    UNIQUE SEED GENERATOR (P-B = O-U range): Micro-Typography Focus
-    - Extreme attention to letter-spacing, precision hierarchy reflecting watchmaking craft
-    === END STYLE COMMENT === */
-    
-    :root {
-      /* Heritage Estate Archetype Colors */
-      --color-bone: #F9F9F6;
-      --color-cream: #F0EDE8;
-      --color-charcoal: #1A1A1A;
-      --color-gold: #C5A059;
-      --color-gold-glow: rgba(197, 160, 89, 0.2);
-      --color-steel: #8A9199;
-      --color-night-grey: #3D4550;
-      --color-night-blue: #1A253A;
-      --color-ink: #0D0D0D;
-      
-      /* Typography Scale using Golden Ratio (φ = 1.618) */
-      --text-base: 16px;
-      --text-xs: calc(var(--text-base) / 1.618);
-      --text-sm: calc(var(--text-base) / 1.272);
-      --text-lg: calc(var(--text-base) * 1.272);
-      --text-xl: calc(var(--text-base) * 1.618);
-      --text-2xl: calc(var(--text-base) * 2.618);
-      --text-3xl: calc(var(--text-base) * 4.236);
-      --text-4xl: calc(var(--text-base) * 6.854);
-      
-      /* Spacing */
-      --space-xs: 0.618rem;
-      --space-sm: 1rem;
-      --space-md: 1.618rem;
-      --space-lg: 2.618rem;
-      --space-xl: 4.236rem;
-      --space-2xl: 6.854rem;
-      --space-3xl: 11.09rem;
-      
-      /* Transitions */
-      --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
-      --duration-slow: 1.2s;
-      --duration-medium: 0.8s;
-      --duration-fast: 0.4s;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    html {
-      scroll-behavior: smooth;
-      font-size: var(--text-base);
-    }
-    
-    body {
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      background-color: var(--color-bone);
-      color: var(--color-charcoal);
-      line-height: 1.618;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
-    /* Visual Grain — subtle film texture */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 9999;
-    }
-    
-    /* Preloader */
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--color-bone);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      transition: opacity 0.8s var(--ease-luxury), visibility 0.8s;
-    }
-    
-    .preloader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-    
-    .preloader-logo {
-      font-family: 'Old Standard TT', serif;
-      font-size: var(--text-2xl);
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--color-charcoal);
-      margin-bottom: var(--space-lg);
-      opacity: 0;
-      animation: fadeInUp 1s var(--ease-luxury) 0.3s forwards;
-    }
-    
-    .preloader-sub {
-      font-size: var(--text-xs);
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--color-steel);
-      opacity: 0;
-      animation: fadeInUp 1s var(--ease-luxury) 0.6s forwards;
-    }
-    
-    .preloader-line {
-      width: 60px;
-      height: 1px;
-      background: var(--color-gold);
-      margin-top: var(--space-md);
-      transform: scaleX(0);
-      animation: expandLine 1.5s var(--ease-luxury) 1s forwards;
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes expandLine {
-      to {
-        transform: scaleX(1);
-      }
-    }
-    
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(26, 26, 26, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9997;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.5s var(--ease-luxury);
-      backdrop-filter: blur(20px);
-    }
-    
-    .modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .modal-content {
-      background: var(--color-bone);
-      padding: var(--space-2xl);
-      max-width: 600px;
-      text-align: left;
-      border: 1px solid var(--color-gold);
-      position: relative;
-      transform: translateY(30px);
-      transition: transform 0.5s var(--ease-luxury);
-    }
-    
-    .modal.active .modal-content {
-      transform: translateY(0);
-    }
-    
-    .modal-close {
-      position: absolute;
-      top: var(--space-md);
-      right: var(--space-md);
-      width: 40px;
-      height: 40px;
-      background: none;
-      border: 1px solid var(--color-steel);
-      cursor: pointer;
-      font-size: var(--text-lg);
-      color: var(--color-charcoal);
-      transition: all 0.3s var(--ease-luxury);
-    }
-    
-    .modal-close:hover {
-      border-color: var(--color-gold);
-      color: var(--color-gold);
-    }
-    
-    .modal-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: var(--text-xl);
-      font-weight: 400;
-      margin-bottom: var(--space-md);
-      color: var(--color-charcoal);
-    }
-    
-    .modal-text {
-      font-size: var(--text-base);
-      line-height: 1.8;
-      color: var(--color-night-grey);
-      margin-bottom: var(--space-md);
-    }
-    
-    .modal-link {
-      color: var(--color-gold);
-      text-decoration: none;
-      border-bottom: 1px solid var(--color-gold);
-      transition: all 0.3s var(--ease-luxury);
-    }
-    
-    .modal-link:hover {
-      border-bottom-color: transparent;
-    }
-    
-    /* Navigation — clean, no blend mode */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 2rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      background: linear-gradient(to bottom, rgba(249,249,246,0.95) 0%, transparent 100%);
-      transition: all 0.6s var(--ease-luxury);
-    }
-    
-    .nav-logo {
-      font-family: 'Old Standard TT', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--color-charcoal);
-      text-decoration: none;
-      font-weight: 400;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      list-style: none;
-    }
-    
-    .nav-links a {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--color-steel);
-      text-decoration: none;
-      position: relative;
-      padding-bottom: 6px;
-      transition: color 0.4s var(--ease-luxury);
-    }
-    
-    .nav-links a:hover {
-      color: var(--color-charcoal);
-    }
-    
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--color-gold);
-      transition: width 0.5s var(--ease-luxury);
-    }
-    
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-    
-    /* Hero — Full viewport, asymmetric elegance */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 45% 55%;
-      position: relative;
-      background: var(--color-bone);
-    }
-    
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 8rem 4rem 4rem 6rem;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .hero-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--color-steel);
-      margin-bottom: 2rem;
-      display: block;
-    }
-    
-    .hero-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: clamp(3rem, 6vw, 7rem);
-      font-weight: 400;
-      line-height: 0.95;
-      color: var(--color-charcoal);
-      margin-bottom: 2.5rem;
-      letter-spacing: -0.03em;
-    }
-    
-    .hero-title em {
-      font-style: italic;
-      color: var(--color-night-blue);
-      display: block;
-      margin-top: 0.5rem;
-    }
-    
-    .hero-subtitle {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--color-night-grey);
-      max-width: 380px;
-      line-height: 1.9;
-      margin-bottom: 3rem;
-    }
-    
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1.25rem 2.5rem;
-      border: 1px solid var(--color-charcoal);
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--color-charcoal);
-      transition: all 0.6s var(--ease-luxury);
-      background: transparent;
-      cursor: pointer;
-      width: fit-content;
-    }
-    
-    .hero-cta::after {
-      content: '→';
-      transition: transform 0.4s var(--ease-luxury);
-    }
-    
-    .hero-cta:hover {
-      background: var(--color-charcoal);
-      color: var(--color-bone);
-      padding-left: 3rem;
-    }
-    
-    .hero-cta:hover::after {
-      transform: translateX(8px);
-    }
-    
-    .hero-visual {
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .hero-visual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(0.1) contrast(1.05) brightness(0.95);
-    }
-    
-    .hero-watch {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      color: var(--color-bone);
-      padding: 4rem;
-    }
-    
-    .watch-brand {
-      font-family: 'Old Standard TT', serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-    
-    .watch-model {
-      font-size: 0.65rem;
-      letter-spacing: 0.6em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 3rem;
-    }
-    
-    .watch-face {
-      width: 280px;
-      height: 280px;
-      border: 1px solid rgba(197, 160, 89, 0.3);
-      border-radius: 50%;
-      margin: 0 auto;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle, rgba(249,249,246,0.03) 0%, transparent 70%);
-    }
-    
-    .watch-face::before {
-      content: '';
-      position: absolute;
-      width: 94%;
-      height: 94%;
-      border: 1px solid rgba(138, 145, 153, 0.15);
-      border-radius: 50%;
-    }
-    
-    .watch-center-point {
-      width: 14px;
-      height: 14px;
-      background: var(--color-gold);
-      border-radius: 50%;
-      box-shadow: 0 0 25px rgba(197, 160, 89, 0.4);
-      position: relative;
-    }
-    
-    .watch-center-point::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 2px;
-      height: 100px;
-      background: linear-gradient(to top, var(--color-gold), transparent);
-      transform: translate(-50%, -100%) rotate(30deg);
-      transform-origin: bottom center;
-    }
-    
-    .watch-center-point::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 1px;
-      height: 80px;
-      background: linear-gradient(to top, rgba(249,249,246,0.6), transparent);
-      transform: translate(-50%, -100%) rotate(-60deg);
-      transform-origin: bottom center;
-    }
-    
-    .watch-specs {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-steel);
-      margin-top: 3rem;
-    }
-    
-    /* Scroll Indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 3rem;
-      left: 6rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: var(--color-steel);
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-    }
-    
-    .scroll-line {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, var(--color-steel), transparent);
-      animation: scrollPulse 2.5s ease-in-out infinite;
-    }
-    
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; width: 40px; }
-      50% { opacity: 1; width: 60px; }
-    }
-    
-    /* Heritage — Elegant asymmetric */
-    .heritage {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: var(--color-cream);
-    }
-    
-    .heritage-visual {
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .heritage-visual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(0.15) contrast(1.02) brightness(0.9);
-    }
-    
-    .workshop-overlay {
-      position: absolute;
-      bottom: 3rem;
-      left: 3rem;
-      z-index: 2;
-    }
-    
-    .atelier-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.6em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      color: var(--color-gold);
-    }
-    
-    .atelier-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: 1.75rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      line-height: 1.2;
-      color: var(--color-bone);
-      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-    }
-    
-    .micro-screws {
-      position: absolute;
-      bottom: 3rem;
-      right: 3rem;
-      display: flex;
-      gap: 0.75rem;
-      z-index: 2;
-    }
-    
-    .screw {
-      width: 8px;
-      height: 8px;
-      background: var(--color-gold);
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(197, 160, 89, 0.4);
-      animation: screwRotate 12s linear infinite;
-    }
-    
-    .screw:nth-child(2) {
-      animation-delay: -4s;
-    }
-    
-    .screw:nth-child(3) {
-      animation-delay: -8s;
-    }
-    
-    @keyframes screwRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    .heritage-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 6rem;
-      background: var(--color-bone);
-    }
-    
-    .section-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 1.5rem;
-    }
-    
-    .heritage-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: clamp(2.5rem, 4vw, 4rem);
-      font-weight: 400;
-      line-height: 1.1;
-      color: var(--color-charcoal);
-      margin-bottom: 2rem;
-    }
-    
-    .heritage-text {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--color-night-grey);
-      line-height: 1.9;
-      margin-bottom: 1.5rem;
-    }
-    
-    .heritage-quote {
-      font-family: 'Old Standard TT', serif;
-      font-size: 1.25rem;
-      font-style: italic;
-      color: var(--color-night-blue);
-      border-left: 2px solid var(--color-gold);
-      padding-left: 1.5rem;
-      margin: 2.5rem 0;
-      line-height: 1.6;
-    }
-    
-    /* Movement — Refined theater */
-    .movement {
-      min-height: 100vh;
-      background: var(--color-ink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 6rem;
-      overflow: hidden;
-    }
-    
-    .movement-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-    
-    .movement-bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.4;
-      filter: sepia(0.2) contrast(1.1) brightness(0.6);
-    }
-    
-    .movement-content {
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      max-width: 800px;
-    }
-    
-    .movement-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.6em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 2rem;
-    }
-    
-    .movement-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 400;
-      color: var(--color-bone);
-      margin-bottom: 4rem;
-      letter-spacing: 0.05em;
-    }
-    
-    .movement-visual {
-      width: 400px;
-      height: 400px;
-      margin: 0 auto 4rem;
-      position: relative;
-    }
-    
-    .movement-circle {
-      position: absolute;
-      border: 1px solid rgba(197, 160, 89, 0.15);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    
-    .movement-circle:nth-child(1) {
-      width: 100%;
-      height: 100%;
-      animation: pulseCircle 8s ease-in-out infinite;
-    }
-    
-    .movement-circle:nth-child(2) {
-      width: 75%;
-      height: 75%;
-      animation: pulseCircle 8s ease-in-out infinite 0.5s;
-    }
-    
-    .movement-circle:nth-child(3) {
-      width: 50%;
-      height: 50%;
-      animation: pulseCircle 8s ease-in-out infinite 1s;
-    }
-    
-    .movement-circle:nth-child(4) {
-      width: 25%;
-      height: 25%;
-      border-color: rgba(197, 160, 89, 0.3);
-      animation: pulseCircle 8s ease-in-out infinite 1.5s;
-    }
-    
-    @keyframes pulseCircle {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
-      50% { transform: translate(-50%, -50%) scale(1.03); opacity: 0.5; }
-    }
-    
-    .movement-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40px;
-      height: 40px;
-      background: radial-gradient(circle, var(--color-gold) 0%, transparent 70%);
-      border-radius: 50%;
-      box-shadow: 0 0 40px rgba(197, 160, 89, 0.3);
-    }
-    
-    .movement-specs {
-      display: flex;
-      justify-content: center;
-      gap: 5rem;
-      margin-bottom: 3rem;
-    }
-    
-    .spec-item {
-      text-align: center;
-    }
-    
-    .spec-value {
-      font-family: 'Old Standard TT', serif;
-      font-size: 2rem;
-      color: var(--color-bone);
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    
-    .spec-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-steel);
-    }
-    
-    .movement-text {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--color-steel);
-      line-height: 1.9;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    /* Product Section */
-    .product {
-      min-height: 100vh;
-      background: var(--color-bone);
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-    
-    .product-content {
-      width: 40%;
-      padding: 0 var(--space-2xl) 0 15vw;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .product-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: var(--text-3xl);
-      font-weight: 400;
-      color: var(--color-charcoal);
-      margin-bottom: var(--space-md);
-    }
-    
-    .product-subtitle {
-      font-size: var(--text-lg);
-      color: var(--color-gold);
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-xl);
-    }
-    
-    .product-details {
-      list-style: none;
-      margin-bottom: var(--space-xl);
-    }
-    
-    .product-details li {
-      font-size: var(--text-sm);
-      color: var(--color-night-grey);
-      padding: var(--space-sm) 0;
-      border-bottom: 1px solid rgba(138, 145, 153, 0.2);
-      display: flex;
-      justify-content: space-between;
-    }
-    
-    .product-details li span:first-child {
-      color: var(--color-steel);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: var(--text-xs);
-    }
-    
-    .product-price {
-      font-family: 'Old Standard TT', serif;
-      font-size: var(--text-2xl);
-      color: var(--color-charcoal);
-      margin-bottom: var(--space-lg);
-    }
-    
-    .product-price span {
-      font-size: var(--text-sm);
-      color: var(--color-steel);
-      margin-left: var(--space-sm);
-    }
-    
-    .product-cta {
-      display: inline-block;
-      padding: var(--space-md) var(--space-2xl);
-      background: var(--color-charcoal);
-      color: var(--color-bone);
-      font-size: var(--text-xs);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all 0.5s var(--ease-luxury);
-    }
-    
-    .product-cta:hover {
-      background: var(--color-gold);
-      color: var(--color-ink);
-      box-shadow: 0 0 30px var(--color-gold-glow);
-    }
-    
-    .product-visual {
-      width: 55%;
-      min-height: 100vh;
-      margin-right: 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .product-visual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(0.1) contrast(1.05) brightness(0.95);
-    }
-    
-    /* Contact Section */
-    .contact {
-      min-height: 80vh;
-      background: var(--color-charcoal);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: var(--space-3xl) var(--space-xl);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .contact::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 100%, rgba(138, 145, 153, 0.05) 0%, transparent 30%);
-    }
-    
-    .contact-label {
-      font-size: var(--text-xs);
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: var(--space-lg);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .contact-title {
-      font-family: 'Old Standard TT', serif;
-      font-size: var(--text-2xl);
-      font-weight: 400;
-      color: var(--color-bone);
-      margin-bottom: var(--space-md);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .contact-address {
-      font-size: var(--text-base);
-      color: var(--color-steel);
-      line-height: 1.8;
-      margin-bottom: var(--space-xl);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .contact-email {
-      font-size: var(--text-sm);
-      letter-spacing: 0.15em;
-      color: var(--color-bone);
-      text-decoration: none;
-      border-bottom: 1px solid var(--color-gold);
-      padding-bottom: 4px;
-      transition: all 0.3s var(--ease-luxury);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .contact-email:hover {
-      color: var(--color-gold);
-      border-bottom-color: transparent;
-    }
-    
-    /* Footer */
-    .footer {
-      background: var(--color-ink);
-      padding: var(--space-xl);
-      text-align: center;
-      border-top: 1px solid rgba(197, 160, 89, 0.1);
-    }
-    
-    .footer-text {
-      font-size: var(--text-xs);
-      letter-spacing: 0.15em;
-      color: var(--color-steel);
-    }
-    
-    /* No invisible frame — clean edges */
-    
-    /* Mobile Responsive */
-    @media (max-width: 900px) {
-      .nav {
-        padding: 1.5rem;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      
-      .hero-content {
-        padding: 7rem 2rem 3rem;
-        order: 2;
-      }
-      
-      .hero-visual {
-        min-height: 50vh;
-        order: 1;
-      }
-      
-      .watch-face {
-        width: 200px;
-        height: 200px;
-      }
-      
-      .scroll-indicator {
-        display: none;
-      }
-      
-      .heritage {
-        grid-template-columns: 1fr;
-      }
-      
-      .heritage-visual,
-      .heritage-content {
-        padding: 4rem 2rem;
-      }
-      
-      .heritage-visual {
-        order: 2;
-      }
-      
-      .heritage-content {
-        order: 1;
-      }
-      
-      .movement {
-        padding: 4rem 2rem;
-      }
-      
-      .movement-visual {
-        width: 280px;
-        height: 280px;
-      }
-      
-      .movement-specs {
-        flex-wrap: wrap;
-        gap: 2rem;
-      }
-      
-      .spec-value {
-        font-size: 1.5rem;
-      }
-      
-      .product {
-        flex-direction: column;
-      }
-      
-      .product-content,
-      .product-visual {
-        width: 100%;
-        padding: 4rem 2rem;
-      }
-      
-      .product-visual {
-        min-height: 50vh;
-      }
-      
-      .watch-case {
-        width: 180px;
-        height: 180px;
-      }
-      
-      .watch-dial {
-        width: 160px;
-        height: 160px;
-      }
-      
-      .modal-content {
-        margin: 1rem;
-        padding: 2rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pöhlmann-Bresan — Saxon Watchmaking Atelier</title>
+<meta name="description" content="Independent watchmaking atelier in Dresden. Hand-finished mechanical timepieces. Limited editions of 48.">
+<link rel="icon" href="https://velocity.calyvent.com/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
+<!--
+  STYLE LOG — Velocity Preview for Pöhlmann-Bresan (v2 Rebuild)
+  ===============================================================
+  Archetype: Heritage Estate
+  Heading: Old Standard TT | Body: Lato (Thin/Light)
+  Base: #f5f2ed (warm parchment) | Dark: #0e0e0c | Accent: #9e8a6e (aged brass)
+
+  SCROLL: Lenis (1.2 duration)
+  EASING: cubic-bezier(0.16, 1, 0.3, 1)
+  REVEALS: clip-path inset wipes on images, opacity+translateY on text
+  CURSOR: custom circle, mix-blend-mode: difference
+
+  WHAT CHANGED FROM V1:
+  - Killed all 50/50 grids → asymmetric 7/4, full-bleed, staggered layouts
+  - Killed gradient nav → transparent, mix-blend-mode: difference
+  - Killed pulsing concentric circles → clean specs layout with image
+  - Killed bordered blockquote → pull-quote with extreme italic
+  - Killed equal padding → varied section rhythms
+  - Added Lenis, custom cursor, clip-path reveals, image parallax
+  - Muted the gold → aged brass #9e8a6e (quieter than #C5A059)
+  - Warmed the background → #f5f2ed (not sterile #F9F9F6)
+-->
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f5f2ed;
+  --bg-dark: #0e0e0c;
+  --bg-mid: #e8e3db;
+  --text: #1a1a18;
+  --text-dim: rgba(26, 26, 24, 0.45);
+  --accent: #9e8a6e;
+  --accent-dim: rgba(158, 138, 110, 0.15);
+  --steel: #7a7d80;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html { overflow-x: hidden; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+a, button { cursor: none; }
+
+/* Grain */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Cursor */
+.cursor {
+  position: fixed;
+  width: 22px; height: 22px;
+  border: 1px solid var(--text);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor.hovering { width: 60px; height: 60px; border-color: #fff; }
+
+/* Preloader */
+.preloader {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 10001;
+}
+.preloader.done { clip-path: inset(0 0 100% 0); transition: clip-path 1s var(--ease); }
+
+.pre-name {
+  font-family: 'Old Standard TT', serif;
+  font-size: 13px; font-weight: 400;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--text); margin-bottom: 16px;
+}
+.pre-line {
+  width: 60px; height: 1px; background: rgba(158,138,110,0.2);
+  position: relative; overflow: hidden;
+}
+.pre-line::after {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%; background: var(--accent);
+  animation: sweep 2s var(--ease) forwards;
+}
+@keyframes sweep { to { left: 0; } }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 32px 6vw; z-index: 100;
+  mix-blend-mode: difference;
+}
+.nav-mark {
+  font-family: 'Old Standard TT', serif;
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: #fff; text-decoration: none;
+}
+.nav-link {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #fff; opacity: 0.5; text-decoration: none;
+  background: none; border: none;
+  transition: opacity 0.4s;
+}
+.nav-link:hover { opacity: 1; }
+
+/* Scroll indicator */
+.scroll-ind {
+  position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
+  z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: opacity 0.6s;
+}
+.scroll-ind.hidden { opacity: 0; pointer-events: none; }
+.scroll-ind span {
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+}
+.scroll-bar {
+  width: 1px; height: 44px; background: rgba(26,26,24,0.1);
+  position: relative; overflow: hidden;
+}
+.scroll-bar::after {
+  content: ''; position: absolute; top: -50%; width: 1px; height: 50%;
+  background: var(--accent);
+  animation: scrollDot 2s ease-in-out infinite;
+}
+@keyframes scrollDot { 0% { top: -50%; } 100% { top: 150%; } }
+
+/* ═══════ HERO ═══════ */
+.hero {
+  height: 100vh;
+  position: relative; overflow: hidden;
+}
+.hero-img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.02);
+}
+.hero-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(245,242,237,0.1), rgba(245,242,237,0.65));
+}
+.hero-content {
+  position: absolute; bottom: 12vh; left: 8vw; z-index: 2;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--steel); margin-bottom: 20px;
+  opacity: 0; transform: translateY(24px);
+}
+.hero-title {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 7.5rem);
+  line-height: 0.9; letter-spacing: -0.03em;
+  color: var(--text); margin-bottom: 24px;
+  opacity: 0; transform: translateY(36px);
+}
+.hero-title em {
+  font-style: italic; display: block;
+  font-size: 0.55em; letter-spacing: 0.02em;
+  color: var(--accent); margin-top: 8px;
+}
+.hero-sub {
+  font-size: 15px; font-weight: 300; line-height: 1.75;
+  color: var(--text-dim); max-width: 380px;
+  opacity: 0; transform: translateY(24px);
+}
+
+/* ═══════ HERITAGE ═══════ */
+.heritage {
+  display: grid; grid-template-columns: 7fr 4fr; gap: 0;
+  min-height: 100vh;
+}
+.heritage-img-wrap {
+  position: relative; overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s var(--ease);
+}
+.heritage-img-wrap.visible { clip-path: inset(0); }
+.heritage-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.85); transition: filter 0.6s, transform 5s var(--ease);
+}
+.heritage-img-wrap:hover img { filter: saturate(1); transform: scale(1.02); }
+
+.heritage-text {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 10vh 6vw 10vh 5vw;
+  background: var(--bg);
+}
+.eyebrow {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 40px;
+}
+.heritage-heading {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  line-height: 1.15; letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+.body-copy {
+  font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: rgba(26,26,24,0.55); max-width: 440px;
+  margin-bottom: 20px;
+}
+.pull-quote {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400; font-style: italic;
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  line-height: 1.55; color: var(--text);
+  margin-top: 32px; max-width: 420px;
+}
+
+/* ═══════ MOVEMENT (FULL-BLEED DARK) ═══════ */
+.movement {
+  position: relative; overflow: hidden;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 15vh 8vw;
+}
+.movement-bg {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+}
+.movement-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.7) brightness(0.35);
+}
+.movement-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 5fr 6fr; gap: 8vw;
+  align-items: center;
+}
+.movement-text { color: #e8e4df; }
+.movement-text .eyebrow { color: var(--accent); margin-bottom: 36px; }
+.movement-heading {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  line-height: 1.15; color: #e8e4df;
+  margin-bottom: 36px;
+}
+.movement-body {
+  font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: rgba(232,228,223,0.5);
+  max-width: 440px;
+}
+
+.specs-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px 40px;
+}
+.spec-num {
+  font-family: 'Old Standard TT', serif;
+  font-size: 2.5rem; font-weight: 400;
+  color: #e8e4df; line-height: 1;
+}
+.spec-lbl {
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(232,228,223,0.35); margin-top: 6px;
+}
+
+/* ═══════ PRODUCT ═══════ */
+.product {
+  display: grid; grid-template-columns: 4fr 7fr; gap: 0;
+  min-height: 100vh;
+}
+.product-info {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 10vh 5vw 10vh 8vw;
+  background: var(--bg-mid);
+}
+.product-name {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 3vw, 3.5rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.product-ed {
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 36px;
+}
+.detail-list {
+  list-style: none; margin-bottom: 36px;
+}
+.detail-list li {
+  display: flex; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(26,26,24,0.06);
+  font-size: 14px;
+}
+.detail-list li span:first-child {
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--steel);
+  display: flex; align-items: center;
+}
+.detail-list li span:last-child {
+  font-weight: 300; color: var(--text);
+}
+.price-line {
+  font-family: 'Old Standard TT', serif;
+  font-size: 1.75rem; font-weight: 400;
+  color: var(--text); margin-bottom: 8px;
+}
+.price-note {
+  font-size: 12px; color: var(--steel);
+  letter-spacing: 0.05em; margin-bottom: 36px;
+}
+.btn-inquire {
+  display: inline-block;
+  padding: 14px 48px;
+  border: 1px solid rgba(26,26,24,0.2);
+  color: var(--text); background: transparent;
+  font-family: 'Lato', sans-serif;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background 0.6s var(--ease), border-color 0.6s;
+}
+.btn-inquire:hover {
+  background: rgba(26,26,24,0.03);
+  border-color: rgba(26,26,24,0.35);
+}
+
+.product-img-wrap {
+  position: relative; overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s var(--ease);
+}
+.product-img-wrap.visible { clip-path: inset(0); }
+.product-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.85); transition: filter 0.6s, transform 5s var(--ease);
+}
+.product-img-wrap:hover img { filter: saturate(1); transform: scale(1.02); }
+
+/* ═══════ FOUNDERS VISUAL BREAK ═══════ */
+.founders-break {
+  height: 65vh; position: relative; overflow: hidden;
+}
+.founders-break img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.85);
+}
+.founders-break::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(245,242,237,0.15), rgba(14,14,12,0.3));
+}
+
+/* ═══════ ATELIER / CTA ═══════ */
+.atelier {
+  min-height: 70vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 15vh 8vw;
+  background: var(--bg-dark);
+}
+.atelier .eyebrow { color: var(--accent); margin-bottom: 28px; }
+.atelier-heading {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  color: #e8e4df; margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+.atelier-address {
+  font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: rgba(232,228,223,0.4); margin-bottom: 40px;
+}
+.atelier-email {
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #e8e4df; text-decoration: none;
+  position: relative; padding-bottom: 3px;
+}
+.atelier-email::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1px; background: var(--accent);
+}
+
+/* Footer */
+footer {
+  padding: 40px 6vw;
+  background: var(--bg-dark);
+  border-top: 1px solid rgba(232,228,223,0.04);
+  text-align: center;
+}
+.footer-copy {
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 0.05em;
+  color: rgba(232,228,223,0.25);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(14,14,12,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10002;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.6s var(--ease), visibility 0.6s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-box {
+  max-width: 460px; text-align: center;
+  padding: 52px 44px;
+  background: var(--bg);
+  position: relative;
+}
+.modal-x {
+  position: absolute; top: 18px; right: 22px;
+  background: none; border: none;
+  color: var(--steel); font-size: 16px;
+  font-family: 'Lato', sans-serif;
+}
+.modal-h {
+  font-family: 'Old Standard TT', serif;
+  font-weight: 400; font-style: italic;
+  font-size: 1.35rem; letter-spacing: -0.01em;
+  margin-bottom: 18px; color: var(--text);
+}
+.modal-p {
+  font-size: 14px; font-weight: 300; line-height: 1.8;
+  color: var(--text-dim); margin-bottom: 24px;
+}
+.modal-a {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  position: relative; padding-bottom: 2px;
+}
+.modal-a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1px; background: var(--accent);
+}
+.modal-timer {
+  position: absolute; bottom: 0; left: 0;
+  height: 1px; background: var(--accent);
+  animation: timerShrink 5s linear forwards;
+}
+@keyframes timerShrink { from { width: 100%; } to { width: 0; } }
+
+/* Reveals */
+.reveal {
+  opacity: 0; transform: translateY(44px);
+}
+.reveal.in {
+  opacity: 1; transform: translateY(0);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .cursor { display: none; }
+  body, a, button { cursor: auto; }
+  nav { padding: 22px 6vw; }
+  .nav-link { display: none; }
+  .hero-content { left: 6vw; bottom: 10vh; }
+
+  .heritage { grid-template-columns: 1fr; }
+  .heritage-img-wrap { min-height: 50vh; }
+  .heritage-text { padding: 10vh 6vw; }
+
+  .movement { padding: 12vh 6vw; }
+  .movement-inner { grid-template-columns: 1fr; gap: 48px; }
+
+  .product { grid-template-columns: 1fr; }
+  .product-info { padding: 10vh 6vw; order: 2; }
+  .product-img-wrap { min-height: 50vh; order: 1; }
+
+  .founders-break { height: 40vh; }
+  .scroll-ind { display: none; }
+  .specs-grid { gap: 32px 28px; }
+}
+</style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="preloader-logo">Pöhlmann-Bresan</div>
-    <div class="preloader-sub">Saxon Watchmaking Atelier</div>
-    <div class="preloader-line"></div>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="pre-name">Pöhlmann-Bresan</div>
+  <div class="pre-line"></div>
+</div>
+
+<!-- Scroll -->
+<div class="scroll-ind" id="scrollInd">
+  <span>Scroll</span>
+  <div class="scroll-bar"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-mark">Pöhlmann-Bresan</a>
+  <button class="nav-link" onclick="openModal()">Inquire</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-img" src="./assets/hero-watch.png" alt="Pöhlmann-Bresan Prestige" data-speed="0.92">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" id="hEye">Saxon Watchmaking Atelier · Dresden</p>
+    <h1 class="hero-title" id="hTitle">Prestige<em>Limited to 48 Pieces</em></h1>
+    <p class="hero-sub" id="hSub">Hand-finished mechanical excellence. 200+ hours of artisanal transformation on every timepiece.</p>
   </div>
-  
-  <!-- Modal -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()">×</button>
-      <h3 class="modal-title">A Velocity Preview</h3>
-      <p class="modal-text">
-        This is a Velocity by Calyvent preview — a vision of what Pöhlmann-Bresan's digital presence could become. 
-        Every element honors the 200+ hours of hand-finishing that defines their craft.
-      </p>
-      <p class="modal-text">
-        The Prestige timepiece deserves a presentation as meticulous as its JU26-01 movement. 
-        <a href="https://velocity.calyvent.com" class="modal-link" target="_blank">velocity.calyvent.com</a>
-      </p>
+</section>
+
+<!-- HERITAGE -->
+<section class="heritage">
+  <div class="heritage-img-wrap clip-el">
+    <img src="./assets/atelier-workshop.png" alt="Dresden atelier workshop" loading="lazy">
+  </div>
+  <div class="heritage-text">
+    <span class="eyebrow reveal">Heritage</span>
+    <h2 class="heritage-heading reveal">Saxon Watchmaking<br>Tradition</h2>
+    <p class="body-copy reveal">Unweit des Großen Gartens in Dresden, Josef Bresan and Lukas Pöhlmann develop and manufacture wristwatches in traditional construction. Nach alter Väter Sitte.</p>
+    <p class="body-copy reveal">Their atelier continues Saxony's storied watchmaking legacy, a short journey from Glashütte, the epicenter of German horology.</p>
+    <p class="pull-quote reveal">"To take an industrial ebauche calibre and bring to market an exquisitely finished piece that honors the traditions of Saxon watchmaking."</p>
+  </div>
+</section>
+
+<!-- MOVEMENT -->
+<section class="movement">
+  <div class="movement-bg" data-speed="0.9">
+    <img src="./assets/movement-macro.png" alt="JU26-01 movement" loading="lazy">
+  </div>
+  <div class="movement-inner">
+    <div class="movement-text">
+      <span class="eyebrow reveal">Kaliber JU26-01</span>
+      <h2 class="movement-heading reveal">The Movement</h2>
+      <p class="movement-body reveal">Based on the Soviet Pobeda calibre 2608, completely transformed. Skeletonized train bridge revealing double-layered gear architecture. Hand-applied anglage. A metamorphosis of horological alchemy.</p>
+    </div>
+    <div class="specs-grid reveal">
+      <div>
+        <div class="spec-num">18,000</div>
+        <div class="spec-lbl">Vibrations / Hour</div>
+      </div>
+      <div>
+        <div class="spec-num">39h</div>
+        <div class="spec-lbl">Power Reserve</div>
+      </div>
+      <div>
+        <div class="spec-num">200+</div>
+        <div class="spec-lbl">Hours of Finishing</div>
+      </div>
+      <div>
+        <div class="spec-num">14k</div>
+        <div class="spec-lbl">Gold Screws</div>
+      </div>
     </div>
   </div>
-  
-  <!-- Navigation -->
-  <nav class="nav">
-    <a href="#" class="nav-logo" onclick="openModal(); return false;">Pöhlmann-Bresan</a>
-    <ul class="nav-links">
-      <li><a href="#heritage" onclick="openModal(); return false;">Heritage</a></li>
-      <li><a href="#movement" onclick="openModal(); return false;">Movement</a></li>
-      <li><a href="#product" onclick="openModal(); return false;">Prestige</a></li>
-      <li><a href="#contact" onclick="openModal(); return false;">Contact</a></li>
+</section>
+
+<!-- PRODUCT -->
+<section class="product">
+  <div class="product-info">
+    <span class="eyebrow reveal">Collection</span>
+    <h2 class="product-name reveal">Prestige</h2>
+    <div class="product-ed reveal">Limited Edition of 48</div>
+    <ul class="detail-list reveal">
+      <li><span>Case</span><span>Stainless Steel, 40mm</span></li>
+      <li><span>Height</span><span>12.2mm</span></li>
+      <li><span>Lug-to-Lug</span><span>48.8mm</span></li>
+      <li><span>Crystal</span><span>Sapphire</span></li>
+      <li><span>Water Resistance</span><span>50 Meters</span></li>
+      <li><span>Strap</span><span>Calf Leather</span></li>
     </ul>
-  </nav>
-  
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <span class="hero-label">Saxon Watchmaking Atelier</span>
-      <h1 class="hero-title"><em>Prestige</em>Timepiece</h1>
-      <p class="hero-subtitle">
-        Hand-finished mechanical excellence. Limited to 48 pieces. 
-        200+ hours of artisanal transformation in Dresden.
-      </p>
-      <button class="hero-cta" onclick="openModal()">Discover</button>
-      <div class="scroll-indicator">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <img src="./assets/hero-watch.png" alt="Pöhlmann-Bresan Prestige timepiece" loading="eager">
-    </div>
-  </section>
-  
-  <!-- Heritage Section -->
-  <section class="heritage" id="heritage">
-    <div class="heritage-visual">
-      <img src="./assets/atelier-workshop.png" alt="Pöhlmann-Bresan Dresden atelier" loading="lazy">
-      <div class="workshop-overlay">
-        <div class="atelier-label">Dresden Atelier</div>
-        <div class="atelier-title">Gostritzer Straße 10</div>
-      </div>
-      <div class="micro-screws">
-        <div class="screw"></div>
-        <div class="screw"></div>
-        <div class="screw"></div>
-      </div>
-    </div>
-    <div class="heritage-content">
-      <span class="section-label">Heritage</span>
-      <h2 class="heritage-title">Saxon<br>Watchmaking<br>Tradition</h2>
-      <p class="heritage-text">
-        Unweit des Großen Gartens in Dresden, Josef Bresan and Lukas Pöhlmann 
-        develop and manufacture their own wristwatches in traditional construction. 
-        "Nach alter Väter Sitte" — according to the custom of old fathers.
-      </p>
-      <p class="heritage-text">
-        Their atelier stands as a continuation of Saxony's storied watchmaking heritage, 
-        just a short journey from Glashütte, the epicenter of German horology.
-      </p>
-      <blockquote class="heritage-quote">
-        "To take an industrial ebauche calibre and bring to market an exquisitely 
-        finished piece that honors the traditions of Saxon watchmaking."
-      </blockquote>
-    </div>
-  </section>
-  
-  <!-- Movement Theater Section -->
-  <section class="movement" id="movement">
-    <div class="movement-bg">
-      <img src="./assets/movement-macro.png" alt="JU26-01 movement detail" loading="lazy">
-    </div>
-    <div class="movement-content">
-      <span class="movement-label">Kaliber JU26-01</span>
-      <h2 class="movement-title">The Movement Theater</h2>
-      <div class="movement-visual">
-        <div class="movement-circle"></div>
-        <div class="movement-circle"></div>
-        <div class="movement-circle"></div>
-        <div class="movement-circle"></div>
-        <div class="movement-center"></div>
-      </div>
-      <div class="movement-specs">
-        <div class="spec-item">
-          <span class="spec-value">18,000</span>
-          <span class="spec-label">Vibrations/Hour</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-value">39h</span>
-          <span class="spec-label">Power Reserve</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-value">200+</span>
-          <span class="spec-label">Hours of Work</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-value">14k</span>
-          <span class="spec-label">Gold Screws</span>
-        </div>
-      </div>
-      <p class="movement-text">
-        Based on the Soviet Pobeda calibre 2608, completely transformed. 
-        Skeletonized train bridge revealing the double-layered gear architecture. 
-        Hand-applied anglage. Industrial surface finish. 
-        A metamorphosis of horological alchemy.
-      </p>
-    </div>
-  </section>
-  
-  <!-- Product Section -->
-  <section class="product" id="product">
-    <div class="product-content">
-      <span class="section-label">Collection</span>
-      <h2 class="product-title">Prestige</h2>
-      <p class="product-subtitle">Limited Edition of 48</p>
-      <ul class="product-details">
-        <li>
-          <span>Case</span>
-          <span>Stainless Steel, 40mm</span>
-        </li>
-        <li>
-          <span>Height</span>
-          <span>12.2mm</span>
-        </li>
-        <li>
-          <span>Lug-to-Lug</span>
-          <span>48.8mm</span>
-        </li>
-        <li>
-          <span>Crystal</span>
-          <span>Sapphire</span>
-        </li>
-        <li>
-          <span>Water Resistance</span>
-          <span>50 Meters</span>
-        </li>
-        <li>
-          <span>Strap</span>
-          <span>Calf Leather</span>
-        </li>
-      </ul>
-      <div class="product-price">
-        €16,750 <span>excluding taxes</span>
-      </div>
-      <button class="product-cta" onclick="openModal()">Inquire</button>
-    </div>
-    <div class="product-visual">
-      <img src="./assets/product-detail.png" alt="Pöhlmann-Bresan Prestige caseback detail" loading="lazy">
-    </div>
-  </section>
-  
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <span class="contact-label">Atelier</span>
-    <h2 class="contact-title">Visit Dresden</h2>
-    <p class="contact-address">
-      Pöhlmann-Bresan GbR<br>
-      Gostritzer Straße 10<br>
-      01217 Dresden, Germany
-    </p>
-    <a href="mailto:info@poehlmann-bresan.de" class="contact-email">info@poehlmann-bresan.de</a>
-  </section>
-  
-  <!-- Footer -->
-  <footer class="footer">
-    <p class="footer-text">© 2026 Velocity by Calyvent. All rights reserved.</p>
-  </footer>
-  
-  <script>
-    // Preloader
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('preloader').classList.add('hidden');
-      }, 2500);
+    <div class="price-line reveal">€16,750</div>
+    <div class="price-note reveal">Excluding taxes</div>
+    <button class="btn-inquire reveal" onclick="openModal()">Inquire</button>
+  </div>
+  <div class="product-img-wrap clip-el">
+    <img src="./assets/product-detail.png" alt="Prestige caseback" loading="lazy">
+  </div>
+</section>
+
+<!-- FOUNDERS BREAK -->
+<div class="founders-break clip-el">
+  <img src="./assets/founders-portrait.png" alt="Josef Bresan and Lukas Pöhlmann" loading="lazy">
+</div>
+
+<!-- ATELIER CTA -->
+<section class="atelier">
+  <span class="eyebrow reveal">Atelier</span>
+  <h2 class="atelier-heading reveal">Visit Dresden</h2>
+  <p class="atelier-address reveal">
+    Pöhlmann-Bresan GbR<br>
+    Gostritzer Straße 10<br>
+    01217 Dresden, Germany
+  </p>
+  <a href="#" class="atelier-email reveal" onclick="openModal(); return false;">info@poehlmann-bresan.de</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-copy">&copy; 2026 Velocity by Calyvent. All rights reserved.</div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal()">&times;</button>
+    <h3 class="modal-h">A Velocity Preview</h3>
+    <p class="modal-p">This is a vision of what Pöhlmann-Bresan's digital presence could become. Every element honors the 200+ hours of hand-finishing that defines their craft.</p>
+    <a href="https://velocity.calyvent.com" target="_blank" class="modal-a">Discover Velocity</a>
+    <div class="modal-timer" id="modalTimer"></div>
+  </div>
+</div>
+
+<script>
+// ── Lenis ──
+let lenis;
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js';
+script.onload = () => {
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  lenis.on('scroll', ({ scroll }) => {
+    if (scroll > 80) document.getElementById('scrollInd').classList.add('hidden');
+    parallaxEls.forEach(el => {
+      const spd = parseFloat(el.dataset.speed);
+      el.style.transform = `translateY(${scroll * (1 - spd)}px)`;
     });
-    
-    // Modal
-    function openModal() {
-      document.getElementById('modal').classList.add('active');
-      setTimeout(closeModal, 5000);
-    }
-    
-    function closeModal() {
-      document.getElementById('modal').classList.remove('active');
-    }
-    
-    // Close modal on outside click
-    document.getElementById('modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
+  });
+};
+script.onerror = () => {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) document.getElementById('scrollInd').classList.add('hidden');
+  }, { once: true });
+};
+document.head.appendChild(script);
+
+const parallaxEls = document.querySelectorAll('[data-speed]');
+
+// ── Preloader ──
+setTimeout(() => {
+  document.getElementById('preloader').classList.add('done');
+  setTimeout(() => {
+    const ease = 'opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1)';
+    ['hEye','hTitle','hSub'].forEach((id, i) => {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        el.style.transition = ease;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, i * 150);
     });
-    
-    // Smooth scroll with momentum
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-      document.body.style.pointerEvents = 'none';
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(function() {
-        document.body.style.pointerEvents = 'auto';
-      }, 100);
-    }, { passive: true });
-    
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-    
-    // Observe sections for parallax feel
-    document.querySelectorAll('.heritage-content, .movement-content, .product-content').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 1s cubic-bezier(0.23, 1, 0.32, 1), transform 1s cubic-bezier(0.23, 1, 0.32, 1)';
-      observer.observe(el);
-    });
-  </script>
+  }, 350);
+}, 2200);
+
+// ── Reveals ──
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+const clipObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); clipObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.clip-el').forEach(el => clipObs.observe(el));
+
+// ── Cursor ──
+const cursor = document.getElementById('cursor');
+let cx = 0, cy = 0, mx = 0, my = 0;
+document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+(function loop() {
+  mx += (cx - mx) * 0.12; my += (cy - my) * 0.12;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.btn-inquire,.nav-link').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+});
+
+// ── Modal ──
+let mt;
+function openModal() {
+  const m = document.getElementById('modal'); m.classList.add('active');
+  const t = document.getElementById('modalTimer');
+  t.style.animation = 'none'; t.offsetHeight; t.style.animation = 'timerShrink 5s linear forwards';
+  clearTimeout(mt); mt = setTimeout(closeModal, 5000);
+}
+function closeModal() { document.getElementById('modal').classList.remove('active'); clearTimeout(mt); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+</script>
 </body>
 </html>
