@@ -3,7 +3,7 @@
  * Serves a clean, shareable HTML view of the full client brief.
  * Useful for sharing with AI assistants or reviewing in full screen.
  */
-import { getSupabase, isAdmin } from '../../../_lib/supabase.js';
+import { getSupabase, isAdmin } from '../../_lib/supabase.js';
 
 export async function onRequestGet(context) {
   if (!isAdmin(context.request, context.env)) {
