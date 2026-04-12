@@ -194,7 +194,7 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <p><strong>24-Hour Rule.</strong> All information in this brief becomes read-only exactly 24 hours after submission. Make sure everything is accurate before you submit.</p>
       </div>
       <div class="field"><label class="check-row"><input type="checkbox" id="agreeTerms"><span>I have read and understand the above. I know my submission may be declined, and that my brief locks in 24 hours.</span></label><div class="field-error" id="err-agreeTerms" style="margin-top:.5rem">You must agree to continue</div></div>
-      <div class="nav-btns"><button class="btn-back" id="back4">&larr; Back</button><button class="btn-submit" id="submitBtn">Submit Brief</button></div>
+      <div class="nav-btns"><button class="btn-back" id="back4">&larr; Back</button><button class="btn-next" id="next4">Continue &rarr;</button></div>
     </div>
   </div>
 </div>
@@ -254,6 +254,7 @@ async function init() {
     setupUrlBlocks('inspirationList','addInspiration',true,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.inspiration)||[]);
     setupUrlBlocks('antiList','addAnti',false,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.anti_inspiration)||[]);
     document.getElementById('startingPoint').addEventListener('change',function(){ document.getElementById('existingUrlField').style.display=this.value==='existing'?'':'none'; });
+  document.querySelectorAll('input[name="domainChoice"]').forEach(r=>r.addEventListener('change',function(){ document.getElementById('domainNameField').style.display=this.value==='velocity_provides'?'':'none'; }));
     document.getElementById('dueDate').min = new Date(Date.now()+48*3600000).toISOString().split('T')[0];
     bindNav();
     // Pre-fill email in phase 1
@@ -277,6 +278,8 @@ function prefill(d) {
   sv('mottos',p4.mottos);sv('copyright',p4.copyright);sv('assetsLinks',p4.assets_links);sv('existingUrl',p4.existing_url);
   if(p4.starting_point){document.getElementById('startingPoint').value=p4.starting_point;if(p4.starting_point==='existing')document.getElementById('existingUrlField').style.display='';}
   if(p4.due_date)document.getElementById('dueDate').value=p4.due_date;
+  const p5=d.phase5||{};
+  if(p5.additional_notes)document.getElementById('additionalNotes').value=p5.additional_notes;
 }
 function sv(id,val){ if(val){const el=document.getElementById(id);if(el)el.value=val;} }
 
@@ -313,7 +316,8 @@ function goTo(n){
   cur=n;
   document.getElementById('phase'+n).classList.add('active');
   document.getElementById('progressFill').style.width=(n/5*100)+'%';
-  document.getElementById('navStep').textContent = n===0 ? 'Welcome' : 'Phase 0'+n+' / 05';
+  const stepLabel = n===0 ? 'Welcome' : (n===5 ? 'Phase 05 / 05' : 'Phase 0'+n+' / 05');
+  document.getElementById('navStep').textContent = stepLabel;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function showErr(id,v){const el=document.getElementById('err-'+id);if(el)el.classList.toggle('show',v);}
@@ -343,6 +347,8 @@ function bindNav(){
   document.getElementById('back2').onclick=()=>goTo(1);
   document.getElementById('back3').onclick=()=>goTo(2);
   document.getElementById('back4').onclick=()=>goTo(3);
+  document.getElementById('next4').onclick=()=>goTo(5);
+  document.getElementById('back5').onclick=()=>goTo(4);
   document.getElementById('submitBtn').onclick=submit;
 }
 function collect(){
@@ -354,15 +360,19 @@ function collect(){
     phase1:{full_name:document.getElementById('fullName').value.trim(),company_name:document.getElementById('companyName').value.trim(),email:document.getElementById('email').value.trim().toLowerCase(),phone:document.getElementById('phone').value.trim(),context:document.getElementById('context').value.trim(),socials,include_socials:document.getElementById('includeSocials').checked},
     phase2:{inspiration,anti_inspiration:anti,target_customer:document.getElementById('targetCustomer').value.trim()},
     phase3:{color_background:document.getElementById('colorBg').value.trim(),color_secondary:document.getElementById('colorSec').value.trim(),color_accent:document.getElementById('colorAcc').value.trim(),colors_extra:document.getElementById('colorsExtra').value.trim(),fonts:document.getElementById('fonts').value.trim(),upgrade_permission:document.getElementById('upgradePerm').checked},
-    phase4:{mottos:document.getElementById('mottos').value.trim(),copyright:document.getElementById('copyright').value.trim(),assets_links:document.getElementById('assetsLinks').value.trim(),starting_point:sp,existing_url:sp==='existing'?document.getElementById('existingUrl').value.trim():'',due_date:document.getElementById('dueDate').value}
+    phase4:{mottos:document.getElementById('mottos').value.trim(),copyright:document.getElementById('copyright').value.trim(),assets_links:document.getElementById('assetsLinks').value.trim(),starting_point:sp,existing_url:sp==='existing'?document.getElementById('existingUrl').value.trim():'',due_date:document.getElementById('dueDate').value},
+    phase5:{additional_notes:document.getElementById('additionalNotes').value.trim()}
   };
 }
 async function submit(){
   if(!v4())return;
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Submitting\u2026';
   const data=collect();
+  const domSel=document.querySelector('input[name="domainChoice"]:checked');
+  const domChoice=domSel?domSel.value:'';
+  const domName=domChoice==='velocity_provides'?document.getElementById('domainName').value.trim():'';
   try{
-    const r=await fetch('/api/leads/'+TOKEN,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_data:data,submitted_at:new Date().toISOString(),due_date:data.phase4.due_date||null,client_name:data.phase1.full_name,client_email:data.phase1.email,upgrade_permission:data.phase3.upgrade_permission})});
+    const r=await fetch('/api/leads/'+TOKEN,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_data:data,submitted_at:new Date().toISOString(),due_date:data.phase4.due_date||null,client_name:data.phase1.full_name,client_email:data.phase1.email,upgrade_permission:data.phase3.upgrade_permission,domain_choice:domChoice||null,domain_name:domName||null})});
     if(!r.ok){const e=await r.json();btn.disabled=false;btn.textContent='Submit Brief';alert(e.error||'Error. Please try again.');return;}
     location.href='/dashboard/'+TOKEN;
   }catch{btn.disabled=false;btn.textContent='Submit Brief';alert('Network error. Please try again.');}

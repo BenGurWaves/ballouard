@@ -1,6 +1,6 @@
 /**
- * GET  /api/leads/:token  — Fetch lead by token (public, token-gated)
- * PATCH /api/leads/:token — Client submits/saves form data (respects 24h lock)
+ * GET  /api/leads/:token  — fetch lead (public, token-gated)
+ * PATCH /api/leads/:token — client submits/saves (respects 24h lock)
  */
 import { getSupabase, jsonRes, errRes, optionsRes } from '../../_lib/supabase.js';
 
@@ -13,12 +13,19 @@ export async function onRequestGet(context) {
   if (!token) return errRes('Token required', 400);
 
   const rows = await sb.select('velocity_leads',
-    `token=eq.${token}&select=id,token,status,full_data,submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at`);
+    `token=eq.${token}&select=id,token,status,full_data,submitted_at,first_submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at,admin_comment,site_link,domain_choice,domain_name,email_verified`);
   if (!rows.length) return errRes('Not found', 404);
 
   const lead = rows[0];
-  if (!lead.is_locked && lead.submitted_at) {
-    if (Date.now() - new Date(lead.submitted_at).getTime() > 86400000) lead.is_locked = true;
+  // Real-time lock check using first_submitted_at as anchor
+  const anchor = lead.first_submitted_at || lead.submitted_at;
+  if (!lead.is_locked && anchor) {
+    if (Date.now() - new Date(anchor).getTime() > 86400000) lead.is_locked = true;
+  }
+  // Expire admin comment after 24h on client side
+  if (lead.admin_comment && lead.admin_comment.created_at) {
+    const age = Date.now() - new Date(lead.admin_comment.created_at).getTime();
+    if (age > 86400000) lead.admin_comment = null;
   }
   return jsonRes(lead);
 }
@@ -29,26 +36,36 @@ export async function onRequestPatch(context) {
   const token = context.params.token;
   if (!token) return errRes('Token required', 400);
 
-  const rows = await sb.select('velocity_leads', `token=eq.${token}&select=id,submitted_at,is_locked`);
+  const rows = await sb.select('velocity_leads', `token=eq.${token}&select=id,submitted_at,first_submitted_at,is_locked,status`);
   if (!rows.length) return errRes('Not found', 404);
   const lead = rows[0];
 
+  // Lock check — use first_submitted_at as the true anchor
+  const anchor = lead.first_submitted_at || lead.submitted_at;
   if (lead.is_locked) return errRes('Submission is locked', 403);
-  if (lead.submitted_at && Date.now() - new Date(lead.submitted_at).getTime() > 86400000) {
+  if (anchor && Date.now() - new Date(anchor).getTime() > 86400000) {
     await sb.update('velocity_leads', `token=eq.${token}`, { is_locked: true });
     return errRes('Submission window has closed', 403);
+  }
+  // Block edits when in_progress or beyond
+  if (['in_progress','completed'].includes(lead.status)) {
+    return errRes('Project is in progress — contact client@calyvent.com to request changes', 403);
   }
 
   let body;
   try { body = await context.request.json(); } catch { return errRes('Invalid JSON'); }
 
-  const allowed = ['full_data', 'submitted_at', 'due_date', 'client_name', 'client_email', 'upgrade_permission'];
+  const allowed = ['full_data','submitted_at','due_date','client_name','client_email','upgrade_permission','domain_choice','domain_name','email_verified'];
   const patch = {};
   for (const key of allowed) { if (body[key] !== undefined) patch[key] = body[key]; }
 
+  // Set first_submitted_at only once — never overwrite
+  if (body.submitted_at && !lead.first_submitted_at) {
+    patch.first_submitted_at = body.submitted_at;
+  }
+
   if (patch.due_date && new Date(patch.due_date) < new Date(Date.now() + 48 * 3600000 - 60000))
     return errRes('Due date must be at least 48 hours from now');
-
   if (!Object.keys(patch).length) return errRes('No valid fields to update');
 
   const updated = await sb.update('velocity_leads', `token=eq.${token}`, patch);
