@@ -202,7 +202,7 @@ button { font-family:inherit; background:none; border:none; cursor:none }
 .nav-links a:hover::after { transform:scaleX(1) }
 .nav-links a:hover { color:var(--sand); }
 
-/* ── Hero ── */
+/* ── Hero — commanding presence ── */
 .hero {
   min-height:100vh;
   min-height:100svh;
@@ -210,33 +210,41 @@ button { font-family:inherit; background:none; border:none; cursor:none }
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-  padding-bottom:clamp(3rem,5vw,5rem);
+  padding-bottom:clamp(4rem,6vw,6rem);
   position:relative;
   overflow:hidden;
 }
 
-/* The name — dominates the viewport */
+/* The name — dominates with refined weight */
 .hero-name {
   position:absolute;
-  top:52%;
+  top:50%;
   left:var(--px);
   transform:translateY(-50%);
   font-family:'Instrument Serif',Georgia,serif;
-  font-size:clamp(6rem,26vw,32rem);
+  font-size:clamp(7rem,24vw,30rem);
   font-weight:400;
-  line-height:.88;
-  letter-spacing:-.055em;
+  line-height:.9;
+  letter-spacing:-.04em;
   color:var(--sand);
   pointer-events:none;
   white-space:nowrap;
-  /* Allow the name to overflow right edge — signals confidence */
   overflow:visible;
+  text-shadow:0 0 120px rgba(212,165,116,.08);
 }
-.hero-name em { font-style:normal; color:var(--brass) }
+.hero-name em { 
+  font-style:normal; 
+  color:var(--brass);
+  background:linear-gradient(135deg, var(--brass) 0%, var(--champagne) 50%, var(--brass) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
 
-/* Letter spans for stagger animation */
+/* Letter spans for refined stagger animation */
 .hero-name .letter {
   display:inline-block;
+  will-change:transform, opacity;
 }
 
 /* Footer row at bottom of hero */
@@ -249,45 +257,51 @@ button { font-family:inherit; background:none; border:none; cursor:none }
   z-index:1;
 }
 .hero-sub {
-  font-size:.72rem;
+  font-size:.75rem;
   font-weight:300;
   color:var(--dim);
+  max-width:55ch;
   line-height:2;
   letter-spacing:.04em;
 }
 .hero-sub span {
   display:block;
-  color:rgba(222,200,181,.35);
-  font-size:.6rem;
-  letter-spacing:.14em;
+  color:rgba(232,212,196,.4);
+  font-size:.62rem;
+  letter-spacing:.15em;
   text-transform:uppercase;
-  margin-top:.25rem;
+  margin-top:.35rem;
+  line-height:1.8;
 }
 .hero-scroll {
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
 .hero-scroll-line {
   width:1px;
-  height:44px;
-  background:var(--border2);
+  height:48px;
+  background:linear-gradient(to bottom, var(--brass) 0%, transparent 100%);
   transform-origin:top;
-  animation:scrollpulse 2s ease-in-out infinite;
+  animation:scrollpulse 2.5s var(--ease-silk) infinite;
+  opacity:.6;
 }
 @keyframes scrollpulse {
   0%   { transform:scaleY(0); transform-origin:top; opacity:0 }
-  40%  { opacity:1 }
+  30%  { opacity:.6 }
+  80%  { opacity:.6 }
   100% { transform:scaleY(1); transform-origin:top; opacity:0 }
 }
 .hero-scroll span {
-  font-size:.52rem;
-  letter-spacing:.2em;
+  font-size:.5rem;
+  letter-spacing:.22em;
   text-transform:uppercase;
   color:var(--dim);
   writing-mode:vertical-rl;
+  transition:color .4s var(--ease-silk);
 }
+.hero-scroll:hover span { color:var(--brass); }
 
 /* ── Label ── */
 .label {
