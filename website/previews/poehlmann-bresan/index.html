@@ -70,7 +70,7 @@ nav.up{transform:translateY(-100%)}
 .hero-grad{position:absolute;inset:0;background:linear-gradient(to top,#090908,transparent 30%),linear-gradient(135deg,rgba(9,9,8,.4),transparent 60%);z-index:1}
 .hero-c{position:relative;z-index:2}
 .ov{overflow:hidden;display:block}
-.ov>*{display:block;transform:translateY(110%)}
+.ov>*{display:block;transform:translateY(110%);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .9s cubic-bezier(.16,1,.3,1)}
 .h1{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:#9a876b;margin-bottom:14px}
 .h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(5rem,12vw,12rem);line-height:.78;letter-spacing:-.05em}
 .h3{font-size:13px;font-weight:200;line-height:1.9;color:rgba(200,196,187,.2);max-width:280px;margin-top:16px}
@@ -326,16 +326,18 @@ footer{padding:24px 5vw;text-align:center;border-top:1px solid rgba(200,196,187,
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <script>
-// ── LENIS + GSAP ──
-const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-gsap.registerPlugin(ScrollTrigger);
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add(t => { lenis.raf(t * 1000) });
-gsap.ticker.lagSmoothing(0);
+// ── LENIS + GSAP — fail gracefully ──
+let lenis, gsapReady = false;
+try {
+  lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(t => { lenis.raf(t * 1000) });
+  gsap.ticker.lagSmoothing(0);
+  gsapReady = true;
+} catch(e) { console.warn('GSAP/Lenis not loaded, degrading gracefully'); }
 
-const E = 'cubic-bezier(.16,1,.3,1)';
-
-// ── PRELOADER ──
+// ── PRELOADER — uses CSS transitions, no GSAP dependency ──
 setTimeout(() => document.getElementById('preName').classList.add('in'), 200);
 setTimeout(() => {
   document.getElementById('pre').classList.add('go');
@@ -343,7 +345,8 @@ setTimeout(() => {
     ['e1','e2','e3'].forEach((id, i) => {
       setTimeout(() => {
         const el = document.getElementById(id);
-        gsap.to(el, { y: 0, duration: .9, ease: 'power3.out' });
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
       }, i * 240);
     });
   }, 500);
@@ -351,7 +354,7 @@ setTimeout(() => {
 
 // ── NAV — shrink + hide/show ──
 let lastY = 0, navHid = false;
-lenis.on('scroll', ({ scroll }) => {
+const navScroll = ({ scroll }) => {
   document.getElementById('nav').classList.toggle('compact', scroll > 60);
   if (scroll > 300) {
     const d = scroll - lastY;
@@ -359,8 +362,17 @@ lenis.on('scroll', ({ scroll }) => {
     if (d < -3 && navHid) { document.getElementById('nav').classList.remove('up'); navHid = false; }
   } else { document.getElementById('nav').classList.remove('up'); navHid = false; }
   lastY = scroll;
-});
+};
+if (lenis) lenis.on('scroll', navScroll);
+else window.addEventListener('scroll', () => navScroll({ scroll: window.scrollY }));
 
+if (!gsapReady) {
+  // Fallback: show all hidden content without animations
+  document.querySelectorAll('.img-s').forEach(s => s.classList.add('vis'));
+  document.querySelectorAll('.sp,.rv,[style*="opacity:0"]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+}
+
+if (gsapReady) {
 // ── HERO PARALLAX ──
 gsap.to('#hImg', { y: '15%', ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
@@ -466,7 +478,10 @@ gsap.from('#finale .fin-sub', { opacity: 0, y: 6, duration: .8, delay: .15, ease
 gsap.from('#finale .fin-addr', { opacity: 0, y: 6, duration: .7, delay: .25, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
 gsap.from('#finale .fin-email', { opacity: 0, y: 4, duration: .6, delay: .35, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
 
-// ── BACKGROUND COLOR TEMPERATURE SHIFT ──
+} // end gsapReady
+
+// ── BACKGROUND COLOR TEMPERATURE SHIFT (only with GSAP) ──
+if (gsapReady) {
 // Dark sections stay #090908. Movement/specs shift slightly warmer.
 ScrollTrigger.create({
   trigger: '#watchPin',
@@ -480,6 +495,7 @@ ScrollTrigger.create({
   start: 'top 60%',
   onEnter: () => gsap.to('body', { backgroundColor: '#090908', duration: 1 }),
 });
+} // end gsapReady bg
 
 // ── MODAL ──
 let mt;
