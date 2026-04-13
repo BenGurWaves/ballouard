@@ -212,7 +212,7 @@ function startPoll(){
       if(r.ok){LEADS=await r.json();renderStats();renderLeads();}
     }catch(_){}
   },20000);
-  document.getElementById('autobadge') && document.getElementById('autobage').classList.add('live');
+  const badge = document.getElementById('autoBadge'); if(badge) badge.classList.add('live');
 }
 
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));b.classList.add('active');FILTER=b.dataset.filter;renderLeads();});

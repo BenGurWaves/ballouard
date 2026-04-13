@@ -82,13 +82,21 @@ export async function onRequestPatch(context) {
       patch.is_locked = true;
     }
   }
-  if (admin_comment !== undefined) {
-    patch.admin_comment = admin_comment
-      ? { text: admin_comment, created_at: new Date().toISOString() }
-      : null;
-  }
-  if (body.admin_comment_link !== undefined && patch.admin_comment) {
-    patch.admin_comment.link = body.admin_comment_link || null;
+  if (admin_comment !== undefined || body.admin_comment_link !== undefined) {
+    if (admin_comment !== undefined) {
+      patch.admin_comment = admin_comment
+        ? { text: admin_comment, created_at: new Date().toISOString() }
+        : null;
+    } else {
+      // Only link is being updated — fetch existing comment to merge
+      const existing = lead.admin_comment || {};
+      if (existing.text) {
+        patch.admin_comment = { ...existing };
+      }
+    }
+    if (body.admin_comment_link !== undefined && patch.admin_comment) {
+      patch.admin_comment.link = body.admin_comment_link || null;
+    }
   }
   if (site_link !== undefined) {
     patch.site_link = site_link || null;

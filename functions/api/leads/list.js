@@ -21,7 +21,8 @@ export async function onRequestGet(context) {
 
   const rows = await sb.select('velocity_leads', filter);
   for (const r of rows) {
-    if (!r.is_locked && r.submitted_at && Date.now() - new Date(r.submitted_at).getTime() > 86400000)
+    const anchor = r.first_submitted_at || r.submitted_at;
+    if (!r.is_locked && anchor && Date.now() - new Date(anchor).getTime() > 86400000)
       r.is_locked = true;
   }
   return jsonRes(rows);

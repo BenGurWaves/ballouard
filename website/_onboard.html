@@ -379,7 +379,7 @@ function bindNav(){
   document.getElementById('back2').onclick=()=>goTo(1);
   document.getElementById('back3').onclick=()=>goTo(2);
   document.getElementById('back4').onclick=()=>goTo(3);
-  document.getElementById('next4').onclick=()=>goTo(5);
+  document.getElementById('next4').onclick=()=>{if(v4())goTo(5);};
   document.getElementById('back5').onclick=()=>goTo(4);
   document.getElementById('submitBtn').onclick=submit;
 }
