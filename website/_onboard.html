@@ -141,20 +141,65 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
     <div class="phase" id="phase1">
       <div class="phase-hdr">
         <span class="phase-label">Phase 01 / 05</span>
-        <h1 class="phase-title">Identity &amp;<br>Your Business</h1>
-        <p class="phase-sub">Tell us who you are and what you do. This is the foundation everything else is built on.</p>
+        <h1 class="phase-title">Personal &amp;<br>Business Info</h1>
+        <p class="phase-sub">This information is kept strictly confidential and used only for your project and legal records.</p>
+      </div>
+
+      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Personal Information</div>
+
+      <div class="field-row">
+        <div class="field"><label class="field-label" for="fullName">Full Legal Name <span class="req">*</span></label><input type="text" id="fullName" placeholder="As it appears on legal documents"><div class="field-error" id="err-fullName">Required</div></div>
+        <div class="field"><label class="field-label" for="email">Personal Email <span class="req">*</span></label><input type="email" id="email" placeholder="your@personal.com"><div class="field-error" id="err-email">Valid email required</div></div>
       </div>
       <div class="field-row">
-        <div class="field"><label class="field-label" for="fullName">Full Name <span class="req">*</span></label><input type="text" id="fullName" placeholder="Your full name"><div class="field-error" id="err-fullName">Required</div></div>
-        <div class="field"><label class="field-label" for="companyName">Company / Brand</label><input type="text" id="companyName" placeholder="If applicable"></div>
+        <div class="field"><label class="field-label" for="phone">Personal Phone</label><input type="tel" id="phone" placeholder="+1 (000) 000-0000"></div>
+        <div class="field"></div>
+      </div>
+
+      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Business Information</div>
+
+      <div class="field-row">
+        <div class="field"><label class="field-label" for="companyName">Business / Brand Name <span class="req">*</span></label><input type="text" id="companyName" placeholder="Legal business name"><div class="field-error" id="err-companyName">Required</div></div>
+        <div class="field"><label class="field-label" for="businessType">Business Type <span class="req">*</span></label>
+          <select id="businessType">
+            <option value="">Select type&hellip;</option>
+            <option value="sole_proprietor">Sole Proprietor / Self-Employed</option>
+            <option value="llc">LLC</option>
+            <option value="corporation">Corporation (Inc. / Corp.)</option>
+            <option value="partnership">Partnership</option>
+            <option value="nonprofit">Non-Profit</option>
+            <option value="freelancer">Freelancer</option>
+            <option value="agency">Agency / Studio</option>
+            <option value="online_only">Online-Only Business</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="field-error" id="err-businessType">Required</div>
+        </div>
       </div>
       <div class="field-row">
-        <div class="field"><label class="field-label" for="email">Email <span class="req">*</span></label><input type="email" id="email" placeholder="you@company.com"><div class="field-error" id="err-email">Valid email required</div></div>
-        <div class="field"><label class="field-label" for="phone">Phone</label><input type="tel" id="phone" placeholder="+1 (000) 000-0000"></div>
+        <div class="field"><label class="field-label" for="businessEmail">Business Email <span class="req">*</span></label><input type="email" id="businessEmail" placeholder="contact@yourbusiness.com"><div class="field-error" id="err-businessEmail">Valid email required</div></div>
+        <div class="field"><label class="field-label" for="businessPhone">Business Phone</label><input type="tel" id="businessPhone" placeholder="+1 (000) 000-0000"></div>
       </div>
-      <div class="field"><label class="field-label" for="context">Business Context <span class="req">*</span></label><textarea id="context" rows="5" placeholder="Tell us about your business, niche, and what you do. The more specific, the better our work will be."></textarea><div class="field-error" id="err-context">Please describe your business</div></div>
+
+      <div id="physicalAddressSection">
+        <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Business Address</div>
+        <div class="field"><label class="field-label" for="addrStreet">Street Address</label><input type="text" id="addrStreet" placeholder="123 Example Street, Suite 100"></div>
+        <div class="field-row">
+          <div class="field"><label class="field-label" for="addrCity">City</label><input type="text" id="addrCity" placeholder="New York"></div>
+          <div class="field"><label class="field-label" for="addrState">State / Province</label><input type="text" id="addrState" placeholder="NY"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label class="field-label" for="addrPostal">Postal Code</label><input type="text" id="addrPostal" placeholder="10001"></div>
+          <div class="field"><label class="field-label" for="addrCountry">Country <span class="req">*</span></label><input type="text" id="addrCountry" placeholder="United States"><div class="field-error" id="err-addrCountry">Required</div></div>
+        </div>
+      </div>
+
+      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Your Business</div>
+
+      <div class="field"><label class="field-label" for="context">What does your business do? <span class="req">*</span></label><textarea id="context" rows="4" placeholder="Describe your business, niche, and what makes it distinct. The more specific, the better our work will be."></textarea><div class="field-error" id="err-context">Please describe your business</div></div>
       <div class="field"><label class="field-label">Social Profiles</label><div id="socialsList"></div><button class="add-btn" type="button" id="addSocial">+ Add Social</button></div>
       <div class="field"><label class="check-row"><input type="checkbox" id="includeSocials"><span>Include social media icons on my website</span></label></div>
+
       <div class="nav-btns"><span></span><button class="btn-next" id="next1">Continue &rarr;</button></div>
     </div>
 
@@ -215,7 +260,10 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <p><strong>Right to Decline.</strong> Submitting this brief does not guarantee a project start. Velocity reserves the right to decline any project that is not a fit for our studio.</p>
         <p><strong>24-Hour Rule.</strong> All information in this brief becomes read-only exactly 24 hours after submission. Make sure everything is accurate before you submit.</p>
       </div>
-      <div class="field"><label class="check-row"><input type="checkbox" id="agreeTerms"><span>I have read and understand the above. I know my submission may be declined, and that my brief locks in 24 hours.</span></label><div class="field-error" id="err-agreeTerms" style="margin-top:.5rem">You must agree to continue</div></div>
+      <div class="disclaimer" style="margin-top:1.5rem">
+        <p><strong>Terms &amp; Conditions.</strong> By submitting this brief you agree that: (1) This submission does not constitute a contract or guarantee of services. (2) All information provided is accurate to the best of your knowledge. (3) Velocity retains the right to decline any project at its sole discretion. (4) Your brief data will be stored securely and used solely for the purpose of evaluating and executing your project. (5) You will not hold Velocity liable for any delay or decline of service. (6) Upon payment, the project scope is defined by this brief and any written amendments agreed to by both parties. (7) All original design work created by Velocity remains the property of Velocity until full payment is received.</p>
+      </div>
+      <div class="field"><label class="check-row"><input type="checkbox" id="agreeTerms"><span>I have read and agree to the Terms &amp; Conditions above. I understand my submission may be declined, and that my brief locks 24 hours after first submission.</span></label><div class="field-error" id="err-agreeTerms" style="margin-top:.5rem">You must agree to the terms to continue</div></div>
       <div class="nav-btns"><button class="btn-back" id="back4">&larr; Back</button><button class="btn-next" id="next4">Continue &rarr;</button></div>
     </div>
 
@@ -352,7 +400,14 @@ async function init() {
 
 function prefill(d) {
   const p1=d.phase1||{},p2=d.phase2||{},p3=d.phase3||{},p4=d.phase4||{};
-  sv('fullName',p1.full_name);sv('companyName',p1.company_name);sv('email',p1.email);sv('phone',p1.phone);sv('context',p1.context);
+  sv('fullName',p1.full_name);sv('companyName',p1.company_name);
+  sv('email',p1.personal_email||p1.email);sv('phone',p1.personal_phone||p1.phone);
+  sv('businessEmail',p1.business_email);sv('businessPhone',p1.business_phone);
+  if(p1.business_type)document.getElementById('businessType').value=p1.business_type;
+  const addr=p1.address||{};
+  sv('addrStreet',addr.street);sv('addrCity',addr.city);sv('addrState',addr.state_province);
+  sv('addrPostal',addr.postal_code);sv('addrCountry',addr.country);
+  sv('context',p1.context);
   if(p1.include_socials)document.getElementById('includeSocials').checked=true;
   sv('targetCustomer',p2.target_customer);
   sv('colorBg',p3.color_background);sv('colorSec',p3.color_secondary);sv('colorAcc',p3.color_accent);sv('colorsExtra',p3.colors_extra);sv('fonts',p3.fonts);
@@ -405,10 +460,20 @@ function goTo(n){
 function showErr(id,v){const el=document.getElementById('err-'+id);if(el)el.classList.toggle('show',v);}
 function v1(){
   let ok=true;
-  const n=document.getElementById('fullName').value.trim(),e=document.getElementById('email').value.trim(),c=document.getElementById('context').value.trim();
+  const n=document.getElementById('fullName').value.trim();
+  const e=document.getElementById('email').value.trim();
+  const co=document.getElementById('companyName').value.trim();
+  const bt=document.getElementById('businessType').value;
+  const be=document.getElementById('businessEmail').value.trim();
+  const cy=document.getElementById('addrCountry').value.trim();
+  const ctx=document.getElementById('context').value.trim();
   if(!n){showErr('fullName',true);ok=false;}else showErr('fullName',false);
   if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){showErr('email',true);ok=false;}else showErr('email',false);
-  if(!c){showErr('context',true);ok=false;}else showErr('context',false);
+  if(!co){showErr('companyName',true);ok=false;}else showErr('companyName',false);
+  if(!bt){showErr('businessType',true);ok=false;}else showErr('businessType',false);
+  if(!be||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(be)){showErr('businessEmail',true);ok=false;}else showErr('businessEmail',false);
+  if(!cy){showErr('addrCountry',true);ok=false;}else showErr('addrCountry',false);
+  if(!ctx){showErr('context',true);ok=false;}else showErr('context',false);
   return ok;
 }
 function v2(){
@@ -439,7 +504,26 @@ function collect(){
   const anti=[...document.querySelectorAll('#antiList .url-block')].map(b=>({url:b.querySelector('.ub-url').value.trim(),notes:b.querySelector('.ub-notes').value.trim()})).filter(b=>b.url);
   const sp=document.getElementById('startingPoint').value;
   return {
-    phase1:{full_name:document.getElementById('fullName').value.trim(),company_name:document.getElementById('companyName').value.trim(),email:document.getElementById('email').value.trim().toLowerCase(),phone:document.getElementById('phone').value.trim(),context:document.getElementById('context').value.trim(),socials,include_socials:document.getElementById('includeSocials').checked},
+    phase1:{
+      full_name:document.getElementById('fullName').value.trim(),
+      personal_email:document.getElementById('email').value.trim().toLowerCase(),
+      personal_phone:document.getElementById('phone').value.trim(),
+      company_name:document.getElementById('companyName').value.trim(),
+      business_type:document.getElementById('businessType').value,
+      business_email:document.getElementById('businessEmail').value.trim().toLowerCase(),
+      business_phone:document.getElementById('businessPhone').value.trim(),
+      email:document.getElementById('email').value.trim().toLowerCase(),
+      phone:document.getElementById('phone').value.trim(),
+      address:{
+        street:document.getElementById('addrStreet').value.trim(),
+        city:document.getElementById('addrCity').value.trim(),
+        state_province:document.getElementById('addrState').value.trim(),
+        postal_code:document.getElementById('addrPostal').value.trim(),
+        country:document.getElementById('addrCountry').value.trim(),
+      },
+      context:document.getElementById('context').value.trim(),
+      socials,include_socials:document.getElementById('includeSocials').checked,
+    },
     phase2:{inspiration,anti_inspiration:anti,target_customer:document.getElementById('targetCustomer').value.trim()},
     phase3:{color_background:document.getElementById('colorBg').value.trim(),color_secondary:document.getElementById('colorSec').value.trim(),color_accent:document.getElementById('colorAcc').value.trim(),colors_extra:document.getElementById('colorsExtra').value.trim(),fonts:document.getElementById('fonts').value.trim(),upgrade_permission:document.getElementById('upgradePerm').checked},
     phase4:{mottos:document.getElementById('mottos').value.trim(),copyright:document.getElementById('copyright').value.trim(),assets_links:document.getElementById('assetsLinks').value.trim(),starting_point:sp,existing_url:sp==='existing'?document.getElementById('existingUrl').value.trim():'',due_date:document.getElementById('dueDate').value},
@@ -454,7 +538,25 @@ async function submit(){
   const domChoice=domSel?domSel.value:'';
   const domName=domChoice==='velocity_provides'?document.getElementById('domainName').value.trim():'';
   try{
-    const r=await fetch('/api/leads/'+TOKEN,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_data:data,submitted_at:new Date().toISOString(),due_date:data.phase4.due_date||null,client_name:data.phase1.full_name,client_email:data.phase1.email,upgrade_permission:data.phase3.upgrade_permission,domain_choice:domChoice||null,domain_name:domName||null})});
+    const r=await fetch('/api/leads/'+TOKEN,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        full_data:data,
+        submitted_at:new Date().toISOString(),
+        due_date:data.phase4.due_date||null,
+        client_name:data.phase1.full_name,
+        client_email:data.phase1.personal_email||data.phase1.email,
+        personal_email:data.phase1.personal_email||data.phase1.email,
+        personal_phone:data.phase1.personal_phone||data.phase1.phone,
+        business_name:data.phase1.company_name,
+        business_type:data.phase1.business_type,
+        business_email:data.phase1.business_email,
+        business_phone:data.phase1.business_phone,
+        business_address:data.phase1.address,
+        upgrade_permission:data.phase3.upgrade_permission,
+        domain_choice:domChoice||null,
+        domain_name:domName||null,
+        terms_accepted:true,
+        terms_accepted_at:new Date().toISOString(),
+      })});
     if(!r.ok){const e=await r.json();btn.disabled=false;btn.textContent='Submit Brief';alert(e.error||'Error. Please try again.');return;}
     // Show success screen
     document.getElementById('formWrap').style.display='none';

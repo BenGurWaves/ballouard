@@ -76,7 +76,7 @@ export async function onRequestPatch(context) {
   let body;
   try { body = await context.request.json(); } catch { return errRes('Invalid JSON'); }
 
-  const allowed = ['full_data','submitted_at','due_date','client_name','client_email','upgrade_permission','domain_choice','domain_name','email_verified'];
+  const allowed = ['full_data','submitted_at','due_date','client_name','client_email','upgrade_permission','domain_choice','domain_name','email_verified','personal_email','personal_phone','business_name','business_type','business_email','business_phone','business_address','terms_accepted','terms_accepted_at'];
   const patch = {};
   for (const key of allowed) { if (body[key] !== undefined) patch[key] = body[key]; }
 
@@ -90,5 +90,16 @@ export async function onRequestPatch(context) {
   if (!Object.keys(patch).length) return errRes('No valid fields to update');
 
   const updated = await sb.update('velocity_leads', `token=eq.${token}`, patch);
+  // Auto-sync to Google Sheets on submission
+  if (patch.submitted_at && context.env.SHEETS_WEBHOOK_URL && context.env.ADMIN_SECRET) {
+    try {
+      context.waitUntil(fetch(new URL(context.request.url).origin + '/api/leads/sync-sheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': context.env.ADMIN_SECRET },
+        body: JSON.stringify({ token }),
+      }));
+    } catch (_) {}
+  }
+
   return jsonRes({ success: true, lead: Array.isArray(updated) ? updated[0] : updated });
 }

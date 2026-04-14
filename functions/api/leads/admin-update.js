@@ -190,6 +190,17 @@ export async function onRequestPatch(context) {
 
   const updated = await sb.update('velocity_leads', `token=eq.${token}`, patch);
 
+  // Auto-sync to Google Sheets on status change
+  if (status && context.env.SHEETS_WEBHOOK_URL && context.env.ADMIN_SECRET) {
+    try {
+      context.waitUntil(fetch(new URL(context.request.url).origin + '/api/leads/sync-sheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': context.env.ADMIN_SECRET },
+        body: JSON.stringify({ token }),
+      }));
+    } catch (_) {}
+  }
+
   // Send status change email via Resend
   let emailResult = null;
   if (status && status !== prevStatus && context.env.RESEND_API_KEY) {
