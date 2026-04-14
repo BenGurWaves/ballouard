@@ -7,19 +7,46 @@
     <meta name="description" content="Fully handmade perpetual calendar. Heerde, Netherlands.">
     <link rel="icon" type="image/x-icon" href="https://velocity.calyvent.com/favicon.ico">
     
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
     
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     
     <style>
         /* ============================================
-           HULSMAN — UNIQUE CINEMATIC EXPERIENCE
-           Not a template. Not a grid. Pure editorial.
+           VELOCITY AGENCY — BESPOKE LUXURY EXPERIENCE
+           Stealth-luxe aesthetic. Asymmetric. Fluid.
            ============================================ */
+
+        @font-face {
+            font-family: 'ITC Garamond';
+            src: local('ITC Garamond Narrow Bold'), local('Garamond');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        :root {
+            /* Stealth-luxe palette */
+            --obsidian: #0d0d0d;
+            --obsidian-light: #161616;
+            --charcoal: #1a1a1a;
+            --graphite: #252525;
+            --mahogany: #2d1f1f;
+            --taupe: #3d3630;
+            --warm-tan: #a69076;
+            --cream: #e8e4dc;
+            --ivory: #f5f2eb;
+            --champagne: #c9b896;
+            
+            /* Typography */
+            --font-display: 'ITC Garamond', 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
 
         *, *::before, *::after {
             margin: 0;
@@ -27,52 +54,36 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --black: #0a0908;
-            --black-lighter: #121110;
-            --white: #f5f3f0;
-            --white-dim: #999690;
-            --gold: #c9a962;
-            --gold-dim: #8a7a52;
-            --serif: 'Cormorant Garamond', Georgia, serif;
-            --sans: 'Inter', system-ui, sans-serif;
-        }
-
         html {
-            background: var(--black);
-        }
-
-        html.lenis, html.lenis body {
-            height: auto;
-        }
-
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
+            background: var(--obsidian);
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: var(--sans);
-            background: var(--black);
-            color: var(--white);
+            font-family: var(--font-body);
+            background: var(--obsidian);
+            color: var(--ivory);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* ============================================
-           LOADER — ELEGANT FADE
+           LUXURY LOADER — CUSTOM SEQUENCE
            ============================================ */
         #loader {
             position: fixed;
             inset: 0;
-            background: var(--black);
-            z-index: 99999;
+            background: var(--obsidian);
+            z-index: 100000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             opacity: 1;
-            transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1), 
-                        visibility 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            visibility: visible;
+            transition: opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1),
+                        visibility 1.2s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         #loader.fade-out {
@@ -81,843 +92,1030 @@
             pointer-events: none;
         }
 
-        .loader-logo {
-            font-family: var(--serif);
-            font-size: 36px;
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.25em;
-            color: var(--white);
-            margin-bottom: 60px;
+        .loader-brand {
+            font-family: var(--font-display);
+            font-size: clamp(48px, 10vw, 120px);
+            font-weight: 700;
+            color: var(--ivory);
+            letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: loaderReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .loader-bar {
-            width: 120px;
-            height: 1px;
-            background: rgba(201, 169, 98, 0.15);
-            position: relative;
-            overflow: hidden;
+        .loader-brand span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            animation: charReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .loader-progress {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--gold);
-            transition: width 0.3s ease;
+        .loader-brand span:nth-child(1) { animation-delay: 0.1s; }
+        .loader-brand span:nth-child(2) { animation-delay: 0.2s; }
+        .loader-brand span:nth-child(3) { animation-delay: 0.3s; }
+        .loader-brand span:nth-child(4) { animation-delay: 0.4s; }
+        .loader-brand span:nth-child(5) { animation-delay: 0.5s; }
+        .loader-brand span:nth-child(6) { animation-delay: 0.6s; }
+        .loader-brand span:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes charReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loader-line {
+            width: 1px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--champagne), transparent);
+            margin-top: 40px;
+            animation: lineGrow 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+        }
+
+        @keyframes lineGrow {
+            to { height: 80px; }
         }
 
         .loader-text {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 300;
-            letter-spacing: 0.5em;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: var(--white-dim);
-            margin-top: 50px;
+            color: var(--warm-tan);
+            margin-top: 30px;
+            opacity: 0;
+            animation: textFade 0.8s ease 1.2s forwards;
+        }
+
+        @keyframes textFade {
+            to { opacity: 0.6; }
         }
 
         /* ============================================
-           ATMOSPHERE
+           CALYVENT BANNER — AUTO-HIDE
            ============================================ */
-        .grain {
+        #calyvent-banner {
             position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 9998;
-            opacity: 0.035;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99999;
+            background: rgba(22, 22, 22, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(166, 144, 118, 0.2);
+            padding: 16px 32px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 1;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .vignette {
-            position: fixed;
-            inset: 0;
+        #calyvent-banner.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
             pointer-events: none;
-            z-index: 9997;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .banner-text {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--cream);
+        }
+
+        .banner-text strong {
+            color: var(--champagne);
+            font-weight: 400;
+        }
+
+        .banner-close {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(166, 144, 118, 0.3);
+            background: transparent;
+            color: var(--warm-tan);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .banner-close:hover {
+            background: rgba(166, 144, 118, 0.2);
+            transform: rotate(90deg);
         }
 
         /* ============================================
-           NAV — MINIMAL, FLOATING
+           ATMOSPHERE LAYERS
+           ============================================ */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            opacity: 0.04;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .vignette-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 9997;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 50%, transparent 0%, rgba(13,13,13,0.4) 100%);
+        }
+
+        /* ============================================
+           NAVIGATION — MINIMAL FLOATING
            ============================================ */
         #nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 50px 60px;
-            z-index: 100;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            width: calc(100% - 80px);
+            max-width: 1400px;
+            padding: 0;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            pointer-events: none;
+            transition: opacity 1s ease 0.5s;
         }
 
         #nav.visible {
             opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
         }
 
         .nav-logo {
-            font-family: var(--serif);
-            font-size: 22px;
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.15em;
-            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--ivory);
             text-decoration: none;
-            transition: opacity 0.4s ease;
+            letter-spacing: -0.02em;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .nav-logo:hover {
-            opacity: 0.5;
+            color: var(--champagne);
+            transform: scale(1.02);
         }
 
-        .nav-trigger {
-            font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--white);
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.4s ease;
-        }
-
-        .nav-trigger:hover {
-            opacity: 0.5;
-        }
-
-        /* Menu Overlay */
-        #menu {
-            position: fixed;
-            inset: 0;
-            background: var(--black);
-            z-index: 99;
+        .nav-links {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             gap: 50px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        #menu.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        #menu a {
-            font-family: var(--serif);
-            font-size: clamp(40px, 8vw, 90px);
+        .nav-link {
+            font-size: 11px;
             font-weight: 300;
-            font-style: italic;
-            color: var(--white);
-            text-decoration: none;
-            opacity: 0.25;
-            transition: opacity 0.4s ease;
-        }
-
-        #menu a:hover {
-            opacity: 1;
-        }
-
-        .menu-close {
-            position: absolute;
-            top: 50px;
-            right: 60px;
-            font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--white);
-            background: none;
-            border: none;
-            cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
+            color: var(--cream);
+            text-decoration: none;
+            position: relative;
+            padding: 8px 0;
+            overflow: hidden;
+            transition: color 0.4s ease;
         }
 
-        .menu-close:hover {
-            opacity: 1;
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--champagne);
+            transform: translateX(-101%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link:hover {
+            color: var(--champagne);
+        }
+
+        .nav-link:hover::before {
+            transform: translateX(0);
         }
 
         /* ============================================
-           HERO — FULL SCREEN, CINEMATIC
+           HERO — CINEMATIC ASYMMETRIC
            ============================================ */
         #hero {
-            height: 100vh;
+            min-height: 100vh;
             width: 100%;
             position: relative;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             align-items: center;
-            justify-content: center;
             overflow: hidden;
-            background: var(--black);
+            background: var(--obsidian);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
         }
 
         .hero-image {
-            position: absolute;
-            inset: 0;
             width: 100%;
-            height: 100%;
+            height: 120%;
             object-fit: cover;
+            object-position: center;
+            filter: brightness(0.5) contrast(1.1);
+            transform: scale(1.1);
             opacity: 0;
-            transform: scale(1.2);
-            filter: brightness(0.5) contrast(1.08);
-            transition: opacity 2s ease, transform 4s ease;
-        }
-
-        .hero-image.loaded {
-            opacity: 1;
-            transform: scale(1.05);
         }
 
         .hero-content {
+            padding: 0 10%;
             position: relative;
             z-index: 10;
-            text-align: center;
-            padding: 40px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.5s ease 0.5s, transform 1.5s ease 0.5s;
         }
 
-        .hero-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hero-pretitle {
+        .hero-eyebrow {
             font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.6em;
+            font-weight: 400;
+            letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 40px;
+            color: var(--champagne);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .hero-title {
-            font-family: var(--serif);
-            font-size: clamp(64px, 14vw, 160px);
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.02em;
-            color: var(--white);
-            line-height: 0.85;
+            font-family: var(--font-display);
+            font-size: clamp(64px, 8vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            color: var(--ivory);
+            margin-bottom: 40px;
         }
 
-        .hero-title span {
+        .hero-title-line {
             display: block;
+            opacity: 0;
+            transform: translateY(60px);
+            overflow: hidden;
         }
 
-        .hero-subtitle {
-            font-size: 12px;
+        .hero-title-line span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        .hero-description {
+            font-size: 14px;
             font-weight: 300;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--white-dim);
-            margin-top: 50px;
+            line-height: 1.8;
+            color: var(--warm-tan);
+            max-width: 400px;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .scroll-indicator {
+        /* Magnetic Button */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 24px 48px;
+            background: transparent;
+            border: 1px solid rgba(166, 144, 118, 0.4);
+            color: var(--ivory);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .magnetic-btn::before {
+            content: '';
             position: absolute;
-            bottom: 80px;
+            inset: 0;
+            background: var(--champagne);
+            transform: translateY(101%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .magnetic-btn:hover {
+            color: var(--obsidian);
+            border-color: var(--champagne);
+        }
+
+        .magnetic-btn:hover::before {
+            transform: translateY(0);
+        }
+
+        .magnetic-btn-arrow {
+            width: 20px;
+            height: 1px;
+            background: currentColor;
+            position: relative;
+            transition: width 0.4s ease;
+        }
+
+        .magnetic-btn:hover .magnetic-btn-arrow {
+            width: 40px;
+        }
+
+        .magnetic-btn-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            border-top: 1px solid currentColor;
+            border-right: 1px solid currentColor;
+            transform: rotate(45deg);
+        }
+
+        /* Scroll Indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             opacity: 0;
-            transition: opacity 1s ease 1.5s;
         }
 
-        .scroll-indicator.visible {
-            opacity: 1;
-        }
-
-        .scroll-text {
+        .scroll-hint-text {
             font-size: 9px;
             font-weight: 300;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--white-dim);
+            color: var(--warm-tan);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
         }
 
-        .scroll-line {
+        .scroll-hint-line {
             width: 1px;
-            height: 70px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-            opacity: 0.5;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--champagne), transparent);
         }
 
         /* ============================================
-           SECTION 1 — ASYMMETRIC SPLIT
+           SECTIONS — ASYMMETRIC & INTERTWINED
            ============================================ */
-        .section-split {
+        .section-fluid {
             min-height: 100vh;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .split-left {
-            width: 55%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .split-right {
-            width: 45%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 100px 80px;
-            background: var(--black);
-        }
-
-        .split-image {
             width: 100%;
-            height: 100%;
+            position: relative;
+            padding: 120px 0;
+            overflow: hidden;
+        }
+
+        /* Watch Showcase — Overlapping Layout */
+        .watch-showcase {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 0;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 60px;
+        }
+
+        .watch-visual {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .watch-visual img {
+            width: 100%;
+            height: 120%;
             object-fit: cover;
-            filter: brightness(0.6);
+            filter: brightness(0.6) contrast(1.05);
         }
 
-        .section-number {
-            font-family: var(--serif);
-            font-size: 12px;
-            font-weight: 300;
-            font-style: italic;
-            color: var(--gold);
-            letter-spacing: 0.2em;
-            margin-bottom: 40px;
+        .watch-info {
+            padding: 0 0 0 80px;
+            position: relative;
+            z-index: 10;
         }
 
-        .section-title {
-            font-family: var(--serif);
+        .watch-info::before {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 0;
+            width: 1px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--champagne), transparent);
+            transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .watch-info.revealed::before {
+            height: 100px;
+        }
+
+        .watch-ref {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--champagne);
+            margin-bottom: 20px;
+        }
+
+        .watch-name {
+            font-family: var(--font-display);
             font-size: clamp(48px, 6vw, 80px);
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.02em;
-            color: var(--white);
-            line-height: 1;
-            margin-bottom: 40px;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            color: var(--ivory);
+            margin-bottom: 30px;
         }
 
-        .section-text {
-            font-size: 15px;
+        .watch-desc {
+            font-size: 14px;
             font-weight: 300;
             line-height: 1.9;
-            color: var(--white-dim);
-            margin-bottom: 50px;
-            max-width: 440px;
+            color: var(--warm-tan);
+            max-width: 400px;
+            margin-bottom: 40px;
         }
 
-        .section-meta {
+        .watch-specs {
             display: flex;
-            gap: 60px;
-            margin-bottom: 60px;
+            gap: 50px;
+            margin-bottom: 50px;
         }
 
-        .meta-block {
+        .spec {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .meta-label {
-            font-size: 8px;
-            font-weight: 300;
-            letter-spacing: 0.4em;
+        .spec-label {
+            font-size: 9px;
+            font-weight: 400;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold-dim);
+            color: var(--taupe);
         }
 
-        .meta-value {
-            font-family: var(--serif);
-            font-size: 15px;
+        .spec-value {
+            font-size: 13px;
             font-weight: 300;
-            color: var(--white);
+            color: var(--ivory);
         }
 
-        .btn-elegant {
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--white);
-            text-decoration: none;
-            padding: 24px 48px;
-            border: 1px solid rgba(201, 169, 98, 0.3);
-            width: fit-content;
-            cursor: pointer;
-            background: transparent;
-            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        /* Reverse Layout */
+        .watch-showcase.reverse {
+            grid-template-columns: 0.8fr 1.2fr;
         }
 
-        .btn-elegant:hover {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: var(--black);
+        .watch-showcase.reverse .watch-visual {
+            order: 2;
+            clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
         }
 
-        /* ============================================
-           SECTION 2 — REVERSE SPLIT
-           ============================================ */
-        .section-split.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .section-split.reverse .split-left {
-            width: 50%;
-        }
-
-        .section-split.reverse .split-right {
-            width: 50%;
-            padding: 100px 100px 100px 120px;
-        }
-
-        /* ============================================
-           QUOTE SECTION — FULL WIDTH
-           ============================================ */
-        .section-quote {
-            min-height: 70vh;
+        .watch-showcase.reverse .watch-info {
+            padding: 0 80px 0 0;
+            text-align: right;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 60px;
-            background: var(--black-lighter);
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .watch-showcase.reverse .watch-info::before {
+            left: auto;
+            right: 40px;
+        }
+
+        /* ============================================
+           CRAFTSMANSHIP — ORGANIC SHAPES
+           ============================================ */
+        #craft {
+            background: var(--charcoal);
             position: relative;
         }
 
-        .section-quote::before {
+        #craft::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, var(--obsidian), var(--charcoal));
+            z-index: 1;
+        }
+
+        .craft-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 100px 40px;
+        }
+
+        .craft-eyebrow {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--champagne);
+            margin-bottom: 40px;
+        }
+
+        .craft-quote {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--ivory);
+            margin-bottom: 40px;
+        }
+
+        .craft-quote span {
+            color: var(--champagne);
+            font-style: italic;
+        }
+
+        .craft-attribution {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm-tan);
+        }
+
+        /* ============================================
+           FOOTER — MINIMAL ELEGANCE
+           ============================================ */
+        #footer {
+            background: var(--obsidian);
+            padding: 100px 60px 60px;
+            position: relative;
+        }
+
+        #footer::before {
             content: '';
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 1px;
-            height: 100px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-            opacity: 0.4;
-        }
-
-        .quote-content {
-            max-width: 900px;
-            text-align: center;
-        }
-
-        .quote-label {
-            font-size: 9px;
-            font-weight: 300;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 60px;
-        }
-
-        .quote-text {
-            font-family: var(--serif);
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.01em;
-            color: var(--white);
-            line-height: 1.4;
-            margin-bottom: 60px;
-        }
-
-        .quote-attribution {
-            font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--gold-dim);
-        }
-
-        /* ============================================
-           FOOTER — MINIMAL
-           ============================================ */
-        #footer {
-            padding: 100px 60px 60px;
-            background: var(--black);
-            border-top: 1px solid rgba(255,255,255,0.03);
+            height: 60px;
+            background: linear-gradient(to bottom, var(--champagne), transparent);
+            opacity: 0.5;
         }
 
         .footer-inner {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 100px;
-            padding-bottom: 80px;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            gap: 80px;
         }
 
         .footer-brand {
-            font-family: var(--serif);
-            font-size: 32px;
-            font-weight: 300;
-            font-style: italic;
-            color: var(--white);
-            margin-bottom: 25px;
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--ivory);
+            margin-bottom: 20px;
         }
 
-        .footer-desc {
-            font-size: 14px;
+        .footer-tagline {
+            font-size: 13px;
             font-weight: 300;
-            color: var(--white-dim);
-            line-height: 1.8;
-            max-width: 340px;
+            line-height: 1.7;
+            color: var(--warm-tan);
+            max-width: 300px;
         }
 
         .footer-col h5 {
-            font-size: 9px;
-            font-weight: 300;
-            letter-spacing: 0.3em;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 30px;
+            color: var(--champagne);
+            margin-bottom: 25px;
         }
 
         .footer-col a {
             display: block;
             font-size: 13px;
             font-weight: 300;
-            color: var(--white-dim);
+            color: var(--cream);
             text-decoration: none;
             padding: 10px 0;
+            position: relative;
             transition: color 0.3s ease;
             cursor: pointer;
         }
 
+        .footer-col a::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--champagne);
+            transition: width 0.4s ease;
+        }
+
         .footer-col a:hover {
-            color: var(--white);
+            color: var(--champagne);
+        }
+
+        .footer-col a:hover::after {
+            width: 100%;
         }
 
         .footer-bottom {
-            max-width: 1400px;
-            margin: 50px auto 0;
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(166, 144, 118, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .footer-copy {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 300;
-            letter-spacing: 0.2em;
-            color: var(--white-dim);
-            opacity: 0.5;
+            letter-spacing: 0.1em;
+            color: var(--taupe);
         }
 
-        .footer-credit {
-            font-size: 9px;
+        .footer-velocity {
+            font-size: 10px;
             font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--gold-dim);
+            letter-spacing: 0.1em;
+            color: var(--champagne);
         }
 
         /* ============================================
-           MODAL — ELEGANT OVERLAY
+           GLASSMORPHIC MODAL
            ============================================ */
         #modal {
             position: fixed;
             inset: 0;
-            background: rgba(10, 9, 8, 0.98);
-            z-index: 1000;
+            z-index: 5000;
             display: none;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            backdrop-filter: blur(50px);
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(40px);
+            padding: 20px;
         }
 
         #modal.show {
             display: flex;
-            animation: modalFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: modalEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes modalFade {
+        @keyframes modalEnter {
             to { opacity: 1; }
         }
 
-        .modal-inner {
+        .modal-card {
+            background: rgba(26, 26, 26, 0.7);
+            border: 1px solid rgba(166, 144, 118, 0.15);
+            border-radius: 4px;
+            padding: 60px 80px;
+            max-width: 520px;
             text-align: center;
-            padding: 80px;
-            max-width: 550px;
-            border: 1px solid rgba(201, 169, 98, 0.12);
-            background: rgba(18, 17, 16, 0.6);
+            transform: scale(0.9) translateY(40px);
+            opacity: 0;
+            animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
         }
 
-        .modal-pretitle {
-            font-size: 9px;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 30px;
+        @keyframes cardEnter {
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
         }
 
-        .modal-divider {
+        .modal-icon {
             width: 60px;
-            height: 1px;
-            background: var(--gold);
+            height: 60px;
             margin: 0 auto 30px;
-            opacity: 0.4;
+            border: 1px solid rgba(201, 184, 150, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--champagne);
         }
 
         .modal-title {
-            font-family: var(--serif);
-            font-size: 52px;
-            font-weight: 300;
-            font-style: italic;
-            color: var(--white);
-            margin-bottom: 30px;
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--ivory);
+            margin-bottom: 20px;
             line-height: 1.1;
         }
 
         .modal-text {
             font-size: 14px;
             font-weight: 300;
-            line-height: 1.9;
-            color: var(--white-dim);
-            margin-bottom: 50px;
+            line-height: 1.8;
+            color: var(--warm-tan);
+            margin-bottom: 40px;
         }
 
         .modal-cta {
             display: inline-flex;
             align-items: center;
-            gap: 15px;
-            font-size: 10px;
-            font-weight: 300;
-            letter-spacing: 0.25em;
+            gap: 12px;
+            padding: 20px 40px;
+            background: var(--champagne);
+            color: var(--obsidian);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--black);
-            background: var(--gold);
             text-decoration: none;
-            padding: 26px 55px;
-            transition: all 0.4s ease;
-            margin-bottom: 30px;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .modal-cta:hover {
-            background: var(--white);
-            transform: translateY(-3px);
+            background: var(--ivory);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(201, 184, 150, 0.2);
         }
 
-        .modal-close-btn {
-            font-size: 9px;
+        .modal-close {
+            display: block;
+            margin-top: 30px;
+            font-size: 11px;
             font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--white-dim);
+            letter-spacing: 0.1em;
+            color: var(--taupe);
             background: none;
             border: none;
             cursor: pointer;
             transition: color 0.3s ease;
         }
 
-        .modal-close-btn:hover {
-            color: var(--white);
+        .modal-close:hover {
+            color: var(--ivory);
         }
 
         /* ============================================
            RESPONSIVE
            ============================================ */
         @media (max-width: 1024px) {
-            .section-split,
-            .section-split.reverse {
-                flex-direction: column;
+            #hero {
+                grid-template-columns: 1fr;
             }
 
-            .split-left,
-            .split-right,
-            .section-split.reverse .split-left,
-            .section-split.reverse .split-right {
-                width: 100%;
-            }
-
-            .split-left {
+            .hero-visual {
+                clip-path: none;
                 height: 50vh;
             }
 
-            .split-right {
+            .hero-content {
+                padding: 60px 40px;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .watch-showcase,
+            .watch-showcase.reverse {
+                grid-template-columns: 1fr;
                 padding: 60px 40px;
             }
 
-            .section-split.reverse .split-right {
-                padding: 60px 40px;
+            .watch-visual {
+                clip-path: none;
+                height: 50vh;
+                order: 1;
             }
 
-            #nav {
-                padding: 30px 40px;
+            .watch-info,
+            .watch-showcase.reverse .watch-info {
+                padding: 40px 0;
+                text-align: center;
+                align-items: center;
+                order: 2;
+            }
+
+            .watch-info::before,
+            .watch-showcase.reverse .watch-info::before {
+                display: none;
+            }
+
+            .watch-specs {
+                justify-content: center;
             }
 
             .footer-inner {
                 grid-template-columns: 1fr;
                 gap: 50px;
+                text-align: center;
             }
 
-            .modal-inner {
-                padding: 50px 30px;
-                margin: 20px;
+            .footer-tagline {
+                margin: 0 auto;
             }
 
-            .modal-title {
-                font-size: 36px;
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            #calyvent-banner {
+                width: calc(100% - 40px);
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: clamp(48px, 15vw, 90px);
+                font-size: clamp(48px, 15vw, 80px);
             }
 
-            .section-title {
+            .watch-name {
                 font-size: clamp(36px, 10vw, 56px);
             }
 
-            .section-meta {
-                flex-wrap: wrap;
-                gap: 30px;
+            .craft-quote {
+                font-size: clamp(28px, 8vw, 42px);
             }
 
-            .quote-text {
-                font-size: clamp(24px, 6vw, 40px);
+            .modal-card {
+                padding: 40px 30px;
             }
 
-            #nav {
-                padding: 25px 30px;
-            }
-
-            #footer {
-                padding: 60px 30px;
-            }
-
-            #menu a {
-                font-size: clamp(32px, 10vw, 60px);
+            .modal-title {
+                font-size: 32px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loader -->
+    <!-- Luxury Loader -->
     <div id="loader">
-        <div class="loader-logo">Hulsman</div>
-        <div class="loader-bar">
-            <div class="loader-progress" id="loaderProgress"></div>
+        <div class="loader-brand">
+            <span>H</span><span>u</span><span>l</span><span>s</span><span>m</span><span>a</span><span>n</span>
         </div>
-        <div class="loader-text">Loading Experience</div>
+        <div class="loader-line"></div>
+        <div class="loader-text">Handmade in Netherlands</div>
+    </div>
+
+    <!-- Calyvent Preview Banner -->
+    <div id="calyvent-banner">
+        <span class="banner-text">This is a preview by <strong>Calyvent</strong> — not a real website</span>
+        <button class="banner-close" onclick="document.getElementById('calyvent-banner').classList.add('hidden')">×</button>
     </div>
 
     <!-- Atmosphere -->
-    <div class="grain"></div>
-    <div class="vignette"></div>
+    <div class="grain-overlay"></div>
+    <div class="vignette-layer"></div>
 
     <!-- Navigation -->
     <nav id="nav">
         <a href="#" class="nav-logo">Hulsman</a>
-        <button class="nav-trigger" id="navTrigger">Menu</button>
+        <div class="nav-links">
+            <a href="#collection" class="nav-link">Collection</a>
+            <a href="#craft" class="nav-link">Craft</a>
+            <a class="nav-link modal-trigger">Contact</a>
+        </div>
     </nav>
-
-    <!-- Menu Overlay -->
-    <div id="menu">
-        <button class="menu-close" id="menuClose">Close</button>
-        <a href="#collection">Collection</a>
-        <a href="#craft">Craftsmanship</a>
-        <a href="#" class="modal-trigger">Contact</a>
-    </div>
 
     <!-- Hero -->
     <section id="hero">
-        <img src="assets/hero.png" alt="Hulsman" class="hero-image" id="heroImg">
-        <div class="hero-content" id="heroContent">
-            <p class="hero-pretitle">Fully Handmade</p>
+        <div class="hero-visual">
+            <img src="assets/hero.png" alt="Hulsman Easy Perpetual" class="hero-image" id="heroImg">
+        </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Fully Handmade</p>
             <h1 class="hero-title">
-                <span>Easy</span>
-                <span>Perpetual</span>
+                <span class="hero-title-line"><span>Easy</span></span>
+                <span class="hero-title-line"><span>Perpetual</span></span>
             </h1>
-            <p class="hero-subtitle">The World's First User-Friendly Perpetual Calendar</p>
+            <p class="hero-description">The world's first user-friendly perpetual calendar. Adjust forwards or backwards at any moment, without risk to the mechanism. Three years of solitary development in Heerde.</p>
+            <button class="magnetic-btn primary-action" data-magnetic>
+                <span>Explore Collection</span>
+                <span class="magnetic-btn-arrow"></span>
+            </button>
         </div>
-        <div class="scroll-indicator" id="scrollIndicator">
-            <span class="scroll-text">Discover</span>
-            <span class="scroll-line"></span>
+        <div class="scroll-hint">
+            <span class="scroll-hint-text">Scroll</span>
+            <span class="scroll-hint-line"></span>
         </div>
     </section>
 
-    <!-- Section 1: Easy Perpetual -->
-    <section class="section-split" id="collection">
-        <div class="split-left">
-            <img src="assets/easy-perpetual.png" alt="Easy Perpetual" class="split-image">
+    <!-- Watch 1: Easy Perpetual -->
+    <section class="watch-showcase" id="collection">
+        <div class="watch-visual">
+            <img src="assets/easy-perpetual.png" alt="Easy Perpetual">
         </div>
-        <div class="split-right">
-            <p class="section-number">Reference 001</p>
-            <h2 class="section-title">Easy<br>Perpetual</h2>
-            <p class="section-text">A revolutionary approach to the perpetual calendar. Adjust the date forwards or backwards at any time, without risk to the mechanism. Three years of solitary development.</p>
-            <div class="section-meta">
-                <div class="meta-block">
-                    <span class="meta-label">Movement</span>
-                    <span class="meta-value">Manual, Cal. HP-01</span>
+        <div class="watch-info">
+            <p class="watch-ref">Reference 001</p>
+            <h2 class="watch-name">Easy<br>Perpetual</h2>
+            <p class="watch-desc">A revolutionary approach to the perpetual calendar. Adjust the date forwards or backwards at any time, without risk to the mechanism. Three years of solitary development.</p>
+            <div class="watch-specs">
+                <div class="spec">
+                    <span class="spec-label">Movement</span>
+                    <span class="spec-value">Manual, Cal. HP-01</span>
                 </div>
-                <div class="meta-block">
-                    <span class="meta-label">Case</span>
-                    <span class="meta-value">38mm Rose Gold</span>
+                <div class="spec">
+                    <span class="spec-label">Case</span>
+                    <span class="spec-value">38mm Rose Gold</span>
                 </div>
-                <div class="meta-block">
-                    <span class="meta-label">Price</span>
-                    <span class="meta-value">€138,000</span>
+                <div class="spec">
+                    <span class="spec-label">Price</span>
+                    <span class="spec-value">€138,000</span>
                 </div>
             </div>
-            <button class="btn-elegant modal-trigger">Discover More</button>
+            <button class="magnetic-btn primary-action" data-magnetic>
+                <span>Discover More</span>
+                <span class="magnetic-btn-arrow"></span>
+            </button>
         </div>
     </section>
 
-    <!-- Section 2: Solstitium -->
-    <section class="section-split reverse">
-        <div class="split-left">
-            <img src="assets/tourbillon.png" alt="Solstitium Tourbillon" class="split-image">
+    <!-- Watch 2: Solstitium Tourbillon -->
+    <section class="watch-showcase reverse">
+        <div class="watch-visual">
+            <img src="assets/tourbillon.png" alt="Solstitium Tourbillon">
         </div>
-        <div class="split-right">
-            <p class="section-number">Reference 002</p>
-            <h2 class="section-title">Solstitium<br>Tourbillon</h2>
-            <p class="section-text">A handmade flying tourbillon with fully exposed balance wheel. Every component finished by hand in our Heerde atelier. The bridge work requires 200 hours of hand-polishing.</p>
-            <div class="section-meta">
-                <div class="meta-block">
-                    <span class="meta-label">Movement</span>
-                    <span class="meta-value">Flying Tourbillon</span>
+        <div class="watch-info">
+            <p class="watch-ref">Reference 002</p>
+            <h2 class="watch-name">Solstitium<br>Tourbillon</h2>
+            <p class="watch-desc">A handmade flying tourbillon with fully exposed balance wheel. Every component finished by hand in our Heerde atelier. The bridge work requires 200 hours of hand-polishing.</p>
+            <div class="watch-specs">
+                <div class="spec">
+                    <span class="spec-label">Movement</span>
+                    <span class="spec-value">Flying Tourbillon</span>
                 </div>
-                <div class="meta-block">
-                    <span class="meta-label">Case</span>
-                    <span class="meta-value">40mm Platinum</span>
+                <div class="spec">
+                    <span class="spec-label">Case</span>
+                    <span class="spec-value">40mm Platinum</span>
                 </div>
-                <div class="meta-block">
-                    <span class="meta-label">Availability</span>
-                    <span class="meta-value">On Request</span>
+                <div class="spec">
+                    <span class="spec-label">Availability</span>
+                    <span class="spec-value">On Request</span>
                 </div>
             </div>
-            <button class="btn-elegant modal-trigger">Discover More</button>
+            <button class="magnetic-btn primary-action" data-magnetic>
+                <span>Discover More</span>
+                <span class="magnetic-btn-arrow"></span>
+            </button>
         </div>
     </section>
 
-    <!-- Quote Section -->
-    <section class="section-quote" id="craft">
-        <div class="quote-content">
-            <p class="quote-label">Savoir-Faire</p>
-            <blockquote class="quote-text">"True luxury lies in the details invisible to all but the maker."</blockquote>
-            <p class="quote-attribution">Heerde, Netherlands</p>
+    <!-- Craftsmanship Quote -->
+    <section class="section-fluid" id="craft">
+        <div class="craft-content">
+            <p class="craft-eyebrow">Savoir-Faire</p>
+            <blockquote class="craft-quote">"True luxury lies in the <span>details invisible</span> to all but the maker."</blockquote>
+            <p class="craft-attribution">Heerde, Netherlands</p>
         </div>
     </section>
 
@@ -926,7 +1124,7 @@
         <div class="footer-inner">
             <div>
                 <div class="footer-brand">Hulsman</div>
-                <p class="footer-desc">Fully handmade timepieces from the Netherlands. Each watch represents hundreds of hours of meticulous work by a single watchmaker.</p>
+                <p class="footer-tagline">Fully handmade timepieces from the Netherlands. Each watch represents hundreds of hours of meticulous work.</p>
             </div>
             <div class="footer-col">
                 <h5>Explore</h5>
@@ -941,279 +1139,296 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">© 2026 Velocity by Calyvent. Preview only.</p>
-            <p class="footer-credit">Concept by velocity.calyvent.com</p>
+            <p class="footer-copy">© 2026 Hulsman Timepieces. Concept by Velocity.</p>
+            <p class="footer-velocity">velocity.calyvent.com</p>
         </div>
     </footer>
 
-    <!-- Modal -->
+    <!-- Glassmorphic Modal -->
     <div id="modal">
-        <div class="modal-inner">
-            <p class="modal-pretitle">Concept Preview</p>
-            <div class="modal-divider"></div>
-            <h2 class="modal-title">Experience the<br>Full Website</h2>
+        <div class="modal-card">
+            <div class="modal-icon">◆</div>
+            <h2 class="modal-title">Concept Preview</h2>
             <p class="modal-text">This is a preview of the Hulsman Timepieces digital experience. For the complete website with full functionality, visit our concept studio.</p>
-            <a href="https://velocity.calyvent.com" class="modal-cta" target="_blank">Visit velocity.calyvent.com</a>
-            <button class="modal-close-btn" id="modalClose">Continue Exploring Preview</button>
+            <a href="https://velocity.calyvent.com" class="modal-cta primary-action">Visit velocity.calyvent.com →</a>
+            <button class="modal-close" onclick="closeModal()">Continue Exploring</button>
         </div>
     </div>
 
     <script>
         // ============================================
-        // LOADER - IMMEDIATE EXECUTION (no dependencies)
+        // LUXURY LOADER — IMMEDIATE EXECUTION
         // ============================================
         (function initLoader() {
             const loader = document.getElementById('loader');
-            const progress = document.getElementById('loaderProgress');
-            const heroImg = document.getElementById('heroImg');
-            const heroContent = document.getElementById('heroContent');
-            const scrollIndicator = document.getElementById('scrollIndicator');
-            const nav = document.getElementById('nav');
-
-            // Fill progress bar
-            let pct = 0;
-            const fill = setInterval(() => {
-                pct += 5;
-                if (progress) progress.style.width = pct + '%';
-                if (pct >= 100) clearInterval(fill);
-            }, 20);
-
-            // FORCE HIDE after 2 seconds
-            setTimeout(function() {
-                if (loader) {
-                    loader.style.transition = 'opacity 1s ease, visibility 1s ease';
-                    loader.style.opacity = '0';
-                    loader.style.visibility = 'hidden';
-                    loader.style.pointerEvents = 'none';
-                }
-                if (heroImg) heroImg.style.opacity = '1';
-                if (heroImg) heroImg.style.transform = 'scale(1.05)';
-                if (heroContent) heroContent.style.opacity = '1';
-                if (scrollIndicator) scrollIndicator.style.opacity = '1';
-                if (nav) nav.style.opacity = '1';
+            
+            // Hide loader after 2.5 seconds
+            setTimeout(() => {
+                loader.classList.add('fade-out');
                 
+                // Remove from DOM after fade
                 setTimeout(() => {
-                    if (loader) loader.remove();
-                }, 1000);
-            }, 2000);
+                    loader.remove();
+                }, 1200);
+            }, 2500);
         })();
 
         // ============================================
-        // LENIS SMOOTH SCROLL - 3 SECOND DURATION
+        // CALYVENT BANNER — AUTO-HIDE AFTER 5 SECONDS
         // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const lenis = new Lenis({
-                duration: 3.0,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: 'vertical',
-                gestureOrientation: 'vertical',
-                smoothWheel: true,
-                wheelMultiplier: 0.4,
-                touchMultiplier: 1.5,
-            });
-
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
-            // Connect to GSAP
-            gsap.registerPlugin(ScrollTrigger);
-            lenis.on('scroll', ScrollTrigger.update);
-
-        // ============================================
-        // NAVIGATION
-        // ============================================
-        const navTrigger = document.getElementById('navTrigger');
-        const menu = document.getElementById('menu');
-        const menuClose = document.getElementById('menuClose');
-
-        navTrigger.addEventListener('click', () => {
-            menu.classList.add('open');
-            lenis.stop();
-        });
-
-        menuClose.addEventListener('click', () => {
-            menu.classList.remove('open');
-            lenis.start();
-        });
-
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.remove('open');
-                lenis.start();
-            });
-        });
-
-        // Nav hide/show on scroll
-        let lastScrollY = 0;
-        lenis.on('scroll', ({ scroll }) => {
-            if (scroll > window.innerHeight * 0.8) {
-                if (scroll > lastScrollY) {
-                    nav.classList.remove('visible');
-                } else {
-                    nav.classList.add('visible');
-                }
-            }
-            lastScrollY = scroll;
-        });
-
-        // ============================================
-        // GSAP ANIMATIONS
-        // ============================================
-
-        // Hero parallax
-        gsap.to('.hero-image', {
-            yPercent: 25,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '#hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            }
-        });
-
-        // Hero fade on scroll
-        gsap.to('.hero-content', {
-            opacity: 0,
-            y: -100,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '#hero',
-                start: 'center center',
-                end: 'bottom top',
-                scrub: true
-            }
-        });
-
-        // Section reveals
-        document.querySelectorAll('.section-split').forEach(section => {
-            const image = section.querySelector('.split-image');
-            const content = section.querySelector('.split-right');
+        (function initBanner() {
+            const banner = document.getElementById('calyvent-banner');
             
-            gsap.from(image, {
-                scale: 1.15,
-                duration: 2,
-                ease: 'power2.out',
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                banner.classList.add('hidden');
+            }, 5000);
+        })();
+
+        // ============================================
+        // ELEGANT SMOOTH SCROLL (Not artificially slow)
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('.anchor-link, .nav-link[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            gsap.to(window, {
+                                duration: 1.2,
+                                scrollTo: { y: target, offsetY: 0 },
+                                ease: 'power3.inOut'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // ============================================
+            // HERO ENTRANCE ANIMATIONS
+            // ============================================
+            const heroTl = gsap.timeline({ delay: 2.2 });
+
+            heroTl
+                .to('.hero-image', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 2,
+                    ease: 'power2.out'
+                })
+                .to('.hero-eyebrow', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                }, '-=1.5')
+                .to('.hero-title-line span', {
+                    y: 0,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                }, '-=0.8')
+                .to('.hero-description', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                }, '-=0.6')
+                .to('.scroll-hint', {
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power2.out'
+                }, '-=0.4')
+                .to('#nav', {
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power2.out',
+                    onComplete: () => document.getElementById('nav').classList.add('visible')
+                }, '-=0.8');
+
+            // ============================================
+            // PARALLAX EFFECTS
+            // ============================================
+            gsap.to('.hero-image', {
+                yPercent: 15,
+                ease: 'none',
                 scrollTrigger: {
-                    trigger: section,
-                    start: 'top 80%',
-                    end: 'top 20%',
-                    scrub: 1
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
                 }
             });
 
-            gsap.from(content.children, {
-                y: 100,
+            // ============================================
+            // WATCH SHOWCASE REVEALS
+            // ============================================
+            document.querySelectorAll('.watch-showcase').forEach((section, i) => {
+                const visual = section.querySelector('.watch-visual img');
+                const info = section.querySelector('.watch-info');
+                const ref = section.querySelector('.watch-ref');
+                const name = section.querySelector('.watch-name');
+                const desc = section.querySelector('.watch-desc');
+                const specs = section.querySelector('.watch-specs');
+                const btn = section.querySelector('.magnetic-btn');
+
+                gsap.from(visual, {
+                    scale: 1.2,
+                    opacity: 0,
+                    duration: 1.5,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+
+                const infoTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 70%',
+                        toggleActions: 'play none none reverse',
+                        onEnter: () => info.classList.add('revealed')
+                    }
+                });
+
+                infoTl
+                    .from(ref, { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' })
+                    .from(name, { y: 40, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.6')
+                    .from(desc, { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
+                    .from(specs, { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+                    .from(btn, { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3');
+            });
+
+            // ============================================
+            // CRAFTSMANSHIP SECTION
+            // ============================================
+            gsap.from('.craft-eyebrow', {
+                y: 30,
                 opacity: 0,
-                duration: 1.2,
-                stagger: 0.15,
+                duration: 1,
                 ease: 'power3.out',
                 scrollTrigger: {
-                    trigger: section,
+                    trigger: '#craft',
                     start: 'top 70%',
                     toggleActions: 'play none none reverse'
                 }
             });
-        });
 
-        // Quote section
-        gsap.from('.quote-content > *', {
-            y: 60,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.section-quote',
-                start: 'top 70%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-
-        // ============================================
-        // MODAL - ALL BUTTONS TRIGGER IT
-        // ============================================
-        const modal = document.getElementById('modal');
-        const modalClose = document.getElementById('modalClose');
-
-        function openModal() {
-            modal.classList.add('show');
-            lenis.stop();
-        }
-
-        function closeModal() {
-            modal.classList.remove('show');
-            lenis.start();
-        }
-
-        modalClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // ALL buttons/links trigger modal (except specific ones)
-        document.addEventListener('click', (e) => {
-            const target = e.target;
-            
-            // Check if it's a button, link, or has modal-trigger class
-            const isTrigger = target.classList.contains('modal-trigger') || 
-                             target.closest('.modal-trigger');
-            const isButton = target.tagName === 'BUTTON' || 
-                              target.tagName === 'A' ||
-                              target.closest('button') ||
-                              target.closest('a');
-            
-            // Exclude
-            const isMenuClose = target.id === 'menuClose';
-            const isModalClose = target.id === 'modalClose';
-            const isModalCTA = target.classList.contains('modal-cta') || 
-                              target.closest('.modal-cta');
-            const isExternal = target.tagName === 'A' && 
-                              target.getAttribute('target') === '_blank';
-            const isAnchor = target.classList.contains('anchor-link') ||
-                            target.closest('.anchor-link');
-            
-            if ((isTrigger || isButton) && !isMenuClose && !isModalClose && !isModalCTA && !isExternal && !isAnchor) {
-                const href = target.getAttribute('href') || 
-                           target.closest('a')?.getAttribute('href');
-                
-                // Allow anchor links to work
-                if (href && href.startsWith('#') && href !== '#') {
-                    return;
-                }
-                
-                e.preventDefault();
-                e.stopPropagation();
-                openModal();
-            }
-        });
-
-        // Anchor links smooth scroll
-        document.querySelectorAll('.anchor-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (!href || href === '#') return;
-                
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    lenis.scrollTo(target, { offset: 0, duration: 3 });
+            gsap.from('.craft-quote', {
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#craft',
+                    start: 'top 60%',
+                    toggleActions: 'play none none reverse'
                 }
             });
-        });
 
-        // Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                menu.classList.remove('open');
-                lenis.start();
-            }
+            gsap.from('.craft-attribution', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#craft',
+                    start: 'top 50%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // ============================================
+            // MAGNETIC BUTTON EFFECT
+            // ============================================
+            const magneticBtns = document.querySelectorAll('[data-magnetic]');
+            
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    gsap.to(btn, {
+                        x: x * 0.3,
+                        y: y * 0.3,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    gsap.to(btn, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.7,
+                        ease: 'elastic.out(1, 0.5)'
+                    });
+                });
+            });
+
+            // ============================================
+            // MODAL SYSTEM
+            // ============================================
+            const modal = document.getElementById('modal');
+
+            window.openModal = function() {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeModal = function() {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            };
+
+            // Modal triggers
+            document.querySelectorAll('.modal-trigger').forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+
+            // Close on backdrop click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // ============================================
+            // PRIMARY ACTIONS — REDIRECT TO VELOCITY
+            // ============================================
+            document.querySelectorAll('.primary-action').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // If it's inside the modal, let it work as a regular link
+                    if (btn.closest('#modal')) return;
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Elegant redirect
+                    gsap.to('body', {
+                        opacity: 0,
+                        duration: 0.5,
+                        onComplete: () => {
+                            window.location.href = 'https://velocity.calyvent.com';
+                        }
+                    });
+                });
+            });
+
+            // Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
         });
-        }); // Close DOMContentLoaded
     </script>
 </body>
 </html>
