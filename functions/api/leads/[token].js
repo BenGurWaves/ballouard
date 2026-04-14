@@ -3,17 +3,23 @@
  * PATCH /api/leads/:token — client submits/saves (respects 24h lock)
  */
 import { getSupabase, jsonRes, errRes, optionsRes } from '../../_lib/supabase.js';
+import { rateLimit } from '../../_lib/security.js';
 
 export async function onRequestOptions() { return optionsRes(); }
 
 export async function onRequestGet(context) {
+  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
+  const kv = context.env.DATA || context.env.LEADS;
+  const rl = await rateLimit(kv, `ratelimit:getlead:${ip}`, 60, 60);
+  if (!rl.allowed) return errRes('Too many requests', 429);
+
   const sb = getSupabase(context.env);
   if (!sb) return errRes('Supabase not configured', 500);
   const token = context.params.token;
   if (!token) return errRes('Token required', 400);
 
-  const rows = await sb.select('velocity_leads',
-    `token=eq.${token}&select=id,token,status,full_data,submitted_at,first_submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at,admin_comment,site_link,domain_choice,domain_name,email_verified`);
+  let rows;
+  try { rows = await sb.select('velocity_leads', `token=eq.${token}&select=id,token,status,full_data,submitted_at,first_submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at,admin_comment,site_link,domain_choice,domain_name,email_verified`); } catch (_) { return errRes('Service unavailable', 503); }
   if (!rows.length) return errRes('Not found', 404);
 
   const lead = rows[0];

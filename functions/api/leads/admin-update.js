@@ -3,7 +3,8 @@
  * Handles: quote_amount, status, admin_comment, site_link
  * Also triggers Resend email on status change.
  */
-import { getSupabase, isAdmin, jsonRes, errRes, optionsRes } from '../../_lib/supabase.js';
+import { getSupabase } from '../../_lib/supabase.js';
+import { checkAdminAuth, rateLimit, validateLength, safeUrl, secureJson, secureErr, secureOptions } from '../../_lib/security.js';
 
 const VALID_STATUSES = ['pending','accepted','in_progress','declined','completed'];
 
@@ -124,12 +125,18 @@ const STATUS_EMAIL = {
   },
 };
 
-export async function onRequestOptions() { return optionsRes(); }
+export async function onRequestOptions() { return secureOptions(); }
 
 export async function onRequestPatch(context) {
-  if (!isAdmin(context.request, context.env)) return errRes('Unauthorized', 401);
+  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
+  const kv = context.env.DATA || context.env.LEADS;
+  const rl = await rateLimit(kv, `ratelimit:adminupd:${ip}`, 60, 60);
+  if (!rl.allowed) return secureErr('Too many requests', 429);
+  const auth = await checkAdminAuth(context.request, context.env);
+  if (auth.locked) return secureErr('Too many failed attempts. Try again in 15 minutes.', 429);
+  if (!auth.ok)    return secureErr('Unauthorized', 401);
   const sb = getSupabase(context.env);
-  if (!sb) return errRes('Supabase not configured', 500);
+  if (!sb) return secureErr('Service unavailable', 503);
 
   let body;
   try { body = await context.request.json(); } catch { return errRes('Invalid JSON'); }
@@ -172,11 +179,11 @@ export async function onRequestPatch(context) {
       }
     }
     if (body.admin_comment_link !== undefined && patch.admin_comment) {
-      patch.admin_comment.link = body.admin_comment_link || null;
+      patch.admin_comment.link = body.admin_comment_link ? safeUrl(body.admin_comment_link) : null;
     }
   }
   if (site_link !== undefined) {
-    patch.site_link = site_link || null;
+    patch.site_link = site_link ? safeUrl(site_link) : null;
   }
 
   if (!Object.keys(patch).length) return errRes('Nothing to update');
@@ -222,5 +229,5 @@ export async function onRequestPatch(context) {
     }
   }
 
-  return jsonRes({ success: true, lead: Array.isArray(updated) ? updated[0] : updated, email: emailResult });
+  return secureJson({ success: true, lead: Array.isArray(updated) ? updated[0] : updated, email: emailResult });
 }

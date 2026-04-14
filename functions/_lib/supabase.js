@@ -15,17 +15,17 @@ export function getSupabase(env) {
   return {
     async select(table, filters = '') {
       const r = await fetch(`${url}/rest/v1/${table}?${filters}`, { headers });
-      if (!r.ok) throw new Error(await r.text());
+      if (!r.ok) { const e = await r.text().catch(()=>''); throw new Error(e.includes('message') ? JSON.parse(e).message||'Database error' : 'Database error'); }
       return r.json();
     },
     async insert(table, data) {
       const r = await fetch(`${url}/rest/v1/${table}`, { method: 'POST', headers, body: JSON.stringify(data) });
-      if (!r.ok) throw new Error(await r.text());
+      if (!r.ok) { const e = await r.text().catch(()=>''); throw new Error(e.includes('message') ? JSON.parse(e).message||'Database error' : 'Database error'); }
       return r.json();
     },
     async update(table, filters, data) {
       const r = await fetch(`${url}/rest/v1/${table}?${filters}`, { method: 'PATCH', headers, body: JSON.stringify(data) });
-      if (!r.ok) throw new Error(await r.text());
+      if (!r.ok) { const e = await r.text().catch(()=>''); throw new Error(e.includes('message') ? JSON.parse(e).message||'Database error' : 'Database error'); }
       return r.json();
     },
   };

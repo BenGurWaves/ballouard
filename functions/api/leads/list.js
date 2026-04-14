@@ -1,14 +1,25 @@
 /**
- * GET /api/leads/list — Admin only. All leads sorted by urgency.
+ * GET /api/leads/list — Admin only. Returns all leads.
  */
-import { getSupabase, isAdmin, jsonRes, errRes, optionsRes } from '../../_lib/supabase.js';
+import { getSupabase } from '../../_lib/supabase.js';
+import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from '../../_lib/security.js';
 
-export async function onRequestOptions() { return optionsRes(); }
+export async function onRequestOptions() { return secureOptions(); }
 
 export async function onRequestGet(context) {
-  if (!isAdmin(context.request, context.env)) return errRes('Unauthorized', 401);
+  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
+  const kv = context.env.DATA || context.env.LEADS;
+
+  // Rate limit: 60 list requests per IP per minute
+  const rl = await rateLimit(kv, `ratelimit:list:${ip}`, 60, 60);
+  if (!rl.allowed) return secureErr('Too many requests', 429);
+
+  const auth = await checkAdminAuth(context.request, context.env);
+  if (auth.locked)  return secureErr('Too many failed attempts. Try again in 15 minutes.', 429);
+  if (!auth.ok)     return secureErr('Unauthorized', 401);
+
   const sb = getSupabase(context.env);
-  if (!sb) return errRes('Supabase not configured', 500);
+  if (!sb) return secureErr('Service unavailable', 503);
 
   const url    = new URL(context.request.url);
   const sort   = url.searchParams.get('sort') || 'due_date';
@@ -19,11 +30,15 @@ export async function onRequestGet(context) {
   if (sort === 'status')     filter = 'order=status.asc,created_at.desc&limit=500';
   if (status) filter += `&status=eq.${status}`;
 
-  const rows = await sb.select('velocity_leads', filter);
-  for (const r of rows) {
-    const anchor = r.first_submitted_at || r.submitted_at;
-    if (!r.is_locked && anchor && Date.now() - new Date(anchor).getTime() > 86400000)
-      r.is_locked = true;
+  try {
+    const rows = await getSupabase(context.env).select('velocity_leads', filter);
+    for (const r of rows) {
+      const anchor = r.first_submitted_at || r.submitted_at;
+      if (!r.is_locked && anchor && Date.now() - new Date(anchor).getTime() > 86400000)
+        r.is_locked = true;
+    }
+    return secureJson(rows);
+  } catch (_) {
+    return secureErr('Service unavailable', 503);
   }
-  return jsonRes(rows);
 }

@@ -1,31 +1,44 @@
 /**
  * DELETE /api/leads/delete — Admin only. Hard delete a lead.
- * Body: { token }
  */
-import { getSupabase, isAdmin, jsonRes, errRes, optionsRes } from '../../_lib/supabase.js';
+import { getSupabase } from '../../_lib/supabase.js';
+import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from '../../_lib/security.js';
 
-export async function onRequestOptions() { return optionsRes(); }
+export async function onRequestOptions() { return secureOptions(); }
 
 export async function onRequestDelete(context) {
-  if (!isAdmin(context.request, context.env)) return errRes('Unauthorized', 401);
+  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
+  const kv = context.env.DATA || context.env.LEADS;
+
+  const rl = await rateLimit(kv, `ratelimit:delete:${ip}`, 10, 60);
+  if (!rl.allowed) return secureErr('Too many requests', 429);
+
+  const auth = await checkAdminAuth(context.request, context.env);
+  if (auth.locked) return secureErr('Too many failed attempts. Try again in 15 minutes.', 429);
+  if (!auth.ok)    return secureErr('Unauthorized', 401);
+
   const sb = getSupabase(context.env);
-  if (!sb) return errRes('Supabase not configured', 500);
+  if (!sb) return secureErr('Service unavailable', 503);
 
   let body;
-  try { body = await context.request.json(); } catch { return errRes('Invalid JSON'); }
-  const { token } = body;
-  if (!token) return errRes('token required');
+  try { body = await context.request.json(); } catch { return secureErr('Invalid request'); }
 
-  const rows = await sb.select('velocity_leads', `token=eq.${token}&select=id`);
-  if (!rows.length) return errRes('Not found', 404);
+  const token = (body.token || '').trim();
+  if (!token) return secureErr('token required');
 
-  // Use service role to delete — direct REST DELETE
+  const rows = await sb.select('velocity_leads', `token=eq.${token}&select=id`).catch(() => []);
+  if (!rows.length) return secureErr('Not found', 404);
+
   const url = context.env.SUPABASE_URL;
   const key = context.env.SUPABASE_SERVICE_KEY;
-  const r = await fetch(`${url}/rest/v1/velocity_leads?token=eq.${token}`, {
-    method: 'DELETE',
-    headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-  });
-  if (!r.ok) return errRes('Delete failed', 500);
-  return jsonRes({ success: true });
+  try {
+    const r = await fetch(`${url}/rest/v1/velocity_leads?token=eq.${token}`, {
+      method: 'DELETE',
+      headers: { 'apikey': key, 'Authorization': `Bearer ${key}` },
+    });
+    if (!r.ok) return secureErr('Delete failed', 500);
+    return secureJson({ success: true });
+  } catch (_) {
+    return secureErr('Service unavailable', 503);
+  }
 }

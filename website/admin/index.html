@@ -263,7 +263,20 @@ function renderLeads(){
     card.querySelectorAll('.clink[data-copy]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(btn.dataset.copy);toast('Copied');};});
     // Individual client view
     const viewBtn=card.querySelector('.view-btn');
-    if(viewBtn)viewBtn.onclick=e=>{e.stopPropagation();window.open('/admin/client/'+l.token+'?s='+encodeURIComponent(SEC),'_blank');};
+    if(viewBtn)viewBtn.onclick=async e=>{
+      e.stopPropagation();
+      viewBtn.textContent='Opening…';
+      try{
+        const r=await fetch('/api/admin/temp-token',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:'{}'});
+        const d=await r.json();
+        if(d.token){
+          window.open('/admin/client/'+l.token+'?t='+encodeURIComponent(d.token),'_blank');
+        } else {
+          toast('Could not open brief: '+( d.error||'unknown error'));
+        }
+      }catch(err){toast('Network error opening brief');}
+      viewBtn.textContent='View Full Brief';
+    };
     // Delete
     const delBtn=card.querySelector('.del-btn'),confirm1=card.querySelector('.confirm1'),confirm2=card.querySelector('.confirm2');
     if(delBtn)delBtn.onclick=e=>{e.stopPropagation();confirm1.style.display=confirm1.style.display==='block'?'none':'block';};
