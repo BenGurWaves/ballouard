@@ -983,35 +983,42 @@
         lenis.on('scroll', ScrollTrigger.update);
 
         // ============================================
-        // LOADER - SIMPLE & RELIABLE
+        // LOADER - FORCE REMOVE AFTER 2 SECONDS
         // ============================================
-        const loader = document.getElementById('loader');
-        const loaderProgress = document.getElementById('loaderProgress');
-        const heroImg = document.getElementById('heroImg');
-        const heroContent = document.getElementById('heroContent');
-        const scrollIndicator = document.getElementById('scrollIndicator');
-        const nav = document.getElementById('nav');
+        (function() {
+            const loader = document.getElementById('loader');
+            const progress = document.getElementById('loaderProgress');
+            const heroImg = document.getElementById('heroImg');
+            const heroContent = document.getElementById('heroContent');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const nav = document.getElementById('nav');
 
-        // Animate progress bar
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += 2;
-            loaderProgress.style.width = progress + '%';
-            if (progress >= 100) clearInterval(progressInterval);
-        }, 30);
+            // Fill progress bar quickly
+            let pct = 0;
+            const fill = setInterval(() => {
+                pct += 5;
+                if (progress) progress.style.width = pct + '%';
+                if (pct >= 100) clearInterval(fill);
+            }, 20);
 
-        // Hide loader after 2.5 seconds
-        setTimeout(() => {
-            loader.classList.add('fade-out');
-            
-            // Reveal content after loader fades
-            setTimeout(() => {
-                heroImg.classList.add('loaded');
-                heroContent.classList.add('visible');
-                scrollIndicator.classList.add('visible');
-                nav.classList.add('visible');
-            }, 800);
-        }, 2500);
+            // FORCE REMOVE after 2 seconds
+            setTimeout(function() {
+                if (loader) {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    loader.style.pointerEvents = 'none';
+                }
+                if (heroImg) heroImg.classList.add('loaded');
+                if (heroContent) heroContent.classList.add('visible');
+                if (scrollIndicator) scrollIndicator.classList.add('visible');
+                if (nav) nav.classList.add('visible');
+                
+                // Remove from DOM after fade
+                setTimeout(() => {
+                    if (loader) loader.remove();
+                }, 1500);
+            }, 2000);
+        })();
 
         // ============================================
         // NAVIGATION
