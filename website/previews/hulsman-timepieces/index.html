@@ -960,32 +960,9 @@
 
     <script>
         // ============================================
-        // LENIS SMOOTH SCROLL - 3 SECOND DURATION
+        // LOADER - IMMEDIATE EXECUTION (no dependencies)
         // ============================================
-        const lenis = new Lenis({
-            duration: 3.0,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 0.4,
-            touchMultiplier: 1.5,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Connect to GSAP
-        gsap.registerPlugin(ScrollTrigger);
-        lenis.on('scroll', ScrollTrigger.update);
-
-        // ============================================
-        // LOADER - FORCE REMOVE AFTER 2 SECONDS
-        // ============================================
-        (function() {
+        (function initLoader() {
             const loader = document.getElementById('loader');
             const progress = document.getElementById('loaderProgress');
             const heroImg = document.getElementById('heroImg');
@@ -993,7 +970,7 @@
             const scrollIndicator = document.getElementById('scrollIndicator');
             const nav = document.getElementById('nav');
 
-            // Fill progress bar quickly
+            // Fill progress bar
             let pct = 0;
             const fill = setInterval(() => {
                 pct += 5;
@@ -1001,24 +978,49 @@
                 if (pct >= 100) clearInterval(fill);
             }, 20);
 
-            // FORCE REMOVE after 2 seconds
+            // FORCE HIDE after 2 seconds
             setTimeout(function() {
                 if (loader) {
+                    loader.style.transition = 'opacity 1s ease, visibility 1s ease';
                     loader.style.opacity = '0';
                     loader.style.visibility = 'hidden';
                     loader.style.pointerEvents = 'none';
                 }
-                if (heroImg) heroImg.classList.add('loaded');
-                if (heroContent) heroContent.classList.add('visible');
-                if (scrollIndicator) scrollIndicator.classList.add('visible');
-                if (nav) nav.classList.add('visible');
+                if (heroImg) heroImg.style.opacity = '1';
+                if (heroImg) heroImg.style.transform = 'scale(1.05)';
+                if (heroContent) heroContent.style.opacity = '1';
+                if (scrollIndicator) scrollIndicator.style.opacity = '1';
+                if (nav) nav.style.opacity = '1';
                 
-                // Remove from DOM after fade
                 setTimeout(() => {
                     if (loader) loader.remove();
-                }, 1500);
+                }, 1000);
             }, 2000);
         })();
+
+        // ============================================
+        // LENIS SMOOTH SCROLL - 3 SECOND DURATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const lenis = new Lenis({
+                duration: 3.0,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                wheelMultiplier: 0.4,
+                touchMultiplier: 1.5,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // Connect to GSAP
+            gsap.registerPlugin(ScrollTrigger);
+            lenis.on('scroll', ScrollTrigger.update);
 
         // ============================================
         // NAVIGATION
@@ -1211,6 +1213,7 @@
                 lenis.start();
             }
         });
+        }); // Close DOMContentLoaded
     </script>
 </body>
 </html>
