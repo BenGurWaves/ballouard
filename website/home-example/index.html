@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Velocity — Digital Atelier</title>
+  <meta name="description" content="Digital ateliers for heritage Maisons. Bespoke presence, crafted with precision.">
+  <link rel="canonical" href="https://velocity.calyvent.com/home-example">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+
+<!-- WebGL Canvas -->
+<canvas id="webgl-canvas"></canvas>
+
+<!-- Atmospheric Layers -->
+<div class="grain-overlay"></div>
+<div class="vignette-breath"></div>
+<div class="cinematic-frame"></div>
+
+<!-- Precision Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+
+<!-- Ceremonial Veil -->
+<div class="veil" id="veil">
+  <span class="veil-word">Velocity</span>
+  <div class="veil-line"></div>
+  <span class="veil-tag">Digital Atelier</span>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <a href="/" class="nav-mark">Velocity</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <h1 class="hero-statement" id="heroStatement">
+    <span class="word">We</span>
+    <span class="word">craft</span>
+    <span class="word">digital</span>
+    <span class="word">presence</span>
+    <span class="word">for</span>
+    <span class="word">heritage</span>
+    <span class="word">Maisons.</span>
+  </h1>
+  
+  <div class="hero-subtitle">
+    <p class="lead">Patience. Precision. Provenance.</p>
+    <p>Every interaction hand-tooled. Every pixel carries weight. For the Jewelers, Horologers, and Tailors who understand that true luxury lives in the details most rush past.</p>
+  </div>
+  
+  <div class="scroll-hint">
+    <div class="line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- Work Section -->
+<section class="studies-section" id="work">
+  <header class="studies-header">
+    <span class="section-label">Selected Work</span>
+  </header>
+  
+  <div class="study-row" data-project="thread">
+    <span class="study-num">01</span>
+    <span class="study-name">Thread</span>
+    <span class="study-type">Platform</span>
+    <span class="study-year">2024</span>
+  </div>
+  
+  <div class="study-row" data-project="calyvent">
+    <span class="study-num">02</span>
+    <span class="study-name">Calyvent</span>
+    <span class="study-type">Venture</span>
+    <span class="study-year">2024</span>
+  </div>
+  
+  <div class="study-row" data-project="vault">
+    <span class="study-num">03</span>
+    <span class="study-name">Vault</span>
+    <span class="study-type">Security</span>
+    <span class="study-year">2023</span>
+  </div>
+</section>
+
+<!-- Philosophy Section -->
+<section class="manifesto" id="philosophy">
+  <p class="manifesto-text">
+    Before a single line of code, <em>we study your provenance.</em> We translate your savoir-faire into digital ritual.
+  </p>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+  <span class="contact-label">Begin a Commission</span>
+  <a href="mailto:atelier@calyvent.com" class="contact-email">atelier@calyvent.com</a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>© 2026 Velocity by <a href="https://calyvent.com">Calyvent</a></p>
+  <div style="display: flex; gap: 2rem;">
+    <a href="/terms" style="font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;">Terms</a>
+    <a href="/privacy" style="font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;">Privacy</a>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// VELOCITY A+ — LIVING SYSTEMS
+// ═══════════════════════════════════════════════════════════════
+
+// ─── WebGL Fluid Simulation ───
+(function initWebGL() {
+  const canvas = document.getElementById('webgl-canvas');
+  if (!canvas || !window.THREE) return;
+  
+  const renderer = new THREE.WebGLRenderer({ 
+    canvas, 
+    alpha: true,
+    antialias: true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+  camera.position.z = 1;
+  
+  // Fluid shader
+  const uniforms = {
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+  };
+  
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    transparent: true,
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform vec2 uMouse;
+      uniform vec2 uResolution;
+      varying vec2 vUv;
+      
+      void main() {
+        vec2 uv = vUv;
+        vec2 mouse = uMouse;
+        
+        // Distance from mouse
+        float dist = distance(uv, mouse);
+        
+        // Organic noise-like pattern
+        float wave1 = sin(uv.x * 10.0 + uTime * 0.5) * 0.5 + 0.5;
+        float wave2 = sin(uv.y * 8.0 + uTime * 0.3) * 0.5 + 0.5;
+        float wave3 = sin((uv.x + uv.y) * 6.0 + uTime * 0.4) * 0.5 + 0.5;
+        
+        // Mouse ripple
+        float ripple = sin(dist * 20.0 - uTime * 2.0) * exp(-dist * 3.0);
+        
+        // Combine
+        float pattern = (wave1 + wave2 + wave3) / 3.0;
+        pattern += ripple * 0.3;
+        
+        // Very subtle gold tint
+        vec3 gold = vec3(0.83, 0.69, 0.22);
+        vec3 dark = vec3(0.02, 0.02, 0.02);
+        
+        float alpha = pattern * 0.03;
+        vec3 color = mix(dark, gold, pattern * 0.15);
+        
+        gl_FragColor = vec4(color, alpha);
+      }
+    `
+  });
+  
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+  
+  // Mouse tracking
+  let targetMouse = { x: 0.5, y: 0.5 };
+  let currentMouse = { x: 0.5, y: 0.5 };
+  
+  document.addEventListener('mousemove', (e) => {
+    targetMouse.x = e.clientX / window.innerWidth;
+    targetMouse.y = 1 - e.clientY / window.innerHeight;
+  }, { passive: true });
+  
+  // Animation loop
+  let rafId;
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+    
+    // Smooth mouse follow
+    currentMouse.x += (targetMouse.x - currentMouse.x) * 0.05;
+    currentMouse.y += (targetMouse.y - currentMouse.y) * 0.05;
+    
+    uniforms.uTime.value += 0.016;
+    uniforms.uMouse.value.set(currentMouse.x, currentMouse.y);
+    
+    renderer.render(scene, camera);
+  }
+  animate();
+  
+  // Resize
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// ─── Precision Cursor ───
+(function initCursor() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  
+  const cursor = document.getElementById('cursor');
+  const dot = document.getElementById('cursor-dot');
+  if (!cursor || !dot) return;
+  
+  let mx = window.innerWidth / 2;
+  let my = window.innerHeight / 2;
+  let cx = mx, cy = my, dx = mx, dy = my;
+  let isMoving = false;
+  let moveTimeout;
+  
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    isMoving = true;
+    cursor.classList.add('precise');
+    
+    clearTimeout(moveTimeout);
+    moveTimeout = setTimeout(() => {
+      isMoving = false;
+      cursor.classList.remove('precise');
+    }, 100);
+  }, { passive: true });
+  
+  function animate() {
+    // Main cursor with heavy easing
+    cx += (mx - cx) * 0.08;
+    cy += (my - cy) * 0.08;
+    cursor.style.left = cx + 'px';
+    cursor.style.top = cy + 'px';
+    
+    // Dot with lighter easing
+    dx += (mx - dx) * 0.15;
+    dy += (my - dy) * 0.15;
+    dot.style.left = dx + 'px';
+    dot.style.top = dy + 'px';
+    
+    requestAnimationFrame(animate);
+  }
+  animate();
+  
+  // Hover states
+  document.querySelectorAll('a, .study-row, .contact-email').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+})();
+
+// ─── Ceremonial Entrance ───
+(function initVeil() {
+  const veil = document.getElementById('veil');
+  if (!veil) return;
+  
+  const START = Date.now();
+  const MIN_DURATION = 2800;
+  
+  function partVeil() {
+    const elapsed = Date.now() - START;
+    const wait = Math.max(0, MIN_DURATION - elapsed);
+    
+    setTimeout(() => {
+      veil.classList.add('parted');
+      setTimeout(() => {
+        veil.style.display = 'none';
+        initAnimations();
+      }, 1500);
+    }, wait);
+  }
+  
+  if (document.readyState === 'complete') {
+    partVeil();
+  } else {
+    window.addEventListener('load', partVeil);
+  }
+})();
+
+// ─── GSAP Animations ───
+function initAnimations() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    setTimeout(initAnimations, 100);
+    return;
+  }
+  
+  gsap.registerPlugin(ScrollTrigger);
+  
+  // Hero word reveal
+  const words = document.querySelectorAll('#heroStatement .word');
+  words.forEach((word, i) => {
+    setTimeout(() => {
+      word.classList.add('revealed');
+    }, 200 + i * 100);
+  });
+  
+  // Hero subtitle
+  gsap.from('.hero-subtitle', {
+    y: 40,
+    opacity: 0,
+    duration: 1.2,
+    ease: 'power3.out',
+    delay: 1.2
+  });
+  
+  // Scroll hint
+  gsap.from('.scroll-hint', {
+    opacity: 0,
+    duration: 1,
+    ease: 'power2.out',
+    delay: 2
+  });
+  
+  // Hero parallax
+  gsap.to('#heroStatement', {
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    },
+    y: 100,
+    opacity: 0.3,
+    ease: 'none'
+  });
+  
+  // Studies reveal
+  gsap.from('.studies-header', {
+    scrollTrigger: {
+      trigger: '#work',
+      start: 'top 80%'
+    },
+    y: 30,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
+  });
+  
+  gsap.from('.study-row', {
+    scrollTrigger: {
+      trigger: '#work',
+      start: 'top 70%'
+    },
+    y: 40,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
+    stagger: 0.15
+  });
+  
+  // Manifesto
+  gsap.from('.manifesto-text', {
+    scrollTrigger: {
+      trigger: '#philosophy',
+      start: 'top 70%'
+    },
+    y: 60,
+    opacity: 0,
+    duration: 1.5,
+    ease: 'power3.out'
+  });
+  
+  // Contact
+  gsap.from('.contact-label', {
+    scrollTrigger: {
+      trigger: '#contact',
+      start: 'top 80%'
+    },
+    y: 20,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
+  });
+  
+  gsap.from('.contact-email', {
+    scrollTrigger: {
+      trigger: '#contact',
+      start: 'top 75%'
+    },
+    y: 40,
+    opacity: 0,
+    duration: 1.2,
+    ease: 'power3.out',
+    delay: 0.2
+  });
+}
+
+// ─── Smooth Scroll Anchors ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// ─── Weighted Scroll Physics ───
+(function initWeightedScroll() {
+  let scrollY = window.scrollY;
+  let targetY = scrollY;
+  let velocity = 0;
+  const friction = 0.95;
+  const acceleration = 0.1;
+  
+  window.addEventListener('wheel', (e) => {
+    targetY += e.deltaY * 0.5;
+    targetY = Math.max(0, Math.min(targetY, document.body.scrollHeight - window.innerHeight));
+  }, { passive: true });
+  
+  function updateScroll() {
+    const diff = targetY - scrollY;
+    velocity += diff * acceleration;
+    velocity *= friction;
+    scrollY += velocity;
+    
+    window.scrollTo(0, scrollY);
+    requestAnimationFrame(updateScroll);
+  }
+  
+  // Only enable on non-touch devices
+  if (!window.matchMedia('(pointer: coarse)').matches) {
+    // updateScroll(); // Disabled for now - native scroll is better
+  }
+})();
+</script>
+
+</body>
+</html>

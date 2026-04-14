@@ -2,59 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hulsman Timepieces | Dutch Haute Horlogerie</title>
-    <meta name="description" content="Fully handmade bespoke mechanical timepieces from the Netherlands. Perpetual calendars, tourbillons, and complications crafted entirely by hand.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hulsman — Easy Perpetual</title>
+    <meta name="description" content="Fully handmade perpetual calendar. Heerde, Netherlands.">
     <link rel="icon" type="image/x-icon" href="https://velocity.calyvent.com/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Lato:wght@100;300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           STYLE LOG — HULSMAN TIMEPIECES (REMAKE)
+           HULSMAN — TRUE LUXURY APPROACH
+           Inspired by: F.P. Journe, Rexhep Rexhepi, 
+           De Bethune, Laurent Ferrier
            ============================================
            
-           ARCHETYPE: Heritage Estate (NEW)
-           - Mood: Warm, Timeless, Dutch Artisan Heritage
-           - Typography: Old Standard TT (elegant serif) + Lato (Thin 100)
-           - Base: Warm Cream (#F5F2ED) — museum parchment
-           - Accent: Dutch Gold (#B8956B) + Deep Burgundy (#2C1810)
-           - Philosophical warmth befitting generational heirlooms
-           
-           LUXURY DESIGN REFERENCES (4+ techniques):
-           1. Chanel J12 — Full-bleed cinematic hero, massive refined serif
-           2. Tiffany & Co. — Asymmetric full-screen imagery, parallax depth
-           3. Cartier — Subtle 3D lighting on precious metals, atmospheric depth
-           4. Parmigiani Fleurier — Asymmetric scroll reveals, technical sophistication
-           
-           UNIQUENESS ENGINE (6 inventions for Hulsman only):
-           1. Sapphire Prism Light Refractor — CSS animated caustic light beams
-           2. Floating Balance Oscillator — 21,600 bph animated beating heart
-           3. Côtes de Genève Wave Motion — Drifting Geneva stripe patterns
-           4. ACHI Seal of Independent Creation — Prestige academy recognition
-           5. Souscription Journey Counter — "X of 12" subscriber animation
-           6. Dutch Golden Age Window — Atelier light beam effect
-           
-           VELOCITY EMERGENCY OVERRIDE:
-           ✓ Visual Grain: Fixed noise overlay at 0.04 opacity (warm tint)
-           ✓ 70/30 Rule: Cinematic imagery (21:9) with asymmetric whitespace
-           ✓ Sophisticated Layering: Text blocks floating with backdrop blur
+           PRINCIPLES:
+           1. One watch per viewport (full-bleed)
+           2. Invisible navigation (logo only)
+           3. No section headers/labels
+           4. Minimal text (name + one line max)
+           5. Deep black only (#050505)
+           6. Tiny uppercase typography (0.3em tracking)
+           7. Seamless scroll, no obvious breaks
+           8. Product is the design
            ============================================ */
 
         :root {
-            --color-cream: #F5F2ED;
-            --color-parchment: #EDE8E0;
-            --color-warm-white: #FAF8F5;
-            --color-gold: #B8956B;
-            --color-gold-light: #D4B896;
-            --color-burgundy: #2C1810;
-            --color-charcoal: #1A1512;
-            --color-text: #2C2420;
-            --color-text-muted: #6B5E54;
-            --font-serif: 'Old Standard TT', 'Cormorant Garamond', Georgia, serif;
-            --font-sans: 'Lato', 'Inter', sans-serif;
-            --transition-luxury: 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            --transition-swift: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --black: #050505;
+            --black-light: #0a0a0a;
+            --white: #f5f5f5;
+            --white-muted: #888;
+            --gold: #c9a962;
+            --font: 'Inter', -apple-system, sans-serif;
         }
 
         * {
@@ -65,19 +44,18 @@
 
         html {
             scroll-behavior: smooth;
+            background: var(--black);
         }
 
         body {
-            font-family: var(--font-sans);
-            background: var(--color-cream);
-            color: var(--color-text);
+            font-family: var(--font);
+            background: var(--black);
+            color: var(--white);
             overflow-x: hidden;
-            line-height: 1.7;
-            font-weight: 300;
-            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Visual Grain — Warm Atmosphere */
+        /* Film grain overlay */
         body::before {
             content: '';
             position: fixed;
@@ -85,235 +63,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
             pointer-events: none;
             z-index: 9999;
-            mix-blend-mode: multiply;
-        }
-
-        /* Atmospheric vignette for depth */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 30% 20%, transparent 40%, rgba(44,24,16,0.03) 100%);
-            pointer-events: none;
-            z-index: 9998;
         }
 
         /* ============================================
-           PRELOADER — Cinematic Entry
+           NAVIGATION — INVISIBLE
            ============================================ */
-        #preloader {
+        .nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--color-cream);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 1.5s ease, visibility 1.5s ease;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .preloader-balance {
-            width: 120px;
-            height: 120px;
-            position: relative;
-            margin-bottom: 40px;
-        }
-
-        .balance-wheel {
-            width: 100%;
-            height: 100%;
-            border: 2px solid var(--color-gold);
-            border-radius: 50%;
-            position: relative;
-            animation: balanceBeat 0.56s ease-in-out infinite;
-        }
-
-        .balance-wheel::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            background: var(--color-gold);
-            border-radius: 50%;
-        }
-
-        .balance-wheel::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--color-gold);
-            transform: translateY(-50%);
-        }
-
-        .balance-arm {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 140%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
-            transform: translate(-50%, -50%) rotate(90deg);
-            animation: balanceSwing 0.56s ease-in-out infinite;
-        }
-
-        @keyframes balanceBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes balanceSwing {
-            0%, 100% { transform: translate(-50%, -50%) rotate(85deg); }
-            50% { transform: translate(-50%, -50%) rotate(95deg); }
-        }
-
-        .preloader-text {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            animation: textPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes textPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        .preloader-sub {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-top: 20px;
-            opacity: 0.6;
-        }
-
-        /* ============================================
-           MODAL — Velocity Preview Notice
-           ============================================ */
-        #modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(44,24,16,0.85);
-            backdrop-filter: blur(20px);
-            z-index: 9990;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        #modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background: var(--color-warm-white);
-            padding: 60px 80px;
-            max-width: 600px;
-            text-align: center;
-            border: 1px solid var(--color-gold);
-            position: relative;
-            box-shadow: 0 40px 80px rgba(44,24,16,0.3);
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid var(--color-gold);
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .modal-title {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--color-burgundy);
-            margin-bottom: 20px;
-            letter-spacing: 0.1em;
-        }
-
-        .modal-text {
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.8;
-            color: var(--color-text);
-            margin-bottom: 30px;
-        }
-
-        .modal-text a {
-            color: var(--color-gold);
-            text-decoration: none;
-            border-bottom: 1px solid var(--color-gold);
-            transition: color 0.3s ease;
-        }
-
-        .modal-text a:hover {
-            color: var(--color-burgundy);
-        }
-
-        .modal-close {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--color-burgundy);
-        }
-
-        /* ============================================
-           NAVIGATION — Minimal Fixed
-           ============================================ */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px 60px;
+            padding: 40px;
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -322,1609 +86,550 @@
         }
 
         .nav-logo {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-        }
-
-        .nav-links a {
-            font-family: var(--font-sans);
-            font-size: 0.7rem;
+            font-size: 12px;
             font-weight: 300;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: #fff;
+            color: var(--white);
             text-decoration: none;
-            transition: opacity 0.3s ease;
         }
 
-        .nav-links a:hover {
-            opacity: 0.6;
-        }
-
-        /* Mobile Navigation Toggle */
         .nav-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: none;
             cursor: pointer;
-            padding: 10px;
-            z-index: 101;
-            mix-blend-mode: difference;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
         }
 
         .nav-toggle span {
-            display: block;
-            width: 100%;
+            width: 20px;
             height: 1px;
-            background: #fff;
+            background: var(--white);
             transition: all 0.3s ease;
-            transform-origin: center;
         }
 
-        .nav-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+        .nav-toggle.active span:first-child {
+            transform: rotate(45deg) translate(2px, 2px);
         }
 
-        .nav-toggle.active span:nth-child(2) {
-            opacity: 0;
+        .nav-toggle.active span:last-child {
+            transform: rotate(-45deg) translate(2px, -2px);
         }
 
-        .nav-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        /* ============================================
-           HERO SECTION — Full-Bleed Cinematic
-           ============================================ */
-        .hero {
-            min-height: 100vh;
-            position: relative;
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--black);
+            z-index: 99;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            overflow: hidden;
-            background: var(--color-charcoal);
-        }
-
-        .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: sepia(0.15) contrast(1.05) brightness(0.75);
+            align-items: center;
+            gap: 40px;
             opacity: 0;
-            transition: opacity 2s ease;
+            visibility: hidden;
+            transition: all 0.5s ease;
         }
 
-        .hero-image.loaded {
+        .nav-menu.active {
             opacity: 1;
+            visibility: visible;
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(26,21,18,0.7) 0%, rgba(44,24,16,0.4) 50%, rgba(26,21,18,0.6) 100%);
-        }
-
-        /* Dutch Golden Age Window Light Effect */
-        .hero-light-beam {
-            position: absolute;
-            top: -20%;
-            left: 20%;
-            width: 40%;
-            height: 140%;
-            background: linear-gradient(180deg, 
-                rgba(245,242,237,0) 0%,
-                rgba(245,242,237,0.03) 30%,
-                rgba(245,242,237,0.08) 50%,
-                rgba(245,242,237,0.03) 70%,
-                rgba(245,242,237,0) 100%);
-            transform: rotate(-15deg);
-            filter: blur(40px);
-            animation: lightDrift 20s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes lightDrift {
-            0%, 100% { transform: rotate(-15deg) translateX(0); opacity: 0.6; }
-            50% { transform: rotate(-12deg) translateX(30px); opacity: 0.9; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 0 40px;
-            max-width: 900px;
-        }
-
-        .hero-eyebrow {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
+        .nav-menu a {
+            font-size: 11px;
             font-weight: 300;
             letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: var(--color-gold-light);
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s ease 0.5s;
-        }
-
-        .hero-eyebrow.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hero-title {
-            font-family: var(--font-serif);
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 400;
-            line-height: 1.1;
-            color: var(--color-warm-white);
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s ease 0.8s;
-        }
-
-        .hero-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hero-title em {
-            font-style: italic;
-            color: var(--color-gold);
-            text-shadow: 0 0 40px rgba(184,149,107,0.3);
-        }
-
-        .hero-subtitle {
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            color: var(--color-parchment);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s ease 1.1s;
-        }
-
-        .hero-subtitle.visible {
-            opacity: 0.8;
-            transform: translateY(0);
-        }
-
-        /* Floating Balance Oscillator */
-        .hero-balance {
-            position: absolute;
-            bottom: 15%;
-            right: 10%;
-            width: 200px;
-            height: 200px;
-            opacity: 0;
-            transition: opacity 1.5s ease 1.5s;
-        }
-
-        .hero-balance.visible {
-            opacity: 0.15;
-        }
-
-        .balance-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--color-gold);
-            border-radius: 50%;
-            animation: balanceOscillate 0.56s ease-in-out infinite;
-        }
-
-        .balance-ring::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            background: var(--color-gold);
-            border-radius: 50%;
-            opacity: 0.5;
-        }
-
-        .balance-ring::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--color-gold);
-            transform: translateY(-50%);
-        }
-
-        @keyframes balanceOscillate {
-            0%, 100% { transform: rotate(-8deg); }
-            50% { transform: rotate(8deg); }
-        }
-
-        /* ACHI Seal */
-        .achi-seal {
-            position: absolute;
-            bottom: 10%;
-            left: 8%;
-            width: 80px;
-            height: 80px;
-            border: 1px solid var(--color-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 1.5s ease 1.8s;
-        }
-
-        .achi-seal.visible {
-            opacity: 0.4;
-        }
-
-        .achi-seal::before {
-            content: 'ACHI';
-            font-family: var(--font-sans);
-            font-size: 0.55rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            color: var(--color-gold);
-        }
-
-        .achi-seal::after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            border: 1px dashed var(--color-gold);
-            border-radius: 50%;
-            animation: sealRotate 20s linear infinite;
-        }
-
-        @keyframes sealRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 1s ease 2s;
-        }
-
-        .scroll-indicator.visible {
-            opacity: 0.5;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--color-gold), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { transform: scaleY(1); opacity: 0.5; }
-            50% { transform: scaleY(0.6); opacity: 1; }
-        }
-
-        .scroll-text {
-            font-family: var(--font-sans);
-            font-size: 0.6rem;
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--color-gold);
-        }
-
-        /* ============================================
-           SECTION 2 — The Philosophy (70/30 Asymmetric)
-           ============================================ */
-        .philosophy {
-            min-height: 120vh;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .philosophy-image {
-            width: 70%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .philosophy-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: sepia(0.1) contrast(1.02) brightness(0.9);
-        }
-
-        /* Côtes de Genève Wave Motion Overlay */
-        .philosophy-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 10px,
-                rgba(184,149,107,0.03) 10px,
-                rgba(184,149,107,0.03) 12px
-            );
-            animation: genevaWave 15s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes genevaWave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .philosophy-content {
-            width: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 80px 60px;
-            background: var(--color-parchment);
-        }
-
-        .philosophy-label {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 30px;
-        }
-
-        .philosophy-title {
-            font-family: var(--font-serif);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 400;
-            line-height: 1.3;
-            color: var(--color-burgundy);
-            margin-bottom: 30px;
-        }
-
-        .philosophy-text {
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.9;
-            color: var(--color-text);
-        }
-
-        .philosophy-text p {
-            margin-bottom: 20px;
-        }
-
-        /* ============================================
-           SECTION 3 — The Easy Perpetual (Reversed 30/70)
-           ============================================ */
-        .perpetual {
-            min-height: 120vh;
-            display: flex;
-            flex-direction: row-reverse;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .perpetual-image {
-            width: 70%;
-            position: relative;
-            overflow: hidden;
-            background: var(--color-charcoal);
-        }
-
-        .perpetual-visual {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* Sapphire Prism Light Refractor */
-        .prism-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .prism-light {
-            position: absolute;
-            width: 300px;
-            height: 600px;
-            background: linear-gradient(135deg, 
-                rgba(184,149,107,0) 0%,
-                rgba(184,149,107,0.1) 30%,
-                rgba(212,184,150,0.2) 50%,
-                rgba(184,149,107,0.1) 70%,
-                rgba(184,149,107,0) 100%);
-            filter: blur(30px);
-            animation: prismRefract 8s ease-in-out infinite;
-        }
-
-        .prism-light:nth-child(1) {
-            left: 20%;
-            top: 10%;
-            animation-delay: 0s;
-        }
-
-        .prism-light:nth-child(2) {
-            right: 25%;
-            top: 30%;
-            animation-delay: 2s;
-            transform: rotate(45deg);
-        }
-
-        .prism-light:nth-child(3) {
-            left: 40%;
-            bottom: 15%;
-            animation-delay: 4s;
-            transform: rotate(-30deg);
-        }
-
-        @keyframes prismRefract {
-            0%, 100% { 
-                opacity: 0.3; 
-                transform: translateX(0) rotate(0deg); 
-            }
-            50% { 
-                opacity: 0.7; 
-                transform: translateX(30px) rotate(5deg); 
-            }
-        }
-
-        .watch-placeholder {
-            width: 400px;
-            height: 400px;
-            border: 1px solid var(--color-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            opacity: 0.6;
-        }
-
-        .watch-placeholder::before {
-            content: 'EASY\APERPETUAL';
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            text-align: center;
-            line-height: 1.8;
-            color: var(--color-gold);
-            white-space: pre;
-        }
-
-        .perpetual-content {
-            width: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 80px 60px;
-            background: var(--color-cream);
-        }
-
-        .perpetual-label {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 30px;
-        }
-
-        .perpetual-title {
-            font-family: var(--font-serif);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 400;
-            line-height: 1.3;
-            color: var(--color-burgundy);
-            margin-bottom: 30px;
-        }
-
-        .perpetual-title em {
-            font-style: italic;
-            color: var(--color-gold);
-        }
-
-        .perpetual-text {
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.9;
-            color: var(--color-text);
-            margin-bottom: 40px;
-        }
-
-        .perpetual-features {
-            list-style: none;
-            margin-bottom: 40px;
-        }
-
-        .perpetual-features li {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 300;
-            color: var(--color-text-muted);
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(184,149,107,0.2);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .perpetual-features li::before {
-            content: '◆';
-            position: absolute;
-            left: 0;
-            color: var(--color-gold);
-            font-size: 0.5rem;
-        }
-
-        /* Souscription Counter */
-        .souscription-box {
-            border: 1px solid var(--color-gold);
-            padding: 30px;
-            text-align: center;
-            background: rgba(184,149,107,0.03);
-        }
-
-        .souscription-label {
-            font-family: var(--font-sans);
-            font-size: 0.6rem;
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 15px;
-        }
-
-        .souscription-counter {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--color-burgundy);
-            margin-bottom: 10px;
-        }
-
-        .souscription-counter span {
-            color: var(--color-gold);
-        }
-
-        .souscription-text {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            font-weight: 300;
-            color: var(--color-text-muted);
-        }
-
-        /* CTA Button */
-        .cta-button {
-            display: inline-block;
-            font-family: var(--font-sans);
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--color-burgundy);
+            color: var(--white);
             text-decoration: none;
-            padding: 20px 40px;
-            border: 1px solid var(--color-gold);
-            margin-top: 30px;
-            transition: all 0.5s ease;
-            cursor: pointer;
-            background: transparent;
+            padding: 20px;
+            transition: opacity 0.3s ease;
         }
 
-        .cta-button:hover {
-            background: var(--color-gold);
-            color: var(--color-warm-white);
+        .nav-menu a:hover {
+            opacity: 0.5;
         }
 
         /* ============================================
-           SECTION 4 — The Atelier (Full Width Cinema)
+           SLIDES — ONE WATCH PER VIEWPORT
            ============================================ */
-        .atelier {
+        .slide {
             min-height: 100vh;
+            width: 100%;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: var(--color-charcoal);
         }
 
-        .atelier-image {
+        .slide-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(0.2) contrast(1.02) brightness(0.6);
-            opacity: 0.7;
+            filter: brightness(0.7) contrast(1.1);
+            opacity: 0;
+            transition: opacity 1.5s ease;
         }
 
-        .atelier-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(26,21,18,0.8) 0%, transparent 50%, rgba(26,21,18,0.6) 100%);
+        .slide-image.loaded {
+            opacity: 1;
         }
 
-        .atelier-content {
+        .slide-content {
             position: relative;
             z-index: 10;
-            max-width: 600px;
-            padding: 60px;
-            background: rgba(245,242,237,0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--color-gold);
-            margin-left: 15vw;
-            margin-top: 10vh;
-        }
-
-        .atelier-label {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 25px;
-        }
-
-        .atelier-title {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400;
-            line-height: 1.2;
-            color: var(--color-burgundy);
-            margin-bottom: 25px;
-        }
-
-        .atelier-text {
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.9;
-            color: var(--color-text);
-            margin-bottom: 25px;
-        }
-
-        .atelier-location {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--color-gold);
-            border-top: 1px solid rgba(184,149,107,0.3);
-            padding-top: 20px;
-        }
-
-        /* ============================================
-           SECTION 5 — Collections Gallery
-           ============================================ */
-        .collections {
-            min-height: 100vh;
-            padding: 120px 0;
-            background: var(--color-cream);
-        }
-
-        .collections-header {
             text-align: center;
-            margin-bottom: 80px;
-            padding: 0 40px;
-        }
-
-        .collections-label {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 20px;
-        }
-
-        .collections-title {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400;
-            color: var(--color-burgundy);
-        }
-
-        .collections-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-        }
-
-        .collection-item {
-            position: relative;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            background: var(--color-charcoal);
-        }
-
-        .collection-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: sepia(0.15) contrast(1.02) brightness(0.7);
-            transition: all 1.2s ease;
-        }
-
-        .collection-item:hover img {
-            transform: scale(1.05);
-            filter: sepia(0.1) contrast(1.05) brightness(0.8);
-        }
-
-        .collection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(26,21,18,0.9) 0%, transparent 60%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
             padding: 40px;
         }
 
-        .collection-year {
-            font-family: var(--font-sans);
-            font-size: 0.6rem;
+        .slide-name {
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .slide-name.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-line {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 0 auto 20px;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: all 1s ease 0.7s;
+        }
+
+        .slide-line.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .slide-desc {
+            font-size: 10px;
             font-weight: 300;
             letter-spacing: 0.3em;
-            color: var(--color-gold);
-            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.9s;
         }
 
-        .collection-name {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: var(--color-warm-white);
-            margin-bottom: 10px;
+        .slide-desc.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .collection-type {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
+        .slide-price {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            font-size: 10px;
             font-weight: 300;
-            letter-spacing: 0.1em;
-            color: var(--color-parchment);
-            opacity: 0.7;
+            letter-spacing: 0.2em;
+            color: var(--white-muted);
+            opacity: 0;
+            transition: opacity 1s ease 1.1s;
         }
+
+        .slide-price.visible {
+            opacity: 1;
+        }
+
+        .slide-index {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--white-muted);
+        }
+
+        /* Slide variations */
+        .slide-1 { background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%); }
+        .slide-2 { background: linear-gradient(135deg, #080808 0%, #030303 100%); }
+        .slide-3 { background: linear-gradient(135deg, #060606 0%, #020202 100%); }
 
         /* ============================================
-           SECTION 6 — Contact (Asymmetric Final)
+           INFO PANEL — MINIMAL
            ============================================ */
-        .contact {
-            min-height: 80vh;
+        .info {
+            min-height: 60vh;
             display: flex;
-            background: var(--color-parchment);
-        }
-
-        .contact-info {
-            width: 50%;
-            padding: 120px 80px;
-            display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            padding: 80px 40px;
+            background: var(--black-light);
+            position: relative;
         }
 
-        .contact-label {
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
+        .info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 60px;
+            background: var(--gold);
+            opacity: 0.3;
+        }
+
+        .info-content {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 2;
+            letter-spacing: 0.05em;
+            color: var(--white-muted);
+            margin-bottom: 40px;
+        }
+
+        .info-location {
+            font-size: 10px;
             font-weight: 300;
             letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 30px;
+            color: var(--gold);
         }
 
-        .contact-title {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400;
-            color: var(--color-burgundy);
-            margin-bottom: 30px;
+        /* ============================================
+           FOOTER — MINIMAL
+           ============================================ */
+        .footer {
+            padding: 40px;
+            text-align: center;
+            background: var(--black);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .contact-text {
-            font-family: var(--font-sans);
-            font-size: 1rem;
+        .footer-text {
+            font-size: 9px;
             font-weight: 300;
-            line-height: 1.9;
-            color: var(--color-text);
-            margin-bottom: 40px;
-            max-width: 500px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            opacity: 0.5;
         }
 
-        .contact-details {
-            list-style: none;
-        }
-
-        .contact-details li {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
+        .footer-contact {
+            margin-top: 20px;
+            font-size: 10px;
             font-weight: 300;
-            color: var(--color-text);
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(184,149,107,0.2);
+            letter-spacing: 0.2em;
+            color: var(--white-muted);
         }
 
-        .contact-details li strong {
-            font-weight: 400;
-            color: var(--color-burgundy);
-            display: inline-block;
-            width: 80px;
-        }
-
-        .contact-visual {
-            width: 50%;
-            position: relative;
-            background: var(--color-charcoal);
-            overflow: hidden;
-        }
-
-        .contact-visual::before {
-            content: '';
-            position: absolute;
+        /* ============================================
+           MODAL — VELOCITY
+           ============================================ */
+        .modal {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 30% 50%, rgba(184,149,107,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(212,184,150,0.08) 0%, transparent 40%);
-            animation: contactGlow 10s ease-in-out infinite;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes contactGlow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        .modal.active {
+            display: flex;
+            opacity: 1;
         }
 
-        .contact-quote {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .modal-content {
             text-align: center;
-            padding: 60px;
+            padding: 40px;
+            max-width: 400px;
         }
 
-        .contact-quote p {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 400;
-            font-style: italic;
-            line-height: 1.6;
-            color: var(--color-gold);
+        .modal-title {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
             margin-bottom: 20px;
         }
 
-        .contact-quote cite {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
+        .modal-text {
+            font-size: 12px;
             font-weight: 300;
-            letter-spacing: 0.2em;
+            line-height: 1.8;
+            color: var(--white-muted);
+            margin-bottom: 30px;
+        }
+
+        .modal-text a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .modal-close {
+            font-size: 9px;
+            font-weight: 300;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--color-parchment);
-            font-style: normal;
+            color: var(--white);
+            cursor: pointer;
+            padding: 15px 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.1);
         }
 
         /* ============================================
-           FOOTER — Minimal Elegance
+           MOBILE
            ============================================ */
-        footer {
-            padding: 60px;
-            background: var(--color-burgundy);
-            text-align: center;
-        }
-
-        .footer-text {
-            font-family: var(--font-sans);
-            font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--color-parchment);
-            opacity: 0.6;
-        }
-
-        /* ============================================
-           RESPONSIVE — Mobile Excellence
-           ============================================ */
-        @media (max-width: 900px) {
-            nav {
-                padding: 20px 24px;
-                mix-blend-mode: normal;
-                background: transparent;
+        @media (max-width: 768px) {
+            .nav {
+                padding: 30px 20px;
             }
 
             .nav-logo {
-                font-size: 1.2rem;
-                color: var(--color-warm-white);
-                z-index: 102;
-            }
-
-            .nav-toggle {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgba(26,21,18,0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 30px;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.5s ease;
-                z-index: 100;
-            }
-
-            .nav-links.active {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .nav-links a {
-                font-size: 1rem;
+                font-size: 10px;
                 letter-spacing: 0.3em;
-                padding: 15px 30px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
             }
 
-            /* Hero Mobile */
-            .hero-content {
-                padding: 0 24px;
+            .slide-name {
+                font-size: 20px;
+                letter-spacing: 0.1em;
             }
 
-            .hero-title {
-                font-size: clamp(2rem, 10vw, 4rem);
-            }
-
-            .hero-subtitle {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-
-            .hero-balance {
-                width: 100px;
-                height: 100px;
-                right: 5%;
-                bottom: 20%;
-            }
-
-            .achi-seal {
-                width: 50px;
-                height: 50px;
-                left: 5%;
-                bottom: 15%;
-            }
-
-            .scroll-indicator {
-                bottom: 20px;
-            }
-
-            /* Philosophy & Perpetual Mobile */
-            .philosophy,
-            .perpetual {
-                flex-direction: column;
-            }
-
-            .philosophy-image,
-            .philosophy-content,
-            .perpetual-image,
-            .perpetual-content {
-                width: 100%;
-            }
-
-            .philosophy-image {
-                min-height: 50vh;
-                max-height: 60vh;
-            }
-
-            .philosophy-content,
-            .perpetual-content {
-                padding: 50px 24px;
-                min-height: auto;
-            }
-
-            .philosophy-title,
-            .perpetual-title,
-            .atelier-title,
-            .collections-title,
-            .contact-title {
-                font-size: clamp(1.5rem, 6vw, 2rem);
-            }
-
-            .philosophy-text,
-            .perpetual-text {
-                font-size: 0.95rem;
-                line-height: 1.7;
-            }
-
-            .perpetual-features li {
-                font-size: 0.9rem;
-                padding: 12px 0;
-            }
-
-            /* Atelier Mobile */
-            .atelier-content {
-                margin: 24px;
-                padding: 35px 24px;
-                max-width: none;
-            }
-
-            .atelier-text {
-                font-size: 0.95rem;
-            }
-
-            /* Collections Mobile */
-            .collections {
-                padding: 80px 0;
-            }
-
-            .collections-header {
-                margin-bottom: 50px;
-                padding: 0 24px;
-            }
-
-            .collections-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .collection-item {
-                aspect-ratio: 4/5;
-            }
-
-            .collection-overlay {
-                padding: 30px 24px;
-            }
-
-            .collection-name {
-                font-size: 1.5rem;
-            }
-
-            /* Contact Mobile */
-            .contact {
-                flex-direction: column-reverse;
-            }
-
-            .contact-info,
-            .contact-visual {
-                width: 100%;
-            }
-
-            .contact-info {
-                padding: 50px 24px;
-            }
-
-            .contact-text {
-                font-size: 0.95rem;
-            }
-
-            .contact-details li {
-                font-size: 0.9rem;
-                padding: 12px 0;
-            }
-
-            .contact-visual {
-                min-height: 35vh;
-            }
-
-            .contact-quote {
-                padding: 30px 24px;
-            }
-
-            .contact-quote p {
-                font-size: 1.2rem;
-            }
-
-            /* Modal Mobile */
-            .modal-content {
-                padding: 35px 24px;
-                margin: 16px;
-                max-width: calc(100% - 32px);
-            }
-
-            .modal-title {
-                font-size: 1.3rem;
-            }
-
-            .modal-text {
-                font-size: 0.9rem;
-            }
-
-            /* Preloader Mobile */
-            .preloader-balance {
-                width: 100px;
-                height: 100px;
-            }
-
-            .preloader-text {
-                font-size: 1rem;
+            .slide-desc {
+                font-size: 9px;
                 letter-spacing: 0.2em;
             }
 
-            /* Touch Targets */
-            .cta-button {
-                min-height: 48px;
-                padding: 15px 30px;
-                font-size: 0.75rem;
-                width: 100%;
-                text-align: center;
+            .slide-price {
+                bottom: 30px;
+                right: 30px;
+                font-size: 9px;
             }
 
-            .modal-close {
-                min-height: 44px;
-                padding: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            .slide-index {
+                bottom: 30px;
+                left: 30px;
+                font-size: 9px;
             }
 
-            /* Footer Mobile */
-            footer {
-                padding: 40px 24px;
+            .info {
+                padding: 60px 30px;
+                min-height: 50vh;
+            }
+
+            .info-text {
+                font-size: 13px;
+                line-height: 1.8;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+                margin: 20px;
             }
         }
 
-        /* Small Phone Optimization */
         @media (max-width: 380px) {
-            .hero-title {
-                font-size: 1.8rem;
+            .slide-name {
+                font-size: 18px;
             }
 
-            .philosophy-content,
-            .perpetual-content,
-            .atelier-content,
-            .contact-info {
-                padding: 40px 20px;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
+            .info-text {
+                font-size: 12px;
             }
         }
 
-        /* Touch Device Optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .collection-item:hover img {
-                transform: none;
-            }
-
-            .collection-item:active img {
-                transform: scale(1.02);
-            }
-
-            .cta-button:hover {
-                background: transparent;
-                color: var(--color-burgundy);
-            }
-
-            .cta-button:active {
-                background: var(--color-gold);
-                color: var(--color-warm-white);
-            }
-
-            .nav-links a:hover {
-                opacity: 1;
-            }
-
-            .nav-links a:active {
-                opacity: 0.6;
+        /* Touch optimizations */
+        @media (hover: none) {
+            .nav-menu a:active {
+                opacity: 0.5;
             }
         }
 
-        /* Reduced Motion */
+        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
+            * {
                 animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-
-            .balance-wheel,
-            .balance-ring,
-            .balance-arm {
-                animation: none;
-            }
-
-            html {
-                scroll-behavior: auto;
-            }
-        }
-
-        /* Scroll reveal animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="preloader-balance">
-            <div class="balance-wheel"></div>
-            <div class="balance-arm"></div>
-        </div>
-        <div class="preloader-text">Hulsman Timepieces</div>
-        <div class="preloader-sub">Heerde, Netherlands</div>
-    </div>
-
-    <!-- Modal -->
-    <div id="modal-overlay">
-        <div class="modal-content">
-            <h3 class="modal-title">A Velocity Preview</h3>
-            <p class="modal-text">
-                This is a conceptual preview by <a href="https://velocity.calyvent.com" target="_blank">Velocity</a> showcasing how Hulsman Timepieces could elevate their digital presence to match their extraordinary haute horlogerie craftsmanship. All imagery is representational.
-            </p>
-            <div class="modal-close" onclick="closeModal()">Continue to Preview</div>
-        </div>
-    </div>
-
     <!-- Navigation -->
-    <nav>
+    <nav class="nav">
         <a href="#" class="nav-logo">Hulsman</a>
-        <div class="nav-links" id="nav-links">
-            <a href="#philosophy">Philosophy</a>
-            <a href="#perpetual">Easy Perpetual</a>
-            <a href="#atelier">Atelier</a>
-            <a href="#collections">Collections</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span></span>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
             <span></span>
             <span></span>
         </button>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <img src="assets/hero-movement.png" alt="Luxury watch movement" class="hero-image" onload="this.classList.add('loaded')">
-        <div class="hero-overlay"></div>
-        <div class="hero-light-beam"></div>
-        
-        <div class="hero-content">
-            <div class="hero-eyebrow">Dutch Haute Horlogerie</div>
-            <h1 class="hero-title">Fully Handmade<br><em>Timepieces</em></h1>
-            <p class="hero-subtitle">Bespoke mechanical watches crafted entirely by hand<br>in the Netherlands by Machiel Hulsman</p>
-        </div>
+    <div class="nav-menu" id="navMenu">
+        <a href="#easy">Easy Perpetual</a>
+        <a href="#solstitium">Solstitium</a>
+        <a href="#marie">Marie-Elise</a>
+        <a href="#info" onclick="openModal()">Contact</a>
+    </div>
 
-        <div class="hero-balance">
-            <div class="balance-ring"></div>
+    <!-- Slide 1: Easy Perpetual -->
+    <section class="slide slide-1" id="easy">
+        <img src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=1920&q=80" alt="Easy Perpetual" class="slide-image" onload="this.classList.add('loaded')">
+        <div class="slide-content">
+            <h2 class="slide-name">Easy Perpetual</h2>
+            <div class="slide-line"></div>
+            <p class="slide-desc">The world's first user-friendly perpetual calendar</p>
         </div>
-
-        <div class="achi-seal"></div>
-
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <div class="scroll-text">Discover</div>
-        </div>
+        <div class="slide-price">€138,000</div>
+        <div class="slide-index">01 / 03</div>
     </section>
 
-    <!-- Philosophy Section -->
-    <section class="philosophy" id="philosophy">
-        <div class="philosophy-image">
-            <img src="assets/atelier-workbench.png" alt="Watchmaker atelier">
+    <!-- Slide 2: Solstitium -->
+    <section class="slide slide-2" id="solstitium">
+        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1920&q=80" alt="Solstitium Tourbillon" class="slide-image" onload="this.classList.add('loaded')">
+        <div class="slide-content">
+            <h2 class="slide-name">Solstitium</h2>
+            <div class="slide-line"></div>
+            <p class="slide-desc">Handmade tourbillon with exposed balance</p>
         </div>
-        <div class="philosophy-content reveal">
-            <div class="philosophy-label">Our Philosophy</div>
-            <h2 class="philosophy-title">Invention, Craftsmanship, Freedom & People</h2>
-            <div class="philosophy-text">
-                <p>Every Hulsman timepiece is a masterpiece of precision, with nearly every component crafted by hand. From my atelier in Heerde, Gelderland, I create watches that embody years of dedication, perseverance, and passion.</p>
-                <p>Clients are deeply involved in the creative process, making each watch uniquely personal. This is not merely watchmaking—it is the preservation of a timeless art form, honoring tradition while creating something wholly unique.</p>
-            </div>
-        </div>
+        <div class="slide-price">On Request</div>
+        <div class="slide-index">02 / 03</div>
     </section>
 
-    <!-- Easy Perpetual Section -->
-    <section class="perpetual" id="perpetual">
-        <div class="perpetual-image">
-            <div class="prism-container">
-                <div class="prism-light"></div>
-                <div class="prism-light"></div>
-                <div class="prism-light"></div>
-            </div>
-            <div class="perpetual-visual">
-                <div class="watch-placeholder"></div>
-            </div>
+    <!-- Slide 3: Marie-Elise -->
+    <section class="slide slide-3" id="marie">
+        <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1920&q=80" alt="Marie-Elise" class="slide-image" onload="this.classList.add('loaded')">
+        <div class="slide-content">
+            <h2 class="slide-name">Marie-Elise</h2>
+            <div class="slide-line"></div>
+            <p class="slide-desc">The first fully handmade Dutch wristwatch</p>
         </div>
-        <div class="perpetual-content reveal">
-            <div class="perpetual-label">The Invention</div>
-            <h2 class="perpetual-title">The <em>Easy Perpetual</em></h2>
-            <p class="perpetual-text">The world's first truly user-friendly perpetual calendar. Set the date via the crown—forward or backward—and the day, month, and leap year adjust automatically. No correctors. No tools. No risk.</p>
-            <ul class="perpetual-features">
-                <li>Sapphire prisms display month & day on the caseband</li>
-                <li>Floating balance wheel beneath sapphire bridge</li>
-                <li>90+ hours power reserve</li>
-                <li>Aventurine day-night indicator</li>
-                <li>Côtes de Genève finishing with mirror-polished anglage</li>
-            </ul>
-            <div class="souscription-box">
-                <div class="souscription-label">Montre de Souscription</div>
-                <div class="souscription-counter"><span id="counter">6</span> of 12</div>
-                <div class="souscription-text">Subscribers invited to the atelier</div>
-            </div>
-            <button class="cta-button" onclick="openModal()">Request Subscription</button>
-        </div>
+        <div class="slide-price">2019</div>
+        <div class="slide-index">03 / 03</div>
     </section>
 
-    <!-- Atelier Section -->
-    <section class="atelier" id="atelier">
-        <img src="assets/heerde-countryside.png" alt="Heerde Dutch countryside" class="atelier-image">
-        <div class="atelier-overlay"></div>
-        <div class="atelier-content reveal">
-            <div class="atelier-label">The Workshop</div>
-            <h2 class="atelier-title">Where Time<br>Begins Anew</h2>
-            <p class="atelier-text">In my atelier in Heerde, every component takes shape through traditional handcraft. From the first sketch to the final polish, each timepiece represents hundreds of hours of meticulous work.</p>
-            <p class="atelier-text">As a candidate member of the Académie Horlogère des Créateurs Indépendants (ACHI), I am honored to stand among the world's most innovative independent watchmakers.</p>
-            <div class="atelier-location">Heerde, Gelderland — The Netherlands</div>
-        </div>
-    </section>
-
-    <!-- Collections Section -->
-    <section class="collections" id="collections">
-        <div class="collections-header reveal">
-            <div class="collections-label">Bespoke Collections</div>
-            <h2 class="collections-title">Complications Crafted<br>Without Compromise</h2>
-        </div>
-        <div class="collections-grid">
-            <div class="collection-item reveal">
-                <img src="assets/easy-perpetual.png" alt="Easy Perpetual">
-                <div class="collection-overlay">
-                    <div class="collection-year">2025</div>
-                    <h3 class="collection-name">Easy Perpetual</h3>
-                    <div class="collection-type">Perpetual Calendar — €138,000</div>
-                </div>
-            </div>
-            <div class="collection-item reveal">
-                <img src="assets/tourbillon-detail.png" alt="Solstitium Tourbillon">
-                <div class="collection-overlay">
-                    <div class="collection-year">2021</div>
-                    <h3 class="collection-name">Solstitium</h3>
-                    <div class="collection-type">Tourbillon — On Request</div>
-                </div>
-            </div>
-            <div class="collection-item reveal">
-                <img src="assets/guilloche-detail.png" alt="Marie-Elise">
-                <div class="collection-overlay">
-                    <div class="collection-year">2019</div>
-                    <h3 class="collection-name">Marie-Elise</h3>
-                    <div class="collection-type">Time-Only — First Dutch Wristwatch</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="contact-info reveal">
-            <div class="contact-label">Begin Your Journey</div>
-            <h2 class="contact-title">Co-Create Your<br>Heirloom</h2>
-            <p class="contact-text">Every Hulsman timepiece begins with a conversation. Share your vision, and together we shall create a watch that will tell your story for generations.</p>
-            <ul class="contact-details">
-                <li><strong>Tel</strong> +31 655 842 672</li>
-                <li><strong>Email</strong> info@hulsman-timepieces.com</li>
-                <li><strong>Atelier</strong> Heerde, Gelderland, Netherlands</li>
-            </ul>
-            <button class="cta-button" onclick="openModal()">Arrange a Visit</button>
-        </div>
-        <div class="contact-visual">
-            <div class="contact-quote">
-                <p>"Let your ideas come to life,<br>for you and the next generations."</p>
-                <cite>— Machiel Hulsman</cite>
-            </div>
+    <!-- Info -->
+    <section class="info" id="info">
+        <div class="info-content">
+            <p class="info-text">Every Hulsman timepiece is crafted entirely by hand in Heerde, Netherlands. From the first sketch to the final polish, each watch represents hundreds of hours of meticulous work.</p>
+            <p class="info-location">Heerde, Gelderland — Netherlands</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <p class="footer-text">© 2026 Velocity by Calyvent. All rights reserved.</p>
+    <footer class="footer">
+        <p class="footer-text">© 2026 Velocity by Calyvent. Preview only.</p>
+        <p class="footer-contact">info@hulsman-timepieces.com</p>
     </footer>
 
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Velocity Preview</h3>
+            <p class="modal-text">This is a conceptual preview showcasing how Hulsman Timepieces could elevate their digital presence. Visit <a href="https://velocity.calyvent.com" target="_blank">velocity.calyvent.com</a></p>
+            <button class="modal-close" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
     <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-                
-                // Trigger hero animations
-                setTimeout(() => {
-                    document.querySelector('.hero-eyebrow').classList.add('visible');
-                    document.querySelector('.hero-title').classList.add('visible');
-                    document.querySelector('.hero-subtitle').classList.add('visible');
-                    document.querySelector('.hero-balance').classList.add('visible');
-                    document.querySelector('.achi-seal').classList.add('visible');
-                    document.querySelector('.scroll-indicator').classList.add('visible');
-                }, 500);
-            }, 3000);
+        // Navigation
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
 
-        // Modal functions
+        // Close menu on link click
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Modal
         function openModal() {
-            document.getElementById('modal-overlay').classList.add('active');
+            document.getElementById('modal').classList.add('active');
             setTimeout(closeModal, 5000);
         }
 
         function closeModal() {
-            document.getElementById('modal-overlay').classList.remove('active');
+            document.getElementById('modal').classList.remove('active');
         }
 
-        // Close modal on overlay click
-        document.getElementById('modal-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'modal-overlay') {
-                closeModal();
-            }
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
         });
 
-        // Scroll reveal
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.querySelectorAll('.slide-name, .slide-line, .slide-desc, .slide-price').forEach(el => {
+                        el.classList.add('visible');
+                    });
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.3 });
 
-        revealElements.forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.slide').forEach(slide => observer.observe(slide));
 
-        // Souscription counter animation
-        const counter = document.getElementById('counter');
-        if (counter) {
-            let count = 0;
-            const target = 6;
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const interval = setInterval(() => {
-                            if (count < target) {
-                                count++;
-                                counter.textContent = count;
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 300);
-                        counterObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            counterObserver.observe(counter);
-        }
-
-        // Mobile Navigation Toggle
-        const navToggle = document.getElementById('nav-toggle');
-        const navLinks = document.getElementById('nav-links');
-        const navLinkItems = navLinks.querySelectorAll('a');
-
-        function toggleMenu() {
-            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-            navToggle.setAttribute('aria-expanded', !isExpanded);
-            navToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            document.body.style.overflow = isExpanded ? '' : 'hidden';
-        }
-
-        function closeMenu() {
-            navToggle.setAttribute('aria-expanded', 'false');
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        if (navToggle) {
-            navToggle.addEventListener('click', toggleMenu);
-        }
-
-        // Close menu when clicking a link
-        navLinkItems.forEach(link => {
-            link.addEventListener('click', () => {
-                closeMenu();
+        // Initial animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.slide-1 .slide-name, .slide-1 .slide-line, .slide-1 .slide-desc, .slide-1 .slide-price').forEach(el => {
+                el.classList.add('visible');
             });
         });
 
-        // Close menu on escape key
+        // Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-                closeMenu();
+            if (e.key === 'Escape') {
+                closeModal();
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Prevent zoom on double-tap for iOS
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
     </script>
 </body>
 </html>

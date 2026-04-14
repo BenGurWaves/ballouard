@@ -1,496 +1,779 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pöhlmann-Bresan — Saxon Watchmaking Atelier</title>
-<meta name="description" content="Independent watchmaking atelier in Dresden. Hand-finished mechanical timepieces. Limited editions of 48.">
-<link rel="icon" href="https://velocity.calyvent.com/favicon.ico" type="image/x-icon">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pöhlmann-Bresan — Saxon Watchmaking Atelier</title>
+  <meta name="description" content="Independent watchmaking atelier in Dresden. Hand-finished mechanical timepieces. Limited editions of 48.">
+  <link rel="icon" href="https://velocity.calyvent.com/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
 
-html{overflow-x:hidden;scrollbar-width:none}
-html::-webkit-scrollbar{display:none}
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-body{
-  font-family:'Inter',sans-serif;font-weight:300;
-  color:#c8c4bb;background:#090908;
-  overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  transition:background-color .8s ease,color .8s ease;
-}
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
 
-/* grain */
-body::after{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity:.012;pointer-events:none;z-index:9998;
-}
+    html::-webkit-scrollbar { display: none; }
 
-/* ═══════════════════════════════
-   PRELOADER
-   ═══════════════════════════════ */
-.pre{
-  position:fixed;inset:0;background:#090908;z-index:10001;
-  display:flex;align-items:center;justify-content:center;
-}
-.pre.go{
-  clip-path:inset(0 0 100% 0);
-  transition:clip-path 1.4s cubic-bezier(.16,1,.3,1);
-}
-.pre-name{
-  font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;
-  letter-spacing:.35em;text-transform:uppercase;color:#c8c4bb;
-  opacity:0;transition:opacity 1s;
-}
-.pre-name.in{opacity:1}
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      background: #080807;
+      color: #bfbbb2;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
 
-/* ═══════════════════════════════
-   NAV
-   ═══════════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:26px 5vw;z-index:100;
-  transition:transform .5s cubic-bezier(.16,1,.3,1),padding .5s,background .5s;
-}
-nav.compact{padding:14px 5vw;background:rgba(9,9,8,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-nav.up{transform:translateY(-100%)}
-.n-l{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:#c8c4bb;text-decoration:none}
-.n-r{font-family:'Inter',sans-serif;font-size:9px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:#c8c4bb;opacity:.25;background:none;border:none;cursor:pointer;transition:opacity .4s}
-.n-r:hover{opacity:1}
+    /* ── FILM GRAIN ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.01;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-/* ═══════════════════════════════
-   HERO
-   ═══════════════════════════════ */
-.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 0 9vh 5vw}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;filter:saturate(.5) brightness(.22) contrast(1.15)}
-.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,#090908,transparent 30%),linear-gradient(135deg,rgba(9,9,8,.4),transparent 60%);z-index:1}
-.hero-c{position:relative;z-index:2}
-.ov{overflow:hidden;display:block}
-.ov>*{display:block;transform:translateY(110%)}
-.h1{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:#9a876b;margin-bottom:14px}
-.h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(5rem,12vw,12rem);line-height:.78;letter-spacing:-.05em}
-.h3{font-size:13px;font-weight:200;line-height:1.9;color:rgba(200,196,187,.2);max-width:280px;margin-top:16px}
+    /* ── TYPOGRAPHY ── */
+    .serif { font-family: 'Cormorant Garamond', serif; }
+    .sans { font-family: 'Inter', sans-serif; }
 
-/* ═══════════════════════════════
-   STICKY TEXT SECTION
-   Text pins center while you scroll through 300vh
-   ═══════════════════════════════ */
-.sticky-s{position:relative}
-.sticky-inner{
-  position:sticky;top:0;height:100vh;
-  display:flex;align-items:center;justify-content:center;
-  padding:0 12vw;text-align:center;
-}
-.sticky-text{
-  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
-  font-size:clamp(1.3rem,2.4vw,2rem);line-height:1.6;
-  max-width:640px;
-}
-/* Each word starts dim, lights up on scroll */
-.sticky-text .word{display:inline-block;opacity:.12;transition:opacity 0s}
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 8px;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #8a7d65;
+      display: block;
+      margin-bottom: 20px;
+    }
 
-/* ═══════════════════════════════
-   FULL-BLEED IMAGE — diagonal clip reveal
-   ═══════════════════════════════ */
-.img-s{width:100%;height:88vh;position:relative;overflow:hidden}
-.img-s img{
-  width:100%;height:120%;object-fit:cover;will-change:transform;
-  filter:saturate(.6) contrast(1.08) brightness(.82);
-  transition:filter 1.2s;
-}
-.img-s:hover img{filter:saturate(.8) contrast(1.05) brightness(.86)}
-.img-s .reveal-mask{
-  position:absolute;inset:0;background:#090908;
-  clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
-  transition:clip-path 1.8s cubic-bezier(.16,1,.3,1);
-  z-index:2;
-}
-.img-s.vis .reveal-mask{clip-path:polygon(100% 0,100% 0,100% 100%,100% 100%)}
-.img-cap{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:28px 5vw;background:linear-gradient(to top,rgba(9,9,8,.3),transparent)}
-.img-cap span{font-size:7px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,196,187,.18)}
+    /* ── PRELOADER ── */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: #080807;
+      z-index: 10001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 1.2s;
+    }
 
-/* ═══════════════════════════════
-   PINNED WATCH + TEXT WAVES
-   ═══════════════════════════════ */
-.watch-pin{position:relative;background:#090908}
-.watch-pin-inner{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.watch-img{width:44vw;max-width:560px;will-change:transform;filter:saturate(.6) contrast(1.1) brightness(.6)}
-.w-tx{position:absolute;z-index:2;max-width:380px;opacity:0}
-.w-tx.l{left:5vw;text-align:left}
-.w-tx.r{right:5vw;text-align:right}
-.w-eye{font-size:7px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:#9a876b;margin-bottom:10px}
-.w-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.45}
-.w-p{font-size:12px;font-weight:200;line-height:2;color:rgba(200,196,187,.18);margin-top:10px;max-width:300px}
-.w-tx.r .w-p{margin-left:auto}
+    .preloader.done {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-/* ═══════════════════════════════
-   SPECS — horizontal, quiet
-   ═══════════════════════════════ */
-.specs{padding:14vh 5vw;border-top:1px solid rgba(200,196,187,.018);border-bottom:1px solid rgba(200,196,187,.018)}
-.specs-row{display:flex;justify-content:center;gap:clamp(28px,5vw,68px);flex-wrap:wrap}
-.sp{text-align:center;opacity:0;transform:translateY(8px)}
-.sp-n{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,2.6vw,2.3rem);font-weight:300;line-height:1}
-.sp-l{font-size:7px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,196,187,.18);margin-top:6px}
+    .preloader-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #bfbbb2;
+      opacity: 0;
+      animation: preIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
 
-/* ═══════════════════════════════
-   PRODUCT
-   ═══════════════════════════════ */
-.product{display:grid;grid-template-columns:5fr 6fr;min-height:100vh}
-.prod-info{display:flex;flex-direction:column;justify-content:center;padding:10vh 5vw;background:#0e0e0d}
-.prod-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(2.5rem,4vw,4.5rem);line-height:.88;letter-spacing:-.03em;margin-bottom:4px}
-.prod-ed{font-size:7px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:#9a876b;margin-bottom:40px}
-.prod-list{list-style:none;margin-bottom:40px}
-.prod-list li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(200,196,187,.018);font-size:12px;font-weight:200}
-.prod-list li span:first-child{font-size:7px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,196,187,.18);display:flex;align-items:center}
-.prod-pr{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;margin-bottom:2px}
-.prod-tax{font-size:10px;color:rgba(200,196,187,.18);margin-bottom:28px}
-.btn{display:inline-block;padding:11px 40px;border:1px solid rgba(200,196,187,.06);color:#c8c4bb;background:transparent;font-family:'Inter',sans-serif;font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .5s cubic-bezier(.16,1,.3,1),border-color .5s}
-.btn:hover{background:rgba(200,196,187,.015);border-color:rgba(200,196,187,.12)}
-.prod-img{position:relative;overflow:hidden}
-.prod-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.6) brightness(.78);transition:transform 12s cubic-bezier(.16,1,.3,1),filter 1.2s}
-.prod-img:hover img{transform:scale(1.01);filter:saturate(.78) brightness(.82)}
+    @keyframes preIn {
+      from { opacity: 0; letter-spacing: 0.6em; }
+      to { opacity: 1; letter-spacing: 0.4em; }
+    }
 
-/* ═══════════════════════════════
-   FINALE
-   ═══════════════════════════════ */
-.finale{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18vh 10vw}
-.fin-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,10vw,10rem);line-height:.82;letter-spacing:-.05em;margin-bottom:16px}
-.fin-sub{font-size:7px;font-weight:300;letter-spacing:.35em;text-transform:uppercase;color:rgba(200,196,187,.18);margin-bottom:36px}
-.fin-addr{font-size:12px;font-weight:200;line-height:2;color:rgba(200,196,187,.18);margin-bottom:24px}
-.fin-email{font-size:10px;font-weight:300;letter-spacing:.08em;color:#c8c4bb;text-decoration:none;position:relative;padding-bottom:2px;cursor:pointer}
-.fin-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:#9a876b;transition:width .4s cubic-bezier(.16,1,.3,1)}
-.fin-email:hover::after{width:0}
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
 
-footer{padding:24px 5vw;text-align:center;border-top:1px solid rgba(200,196,187,.012)}
-.fc{font-size:7px;font-weight:200;color:rgba(200,196,187,.07);letter-spacing:.08em}
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
 
-/* modal */
-.mo{position:fixed;inset:0;background:rgba(9,9,8,.94);backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);display:flex;align-items:center;justify-content:center;z-index:10002;opacity:0;visibility:hidden;transition:opacity .6s cubic-bezier(.16,1,.3,1),visibility .6s}
-.mo.on{opacity:1;visibility:visible}
-.mo-box{max-width:380px;text-align:center;padding:44px 36px;border:1px solid rgba(200,196,187,.03);position:relative}
-.mo-x{position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(200,196,187,.18);font-size:14px;font-family:'Inter',sans-serif;cursor:pointer}
-.mo-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.15rem;margin-bottom:10px}
-.mo-p{font-size:11px;font-weight:200;line-height:2;color:rgba(200,196,187,.18);margin-bottom:16px}
-.mo-a{font-size:7px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:#9a876b;text-decoration:none;position:relative;padding-bottom:2px}
-.mo-a::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:#9a876b}
-.mo-timer{position:absolute;bottom:0;left:0;height:1px;background:#9a876b;animation:mt 5s linear forwards}
-@keyframes mt{from{width:100%}to{width:0}}
+    .nav-cta {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0.3;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.4s;
+    }
 
-@media(max-width:900px){
-  nav{padding:20px 5vw}
-  .hero{padding:0 0 8vh 5vw}
-  .h2{font-size:clamp(3.5rem,14vw,5rem)}
-  .sticky-inner{padding:0 6vw}
-  .img-s{height:55vh}
-  .watch-img{width:70vw}
-  .w-tx.l,.w-tx.r{position:relative;left:auto;right:auto;text-align:left;padding:0 6vw}
-  .w-tx.r .w-p{margin-left:0}
-  .product{grid-template-columns:1fr}
-  .prod-info{padding:10vh 6vw;order:2}.prod-img{min-height:50vh;order:1}
-  .specs-row{gap:20px}
-  .fin-name{font-size:clamp(2.5rem,14vw,5rem)}
-}
-</style>
+    .nav-cta:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.45) brightness(0.22) contrast(1.15);
+    }
+
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #080807 0%, transparent 35%);
+      z-index: 1;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      padding: 0 0 8vh 48px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(5rem, 12vw, 13rem);
+      line-height: 0.78;
+      letter-spacing: -0.05em;
+      color: #bfbbb2;
+    }
+
+    .hero-line {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 200;
+      color: rgba(191, 187, 178, 0.18);
+      margin-top: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── SPACER (empty breath) ── */
+    .breath {
+      height: 22vh;
+    }
+
+    /* ── CENTERED TEXT BLOCK ── */
+    .text-center-block {
+      padding: 18vh 16vw;
+      text-align: center;
+    }
+
+    .text-center-block .lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+      line-height: 1.55;
+      color: #bfbbb2;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* ── PHOTOGRAPH ── */
+    .photograph {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photograph img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: saturate(0.6) contrast(1.06) brightness(0.78);
+      transition: filter 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .photograph:hover img {
+      filter: saturate(0.75) contrast(1.04) brightness(0.82);
+    }
+
+    .photograph figcaption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 24px 48px;
+      background: linear-gradient(to top, rgba(8, 8, 7, 0.3), transparent);
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(191, 187, 178, 0.15);
+    }
+
+    /* ── ASYMMETRIC TEXT ── */
+    .text-aside {
+      padding: 16vh 48px;
+      max-width: 520px;
+    }
+
+    .text-aside.right {
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .text-aside h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+      line-height: 1.45;
+      margin-bottom: 16px;
+      color: #bfbbb2;
+    }
+
+    .text-aside p {
+      font-size: 13px;
+      font-weight: 200;
+      line-height: 2;
+      color: rgba(191, 187, 178, 0.18);
+      max-width: 380px;
+    }
+
+    .text-aside.right p {
+      margin-left: auto;
+    }
+
+    /* ── HORIZONTAL RULE ── */
+    .rule {
+      width: 36px;
+      height: 1px;
+      background: #8a7d65;
+      margin: 0 auto;
+      opacity: 0.3;
+    }
+
+    /* ── SPECS ── */
+    .specs-block {
+      padding: 16vh 48px;
+      display: flex;
+      justify-content: center;
+      gap: clamp(32px, 6vw, 80px);
+      flex-wrap: wrap;
+    }
+
+    .spec {
+      text-align: center;
+    }
+
+    .spec-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+      font-weight: 300;
+      line-height: 1;
+      color: #bfbbb2;
+    }
+
+    .spec-lbl {
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(191, 187, 178, 0.15);
+      margin-top: 8px;
+    }
+
+    /* ── PRODUCT SPLIT ── */
+    .product-split {
+      display: grid;
+      grid-template-columns: 5fr 6fr;
+      min-height: 100vh;
+    }
+
+    .product-detail {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10vh 48px 10vh 48px;
+      background: #0c0c0b;
+    }
+
+    .product-detail h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2.5rem, 4.5vw, 5rem);
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .product-detail .edition {
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8a7d65;
+      margin-bottom: 48px;
+    }
+
+    .detail-list {
+      list-style: none;
+      margin-bottom: 48px;
+    }
+
+    .detail-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(191, 187, 178, 0.02);
+      font-size: 12px;
+      font-weight: 200;
+    }
+
+    .detail-list li span:first-child {
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(191, 187, 178, 0.15);
+      display: flex;
+      align-items: center;
+    }
+
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-bottom: 3px;
+    }
+
+    .product-tax {
+      font-size: 10px;
+      color: rgba(191, 187, 178, 0.15);
+      margin-bottom: 32px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 44px;
+      border: 1px solid rgba(191, 187, 178, 0.05);
+      color: #bfbbb2;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 8px;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.8s;
+    }
+
+    .cta-button:hover {
+      background: rgba(191, 187, 178, 0.015);
+      border-color: rgba(191, 187, 178, 0.1);
+    }
+
+    .product-photo {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.5) brightness(0.72);
+      transition: transform 14s cubic-bezier(0.16, 1, 0.3, 1), filter 2s;
+    }
+
+    .product-photo:hover img {
+      transform: scale(1.008);
+      filter: saturate(0.7) brightness(0.78);
+    }
+
+    /* ── FINALE ── */
+    .finale {
+      padding: 28vh 48px;
+      text-align: center;
+    }
+
+    .finale-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(4rem, 11vw, 12rem);
+      line-height: 0.78;
+      letter-spacing: -0.05em;
+      color: #bfbbb2;
+      margin-bottom: 20px;
+    }
+
+    .finale-tagline {
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(191, 187, 178, 0.12);
+      margin-bottom: 48px;
+    }
+
+    .finale-address {
+      font-size: 12px;
+      font-weight: 200;
+      line-height: 2.2;
+      color: rgba(191, 187, 178, 0.15);
+      margin-bottom: 28px;
+    }
+
+    .finale-email {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: #bfbbb2;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 3px;
+    }
+
+    .finale-email::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 1px;
+      background: #8a7d65;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .finale-email:hover::after { width: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 48px;
+      text-align: center;
+      border-top: 1px solid rgba(191, 187, 178, 0.01);
+    }
+
+    footer p {
+      font-size: 7px;
+      font-weight: 200;
+      color: rgba(191, 187, 178, 0.06);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── MODAL ── */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 8, 7, 0.95);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10002;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    }
+
+    .modal.active { opacity: 1; visibility: visible; }
+
+    .modal-card {
+      max-width: 360px;
+      text-align: center;
+      padding: 48px 36px;
+      border: 1px solid rgba(191, 187, 178, 0.025);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none;
+      border: none;
+      color: rgba(191, 187, 178, 0.15);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .modal-card p {
+      font-size: 11px;
+      font-weight: 200;
+      line-height: 2;
+      color: rgba(191, 187, 178, 0.18);
+      margin-bottom: 18px;
+    }
+
+    .modal-link {
+      font-size: 7px;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #8a7d65;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .modal-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 1px;
+      background: #8a7d65;
+    }
+
+    .modal-timer {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 1px;
+      background: #8a7d65;
+      animation: shrink 5s linear forwards;
+    }
+
+    @keyframes shrink { from { width: 100%; } to { width: 0; } }
+
+    /* ── SCROLL REVEAL (JS adds .revealed) ── */
+    .sr {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sr.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 22px 24px; }
+      .hero-text { padding: 0 0 7vh 24px; }
+      .text-center-block { padding: 14vh 24px; }
+      .text-aside { padding: 12vh 24px; max-width: 100%; }
+      .text-aside.right { text-align: left; }
+      .text-aside.right p { margin-left: 0; }
+      .product-split { grid-template-columns: 1fr; }
+      .product-detail { padding: 10vh 24px; order: 2; }
+      .product-photo { min-height: 55vh; order: 1; }
+      .specs-block { padding: 12vh 24px; gap: 24px; }
+      .finale { padding: 18vh 24px; }
+      .photograph figcaption { padding: 20px 24px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- PRELOADER -->
-<div class="pre" id="pre"><div class="pre-name" id="preName">Pöhlmann-Bresan</div></div>
-
-<!-- NAV -->
-<nav id="nav"><a href="#" class="n-l">Pöhlmann-Bresan</a><button class="n-r" onclick="openModal()">Inquire</button></nav>
-
-<!-- HERO -->
-<section class="hero">
-  <img class="hero-img" id="hImg" src="./assets/hero-watch.png" alt="Prestige">
-  <div class="hero-grad"></div>
-  <div class="hero-c">
-    <span class="ov"><span class="h1" id="e1">Saxon Watchmaking · Dresden</span></span>
-    <span class="ov"><span class="h2" id="e2">Prestige</span></span>
-    <span class="ov"><span class="h3" id="e3">Hand-finished mechanical excellence.<br>Limited to 48 pieces.</span></span>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-mark">Pöhlmann-Bresan</div>
   </div>
-</section>
 
-<!-- STICKY TEXT 1 — word-by-word illumination -->
-<div class="sticky-s" style="height:300vh">
-  <div class="sticky-inner">
-    <p class="sticky-text" id="st1">Nach alter Väter Sitte — according to the custom of old fathers. Josef Bresan and Lukas Pöhlmann develop and manufacture their own wristwatches in traditional construction, in an atelier a short journey from Glashütte.</p>
-  </div>
-</div>
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-name">Pöhlmann-Bresan</a>
+    <button class="nav-cta" onclick="openModal()">Inquire</button>
+  </nav>
 
-<!-- ATELIER IMAGE — diagonal reveal -->
-<div class="img-s" id="img1">
-  <div class="reveal-mask"></div>
-  <img src="./assets/atelier-workshop.png" alt="Dresden atelier" loading="lazy">
-  <div class="img-cap"><span>Gostritzer Straße 10 · Dresden</span></div>
-</div>
-
-<!-- PINNED WATCH — two text waves -->
-<section class="watch-pin" id="watchPin">
-  <div class="watch-pin-inner">
-    <img class="watch-img" id="wImg" src="./assets/product-detail.png" alt="Prestige caseback">
-    <div class="w-tx l" id="wt1">
-      <div class="w-eye">The Movement</div>
-      <h2 class="w-h">Kaliber JU26-01. Based on the Soviet Pobeda 2608. Completely transformed.</h2>
-      <p class="w-p">Skeletonized train bridge. Hand-applied anglage. 14k gold eccentric adjusting screws. Every surface finished by hand.</p>
+  <!-- Hero -->
+  <section class="hero">
+    <img class="hero-photo" src="./assets/hero-watch.png" alt="Prestige">
+    <div class="hero-veil"></div>
+    <div class="hero-text">
+      <span class="eyebrow">Saxon Watchmaking · Dresden</span>
+      <h1 class="hero-title">Prestige</h1>
+      <p class="hero-line">Hand-finished. Limited to 48 pieces.</p>
     </div>
-    <div class="w-tx r" id="wt2">
-      <div class="w-eye">Finishing</div>
-      <h2 class="w-h">Two hundred hours of silence, patience, and devotion.</h2>
-      <p class="w-p">Compressed into forty millimeters of stainless steel.</p>
+  </section>
+
+  <div class="breath"></div>
+
+  <!-- Opening statement -->
+  <div class="text-center-block sr">
+    <p class="lead">Nach alter Väter Sitte — according to the custom of old fathers.</p>
+  </div>
+
+  <div class="breath"></div>
+
+  <!-- Atelier -->
+  <figure class="photograph sr">
+    <img src="./assets/atelier-workshop.png" alt="The atelier, Gostritzer Straße 10" loading="lazy">
+    <figcaption>Gostritzer Straße 10 · Dresden</figcaption>
+  </figure>
+
+  <div class="breath"></div>
+
+  <!-- Heritage -->
+  <div class="text-aside sr">
+    <span class="eyebrow">Heritage</span>
+    <h2>Josef Bresan and Lukas Pöhlmann develop and manufacture their own wristwatches in traditional construction.</h2>
+    <p>Their atelier continues Saxony's storied watchmaking legacy, a short journey from Glashütte, the epicenter of German horology.</p>
+  </div>
+
+  <div class="breath"></div>
+
+  <!-- Movement -->
+  <figure class="photograph sr">
+    <img src="./assets/movement-macro.png" alt="Kaliber JU26-01" loading="lazy">
+    <figcaption>Kaliber JU26-01 · Hand-Finished</figcaption>
+  </figure>
+
+  <div class="breath"></div>
+
+  <!-- Movement text -->
+  <div class="text-aside right sr">
+    <span class="eyebrow">The Movement</span>
+    <h2>Based on the Soviet Pobeda calibre 2608. Completely transformed.</h2>
+    <p>Skeletonized train bridge revealing double-layered gear architecture. Hand-applied anglage. 14k gold eccentric adjusting screws.</p>
+  </div>
+
+  <div class="breath"></div>
+
+  <!-- Centered quote -->
+  <div class="text-center-block sr">
+    <div class="rule" style="margin-bottom: 48px;"></div>
+    <p class="lead">To take an industrial ebauche calibre and bring to market an exquisitely finished piece that honors the traditions of Saxon watchmaking.</p>
+    <div class="rule" style="margin-top: 48px;"></div>
+  </div>
+
+  <div class="breath"></div>
+
+  <!-- Specs -->
+  <div class="specs-block sr">
+    <div class="spec"><div class="spec-val">18,000</div><div class="spec-lbl">Vibrations / Hour</div></div>
+    <div class="spec"><div class="spec-val">39h</div><div class="spec-lbl">Power Reserve</div></div>
+    <div class="spec"><div class="spec-val">200+</div><div class="spec-lbl">Hours of Finishing</div></div>
+    <div class="spec"><div class="spec-val">14k</div><div class="spec-lbl">Gold Screws</div></div>
+    <div class="spec"><div class="spec-val">48</div><div class="spec-lbl">Pieces</div></div>
+  </div>
+
+  <div class="breath"></div>
+
+  <!-- Founders -->
+  <figure class="photograph sr">
+    <img src="./assets/founders-portrait.png" alt="Josef Bresan and Lukas Pöhlmann" loading="lazy">
+  </figure>
+
+  <div class="breath"></div>
+
+  <!-- Product -->
+  <section class="product-split">
+    <div class="product-detail">
+      <span class="eyebrow sr">Collection</span>
+      <h2 class="sr">Prestige</h2>
+      <div class="edition sr">Limited Edition of 48</div>
+      <ul class="detail-list sr">
+        <li><span>Case</span><span>Stainless Steel, 40mm</span></li>
+        <li><span>Height</span><span>12.2mm</span></li>
+        <li><span>Lug-to-Lug</span><span>48.8mm</span></li>
+        <li><span>Crystal</span><span>Sapphire</span></li>
+        <li><span>Water Resistance</span><span>50 Meters</span></li>
+        <li><span>Strap</span><span>Calf Leather</span></li>
+      </ul>
+      <div class="product-price sr">€16,750</div>
+      <div class="product-tax sr">Excluding taxes</div>
+      <button class="cta-button sr" onclick="openModal()">Inquire</button>
+    </div>
+    <div class="product-photo">
+      <img src="./assets/product-detail.png" alt="Prestige caseback" loading="lazy">
+    </div>
+  </section>
+
+  <div class="breath"></div>
+
+  <!-- Finale -->
+  <section class="finale sr">
+    <div class="finale-name">Pöhlmann<br>Bresan</div>
+    <div class="finale-tagline">Saxon Watchmaking Atelier · Est. Dresden</div>
+    <p class="finale-address">Gostritzer Straße 10<br>01217 Dresden, Germany</p>
+    <a href="#" class="finale-email" onclick="openModal(); return false;">info@poehlmann-bresan.de</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Velocity by Calyvent. All rights reserved.</p>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3>A Velocity Preview</h3>
+      <p>A vision of what Pöhlmann-Bresan's digital presence could become.</p>
+      <a href="https://velocity.calyvent.com" target="_blank" class="modal-link">Discover Velocity</a>
+      <div class="modal-timer" id="modalTimer"></div>
     </div>
   </div>
-</section>
 
-<!-- MOVEMENT IMAGE — diagonal reveal -->
-<div class="img-s" id="img2">
-  <div class="reveal-mask"></div>
-  <img src="./assets/movement-macro.png" alt="Kaliber JU26-01" loading="lazy">
-  <div class="img-cap"><span>Kaliber JU26-01 · Hand-Finished</span></div>
-</div>
+  <script>
+    // Preloader
+    setTimeout(function() {
+      document.getElementById('preloader').classList.add('done');
+    }, 2400);
 
-<!-- STICKY TEXT 2 — word-by-word -->
-<div class="sticky-s" style="height:250vh">
-  <div class="sticky-inner">
-    <p class="sticky-text" id="st2">To take an industrial ebauche calibre and bring to market an exquisitely finished piece that honors the traditions of Saxon watchmaking.</p>
-  </div>
-</div>
-
-<!-- SPECS -->
-<div class="specs" id="specsSection">
-  <div class="specs-row">
-    <div class="sp"><div class="sp-n">18,000</div><div class="sp-l">Vibrations / Hour</div></div>
-    <div class="sp"><div class="sp-n">39h</div><div class="sp-l">Power Reserve</div></div>
-    <div class="sp"><div class="sp-n">200+</div><div class="sp-l">Hours of Finishing</div></div>
-    <div class="sp"><div class="sp-n">14k</div><div class="sp-l">Gold Screws</div></div>
-    <div class="sp"><div class="sp-n">48</div><div class="sp-l">Pieces</div></div>
-  </div>
-</div>
-
-<!-- FOUNDERS — diagonal reveal -->
-<div class="img-s" id="img3">
-  <div class="reveal-mask"></div>
-  <img src="./assets/founders-portrait.png" alt="Josef Bresan and Lukas Pöhlmann" loading="lazy">
-</div>
-
-<!-- PRODUCT -->
-<section class="product">
-  <div class="prod-info" id="prodInfo">
-    <div class="w-eye" style="opacity:0">Collection</div>
-    <h2 class="prod-name" style="opacity:0">Prestige</h2>
-    <div class="prod-ed" style="opacity:0">Limited Edition of 48</div>
-    <ul class="prod-list" style="opacity:0">
-      <li><span>Case</span><span>Stainless Steel, 40mm</span></li>
-      <li><span>Height</span><span>12.2mm</span></li>
-      <li><span>Lug-to-Lug</span><span>48.8mm</span></li>
-      <li><span>Crystal</span><span>Sapphire</span></li>
-      <li><span>Water Resistance</span><span>50 Meters</span></li>
-      <li><span>Strap</span><span>Calf Leather</span></li>
-    </ul>
-    <div class="prod-pr" style="opacity:0">€16,750</div>
-    <div class="prod-tax" style="opacity:0">Excluding taxes</div>
-    <button class="btn" style="opacity:0" onclick="openModal()">Inquire</button>
-  </div>
-  <div class="prod-img">
-    <img src="./assets/hero-watch.png" alt="Prestige" loading="lazy">
-  </div>
-</section>
-
-<!-- FINALE -->
-<section class="finale" id="finale">
-  <div class="fin-name">Pöhlmann<br>Bresan</div>
-  <div class="fin-sub">Saxon Watchmaking Atelier · Est. Dresden</div>
-  <p class="fin-addr">Gostritzer Straße 10<br>01217 Dresden, Germany</p>
-  <a href="#" class="fin-email" onclick="openModal();return false">info@poehlmann-bresan.de</a>
-</section>
-
-<footer><div class="fc">&copy; 2026 Velocity by Calyvent. All rights reserved.</div></footer>
-
-<!-- MODAL -->
-<div class="mo" id="mo">
-  <div class="mo-box">
-    <button class="mo-x" onclick="closeModal()">&times;</button>
-    <h3 class="mo-h">A Velocity Preview</h3>
-    <p class="mo-p">A vision of what Pöhlmann-Bresan's digital presence could become.</p>
-    <a href="https://velocity.calyvent.com" target="_blank" class="mo-a">Discover Velocity</a>
-    <div class="mo-timer" id="mot"></div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-
-<script>
-// ── LENIS + GSAP ──
-const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-gsap.registerPlugin(ScrollTrigger);
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add(t => { lenis.raf(t * 1000) });
-gsap.ticker.lagSmoothing(0);
-
-const E = 'cubic-bezier(.16,1,.3,1)';
-
-// ── PRELOADER ──
-setTimeout(() => document.getElementById('preName').classList.add('in'), 200);
-setTimeout(() => {
-  document.getElementById('pre').classList.add('go');
-  setTimeout(() => {
-    ['e1','e2','e3'].forEach((id, i) => {
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        gsap.to(el, { y: 0, duration: .9, ease: 'power3.out' });
-      }, i * 240);
-    });
-  }, 500);
-}, 2200);
-
-// ── NAV — shrink + hide/show ──
-let lastY = 0, navHid = false;
-lenis.on('scroll', ({ scroll }) => {
-  document.getElementById('nav').classList.toggle('compact', scroll > 60);
-  if (scroll > 300) {
-    const d = scroll - lastY;
-    if (d > 3 && !navHid) { document.getElementById('nav').classList.add('up'); navHid = true; }
-    if (d < -3 && navHid) { document.getElementById('nav').classList.remove('up'); navHid = false; }
-  } else { document.getElementById('nav').classList.remove('up'); navHid = false; }
-  lastY = scroll;
-});
-
-// ── HERO PARALLAX ──
-gsap.to('#hImg', { y: '15%', ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-
-// ── WORD-BY-WORD SCROLL ILLUMINATION ──
-// Split text into spans, then scrub each from dim to bright
-document.querySelectorAll('.sticky-text').forEach(p => {
-  const html = p.textContent.trim().split(/\s+/).map(w => `<span class="word">${w}</span>`).join(' ');
-  p.innerHTML = html;
-  const words = p.querySelectorAll('.word');
-
-  words.forEach((word, i) => {
-    gsap.to(word, {
-      opacity: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: p.closest('.sticky-s'),
-        start: () => `${5 + (i / words.length) * 55}% top`,
-        end: () => `${8 + (i / words.length) * 55}% top`,
-        scrub: true
-      }
-    });
-  });
-
-  // Fade entire paragraph out at end
-  gsap.to(p, {
-    opacity: 0,
-    scrollTrigger: {
-      trigger: p.closest('.sticky-s'),
-      start: '75% top',
-      end: '85% top',
-      scrub: true
+    // Modal
+    var mt;
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+      var t = document.getElementById('modalTimer');
+      t.style.animation = 'none'; t.offsetHeight;
+      t.style.animation = 'shrink 5s linear forwards';
+      clearTimeout(mt); mt = setTimeout(closeModal, 5000);
     }
-  });
-});
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      clearTimeout(mt);
+    }
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === e.currentTarget) closeModal();
+    });
 
-// ── DIAGONAL IMAGE REVEALS ──
-document.querySelectorAll('.img-s').forEach(s => {
-  ScrollTrigger.create({
-    trigger: s,
-    start: 'top 85%',
-    onEnter: () => s.classList.add('vis'),
-    once: true
-  });
-});
+    // Scroll reveal — simple, reliable IntersectionObserver
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
 
-// ── IMAGE PARALLAX ──
-document.querySelectorAll('.img-s img').forEach(img => {
-  gsap.to(img, { y: '-10%', ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
-});
-
-// ── PINNED WATCH ──
-const wtl = gsap.timeline({
-  scrollTrigger: {
-    trigger: '#watchPin',
-    pin: true,
-    start: 'top top',
-    end: '+=5000',
-    scrub: 1,
-    anticipatePin: 1
-  }
-});
-
-wtl
-  .fromTo('#wImg',
-    { scale: 1, filter: 'saturate(.55) contrast(1.1) brightness(.5)' },
-    { scale: 2.4, filter: 'saturate(.8) contrast(1.05) brightness(.78)', transformOrigin: '52% 44%', duration: 8, ease: 'none' }
-  )
-  // Text 1: appear at ~12%, disappear at ~35% — leaves 65% of stillness+transition
-  .fromTo('#wt1', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 1)
-  .to('#wt1', { opacity: 0, y: -4, duration: .3 }, 2.5)
-  // Text 2: appear at ~50%, disappear at ~70%
-  .fromTo('#wt2', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 4)
-  .to('#wt2', { opacity: 0, y: -4, duration: .3 }, 5.8)
-  // 70-100% is pure stillness + zoom. The breathing.
-;
-
-// ── SPECS — staggered reveal ──
-gsap.utils.toArray('.sp').forEach((sp, i) => {
-  gsap.to(sp, {
-    opacity: 1, y: 0,
-    duration: .8,
-    delay: i * .08,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '#specsSection', start: 'top 78%' }
-  });
-});
-
-// ── PRODUCT INFO — staggered cascade ──
-const prodEls = document.querySelectorAll('#prodInfo > *');
-prodEls.forEach((el, i) => {
-  gsap.to(el, {
-    opacity: 1,
-    duration: .7,
-    delay: i * .06,
-    ease: 'power2.out',
-    scrollTrigger: { trigger: '#prodInfo', start: 'top 70%' }
-  });
-});
-
-// ── FINALE — slow cascade ──
-gsap.from('#finale .fin-name', { opacity: 0, y: 10, duration: 1, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
-gsap.from('#finale .fin-sub', { opacity: 0, y: 6, duration: .8, delay: .15, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
-gsap.from('#finale .fin-addr', { opacity: 0, y: 6, duration: .7, delay: .25, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
-gsap.from('#finale .fin-email', { opacity: 0, y: 4, duration: .6, delay: .35, ease: 'power2.out', scrollTrigger: { trigger: '#finale', start: 'top 65%' } });
-
-// ── BACKGROUND COLOR TEMPERATURE SHIFT ──
-// Dark sections stay #090908. Movement/specs shift slightly warmer.
-ScrollTrigger.create({
-  trigger: '#watchPin',
-  start: 'top top',
-  end: 'bottom top',
-  onEnter: () => gsap.to('body', { backgroundColor: '#0b0a08', duration: 1 }),
-  onLeaveBack: () => gsap.to('body', { backgroundColor: '#090908', duration: 1 })
-});
-ScrollTrigger.create({
-  trigger: '.product',
-  start: 'top 60%',
-  onEnter: () => gsap.to('body', { backgroundColor: '#090908', duration: 1 }),
-});
-
-// ── MODAL ──
-let mt;
-function openModal() {
-  document.getElementById('mo').classList.add('on');
-  const t = document.getElementById('mot');
-  t.style.animation = 'none'; t.offsetHeight; t.style.animation = 'mt 5s linear forwards';
-  clearTimeout(mt); mt = setTimeout(closeModal, 5000);
-}
-function closeModal() { document.getElementById('mo').classList.remove('on'); clearTimeout(mt); }
-document.getElementById('mo').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-</script>
+    document.querySelectorAll('.sr').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>

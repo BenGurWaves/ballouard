@@ -1,0 +1,935 @@
+/* ═════════════════════════════════════════════════════════════════════════════
+   VELOCITY — MAISON ETERNELLE
+   Heritage Estate × Noir Artisan Hybrid
+   A Living Digital Artifact
+   
+   UNIQUENESS ENGINE — 12 Elements Unique to This Experience:
+   1. Generative Gold Leaf Canvas — procedural texture, unique per visitor
+   2. Variable Typography Animation — fonts breathe with scroll
+   3. Mechanical Cursor — ticks like a balance wheel (18,000 vph)
+   4. Depth Map Parallax — 7 distinct z-layers responding to mouse
+   5. Velocity-Based Reveals — scroll speed affects text emergence
+   6. Ambient Breathing — subtle 8-second rhythm throughout
+   7. Chromatic Split — gold separates into RGB on interaction
+   8. Ink Spread Hover — links bleed like fountain pen on paper
+   9. Time-Locked Animations — tied to actual time of day
+   10. Weight Shifting Headers — typography gains mass as you scroll
+   11. Velvet Reveal — sections emerge like curtains parting
+   12. Silence Design — negative space as active element
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/* ─── IMPORT — Premium Free Typography ─── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+/* ─── FOUNDATION — The Void ─── */
+:root {
+  /* Maison Eternelle Palette */
+  --void: #030303;
+  --void-soft: #0a0a0a;
+  --void-lit: #111111;
+  
+  /* Living Gold — multiple states */
+  --gold-dim: #8B7355;
+  --gold: #D4AF37;
+  --gold-bright: #F4D03F;
+  --gold-glow: rgba(212, 175, 55, 0.15);
+  --gold-ghost: rgba(212, 175, 55, 0.05);
+  
+  /* Paper & Ink */
+  --paper: #F5F2ED;
+  --paper-aged: #E8E4DC;
+  --ink: #1a1a1a;
+  --ink-light: #4a4a4a;
+  --ink-faint: rgba(26, 26, 26, 0.4);
+  
+  /* Architectural */
+  --frame: 60px;
+  --gutter: 15vw;
+  
+  /* Physics */
+  --ease-velvet: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-silk: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-mechanical: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Time */
+  --breath: 8s;
+  --heartbeat: 1.333s; /* 45 bpm — resting luxury */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 300;
+  background: var(--void);
+  color: var(--paper);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ─── GENERATIVE LAYERS — Z-Index Architecture ─── */
+
+/* z9999: Generative Gold Leaf Canvas */
+#goldCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: soft-light;
+}
+
+/* z9998: Atmospheric Grain */
+.atmosphere {
+  position: fixed;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9998;
+  animation: grainShift 12s steps(6) infinite;
+}
+
+@keyframes grainShift {
+  0%, 100% { transform: translate(0, 0); }
+  16% { transform: translate(-1%, -1%); }
+  33% { transform: translate(1%, -1%); }
+  50% { transform: translate(-1%, 1%); }
+  66% { transform: translate(1%, 1%); }
+  83% { transform: translate(0, 0.5%); }
+}
+
+/* z9997: Vignette & Depth */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 40%),
+    radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(3, 3, 3, 0.4) 100%);
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* z9996: Invisible Frame */
+.frame {
+  position: fixed;
+  inset: 0;
+  box-shadow: 
+    inset 0 0 0 var(--frame) var(--void),
+    inset 0 0 100px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 9996;
+}
+
+/* z9995: Scroll Progress — Living Gold Thread */
+.scroll-thread {
+  position: fixed;
+  top: var(--frame);
+  left: var(--frame);
+  right: var(--frame);
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 9995;
+  opacity: 0.8;
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* ─── MECHANICAL CURSOR — The Balance Wheel ─── */
+.cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform;
+  transition: 
+    width 0.4s var(--ease-mechanical), 
+    height 0.4s var(--ease-mechanical),
+    border-color 0.3s,
+    background 0.3s;
+  mix-blend-mode: difference;
+  animation: cursorTick 0.333s ease-in-out infinite alternate;
+}
+
+@keyframes cursorTick {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.cursor.hover {
+  width: 48px;
+  height: 48px;
+  border-color: var(--gold);
+  background: var(--gold-ghost);
+  box-shadow: 0 0 30px var(--gold-glow);
+  animation: none;
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10001;
+  will-change: transform;
+  box-shadow: 0 0 6px var(--gold);
+}
+
+/* ─── CEREMONIAL ENTRANCE ─── */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  background: var(--void);
+  transition: 
+    opacity 1.8s var(--ease-silk),
+    visibility 1.8s,
+    transform 2s var(--ease-dramatic);
+}
+
+.veil.parted {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+}
+
+.veil-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: veilEmergence 2s var(--ease-silk) 0.3s forwards;
+  text-shadow: 0 0 40px var(--gold-glow);
+}
+
+.veil-mark em {
+  font-style: normal;
+  color: var(--paper);
+}
+
+.veil-line {
+  width: 1px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: veilGrow 1.5s var(--ease-silk) 1s forwards;
+}
+
+.veil-text {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  opacity: 0;
+  animation: veilEmergence 1.5s var(--ease-silk) 1.5s forwards;
+}
+
+@keyframes veilEmergence {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes veilGrow {
+  to { height: 100px; }
+}
+
+/* ─── NAVIGATION — Floating Atelier ─── */
+.nav {
+  position: fixed;
+  top: calc(var(--frame) + 20px);
+  left: calc(var(--frame) + 40px);
+  right: calc(var(--frame) + 40px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  transition: all 0.8s var(--ease-silk);
+}
+
+.nav.solid {
+  background: rgba(3, 3, 3, 0.85);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  top: var(--frame);
+  left: var(--frame);
+  right: var(--frame);
+}
+
+.nav-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  position: relative;
+}
+
+.nav-mark::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-silk);
+}
+
+.nav-mark:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.4s var(--ease-silk);
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-silk);
+}
+
+.nav-links a:hover {
+  color: var(--paper);
+}
+
+.nav-links a:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ─── HERO — The Grand Statement ─── */
+.hero {
+  min-height: 120vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--gutter) 15vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-ground {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.4;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+}
+
+.hero-title {
+  position: absolute;
+  top: 50%;
+  left: var(--gutter);
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(6rem, 22vw, 28rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+  mix-blend-mode: exclusion;
+  animation: heroBreath var(--breath) ease-in-out infinite;
+}
+
+@keyframes heroBreath {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+.hero-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.hero-title .letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.hero-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3rem;
+  position: relative;
+  z-index: 3;
+}
+
+.hero-verse {
+  max-width: 50ch;
+}
+
+.hero-verse p {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--ink-light);
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+.hero-verse .lead {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--paper);
+  margin-bottom: 1rem;
+}
+
+.hero-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-indicator .line {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+  animation: indicatorPulse 3s var(--ease-silk) infinite;
+  position: relative;
+}
+
+.hero-indicator .line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold);
+  animation: indicatorDot 3s var(--ease-silk) infinite;
+}
+
+@keyframes indicatorPulse {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes indicatorDot {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(80px); opacity: 0; }
+}
+
+.hero-indicator span {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  writing-mode: vertical-rl;
+}
+
+/* ─── SECTION ARCHITECTURE — 120vh Minimum ─── */
+section {
+  min-height: 120vh;
+  position: relative;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+/* ─── INTRO — Editorial Poetry ─── */
+.intro {
+  padding: 20vh var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.intro-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+
+.intro-mark em {
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* ─── WORK — Archival Studies ─── */
+.studies {
+  padding: 15vh var(--gutter);
+}
+
+.studies-header {
+  margin-bottom: 10vh;
+}
+
+.studies-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.studies-label::before {
+  content: '';
+  width: 3rem;
+  height: 1px;
+  background: var(--gold);
+}
+
+.study {
+  display: grid;
+  grid-template-columns: 5rem 1fr auto auto;
+  align-items: center;
+  padding: 4vh 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  position: relative;
+  transition: background 0.6s var(--ease-silk);
+  cursor: pointer;
+}
+
+.study::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+  transition: width 0.8s var(--ease-silk);
+}
+
+.study:hover::before {
+  width: 100%;
+}
+
+.study-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-dim);
+  transition: color 0.4s;
+}
+
+.study:hover .study-num {
+  color: var(--gold);
+}
+
+.study-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 6vw, 7rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  position: relative;
+}
+
+.study-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0.1em;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s var(--ease-silk);
+}
+
+.study:hover .study-name::after {
+  transform: scaleX(1);
+}
+
+.study-type {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  padding-right: 3rem;
+}
+
+.study-year {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-light);
+}
+
+/* ─── PROCESS — The Three Pillars ─── */
+.pillars {
+  padding: 15vh var(--gutter);
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 6rem;
+}
+
+.pillars-header {
+  position: sticky;
+  top: 30vh;
+}
+
+.pillar {
+  padding: 5vh 0 5vh 5rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  position: relative;
+}
+
+.pillar::before {
+  content: attr(data-num);
+  position: absolute;
+  left: 0;
+  top: 5vh;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.pillar h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--paper);
+  margin-bottom: 1.5rem;
+}
+
+.pillar p {
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 1.9;
+  max-width: 45ch;
+}
+
+/* ─── ATELIER — The Studio ─── */
+.atelier {
+  padding: 15vh var(--gutter);
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 6rem;
+}
+
+.atelier-header {
+  position: sticky;
+  top: 30vh;
+}
+
+.atelier-text {
+  max-width: 55ch;
+}
+
+.atelier-text p {
+  font-size: 1rem;
+  color: var(--ink-light);
+  line-height: 2;
+  margin-bottom: 2rem;
+}
+
+.atelier-text p:first-child::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  float: left;
+  line-height: 0.8;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  color: var(--gold);
+}
+
+.atelier-facts {
+  display: flex;
+  gap: 4rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  margin-top: 4rem;
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fact b {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--paper);
+}
+
+.fact span {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+/* ─── CRAFT — Services ─── */
+.craft {
+  padding: 15vh var(--gutter);
+}
+
+.craft-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-item {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 3rem;
+  padding: 4vh 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  transition: background 0.4s;
+}
+
+.craft-item:first-child {
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.craft-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  padding-top: 0.3rem;
+}
+
+.craft-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--paper);
+  margin-bottom: 1rem;
+  transition: color 0.4s;
+}
+
+.craft-item:hover .craft-body h3 {
+  color: var(--gold);
+}
+
+.craft-body p {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+  max-width: 40ch;
+}
+
+/* ─── SUMMONS — The CTA ─── */
+.summons {
+  min-height: 100vh;
+  padding: 20vh var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.summons::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.summons-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 3rem;
+}
+
+.summons-path {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 8vw, 10rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--paper);
+  position: relative;
+  z-index: 1;
+  transition: all 0.5s var(--ease-silk);
+}
+
+.summons-path:hover {
+  color: var(--gold);
+  text-shadow: 0 0 60px var(--gold-glow);
+}
+
+.summons-path::after {
+  content: '';
+  position: absolute;
+  bottom: 0.05em;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 1s var(--ease-silk);
+}
+
+.summons-path:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─── FOOTER ─── */
+.colophon {
+  padding: 6vh var(--gutter);
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.colophon p {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-light);
+}
+
+.colophon a {
+  color: var(--ink-light);
+  transition: color 0.4s;
+}
+
+.colophon a:hover {
+  color: var(--gold);
+}
+
+.colophon-links {
+  display: flex;
+  gap: 3rem;
+}
+
+.colophon-links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── RESPONSIVE — Graceful Degradation ─── */
+@media (max-width: 1200px) {
+  :root { --gutter: 10vw; }
+  .intro { grid-template-columns: 1fr; gap: 3rem; }
+  .pillars { grid-template-columns: 1fr; gap: 3rem; }
+  .pillars-header { position: static; }
+  .atelier { grid-template-columns: 1fr; gap: 3rem; }
+  .atelier-header { position: static; }
+}
+
+@media (max-width: 768px) {
+  :root { 
+    --gutter: 5vw; 
+    --frame: 20px;
+  }
+  .cursor, .cursor-dot { display: none !important; }
+  body { cursor: auto; }
+  a, button { cursor: pointer; }
+  
+  .nav { 
+    top: var(--frame); 
+    left: var(--frame); 
+    right: var(--frame);
+    padding: 1rem;
+  }
+  .nav-links { gap: 1.5rem; }
+  .nav-links a { font-size: 0.6rem; letter-spacing: 0.1em; }
+  
+  .hero { padding-bottom: 10vh; }
+  .hero-title { font-size: clamp(4rem, 18vw, 10rem); }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 3rem; }
+  
+  .study { grid-template-columns: 3rem 1fr; }
+  .study-type, .study-year { display: none; }
+  .study-name { font-size: clamp(1.8rem, 8vw, 4rem); }
+  
+  .pillar { padding-left: 3rem; }
+  .atelier-facts { flex-wrap: wrap; gap: 2rem; }
+  
+  .summons-path { font-size: clamp(1.5rem, 6vw, 4rem); }
+  
+  .colophon { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 3rem; }
+  .intro-mark { font-size: 1.5rem; }
+}
