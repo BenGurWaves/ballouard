@@ -1,236 +1,156 @@
-# Velocity — AI Web Design Agency
+# Velocity — Digital Ateliers for Luxury Maisons
 
-Fully autonomous AI-powered website design agency — from lead generation to site delivery.
+Bespoke website design and engineering for jewellers, watchmakers, tailors, and heritage brands. Built by Calyvent.
+
+**Live:** [velocity.calyvent.com](https://velocity.calyvent.com)
+
+---
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                         PIPELINE ORCHESTRATOR                                │
-│                     (runs on schedule or manual)                             │
-├─────────┬──────────┬──────────┬─────────┬──────────┬───────────────────────┤
-│ Agent 1  │ Agent 2   │ Agent 3  │ Agent 4 │ Agent 5  │ Agent 6               │
-│ Lead     │ Outreach  │ Design   │ Sales   │ Web      │ Client                │
-│ Research │ (Email)   │ Preview  │ Pipeline│ Designer │ Success               │
-├─────────┼──────────┼──────────┼─────────┼──────────┼───────────────────────┤
-│ Google   │ SendGrid  │ Claude   │ Stripe  │ Claude   │ WhatsApp/Telegram     │
-│ Places   │ SMTP      │Playwright│ LLM     │ GitHub   │ Email                 │
-│ PageSpeed│ Claude    │ Pillow   │         │ CF Pages │                       │
-│ Scraper  │           │          │         │          │                       │
-└─────────┴──────────┴──────────┴─────────┴──────────┴───────────────────────┘
-                              │
-                    ┌─────────┴──────────┐
-                    │  FastAPI Web Server │
-                    │  (webhooks + API)   │
-                    ├────────────────────┤
-                    │   SQLite / DB      │
-                    │   (shared state)   │
-                    └────────────────────┘
-```
-
-## The Pipeline
-
-### Stage 1: Lead Research Agent
-Finds service businesses with terrible websites in US markets.
-
-- Searches Google Places by category (plumbers, roofers, HVAC, etc.) and city
-- Gets business details: website, phone, address
-- Runs PageSpeed Insights audit on each website
-- Scores websites by "badness" (mobile-friendliness, speed, SSL, SEO)
-- Scrapes contact emails from websites (main page + /contact pages)
-- Saves qualified leads (badness > 55) to the database
-
-### Stage 2: Design Preview Agent
-Generates blurred mockup previews to use as the hook.
-
-- Screenshots the current (bad) website via Playwright
-- Uses Claude to generate a design brief based on audit data
-- Generates a full HTML/CSS mockup with realistic content
-- Renders the mockup to an image
-- Applies gaussian blur for the teaser version
-- Saves both blurred preview and full demo
-
-### Stage 3: Outreach Agent
-Sends personalized cold emails using a 3-step cadence.
-
-- **Email 1 (Day 0):** "I already redesigned your site" + blurred preview + specific issues from audit
-- **Email 2 (Day 3):** Follow-up nudge with the preview
-- **Email 3 (Day 10):** Breakup email — "Should I close your file?"
-- All emails are CAN-SPAM compliant (physical address, unsubscribe, honest subjects)
-- Issue descriptions are LLM-generated from real audit data for personalization
-- Max 50 emails/day with configurable limits
-
-### Stage 4: Sales Agent
-Handles replies and closes deals.
-
-- Monitors incoming replies via webhook
-- Classifies intent with LLM (positive, negative, question, unsubscribe)
-- **Positive reply** → sends the full (unblurred) demo
-- **Wants to buy** → creates and sends Stripe invoice
-- **Payment received** → moves lead to build queue
-- Handles the full deal lifecycle: proposal → demo → invoice → paid
-
-### Stage 5: Web Design Agent
-Builds complete, multi-page websites.
-
-- Generates comprehensive design brief from lead data
-- Plans site architecture (pages, navigation, content)
-- Builds each page as clean HTML/CSS using Claude
-- Creates shared stylesheet
-- Pushes code to GitHub via API
-- Deploys live to Cloudflare Pages
-- Handles: home, about, services, gallery, contact, blog pages
-
-### Stage 6: Client Success Agent
-Manages ongoing client communication.
-
-- Sends project status updates at each build milestone
-- Handles client questions and revision requests
-- Routes messages through client's preferred channel (email/WhatsApp/Telegram)
-- Generates human-sounding responses using LLM
-- Sends welcome messages when projects kick off
-- Tracks all communications in the message log
-
-## Web Server
-
-The FastAPI web server provides the HTTP layer that ties everything together:
-
-- **Agency website** — Served at `/` (the Velocity marketing site)
-- **Preview hosting** — `/preview/{lead_id}` serves blurred mockup images
-- **Demo hosting** — `/demo/{lead_id}` serves full HTML mockups
-- **Webhook endpoints** — Stripe, SendGrid, WhatsApp, Telegram
-- **Admin API** — Pipeline stats, lead management, project tracking
-- **Redesign request API** — Handles form submissions from the agency website
-
-## Data Flow
+Static website + Cloudflare Pages Functions + Supabase PostgreSQL.
 
 ```
-DISCOVERED → AUDITED → QUALIFIED → CONTACTED → REPLIED → DEMO_SENT → INTERESTED → INVOICE_SENT → PAID → IN_BUILD → DELIVERED
-                                                                                                              ↑
-                                                                                                        (or LOST at any point)
+velocity.calyvent.com
+├── website/                    Static assets (served by CF Pages CDN)
+│   ├── index.html              Homepage — public
+│   ├── _onboard.html           Onboarding SPA shell (token-gated)
+│   ├── _dashboard.html         Client dashboard SPA shell (email-gated)
+│   ├── admin/index.html        Admin panel (ADMIN_SECRET gated)
+│   ├── previews/               Prospect preview sites (15 live)
+│   ├── 404.html                Custom error page
+│   ├── _headers                Cache + security headers (all asset types)
+│   ├── robots.txt              Blocks /admin, /onboard, /dashboard, /api
+│   └── sitemap.xml
+│
+├── functions/                  Cloudflare Pages Functions (edge workers)
+│   ├── _lib/
+│   │   ├── supabase.js         Supabase REST client (service role)
+│   │   ├── security.js         Timing-safe auth, rate limiting, input validation
+│   │   └── helpers.js          CORS, JSON helpers
+│   ├── onboard/[token].js      Serves onboard SPA (bypasses CF URL normalization)
+│   ├── dashboard/[token].js    Serves dashboard SPA
+│   ├── preview/[id].js         Serves KV-stored preview HTML
+│   ├── admin/
+│   │   └── client/[token].js   Full brief view (temp-token auth)
+│   └── api/
+│       ├── admin/
+│       │   └── temp-token.js   Issues 5-min single-use view tokens
+│       ├── leads/
+│       │   ├── [token].js      GET/PATCH lead by token (public, rate-limited)
+│       │   ├── create.js       Create lead (admin)
+│       │   ├── list.js         List all leads (admin)
+│       │   ├── admin-update.js Update quote/status/comment/site-link (admin)
+│       │   ├── delete.js       Delete lead (admin, double-confirmed)
+│       │   └── sync-sheet.js   Push lead data to Google Sheets webhook
+│       ├── forms/submit.js     Contact form handler for preview sites
+│       └── stripe/
+│           ├── checkout.js     Create Stripe Checkout Session
+│           └── webhook.js      Handle payment confirmation
+
+└── wrangler.toml               CF Pages config (KV binding, public env vars)
 ```
 
-## Quick Start
+---
 
-```bash
-# 1. Clone and enter
-git clone <repo-url> && cd AIWEBagency
+## Onboarding Flow
 
-# 2. Create virtual environment
-python -m venv .venv && source .venv/bin/activate
+Six-phase client brief form, accessed via unique UUID link sent by admin:
 
-# 3. Install dependencies
-pip install -e ".[dev]"
+| Phase | Content |
+|-------|---------|
+| 0 — Welcome | Email verification (claims the link) |
+| 1 — About You | Personal: name, email, phone |
+| 2 — Your Business | Business name, type, email, phone, address, description |
+| 3 — Strategic Vision | Inspiration, anti-inspiration, target audience |
+| 4 — Visual DNA | Colors, typography, upgrade permission |
+| 5 — Logistics | Mottos, assets, deadline, T&C agreement |
+| 6 — Final Details | Domain choice, additional notes, submit |
 
-# 4. Configure
-cp .env.example .env
-# Edit .env with your API keys
+---
 
-# 5. Install Playwright browsers
-playwright install chromium
+## Client Dashboard
 
-# 6. Start the web server (serves agency website + API + webhooks)
-agency serve
+Token + email-gated portal showing:
+- Project status timeline
+- Live countdown on 24-hour edit window
+- Quote display + Stripe payment
+- Admin messages (expire 24h)
+- Finished site link when delivered
+- Auto-refreshes every 30s (pauses when tab hidden)
 
-# 7. Run the full pipeline
-agency run
+---
 
-# Or run individual stages
-agency stage research
-agency stage preview
-agency stage outreach
-agency stage sales
-agency stage design
-agency stage client
+## Admin Panel
 
-# Run continuously (every 60 minutes)
-agency run --continuous --interval 60
+Secret-gated at `/admin`. Features:
+- Lead feed sorted by deadline (auto-polls 20s)
+- All client data: identity, business info, visual DNA, socials, address, inspiration
+- Quote entry (freezes on payment)
+- Status management → auto-emails on change
+- Message-to-client with optional link (expires 24h on client side)
+- Finished site link
+- View Full Brief (opens temp-token-authenticated brief page with AI copy block)
+- Delete with double confirmation
 
-# Check pipeline status
-agency status
-```
+---
 
-## Project Structure
+## Security
 
-```
-AIWEBagency/
-├── website/                 # The agency's own website (Velocity)
-│   ├── index.html           # Landing page
-│   ├── styles.css           # Full stylesheet
-│   ├── main.js              # Interactions + animations
-│   ├── 404.html             # Custom 404 page
-│   ├── _headers             # Cloudflare Pages security headers + caching
-│   └── _redirects           # Cloudflare Pages redirect rules
-├── server/                  # FastAPI web server
-│   └── app.py               # Routes, webhooks, API, static serving
-├── agents/                  # The 6 autonomous agents
-│   ├── base.py              # Shared agent scaffolding
-│   ├── lead_researcher.py   # Agent 1: Find businesses with bad websites
-│   ├── outreach.py          # Agent 2: Cold email cadence
-│   ├── design_preview.py    # Agent 3: Blurred mockup generation
-│   ├── sales.py             # Agent 4: Deal closing + invoicing
-│   ├── web_designer.py      # Agent 5: Full site builds + GitHub/CF Pages deploy
-│   └── client_success.py    # Agent 6: Multi-channel client comms
-├── config/
-│   └── settings.py          # Centralized env-based configuration
-├── models/                  # SQLAlchemy data models
-│   ├── base.py              # DB mixins (UUID, timestamps)
-│   ├── lead.py              # Lead + WebsiteAudit
-│   ├── deal.py              # Deal / sales pipeline
-│   ├── project.py           # Website build projects
-│   ├── message.py           # Communication log
-│   └── database.py          # Async engine + session
-├── services/                # External API integrations
-│   ├── google_maps.py       # Google Places search
-│   ├── website_auditor.py   # PageSpeed + screenshots + scoring
-│   ├── email_sender.py      # SendGrid / SMTP
-│   ├── payments.py          # Stripe invoicing
-│   ├── messaging.py         # WhatsApp + Telegram
-│   └── deployment.py        # GitHub + Cloudflare Pages deployment
-├── templates/
-│   └── emails.py            # Cold email templates (4 stages)
-├── pipeline/
-│   ├── orchestrator.py      # Connects all agents in sequence
-│   ├── cli.py               # CLI interface (run, stage, serve, status)
-│   └── webhooks.py          # Inbound webhook handlers
-├── tests/
-│   ├── test_models.py
-│   ├── test_website_auditor.py
-│   └── test_templates.py
-├── .env.example             # Environment variable template
-├── .gitignore
-└── pyproject.toml           # Dependencies + project config
-```
+- **Timing-safe auth** — HMAC-based comparison, no timing leaks
+- **Brute-force lockout** — 5 failed admin attempts = 15-minute IP block
+- **Temp tokens** — single-use 5-minute tokens for brief viewing (permanent secret never in URL)
+- **Rate limiting** on every endpoint (KV-backed, per IP)
+- **Input validation** — length caps, URL sanitization on all user fields
+- **DB hardening** — anon/authenticated roles fully revoked, service role only
+- **Error sanitization** — internal details never reach clients
+- **Content Security Policy** on all routes
 
-## Required API Keys
+---
 
-| Service | Purpose | Free Tier |
-|---------|---------|-----------|
-| **Anthropic** | Claude LLM for all agents | Pay-per-use |
-| **Google Places** | Finding businesses | $200/mo credit |
-| **Google PageSpeed** | Website auditing | 25K req/day |
-| **SendGrid** | Email sending | 100 emails/day |
-| **Stripe** | Payment processing | 2.9% + 30c/txn |
-| **WhatsApp Business** | Client messaging | 1K free/mo |
-| **Telegram Bot** | Client messaging | Free |
-| **Cloudflare Pages** | Site hosting/deployment | Free tier |
-| **GitHub** | Code hosting | Free |
+## Environment Variables
 
-## Cold Email Compliance
+Set in Cloudflare Pages → Settings → Environment Variables.
 
-All outreach follows CAN-SPAM requirements:
-- Honest, non-deceptive subject lines
-- Physical mailing address in every email
-- Clear unsubscribe mechanism (reply STOP)
-- Opt-outs honored within 10 business days
-- Email identified as commercial/promotional
-- Max 50 emails/day per sending identity
-- 3-day minimum between touches to same lead
+| Variable | Type | Description |
+|----------|------|-------------|
+| `SUPABASE_URL` | Var | `https://ppihdyxsegcllrsscbnt.supabase.co` |
+| `SITE_URL` | Var | `https://velocity.calyvent.com` |
+| `SUPABASE_SERVICE_KEY` | Secret | Supabase service role key |
+| `ADMIN_SECRET` | Secret | Gates admin panel and all write routes |
+| `STRIPE_SECRET_KEY` | Secret | Stripe secret key |
+| `STRIPE_WEBHOOK_SECRET` | Secret | Stripe webhook signing secret |
+| `RESEND_API_KEY` | Secret | Resend email API key |
+| `SHEETS_WEBHOOK_URL` | Secret | Make.com webhook URL for Google Sheets sync |
 
-## Pricing Packages
+---
 
-| Package | Price | Includes |
-|---------|-------|----------|
-| **Starter** | $997 | 5-page site, SSL, basic SEO, 30 days support |
-| **Professional** | $1,997 | Multi-page site, blog, advanced SEO, 60 days support |
-| **Premium** | $3,497 | Full custom build, booking system, 90 days VIP support |
+## Database (Supabase — Glyph project)
+
+Table: `velocity_leads`
+
+Key columns: `id`, `token` (UUID, unique), `status`, `full_data` (JSONB), `client_name`, `client_email`, `personal_email`, `personal_phone`, `business_name`, `business_type`, `business_email`, `business_phone`, `business_address`, `quote_amount`, `is_paid`, `is_locked`, `first_submitted_at`, `submitted_at`, `terms_accepted`, `site_link`, `admin_comment`, `domain_choice`, `domain_name`.
+
+RLS: Enabled. All anon/authenticated access revoked. Service role only.
+
+---
+
+## Emails (Resend — from client@calyvent.com)
+
+Auto-sent on status change:
+- **Accepted** — quote ready, dashboard link
+- **In Progress** — work begun, brief locked
+- **Completed** — site live, open link
+- **Declined** — graceful, no reason given, door left open
+- **Payment confirmed** — Stripe webhook triggers receipt
+
+---
+
+## Previews
+
+15 prospect preview sites in `website/previews/`:
+A. Caraceni, Holistic Health NYC, JAR, Kent & Haste, Liondale Medical, Michael Mansshardt, Moneybag Speaks (x2), MYSTMMXX, Orkin, Poehlmann Bresan, Pure Change, Taffin, The Integrative Medical Group, Vedic Astrology Guru, BenGurWaves, Hulsman Timepieces.
+
+---
+
+*Velocity by Calyvent — built fast, ranked forever, looks expensive.*

@@ -137,16 +137,13 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
       </div>
     </div>
 
-    <!-- Phase 1 -->
+    <!-- Phase 1: You -->
     <div class="phase" id="phase1">
       <div class="phase-hdr">
-        <span class="phase-label">Phase 01 / 05</span>
-        <h1 class="phase-title">Personal &amp;<br>Business Info</h1>
-        <p class="phase-sub">This information is kept strictly confidential and used only for your project and legal records.</p>
+        <span class="phase-label">Phase 01 / 06</span>
+        <h1 class="phase-title">About<br>You.</h1>
+        <p class="phase-sub">Personal details only. Kept strictly confidential &mdash; used for project communication and legal records.</p>
       </div>
-
-      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Personal Information</div>
-
       <div class="field-row">
         <div class="field"><label class="field-label" for="fullName">Full Legal Name <span class="req">*</span></label><input type="text" id="fullName" placeholder="As it appears on legal documents"><div class="field-error" id="err-fullName">Required</div></div>
         <div class="field"><label class="field-label" for="email">Personal Email <span class="req">*</span></label><input type="email" id="email" placeholder="your@personal.com"><div class="field-error" id="err-email">Valid email required</div></div>
@@ -155,9 +152,16 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <div class="field"><label class="field-label" for="phone">Personal Phone</label><input type="tel" id="phone" placeholder="+1 (000) 000-0000"></div>
         <div class="field"></div>
       </div>
+      <div class="nav-btns"><span></span><button class="btn-next" id="next1">Continue &rarr;</button></div>
+    </div>
 
-      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Business Information</div>
-
+    <!-- Phase 2: Business -->
+    <div class="phase" id="phase2">
+      <div class="phase-hdr">
+        <span class="phase-label">Phase 02 / 06</span>
+        <h1 class="phase-title">Your<br>Business.</h1>
+        <p class="phase-sub">The brand or company. This becomes the legal and operational foundation for your project.</p>
+      </div>
       <div class="field-row">
         <div class="field"><label class="field-label" for="companyName">Business / Brand Name <span class="req">*</span></label><input type="text" id="companyName" placeholder="Legal business name"><div class="field-error" id="err-companyName">Required</div></div>
         <div class="field"><label class="field-label" for="businessType">Business Type <span class="req">*</span></label>
@@ -180,47 +184,28 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <div class="field"><label class="field-label" for="businessEmail">Business Email <span class="req">*</span></label><input type="email" id="businessEmail" placeholder="contact@yourbusiness.com"><div class="field-error" id="err-businessEmail">Valid email required</div></div>
         <div class="field"><label class="field-label" for="businessPhone">Business Phone</label><input type="tel" id="businessPhone" placeholder="+1 (000) 000-0000"></div>
       </div>
-
-      <div id="physicalAddressSection">
-        <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Business Address</div>
-        <div class="field"><label class="field-label" for="addrStreet">Street Address</label><input type="text" id="addrStreet" placeholder="123 Example Street, Suite 100"></div>
-        <div class="field-row">
-          <div class="field"><label class="field-label" for="addrCity">City</label><input type="text" id="addrCity" placeholder="New York"></div>
-          <div class="field"><label class="field-label" for="addrState">State / Province</label><input type="text" id="addrState" placeholder="NY"></div>
-        </div>
-        <div class="field-row">
-          <div class="field"><label class="field-label" for="addrPostal">Postal Code</label><input type="text" id="addrPostal" placeholder="10001"></div>
-          <div class="field"><label class="field-label" for="addrCountry">Country <span class="req">*</span></label><input type="text" id="addrCountry" placeholder="United States"><div class="field-error" id="err-addrCountry">Required</div></div>
-        </div>
+      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Business Address</div>
+      <div class="field"><label class="field-label" for="addrStreet">Street Address</label><input type="text" id="addrStreet" placeholder="123 Example Street, Suite 100"></div>
+      <div class="field-row">
+        <div class="field"><label class="field-label" for="addrCity">City</label><input type="text" id="addrCity" placeholder="New York"></div>
+        <div class="field"><label class="field-label" for="addrState">State / Province</label><input type="text" id="addrState" placeholder="NY"></div>
       </div>
-
-      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">Your Business</div>
-
-      <div class="field"><label class="field-label" for="context">What does your business do? <span class="req">*</span></label><textarea id="context" rows="4" placeholder="Describe your business, niche, and what makes it distinct. The more specific, the better our work will be."></textarea><div class="field-error" id="err-context">Please describe your business</div></div>
+      <div class="field-row">
+        <div class="field"><label class="field-label" for="addrPostal">Postal Code</label><input type="text" id="addrPostal" placeholder="10001"></div>
+        <div class="field"><label class="field-label" for="addrCountry">Country <span class="req">*</span></label><input type="text" id="addrCountry" placeholder="United States"><div class="field-error" id="err-addrCountry">Required</div></div>
+      </div>
+      <div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem">About the Business</div>
+      <div class="field"><label class="field-label" for="context">What does your business do? <span class="req">*</span></label><textarea id="context" rows="4" placeholder="Describe your business, niche, and what makes it distinct."></textarea><div class="field-error" id="err-context">Please describe your business</div></div>
       <div class="field"><label class="field-label">Social Profiles</label><div id="socialsList"></div><button class="add-btn" type="button" id="addSocial">+ Add Social</button></div>
       <div class="field"><label class="check-row"><input type="checkbox" id="includeSocials"><span>Include social media icons on my website</span></label></div>
-
-      <div class="nav-btns"><span></span><button class="btn-next" id="next1">Continue &rarr;</button></div>
-    </div>
-
-    <!-- Phase 2 -->
-    <div class="phase" id="phase2">
-      <div class="phase-hdr">
-        <span class="phase-label">Phase 02 / 05</span>
-        <h1 class="phase-title">Strategic<br>Vision</h1>
-        <p class="phase-sub">Show us what you love. Show us what you hate. Both are equally useful.</p>
-      </div>
-      <div class="field"><label class="field-label">Inspiration &mdash; <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-size:.7rem">sites you admire</span></label><div id="inspirationList"></div><button class="add-btn" type="button" id="addInspiration">+ Add Site</button></div>
-      <div class="field" style="margin-top:2.5rem"><label class="field-label">Anti-Inspiration &mdash; <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-size:.7rem">what to avoid</span></label><div id="antiList"></div><button class="add-btn" type="button" id="addAnti">+ Add Site</button></div>
-      <div class="field" style="margin-top:2.5rem"><label class="field-label" for="targetCustomer">Ideal Customer <span class="req">*</span></label><textarea id="targetCustomer" rows="4" placeholder="Who is your ideal customer? Who are we actually selling to? Be specific."></textarea><div class="field-error" id="err-targetCustomer">Please describe your target customer</div></div>
       <div class="nav-btns"><button class="btn-back" id="back2">&larr; Back</button><button class="btn-next" id="next2">Continue &rarr;</button></div>
     </div>
 
     <!-- Phase 3 -->
-    <div class="phase" id="phase3">
+    <div class="phase" id="phase4">
       <div class="phase-hdr">
-        <span class="phase-label">Phase 03 / 05</span>
-        <h1 class="phase-title">Visual<br>DNA</h1>
+        <span class="phase-label">Phase 04 / 06</span>
+        <h1 class="phase-title">Visual<br>DNA.</h1>
         <p class="phase-sub">Your palette, your type, your feel. Hex codes, color names, or plain descriptions &mdash; whatever helps.</p>
       </div>
       <div class="field"><label class="field-label">Color Palette</label>
@@ -235,14 +220,14 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
       <div class="field"><label class="field-label">Design Direction</label>
         <label class="check-row"><input type="checkbox" id="upgradePerm"><span>If the Velocity team identifies a way to elevate my brand guidelines, they have permission to pivot &mdash; I trust their judgment over my specs.</span></label>
       </div>
-      <div class="nav-btns"><button class="btn-back" id="back3">&larr; Back</button><button class="btn-next" id="next3">Continue &rarr;</button></div>
+      <div class="nav-btns"><button class="btn-back" id="back4">&larr; Back</button><button class="btn-next" id="next4">Continue &rarr;</button></div>
     </div>
 
     <!-- Phase 4 -->
-    <div class="phase" id="phase4">
+    <div class="phase" id="phase5">
       <div class="phase-hdr">
-        <span class="phase-label">Phase 04 / 05</span>
-        <h1 class="phase-title">Logistics &amp;<br>Assets</h1>
+        <span class="phase-label">Phase 05 / 06</span>
+        <h1 class="phase-title">Logistics &amp;<br>Assets.</h1>
         <p class="phase-sub">The practical details. Leave blank wherever you don&rsquo;t have something yet &mdash; we&rsquo;ll follow up.</p>
       </div>
       <div class="field"><label class="field-label" for="mottos">Mottos, Taglines &amp; Copy</label><textarea id="mottos" rows="3" placeholder="Any existing slogans, taglines, or copy you want used. Leave blank and we'll write it."></textarea></div>
@@ -264,14 +249,14 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <p><strong>Terms &amp; Conditions.</strong> By submitting this brief you agree that: (1) This submission does not constitute a contract or guarantee of services. (2) All information provided is accurate to the best of your knowledge. (3) Velocity retains the right to decline any project at its sole discretion. (4) Your brief data will be stored securely and used solely for the purpose of evaluating and executing your project. (5) You will not hold Velocity liable for any delay or decline of service. (6) Upon payment, the project scope is defined by this brief and any written amendments agreed to by both parties. (7) All original design work created by Velocity remains the property of Velocity until full payment is received.</p>
       </div>
       <div class="field"><label class="check-row"><input type="checkbox" id="agreeTerms"><span>I have read and agree to the Terms &amp; Conditions above. I understand my submission may be declined, and that my brief locks 24 hours after first submission.</span></label><div class="field-error" id="err-agreeTerms" style="margin-top:.5rem">You must agree to the terms to continue</div></div>
-      <div class="nav-btns"><button class="btn-back" id="back4">&larr; Back</button><button class="btn-next" id="next4">Continue &rarr;</button></div>
+      <div class="nav-btns"><button class="btn-back" id="back5">&larr; Back</button><button class="btn-next" id="next5">Continue &rarr;</button></div>
     </div>
 
     <!-- Phase 5 -->
-    <div class="phase" id="phase5">
+    <div class="phase" id="phase6">
       <div class="phase-hdr">
-        <span class="phase-label">Phase 05 / 05</span>
-        <h1 class="phase-title">Final<br>Details</h1>
+        <span class="phase-label">Phase 06 / 06</span>
+        <h1 class="phase-title">Final<br>Details.</h1>
         <p class="phase-sub">Almost done. A few last things before we get to work.</p>
       </div>
       <div class="field">
@@ -299,7 +284,7 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <textarea id="additionalNotes" rows="5" placeholder="Anything else we should know. Leave blank if you&rsquo;ve covered everything."></textarea>
       </div>
       <div class="nav-btns">
-        <button class="btn-back" id="back5">&larr; Back</button>
+        <button class="btn-back" id="back6">&larr; Back</button>
         <button class="btn-submit" id="submitBtn">Submit Brief</button>
       </div>
     </div>
@@ -452,8 +437,8 @@ function goTo(n){
   document.getElementById('phase'+cur).classList.remove('active');
   cur=n;
   document.getElementById('phase'+n).classList.add('active');
-  document.getElementById('progressFill').style.width=(n/5*100)+'%';
-  const stepLabel = n===0 ? 'Welcome' : (n===5 ? 'Phase 05 / 05' : 'Phase 0'+n+' / 05');
+  document.getElementById('progressFill').style.width=(n/6*100)+'%';
+  const stepLabel = n===0 ? 'Welcome' : (n===6 ? 'Phase 06 / 06' : 'Phase 0'+n+' / 06');
   document.getElementById('navStep').textContent = stepLabel;
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -462,13 +447,17 @@ function v1(){
   let ok=true;
   const n=document.getElementById('fullName').value.trim();
   const e=document.getElementById('email').value.trim();
+  if(!n){showErr('fullName',true);ok=false;}else showErr('fullName',false);
+  if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){showErr('email',true);ok=false;}else showErr('email',false);
+  return ok;
+}
+function v2(){
+  let ok=true;
   const co=document.getElementById('companyName').value.trim();
   const bt=document.getElementById('businessType').value;
   const be=document.getElementById('businessEmail').value.trim();
   const cy=document.getElementById('addrCountry').value.trim();
   const ctx=document.getElementById('context').value.trim();
-  if(!n){showErr('fullName',true);ok=false;}else showErr('fullName',false);
-  if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){showErr('email',true);ok=false;}else showErr('email',false);
   if(!co){showErr('companyName',true);ok=false;}else showErr('companyName',false);
   if(!bt){showErr('businessType',true);ok=false;}else showErr('businessType',false);
   if(!be||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(be)){showErr('businessEmail',true);ok=false;}else showErr('businessEmail',false);
@@ -476,11 +465,12 @@ function v1(){
   if(!ctx){showErr('context',true);ok=false;}else showErr('context',false);
   return ok;
 }
-function v2(){
+function v3(){
+  // Strategic vision - targetCustomer validation
   const tc=document.getElementById('targetCustomer').value.trim();
   if(!tc){showErr('targetCustomer',true);return false;}showErr('targetCustomer',false);return true;
 }
-function v4(){
+function v5(){
   let ok=true;
   const due=document.getElementById('dueDate').value,agree=document.getElementById('agreeTerms').checked;
   if(!due||new Date(due)<new Date(Date.now()+48*3600000-60000)){showErr('dueDate',true);ok=false;}else showErr('dueDate',false);
@@ -490,12 +480,16 @@ function v4(){
 function bindNav(){
   document.getElementById('next1').onclick=()=>{if(v1())goTo(2);};
   document.getElementById('next2').onclick=()=>{if(v2())goTo(3);};
-  document.getElementById('next3').onclick=()=>goTo(4);
+  document.getElementById('next3').onclick=()=>{if(v3())goTo(4);};
+  document.getElementById('next4').onclick=()=>goTo(5);
+  document.getElementById('next5').onclick=()=>{if(v5())goTo(6);};
   document.getElementById('back2').onclick=()=>goTo(1);
   document.getElementById('back3').onclick=()=>goTo(2);
   document.getElementById('back4').onclick=()=>goTo(3);
-  document.getElementById('next4').onclick=()=>{if(v4())goTo(5);};
   document.getElementById('back5').onclick=()=>goTo(4);
+  document.getElementById('back6').onclick=()=>goTo(5);
+  document.getElementById('next5').onclick=()=>{if(v5())goTo(6);};
+  document.getElementById('back6').onclick=()=>goTo(5);
   document.getElementById('submitBtn').onclick=submit;
 }
 function collect(){
@@ -531,7 +525,7 @@ function collect(){
   };
 }
 async function submit(){
-  if(!v4())return;
+  if(!v5())return;
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Submitting\u2026';
   const data=collect();
   const domSel=document.querySelector('input[name="domainChoice"]:checked');
