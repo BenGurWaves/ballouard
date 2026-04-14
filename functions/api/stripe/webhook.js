@@ -46,17 +46,31 @@ export async function onRequestPost(context) {
               body: JSON.stringify({
                 from: 'Velocity <client@calyvent.com>',
                 to: [email],
-                subject: 'Payment confirmed — your Velocity project is locked in.',
-                html: `<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:48px 28px;background:#0D0C09;color:#DEC8B5">
-                  <div style="font-family:Georgia,serif;font-size:20px;margin-bottom:32px;color:#DEC8B5">Velocity<span style="color:#C49C7B">.</span></div>
-                  <h1 style="font-family:Georgia,serif;font-weight:400;font-size:22px;color:#DEC8B5;margin:0 0 16px">Payment received, ${name}.</h1>
-                  <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 16px">Your payment of <strong style="color:#DEC8B5">${amount}</strong> has been confirmed. Your project is now locked in and we'll be in touch shortly to get started.</p>
-                  <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">Keep an eye on your dashboard for status updates.</p>
-                  <div style="border-top:1px solid rgba(222,200,181,.1);padding-top:20px;margin-top:16px">
-                    <p style="font-size:12px;color:#565250">Questions? Reply to this email or reach us at <a href="mailto:client@calyvent.com" style="color:#C49C7B">client@calyvent.com</a></p>
-                    <p style="font-size:11px;color:#565250;margin-top:6px">&copy; 2026 Velocity by Calyvent</p>
-                  </div>
-                </div>`,
+                subject: 'Payment confirmed',
+                html: `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
+<body style="margin:0;padding:0;background:#0D0C09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0D0C09;min-height:100vh">
+<tr><td align="center" style="padding:48px 20px">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:500px">
+<tr><td style="padding:0 0 40px">
+  <span style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:400;color:#DEC8B5;letter-spacing:-.02em">Velocity<span style="color:#C49C7B">.</span></span>
+  <span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#565250;margin-left:10px">by Calyvent</span>
+</td></tr>
+<tr><td style="border-top:1px solid rgba(222,200,181,.08);padding-top:36px">
+  <h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:30px;color:#DEC8B5;letter-spacing:-.035em;margin:0 0 22px;line-height:1.12">Confirmed,<br>${name}.</h1>
+  <p style="font-size:13px;color:#8a8680;line-height:1.95;margin:0 0 18px">Your payment of <strong style="color:#DEC8B5;font-weight:400">${amount}</strong> has been received. Your project is booked and you are in queue.</p>
+  <p style="font-size:13px;color:#8a8680;line-height:1.95;margin:0 0 18px">We will be in touch within 24 hours to align on next steps. Your project dashboard is live below.</p>
+  <table cellpadding="0" cellspacing="0" style="margin:0 0 32px"><tr><td style="background:#DEC8B5"><a href="https://velocity.calyvent.com/dashboard/${token}" style="display:block;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#0D0C09;text-decoration:none;padding:13px 30px;font-weight:500">View Dashboard &rarr;</a></td></tr></table>
+  <p style="font-size:12px;color:#565250;line-height:1.75;margin:0">Questions? Reply to this email or write to <a href="mailto:client@calyvent.com" style="color:#C49C7B;text-decoration:none">client@calyvent.com</a></p>
+</td></tr>
+<tr><td style="border-top:1px solid rgba(222,200,181,.06);padding-top:24px;margin-top:40px">
+  <p style="font-size:11px;color:#3a3835;letter-spacing:.05em;margin:0;line-height:1.8">Velocity by Calyvent &mdash; velocity.calyvent.com</p>
+  <p style="font-size:11px;color:#3a3835;letter-spacing:.04em;margin:8px 0 0;line-height:1.8">&copy; 2026 Calyvent. All rights reserved.</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`,
               }),
             });
           } catch (_) {}

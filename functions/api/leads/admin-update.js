@@ -7,43 +7,120 @@ import { getSupabase, isAdmin, jsonRes, errRes, optionsRes } from '../../_lib/su
 
 const VALID_STATUSES = ['pending','accepted','in_progress','declined','completed'];
 
+// Shared email shell
+function emailShell(innerHtml) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+</head>
+<body style="margin:0;padding:0;background:#0D0C09;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0D0C09">
+<tr><td align="center" style="padding:52px 24px 64px">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px">
+
+<!-- Wordmark -->
+<tr><td style="padding:0 0 44px">
+  <span style="font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:400;color:#DEC8B5;letter-spacing:-.025em">Velocity<span style="color:#C49C7B">.</span></span>
+</td></tr>
+
+<!-- Rule -->
+<tr><td style="background:rgba(222,200,181,.08);height:1px;padding:0;font-size:0;line-height:0">&nbsp;</td></tr>
+
+<!-- Body -->
+<tr><td style="padding:40px 0 0">
+${innerHtml}
+</td></tr>
+
+<!-- Footer rule -->
+<tr><td style="background:rgba(222,200,181,.05);height:1px;padding:0;font-size:0;line-height:0;margin-top:40px">&nbsp;</td></tr>
+
+<!-- Footer -->
+<tr><td style="padding:24px 0 0">
+  <p style="font-size:11px;color:#3a3835;letter-spacing:.05em;margin:0;line-height:1.8">Velocity by Calyvent &mdash; velocity.calyvent.com</p>
+  <p style="font-size:11px;color:#3a3835;letter-spacing:.04em;margin:8px 0 0;line-height:1.8">&copy; 2026 Calyvent. All rights reserved.</p>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function ctaButton(label, url) {
+  return `<table cellpadding="0" cellspacing="0" border="0" style="margin:32px 0">
+<tr><td style="background:#DEC8B5">
+  <a href="${url}" style="display:block;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#0D0C09;text-decoration:none;padding:13px 30px;font-weight:500">${label} &rarr;</a>
+</td></tr>
+</table>`;
+}
+
+function h1(text) {
+  return `<h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:30px;color:#DEC8B5;letter-spacing:-.035em;margin:0 0 22px;line-height:1.12">${text}</h1>`;
+}
+
+function p(text, style = '') {
+  return `<p style="font-size:13px;color:#8a8680;line-height:1.95;margin:0 0 18px;${style}">${text}</p>`;
+}
+
+function small(text) {
+  return `<p style="font-size:12px;color:#565250;line-height:1.8;margin:0 0 8px">${text}</p>`;
+}
+
 const STATUS_EMAIL = {
   accepted: {
-    subject: 'Your Velocity project has been accepted.',
-    body: (name) => `<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:48px 28px;background:#0D0C09;color:#DEC8B5">
-      <div style="font-family:Georgia,serif;font-size:20px;margin-bottom:32px;color:#DEC8B5">Velocity<span style="color:#C49C7B">.</span></div>
-      <h1 style="font-family:Georgia,serif;font-weight:400;font-size:22px;color:#DEC8B5;margin:0 0 16px">Good news, ${name}.</h1>
-      <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">We've reviewed your brief and we're moving forward. Your quote is ready — log in to your dashboard to review and confirm payment.</p>
-      <p style="font-size:12px;color:#565250;margin:32px 0 0">Velocity by Calyvent &mdash; <a href="https://velocity.calyvent.com" style="color:#C49C7B">velocity.calyvent.com</a></p>
-    </div>`
+    subject: 'Your project has been accepted.',
+    body: (name, dashUrl) => emailShell(`
+      ${h1('Good news,<br>' + name + '.')}
+      ${p('Your brief has been reviewed. We’re moving forward.')}
+      ${p('A custom quote is waiting for you on your dashboard. Review it at your convenience — once you’re ready, a single click confirms your project and puts you in queue.')}
+      ${ctaButton('Review Quote & Confirm', dashUrl)}
+      ${small('Questions? Reply directly to this email.')}
+      ${small('You have 24 hours from your original submission to edit your brief if anything needs adjusting.')}
+    `)
   },
   in_progress: {
-    subject: 'Your Velocity project is now in progress.',
-    body: (name) => `<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:48px 28px;background:#0D0C09;color:#DEC8B5">
-      <div style="font-family:Georgia,serif;font-size:20px;margin-bottom:32px;color:#DEC8B5">Velocity<span style="color:#C49C7B">.</span></div>
-      <h1 style="font-family:Georgia,serif;font-weight:400;font-size:22px;color:#DEC8B5;margin:0 0 16px">We're building, ${name}.</h1>
-      <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">Your project is now in active development. Your brief is locked to protect scope. We'll be in touch with progress updates. For any changes, reply to this email.</p>
-      <p style="font-size:12px;color:#565250;margin:32px 0 0">Velocity by Calyvent &mdash; <a href="https://velocity.calyvent.com" style="color:#C49C7B">velocity.calyvent.com</a></p>
-    </div>`
+    subject: 'Your project is in progress.',
+    body: (name, dashUrl) => emailShell(`
+      ${h1('Work has<br>begun, ' + name + '.')}
+      ${p('Your project is now in active development. We have everything we need.')}
+      ${p('Your brief is locked to keep the scope clean and the work focused. If anything important has changed, reply to this email and we’ll discuss it.')}
+      ${p('We’ll be in touch with updates. In the meantime, you can track your project status on your dashboard.')}
+      ${ctaButton('View Project Status', dashUrl)}
+      ${small('Estimated timeline is based on the deadline you provided in your brief.')}
+    `)
   },
   completed: {
-    subject: 'Your Velocity project is complete.',
-    body: (name, siteLink) => `<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:48px 28px;background:#0D0C09;color:#DEC8B5">
-      <div style="font-family:Georgia,serif;font-size:20px;margin-bottom:32px;color:#DEC8B5">Velocity<span style="color:#C49C7B">.</span></div>
-      <h1 style="font-family:Georgia,serif;font-weight:400;font-size:22px;color:#DEC8B5;margin:0 0 16px">It's live, ${name}.</h1>
-      <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">Your site is complete and live.${siteLink ? ` View it here: <a href="${siteLink}" style="color:#C49C7B">${siteLink}</a>` : ' Log in to your dashboard for the link.'}</p>
-      <p style="font-size:12px;color:#565250;margin:32px 0 0">Velocity by Calyvent &mdash; <a href="https://velocity.calyvent.com" style="color:#C49C7B">velocity.calyvent.com</a></p>
-    </div>`
+    subject: 'Your website is live.',
+    body: (name, dashUrl, siteLink) => emailShell(`
+      ${h1('It’s live,<br>' + name + '.')}
+      ${p('Your website is complete and live on the web. This is the moment everything was building toward.')}
+      ${siteLink
+        ? `${p('Your site is live at:')}
+           <table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px">
+           <tr><td style="background:rgba(196,156,123,.08);border:1px solid rgba(196,156,123,.18);padding:14px 20px">
+             <a href="${siteLink}" style="font-family:Georgia,'Times New Roman',serif;font-size:15px;color:#C49C7B;text-decoration:none;letter-spacing:-.01em">${siteLink} &#8599;</a>
+           </td></tr></table>`
+        : `${p('Log in to your dashboard to access the link to your finished site.')}`
+      }
+      ${p('It has been a pleasure. Your dashboard will remain active if you ever need to reference your brief or get back in touch.')}
+      ${ctaButton('Open Dashboard', dashUrl)}
+      ${small('Thank you for choosing Velocity.')}
+    `)
   },
   declined: {
     subject: 'An update on your Velocity enquiry.',
-    body: (name) => `<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:48px 28px;background:#0D0C09;color:#DEC8B5">
-      <div style="font-family:Georgia,serif;font-size:20px;margin-bottom:32px;color:#DEC8B5">Velocity<span style="color:#C49C7B">.</span></div>
-      <h1 style="font-family:Georgia,serif;font-weight:400;font-size:22px;color:#DEC8B5;margin:0 0 16px">Thank you for reaching out, ${name}.</h1>
-      <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">After reviewing your brief, we've determined that this particular project isn't the right fit for our studio at this time. This is not a reflection of your project's quality — we're selective about the work we take on to ensure every client receives our full attention.</p>
-      <p style="font-size:14px;color:#8a8680;line-height:1.8;margin:0 0 24px">We wish you the best with your project and hope our paths cross again in the future.</p>
-      <p style="font-size:12px;color:#565250;margin:32px 0 0">Velocity by Calyvent &mdash; <a href="https://velocity.calyvent.com" style="color:#C49C7B">velocity.calyvent.com</a></p>
-    </div>`
+    body: (name) => emailShell(`
+      ${h1('Thank you<br>for reaching out.')}
+      ${p('We’ve taken time to carefully review your brief. After consideration, we’ve decided not to move forward with this particular project.')}
+      ${p('This is not a reflection on your work or your idea. We take on a deliberately small number of projects at any given time, and we only commit when we’re confident we can give the work the attention it deserves.')}
+      ${p('We hope you find the right partner for it. If your circumstances change or you have a future project that might be a better fit, we’re always open to a conversation.')}
+      ${small('You’re welcome to reply to this email if you have questions.')}
+    `)
   },
 };
 
@@ -115,6 +192,8 @@ export async function onRequestPatch(context) {
       const name = lead.client_name || p1.full_name || 'there';
       const email = lead.client_email || p1.email;
       const siteLink = patch.site_link || lead.site_link;
+      const base = context.env.SITE_URL || 'https://velocity.calyvent.com';
+      const dashboardUrl = `${base}/dashboard/${token}`;
       const fromAddr = context.env.RESEND_FROM_EMAIL
         ? `Velocity <${context.env.RESEND_FROM_EMAIL}>`
         : `Velocity <client@calyvent.com>`;
@@ -127,7 +206,7 @@ export async function onRequestPatch(context) {
               from: fromAddr,
               to: [email],
               subject: tpl.subject,
-              html: tpl.body(name, siteLink),
+              html: tpl.body(name, dashboardUrl, siteLink),
             }),
           });
           const emailData = await emailRes.json();
