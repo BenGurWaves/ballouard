@@ -31,6 +31,21 @@ export async function onRequestGet(context) {
 }
 
 export async function onRequestPatch(context) {
+  // Rate limit: max 10 PATCH requests per IP per minute (prevents spam submission)
+  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
+  const rateLimitKey = `ratelimit:patch:${ip}`;
+  const kv = context.env.DATA || context.env.LEADS;
+  if (kv) {
+    try {
+      const rl = await kv.get(rateLimitKey, { type: 'json' }).catch(() => null);
+      const now = Date.now();
+      const recent = ((rl && rl.ts) || []).filter(t => now - t < 60000);
+      if (recent.length >= 10) return errRes('Too many requests. Please wait a moment.', 429);
+      recent.push(now);
+      await kv.put(rateLimitKey, JSON.stringify({ ts: recent }), { expirationTtl: 60 });
+    } catch (_) {}
+  }
+
   const sb = getSupabase(context.env);
   if (!sb) return errRes('Supabase not configured', 500);
   const token = context.params.token;

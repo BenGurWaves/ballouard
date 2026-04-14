@@ -14,9 +14,9 @@ export async function onRequestGet(context) {
   const sort   = url.searchParams.get('sort') || 'due_date';
   const status = url.searchParams.get('status') || '';
 
-  let filter = 'order=due_date.asc.nullslast,created_at.desc';
-  if (sort === 'created_at') filter = 'order=created_at.desc';
-  if (sort === 'status')     filter = 'order=status.asc,created_at.desc';
+  let filter = 'order=due_date.asc.nullslast,created_at.desc&limit=500';
+  if (sort === 'created_at') filter = 'order=created_at.desc&limit=500';
+  if (sort === 'status')     filter = 'order=status.asc,created_at.desc&limit=500';
   if (status) filter += `&status=eq.${status}`;
 
   const rows = await sb.select('velocity_leads', filter);

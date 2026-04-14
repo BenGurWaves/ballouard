@@ -22,7 +22,10 @@ button{font-family:inherit;background:none;border:none;cursor:pointer}
 .nav{position:fixed;inset:0 0 auto;height:64px;padding:0 var(--px);display:flex;align-items:center;justify-content:space-between;background:rgba(13,12,9,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
 .nav-brand{font-family:"Instrument Serif",Georgia,serif;font-size:1.1rem;letter-spacing:-.02em}
 .nav-brand em{font-style:normal;color:var(--brass)}
-.nav-right{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.nav-right{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.75rem}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .4s}
+.live-dot.active{background:#8fc98f;box-shadow:0 0 0 3px rgba(143,201,143,.12);animation:livepulse 2.5s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 /* Auth gate */
 .auth-wrap{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;background:var(--bg)}
@@ -175,7 +178,7 @@ button{font-family:inherit;background:none;border:none;cursor:pointer}
 <div class="grain"></div>
 <nav class="nav">
   <a href="/" class="nav-brand">Velocity<em>.</em></a>
-  <span class="nav-right" id="navRight">Dashboard</span>
+  <span class="nav-right"><span class="live-dot" id="liveDot"></span><span id="navRight">Dashboard</span></span>
 </nav>
 
 <!-- Auth gate -->
@@ -325,6 +328,9 @@ async function init(){
 }
 
 function renderDash(lead,justPaid=false){
+  // Activate live indicator
+  const dot = document.getElementById('liveDot');
+  if (dot) dot.classList.add('active');
   show('mainWrap');
   setTimeout(()=>document.getElementById('mainWrap').classList.add('in'),50);
 
@@ -441,12 +447,73 @@ function renderDash(lead,justPaid=false){
       ${anti?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem">Anti-Inspiration</div>${anti}</div>`:''}
       ${p5.additional_notes?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem">Additional Notes</div><div class="brief-long">${esc(p5.additional_notes)}</div></div>`:''}`;
   } else { briefEl.style.display='none'; }
+  LEAD = lead;
+  startPollingIfNeeded(lead);
+}
+
+// Called after renderDash — start polling now that we have the lead
+function startPollingIfNeeded(lead) {
+  if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+  startPolling(lead);
 }
 
 function siteBlock(link){link=ensureUrl(link);
   return `<div class="site-link-block"><div><div class="site-link-label">Your Website</div><div class="site-link-url">${esc(link)}</div></div><a href="${esc(link)}" class="site-link-cta" target="_blank" rel="noopener noreferrer">Open Site ↗</a></div>`;
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// Auto-refresh — poll every 30s when tab is visible, stop when terminal state reached
+let POLL_INTERVAL = null;
+const TERMINAL_STATES = ['completed','declined'];
+const STATIC_STATES  = ['in_progress']; // still refresh but slower (60s)
+
+function startPolling(lead) {
+  if (TERMINAL_STATES.includes(lead.status)) return; // never poll
+  const interval = STATIC_STATES.includes(lead.status) ? 60000 : 30000;
+  POLL_INTERVAL = setInterval(async () => {
+    if (document.hidden) return; // skip if tab is in background
+    try {
+      const r = await fetch('/api/leads/' + TOKEN);
+      if (!r.ok) return;
+      const fresh = await r.json();
+      // Only re-render if something actually changed
+      const changed =
+        fresh.status !== lead.status ||
+        fresh.is_paid !== lead.is_paid ||
+        fresh.quote_amount !== lead.quote_amount ||
+        fresh.site_link !== lead.site_link ||
+        JSON.stringify(fresh.admin_comment) !== JSON.stringify(lead.admin_comment);
+      if (changed) {
+        if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+        LEAD = fresh;
+        renderDash(fresh);
+        startPolling(fresh);
+      }
+    } catch (_) {}
+  }, interval);
+}
+
+// Pause polling when tab hidden, resume when visible
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && LEAD && !TERMINAL_STATES.includes(LEAD.status)) {
+    // Tab became visible — do an immediate refresh
+    fetch('/api/leads/' + TOKEN).then(r => r.ok ? r.json() : null).then(fresh => {
+      if (!fresh) return;
+      const changed =
+        fresh.status !== LEAD.status ||
+        fresh.is_paid !== LEAD.is_paid ||
+        fresh.quote_amount !== LEAD.quote_amount ||
+        fresh.site_link !== LEAD.site_link ||
+        JSON.stringify(fresh.admin_comment) !== JSON.stringify(LEAD.admin_comment);
+      if (changed) {
+        if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+        LEAD = fresh;
+        renderDash(fresh);
+        startPolling(fresh);
+      }
+    }).catch(() => {});
+  }
+});
 
 init();
 </script>
