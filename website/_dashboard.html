@@ -396,7 +396,12 @@ function renderDash(lead,justPaid=false){
         <div class="bk">Email</div><div class="bv">${esc(lead.client_email||p1.email||'—')}</div><div class="bsep"></div>
         ${lead.due_date?`<div class="bk">Deadline</div><div class="bv">${new Date(lead.due_date+'T00:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'})}</div><div class="bsep"></div>`:''}
         <div class="bk">Submitted</div><div class="bv">${new Date(lead.submitted_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})}</div>
-        ${lead.domain_choice?`<div class="bsep"></div><div class="bk">Domain</div><div class="bv">${lead.domain_choice==='velocity_provides'?`Velocity to register${lead.domain_name?' — '+esc(lead.domain_name):''}`:'Client provides own domain'}</div>`:''}
+        ${lead.domain_choice?`<div class="bsep"></div><div class="bk">Domain</div><div class="bv">${
+          lead.domain_choice==='client_provides'?'You’ll connect your own domain':
+          lead.domain_choice==='client_has_needs_setup'?`We’ll configure your domain${lead.domain_name?' ('+esc(lead.domain_name)+')':''}`:
+          lead.domain_choice==='velocity_provides'?`We’ll register a domain for you${lead.domain_name?' — '+esc(lead.domain_name):''}`:
+          esc(lead.domain_choice)
+        }</div>`:''}
       </div>
       ${p1.context?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem">Business Context</div><div class="brief-long">${esc(p1.context)}</div></div>`:''}
       ${insp?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem">Inspiration</div>${insp}</div>`:''}

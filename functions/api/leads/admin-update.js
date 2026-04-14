@@ -107,6 +107,7 @@ export async function onRequestPatch(context) {
   const updated = await sb.update('velocity_leads', `token=eq.${token}`, patch);
 
   // Send status change email via Resend
+  let emailResult = null;
   if (status && status !== prevStatus && context.env.RESEND_API_KEY) {
     const tpl = STATUS_EMAIL[status];
     if (tpl) {
@@ -114,22 +115,33 @@ export async function onRequestPatch(context) {
       const name = lead.client_name || p1.full_name || 'there';
       const email = lead.client_email || p1.email;
       const siteLink = patch.site_link || lead.site_link;
+      const fromAddr = context.env.RESEND_FROM_EMAIL
+        ? `Velocity <${context.env.RESEND_FROM_EMAIL}>`
+        : `Velocity <client@calyvent.com>`;
       if (email) {
         try {
-          await fetch('https://api.resend.com/emails', {
+          const emailRes = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${context.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              from: `Velocity <client@calyvent.com>`,
+              from: fromAddr,
               to: [email],
               subject: tpl.subject,
               html: tpl.body(name, siteLink),
             }),
           });
-        } catch (_) {}
+          const emailData = await emailRes.json();
+          emailResult = emailRes.ok
+            ? { sent: true, id: emailData.id }
+            : { sent: false, error: emailData.message || emailData.name || JSON.stringify(emailData) };
+        } catch (emailErr) {
+          emailResult = { sent: false, error: String(emailErr) };
+        }
+      } else {
+        emailResult = { sent: false, error: 'No email address on lead' };
       }
     }
   }
 
-  return jsonRes({ success: true, lead: Array.isArray(updated) ? updated[0] : updated });
+  return jsonRes({ success: true, lead: Array.isArray(updated) ? updated[0] : updated, email: emailResult });
 }

@@ -245,7 +245,14 @@ function renderLeads(){
     if(sq&&!l.is_paid)sq.onclick=async()=>{const amt=Math.round(parseFloat(qi.value)*100);if(isNaN(amt))return;sq.disabled=true;await aupd(l.token,{quote_amount:amt});toast('Quote saved');sq.disabled=false;await reload();};
     // Status
     const ss=card.querySelector('.ss');
-    if(ss)ss.onchange=async()=>{await aupd(l.token,{status:ss.value});toast('Status updated');await reload();};
+    if(ss)ss.onchange=async()=>{
+      const res=await aupd(l.token,{status:ss.value});
+      if(res&&res.email){
+        if(res.email.sent) toast('Status updated — email sent');
+        else toast('Status updated — email failed: '+res.email.error);
+      } else { toast('Status updated'); }
+      await reload();
+    };
     // Comment save
     const ct=card.querySelector('.ct'),sc=card.querySelector('.sc'),cl=card.querySelector('.cl-input');
     if(sc)sc.onclick=async()=>{sc.disabled=true;await aupd(l.token,{admin_comment:ct.value.trim(),admin_comment_link:cl?ensureUrl(cl.value):''});toast('Message sent');sc.disabled=false;await reload();};
@@ -396,7 +403,10 @@ function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 
 function ensureUrl(v){if(!v)return '';v=v.trim();if(v&&!v.match(/^https?:\/\//))v='https://'+v;return v;}
 async function aupd(token,patch){
-  await fetch('/api/leads/admin-update',{method:'PATCH',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({token,...patch})});
+  try{
+    const r=await fetch('/api/leads/admin-update',{method:'PATCH',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({token,...patch})});
+    return await r.json();
+  }catch(_){return null;}
 }
 
 // New Lead Modal

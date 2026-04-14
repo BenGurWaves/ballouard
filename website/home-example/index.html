@@ -3,461 +3,548 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — Digital Atelier</title>
-  <meta name="description" content="Digital ateliers for heritage Maisons. Bespoke presence, crafted with precision.">
-  <link rel="canonical" href="https://velocity.calyvent.com/home-example">
+  <title>Velocity — Digital Ateliers for Heritage Maisons</title>
+  <meta name="description" content="Digital ateliers for Jewelers, Horologers, and Tailors. We craft digital presence with the same patience as a bespoke suit and the same mechanical precision as a tourbillon movement.">
+  <meta property="og:title" content="Velocity — Digital Ateliers for Heritage Maisons">
+  <meta property="og:description" content="Digital ateliers for Jewelers, Horologers, and Tailors. We craft digital presence with the same patience as a bespoke suit and the same mechanical precision as a tourbillon movement.">
+  <meta property="og:url" content="https://velocity.calyvent.com">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://velocity.calyvent.com/work-calyvent.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://velocity.calyvent.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://velocity.calyvent.com/#business",
+        "name": "Velocity Digital Atelier",
+        "url": "https://velocity.calyvent.com",
+        "logo": "https://velocity.calyvent.com/favicon.svg",
+        "description": "Digital ateliers for heritage Maisons—Jewelers, Horologers, and Tailors. Bespoke digital presence crafted with the patience of Haute Horlogerie.",
+        "email": "atelier@calyvent.com",
+        "areaServed": "Worldwide",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Digital Atelier Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bespoke Digital Presence" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Heritage Brand Storytelling" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Private Client Portals" } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://velocity.calyvent.com/#website",
+        "url": "https://velocity.calyvent.com",
+        "name": "Velocity — Digital Ateliers for Heritage Maisons",
+        "publisher": { "@id": "https://velocity.calyvent.com/#business" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
-<!-- WebGL Canvas -->
-<canvas id="webgl-canvas"></canvas>
+<div class="grain"></div>
+<div class="orbital-light" id="orbitalLight"></div>
+<div class="vignette"></div>
+<div class="frame"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor" id="cursor" style="display:none"></div>
+<div class="cursor-dot" id="cursorDot" style="display:none"></div>
 
-<!-- Atmospheric Layers -->
-<div class="grain-overlay"></div>
-<div class="vignette-breath"></div>
-<div class="cinematic-frame"></div>
-
-<!-- Precision Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursor-dot"></div>
-
-<!-- Ceremonial Veil -->
-<div class="veil" id="veil">
-  <span class="veil-word">Velocity</span>
-  <div class="veil-line"></div>
-  <span class="veil-tag">Digital Atelier</span>
+<!-- Preloader — ceremonial entrance -->
+<div class="pl" id="pl">
+  <span class="pl-word">Velocity<em>.</em></span>
+  <span class="pl-tagline">Digital Atelier</span>
+  <div class="pl-line"></div>
 </div>
 
-<!-- Navigation -->
+<!-- Nav -->
 <nav class="nav" id="nav">
-  <a href="/" class="nav-mark">Velocity</a>
+  <a href="/" class="nav-brand">Velocity<em>.</em></a>
   <div class="nav-links">
-    <a href="#work">Work</a>
-    <a href="#philosophy">Philosophy</a>
-    <a href="#contact">Contact</a>
+    <a href="#work">Studies</a>
+    <a href="#studio">Atelier</a>
+    <a href="mailto:atelier@calyvent.com">Concierge</a>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero" id="hero">
-  <h1 class="hero-statement" id="heroStatement">
-    <span class="word">We</span>
-    <span class="word">craft</span>
-    <span class="word">digital</span>
-    <span class="word">presence</span>
-    <span class="word">for</span>
-    <span class="word">heritage</span>
-    <span class="word">Maisons.</span>
-  </h1>
-  
-  <div class="hero-subtitle">
-    <p class="lead">Patience. Precision. Provenance.</p>
-    <p>Every interaction hand-tooled. Every pixel carries weight. For the Jewelers, Horologers, and Tailors who understand that true luxury lives in the details most rush past.</p>
-  </div>
-  
-  <div class="scroll-hint">
-    <div class="line"></div>
-    <span>Scroll</span>
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="hero">
+  <h1 class="hero-name" id="heroName">Velocity<em>.</em></h1>
+  <div class="hero-foot">
+    <p class="hero-sub">Digital Ateliers for the Exceptional<br><span>We craft digital presence with the same patience as a bespoke suit and the same mechanical precision as a tourbillon movement. For the Maisons where heritage meets modernity—Jewelers, Horologers, and Tailors who understand that true luxury lives in the details most rush past.</span></p>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
   </div>
 </section>
 
-<!-- Work Section -->
-<section class="studies-section" id="work">
-  <header class="studies-header">
-    <span class="section-label">Selected Work</span>
-  </header>
-  
-  <div class="study-row" data-project="thread">
-    <span class="study-num">01</span>
-    <span class="study-name">Thread</span>
-    <span class="study-type">Platform</span>
-    <span class="study-year">2024</span>
-  </div>
-  
-  <div class="study-row" data-project="calyvent">
-    <span class="study-num">02</span>
-    <span class="study-name">Calyvent</span>
-    <span class="study-type">Venture</span>
-    <span class="study-year">2024</span>
-  </div>
-  
-  <div class="study-row" data-project="vault">
-    <span class="study-num">03</span>
-    <span class="study-name">Vault</span>
-    <span class="study-type">Security</span>
-    <span class="study-year">2023</span>
-  </div>
-</section>
-
-<!-- Philosophy Section -->
-<section class="manifesto" id="philosophy">
-  <p class="manifesto-text">
-    Before a single line of code, <em>we study your provenance.</em> We translate your savoir-faire into digital ritual.
+<!-- ══════════════════════════════════
+     INTRO
+══════════════════════════════════ -->
+<section class="intro" id="intro">
+  <p class="intro-text">
+    I build digital ateliers for heritage brands—ensuring your online presence is as considered as the inside of a Patek Philippe caseback.
   </p>
 </section>
 
-<!-- Contact Section -->
-<section class="contact" id="contact">
-  <span class="contact-label">Begin a Commission</span>
-  <a href="mailto:atelier@calyvent.com" class="contact-email">atelier@calyvent.com</a>
+<!-- ══════════════════════════════════
+     WORK — Maison Studies
+══════════════════════════════════ -->
+<section class="work" id="work">
+  <div class="work-hdr">
+    <span class="label">Archival Studies</span>
+  </div>
+
+  <div class="work-list" id="workList">
+    <a href="https://thread.calyvent.com" target="_blank" rel="noopener noreferrer" class="wl-item"
+       data-img="/work-thread.jpg" data-url="thread.calyvent.com">
+      <span class="wl-num">01</span>
+      <span class="wl-name">Thread</span>
+      <span class="wl-type">Brand Infrastructure</span>
+      <span class="wl-year">2026</span>
+      <span class="wl-arrow">↗</span>
+    </a>
+    <div class="wl-sep"></div>
+    <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer" class="wl-item"
+       data-img="/work-calyvent.jpg" data-url="calyvent.com">
+      <span class="wl-num">02</span>
+      <span class="wl-name">Calyvent</span>
+      <span class="wl-type">Brand Identity</span>
+      <span class="wl-year">2025</span>
+      <span class="wl-arrow">↗</span>
+    </a>
+    <div class="wl-sep"></div>
+    <a href="https://vault.calyvent.com" target="_blank" rel="noopener noreferrer" class="wl-item"
+       data-img="/work-vault.jpg" data-url="vault.calyvent.com">
+      <span class="wl-num">03</span>
+      <span class="wl-name">The Vault</span>
+      <span class="wl-type">E-Commerce</span>
+      <span class="wl-year">2026</span>
+      <span class="wl-arrow">↗</span>
+    </a>
+  </div>
+
+  <!-- Hover preview — real browser chrome -->
+  <div class="work-preview" id="workPreview">
+    <div class="wp-browser">
+      <div class="wp-chrome">
+        <div class="wp-dots">
+          <div class="wp-dot"></div>
+          <div class="wp-dot"></div>
+          <div class="wp-dot"></div>
+        </div>
+        <div class="wp-address" id="wpAddress">calyvent.com</div>
+      </div>
+      <div class="wp-progress-track">
+        <div class="wp-progress-bar" id="wpBar"></div>
+      </div>
+      <div class="wp-viewport">
+        <div class="wp-skeleton" id="wpSkeleton">
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
+          <div class="wp-sk-row"></div>
+        </div>
+        <img class="wp-screenshot" id="wpShot" src="" alt="" draggable="false">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     THE THREE PILLARS OF CRAFT
+══════════════════════════════════ -->
+<section class="process">
+  <div class="process-grid">
+    <div class="process-left">
+      <span class="label">The Philosophy</span>
+    </div>
+    <div class="process-steps">
+      <div class="process-step" data-num="01">
+        <h3>The Fitting</h3>
+        <p>Before a single line of code is written, we study your provenance. We translate your savoir-faire into digital ritual—ensuring the visitor feels the weight of platinum or the whisper of silk through the screen.</p>
+      </div>
+      <div class="process-step" data-num="02">
+        <h3>The Bench</h3>
+        <p>No templates. No frameworks. Every interaction is hand-tooled. Custom cursors that glide like a watch hand; product pages that unfold like leather-bound portfolios. We measure load times in the patience of Haute Horlogerie, not Silicon Valley metrics.</p>
+      </div>
+      <div class="process-step" data-num="03">
+        <h3>The Salon</h3>
+        <p>Launched, but never finished. Like a master tailor maintaining a client's wardrobe, we steward your digital presence as it evolves—ensuring your website ages with the grace of patina, not the urgency of trends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     STUDIO
+══════════════════════════════════ -->
+<section class="studio" id="studio">
+  <div class="studio-grid">
+    <div class="studio-left">
+      <span class="label">The Atelier</span>
+    </div>
+    <div class="studio-right">
+      <p class="studio-para">
+        Velocity is a digital atelier by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a>. We serve Maisons—Jewelers, Horologers, and Tailors—who understand that heritage cannot be templated.
+      </p>
+      <p class="studio-para">
+        Every commission is approached as a unique artifact. We study your provenance, curate your narrative, and craft digital experiences that carry the same weight as your physical creations. No frameworks. No shortcuts. Only considered craftsmanship.
+      </p>
+      <div class="studio-facts">
+        <div class="sf">
+          <b>Commission</b>
+          <span>Bespoke by design</span>
+        </div>
+        <div class="sf">
+          <b>Heritage</b>
+          <span>Curated with provenance</span>
+        </div>
+        <div class="sf">
+          <b>Patina</b>
+          <span>Built to age gracefully</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SERVICES — For the Maison
+══════════════════════════════════ -->
+<section class="services">
+  <div class="svc-list">
+    <div class="svc-item">
+      <span class="svc-n">01</span>
+      <div class="svc-body">
+        <h3>For the Horologer</h3>
+        <p>Product storytelling that captures fire, scintillation, and complications. Private client portals for high-touch commissions managed with absolute discretion. Every click feels like winding a crown.</p>
+      </div>
+    </div>
+    <div class="svc-item">
+      <span class="svc-n">02</span>
+      <div class="svc-body">
+        <h3>For the Bespoke Tailor</h3>
+        <p>Appointment rituals that mirror the Savile Row experience. Fabric visualization that conveys texture and drape through tactility and motion. Your clients feel the cloth before they order.</p>
+      </div>
+    </div>
+    <div class="svc-item">
+      <span class="svc-n">03</span>
+      <div class="svc-body">
+        <h3>For the Parfumeur</h3>
+        <p>Olfactory storytelling through motion and sound. Sample request journeys that feel like receiving a physical gift. We translate notes and accords into visual poetry.</p>
+      </div>
+    </div>
+    <div class="svc-item">
+      <span class="svc-n">04</span>
+      <div class="svc-body">
+        <h3>Maison Studies</h3>
+        <p>Archival explorations for heritage brands in spaces we seek to serve. Each study demonstrates curatorial precision, tactile consideration, and the patience of true craft.</p>
+      </div>
+    </div>
+  </div>
+  <div class="svc-footer">
+    <p>We accept a limited number of commissions per quarter. <em>Response within 48 hours.</em></p>
+    <a href="mailto:atelier@calyvent.com" class="svc-cta">Begin a Commission →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CTA — The Invitation
+══════════════════════════════════ -->
+<section class="cta">
+  <p class="cta-label">Request a Private Consultation</p>
+  <p class="cta-sub">We accept a limited number of commissions per quarter to ensure the integrity of the craft. Share your provenance, and we shall respond within 48 hours.</p>
+  <a href="mailto:atelier@calyvent.com" class="cta-email">atelier@calyvent.com</a>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
-  <p>© 2026 Velocity by <a href="https://calyvent.com">Calyvent</a></p>
-  <div style="display: flex; gap: 2rem;">
-    <a href="/terms" style="font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;">Terms</a>
-    <a href="/privacy" style="font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;">Privacy</a>
+  <span>© 2026 Velocity by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a> — digital ateliers for heritage Maisons.</span>
+  <div class="ft-links">
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
   </div>
 </footer>
 
-<!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
-
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" integrity="sha384-O55L/6rhHr9CFvrxqv5luxOCcmVaBmETbZbJDP+Do8T0pztTACsFBD/IXCNkj7DV" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 <script>
-// ═══════════════════════════════════════════════════════════════
-// VELOCITY A+ — LIVING SYSTEMS
-// ═══════════════════════════════════════════════════════════════
+/* ── Lenis init happens inside boot() after defer scripts have loaded ── */
 
-// ─── WebGL Fluid Simulation ───
-(function initWebGL() {
-  const canvas = document.getElementById('webgl-canvas');
-  if (!canvas || !window.THREE) return;
-  
-  const renderer = new THREE.WebGLRenderer({ 
-    canvas, 
-    alpha: true,
-    antialias: true,
-    powerPreference: 'high-performance'
-  });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-  camera.position.z = 1;
-  
-  // Fluid shader
-  const uniforms = {
-    uTime: { value: 0 },
-    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
-  };
-  
-  const material = new THREE.ShaderMaterial({
-    uniforms,
-    transparent: true,
-    vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform float uTime;
-      uniform vec2 uMouse;
-      uniform vec2 uResolution;
-      varying vec2 vUv;
-      
-      void main() {
-        vec2 uv = vUv;
-        vec2 mouse = uMouse;
-        
-        // Distance from mouse
-        float dist = distance(uv, mouse);
-        
-        // Organic noise-like pattern
-        float wave1 = sin(uv.x * 10.0 + uTime * 0.5) * 0.5 + 0.5;
-        float wave2 = sin(uv.y * 8.0 + uTime * 0.3) * 0.5 + 0.5;
-        float wave3 = sin((uv.x + uv.y) * 6.0 + uTime * 0.4) * 0.5 + 0.5;
-        
-        // Mouse ripple
-        float ripple = sin(dist * 20.0 - uTime * 2.0) * exp(-dist * 3.0);
-        
-        // Combine
-        float pattern = (wave1 + wave2 + wave3) / 3.0;
-        pattern += ripple * 0.3;
-        
-        // Very subtle gold tint
-        vec3 gold = vec3(0.83, 0.69, 0.22);
-        vec3 dark = vec3(0.02, 0.02, 0.02);
-        
-        float alpha = pattern * 0.03;
-        vec3 color = mix(dark, gold, pattern * 0.15);
-        
-        gl_FragColor = vec4(color, alpha);
-      }
-    `
-  });
-  
-  const geometry = new THREE.PlaneGeometry(2, 2);
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-  
-  // Mouse tracking
-  let targetMouse = { x: 0.5, y: 0.5 };
-  let currentMouse = { x: 0.5, y: 0.5 };
-  
-  document.addEventListener('mousemove', (e) => {
-    targetMouse.x = e.clientX / window.innerWidth;
-    targetMouse.y = 1 - e.clientY / window.innerHeight;
-  }, { passive: true });
-  
-  // Animation loop
-  let rafId;
-  function animate() {
-    rafId = requestAnimationFrame(animate);
-    
-    // Smooth mouse follow
-    currentMouse.x += (targetMouse.x - currentMouse.x) * 0.05;
-    currentMouse.y += (targetMouse.y - currentMouse.y) * 0.05;
-    
-    uniforms.uTime.value += 0.016;
-    uniforms.uMouse.value.set(currentMouse.x, currentMouse.y);
-    
-    renderer.render(scene, camera);
-  }
-  animate();
-  
-  // Resize
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
-  });
-})();
-
-// ─── Precision Cursor ───
-(function initCursor() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
-  
-  const cursor = document.getElementById('cursor');
-  const dot = document.getElementById('cursor-dot');
-  if (!cursor || !dot) return;
-  
-  let mx = window.innerWidth / 2;
-  let my = window.innerHeight / 2;
-  let cx = mx, cy = my, dx = mx, dy = my;
-  let isMoving = false;
-  let moveTimeout;
-  
-  document.addEventListener('mousemove', (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    isMoving = true;
-    cursor.classList.add('precise');
-    
-    clearTimeout(moveTimeout);
-    moveTimeout = setTimeout(() => {
-      isMoving = false;
-      cursor.classList.remove('precise');
-    }, 100);
-  }, { passive: true });
-  
-  function animate() {
-    // Main cursor with heavy easing
-    cx += (mx - cx) * 0.08;
-    cy += (my - cy) * 0.08;
-    cursor.style.left = cx + 'px';
-    cursor.style.top = cy + 'px';
-    
-    // Dot with lighter easing
-    dx += (mx - dx) * 0.15;
-    dy += (my - dy) * 0.15;
-    dot.style.left = dx + 'px';
-    dot.style.top = dy + 'px';
-    
-    requestAnimationFrame(animate);
-  }
-  animate();
-  
-  // Hover states
-  document.querySelectorAll('a, .study-row, .contact-email').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
-})();
-
-// ─── Ceremonial Entrance ───
-(function initVeil() {
-  const veil = document.getElementById('veil');
-  if (!veil) return;
-  
+/* ── Preloader — ceremonial entrance ── */
+(function(){
+  const pl    = document.getElementById('pl');
   const START = Date.now();
-  const MIN_DURATION = 2800;
-  
-  function partVeil() {
-    const elapsed = Date.now() - START;
-    const wait = Math.max(0, MIN_DURATION - elapsed);
-    
+  const MIN   = 2200; // Ceremonial minimum duration
+
+  function onLoaded() {
+    const wait = Math.max(0, MIN - (Date.now() - START));
     setTimeout(() => {
-      veil.classList.add('parted');
-      setTimeout(() => {
-        veil.style.display = 'none';
-        initAnimations();
-      }, 1500);
+      pl.classList.add('out');
+      setTimeout(() => { boot(); }, 800);
     }, wait);
   }
-  
   if (document.readyState === 'complete') {
-    partVeil();
+    onLoaded();
   } else {
-    window.addEventListener('load', partVeil);
+    window.addEventListener('load', onLoaded);
   }
 })();
 
-// ─── GSAP Animations ───
-function initAnimations() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    setTimeout(initAnimations, 100);
-    return;
+/* ── Scroll Progress Indicator ── */
+(function(){
+  const progressBar = document.getElementById('scrollProgress');
+  if (!progressBar) return;
+  
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    progressBar.style.width = scrollPercent + '%';
+  }, { passive: true });
+})();
+
+/* ── Orbital Light — follows cursor with physics ── */
+(function(){
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const light = document.getElementById('orbitalLight');
+  if (!light) return;
+  
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let lx = mx, ly = my;
+  
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
+  
+  (function loop(){
+    // Physics-based following with lag
+    lx += (mx - lx) * 0.03;
+    ly += (my - ly) * 0.03;
+    light.style.transform = `translate(${lx}px, ${ly}px)`;
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ── Boot animations ── */
+function boot(){
+
+  /* Lenis smooth scroll — silk-like motion */
+  if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(typeof ScrollTrigger !== 'undefined' ? ScrollTrigger : {});
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.8,
+        easing: t => 1 - Math.pow(1 - t, 3), /* Silk-like cubic easing */
+        smoothWheel: true,
+        smoothTouch: false,
+        wheelMultiplier: 0.8, /* More controlled scrolling */
+      });
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+      
+      /* Connect Lenis to ScrollTrigger */
+      lenis.on('scroll', ScrollTrigger.update);
+    }
   }
-  
-  gsap.registerPlugin(ScrollTrigger);
-  
-  // Hero word reveal
-  const words = document.querySelectorAll('#heroStatement .word');
-  words.forEach((word, i) => {
-    setTimeout(() => {
-      word.classList.add('revealed');
-    }, 200 + i * 100);
+
+  /* Letter stagger on hero name */
+  const heroEl = document.getElementById('heroName');
+  if (!heroEl) return;
+  const heroText = heroEl.textContent.replace('.', '').trim();
+  heroEl.innerHTML = heroText.split('').map(l => `<span class="letter">${l}</span>`).join('') + '<em>.</em>';
+
+  gsap.from('#heroName .letter', {
+    opacity: 0, y: 60, rotateX: -25,
+    transformOrigin: '50% 0%',
+    duration: 1.8, ease: 'power3.out',
+    stagger: { each: 0.06, from: 'start' },
+    delay: 0.2
+  });
+  gsap.from('#heroName em', {
+    opacity: 0, scale: 0.5, rotateY: 15,
+    duration: 1.4, ease: 'power3.out',
+    delay: 0.3 + 8 * 0.06
+  });
+  gsap.from('.hero-foot', {
+    opacity: 0, y: 30,
+    duration: 1.6, ease: 'power3.out', delay: 0.8
   });
   
-  // Hero subtitle
-  gsap.from('.hero-subtitle', {
-    y: 40,
-    opacity: 0,
-    duration: 1.2,
-    ease: 'power3.out',
-    delay: 1.2
-  });
-  
-  // Scroll hint
-  gsap.from('.scroll-hint', {
-    opacity: 0,
-    duration: 1,
-    ease: 'power2.out',
-    delay: 2
-  });
-  
-  // Hero parallax
-  gsap.to('#heroStatement', {
-    scrollTrigger: {
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1
-    },
+  /* Subtle parallax on hero name during scroll */
+  gsap.to('#heroName', {
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 },
     y: 100,
-    opacity: 0.3,
     ease: 'none'
   });
-  
-  // Studies reveal
-  gsap.from('.studies-header', {
-    scrollTrigger: {
-      trigger: '#work',
-      start: 'top 80%'
-    },
-    y: 30,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out'
+
+  /* Intro clip reveal */
+  gsap.from('.intro-text', {
+    scrollTrigger: { trigger: '.intro', start: 'top 72%' },
+    clipPath: 'inset(0 0 100% 0)',
+    duration: 1.6, ease: 'expo.out'
   });
-  
-  gsap.from('.study-row', {
-    scrollTrigger: {
-      trigger: '#work',
-      start: 'top 70%'
-    },
-    y: 40,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out',
-    stagger: 0.15
+
+  /* Work */
+  gsap.from('.wl-sep', {
+    scrollTrigger: { trigger: '.work-list', start: 'top 82%' },
+    scaleX: 0, transformOrigin: 'left',
+    duration: 1.4, ease: 'expo.out', stagger: 0.1
   });
-  
-  // Manifesto
-  gsap.from('.manifesto-text', {
-    scrollTrigger: {
-      trigger: '#philosophy',
-      start: 'top 70%'
-    },
-    y: 60,
-    opacity: 0,
-    duration: 1.5,
-    ease: 'power3.out'
+  gsap.from('.wl-item', {
+    scrollTrigger: { trigger: '.work-list', start: 'top 80%' },
+    opacity: 0, y: 40,
+    duration: 1.1, ease: 'expo.out', stagger: 0.12
   });
-  
-  // Contact
-  gsap.from('.contact-label', {
-    scrollTrigger: {
-      trigger: '#contact',
-      start: 'top 80%'
-    },
-    y: 20,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out'
+
+  /* Process */
+  gsap.from('.process-step', {
+    scrollTrigger: { trigger: '.process', start: 'top 75%' },
+    opacity: 0, y: 32, duration: 1.1, ease: 'expo.out', stagger: 0.18
   });
-  
-  gsap.from('.contact-email', {
-    scrollTrigger: {
-      trigger: '#contact',
-      start: 'top 75%'
-    },
-    y: 40,
-    opacity: 0,
-    duration: 1.2,
-    ease: 'power3.out',
-    delay: 0.2
+
+  /* Studio */
+  gsap.from(['.studio-para', '.sf'], {
+    scrollTrigger: { trigger: '.studio', start: 'top 75%' },
+    opacity: 0, y: 30, duration: 1.1, ease: 'expo.out', stagger: 0.1
+  });
+
+  /* Services */
+  gsap.from('.svc-item', {
+    scrollTrigger: { trigger: '.services', start: 'top 80%' },
+    opacity: 0, y: 20, duration: 1, ease: 'expo.out', stagger: 0.09
+  });
+  gsap.from('.svc-footer', {
+    scrollTrigger: { trigger: '.svc-footer', start: 'top 90%' },
+    opacity: 0, y: 20, duration: 1, ease: 'expo.out'
+  });
+
+  /* CTA */
+  gsap.from('.cta-label', {
+    scrollTrigger: { trigger: '.cta', start: 'top 80%' },
+    opacity: 0, y: 16, duration: 1, ease: 'expo.out'
+  });
+  gsap.from('.cta-email', {
+    scrollTrigger: { trigger: '.cta', start: 'top 78%' },
+    clipPath: 'inset(0 0 100% 0)',
+    y: 40, duration: 1.8, ease: 'expo.out', delay: 0.15
   });
 }
 
-// ─── Smooth Scroll Anchors ───
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+/* ── Work hover preview — real screenshots with 2.3s browser loading ── */
+(function(){
+  const items    = document.querySelectorAll('.wl-item');
+  const preview  = document.getElementById('workPreview');
+  const address  = document.getElementById('wpAddress');
+  const bar      = document.getElementById('wpBar');
+  const skeleton = document.getElementById('wpSkeleton');
+  const shot     = document.getElementById('wpShot');
+  let mx = 0, my = 0, active = false, revealTimer = null;
+
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      // Reset
+      clearTimeout(revealTimer);
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      shot.style.opacity = '0';
+      skeleton.style.opacity = '1';
+      address.textContent = item.dataset.url || '';
+
+      // Preload image
+      shot.src = item.dataset.img || '';
+
+      // Show card
+      preview.classList.add('show');
+      active = true;
+
+      // Kick off progress bar next frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          bar.style.transition = 'width 2.3s cubic-bezier(0.4,0,0.2,1)';
+          bar.style.width = '100%';
+        });
+      });
+
+      // Reveal screenshot + start slow scroll after 2.3s
+      revealTimer = setTimeout(() => {
+        skeleton.style.opacity = '0';
+        shot.style.opacity = '1';
+        shot.classList.remove('scrolling');
+        void shot.offsetWidth; // force reflow to restart animation
+        shot.classList.add('scrolling');
+      }, 2300);
+    });
+
+    item.addEventListener('mouseleave', () => {
+      preview.classList.remove('show');
+      active = false;
+      clearTimeout(revealTimer);
+      // Reset state after fade-out completes
+      setTimeout(() => {
+        if (!active) {
+          bar.style.transition = 'none';
+          bar.style.width = '0%';
+          shot.style.opacity = '0';
+          shot.classList.remove('scrolling');
+          skeleton.style.opacity = '1';
+        }
+      }, 400);
+    });
   });
-});
 
-// ─── Weighted Scroll Physics ───
-(function initWeightedScroll() {
-  let scrollY = window.scrollY;
-  let targetY = scrollY;
-  let velocity = 0;
-  const friction = 0.95;
-  const acceleration = 0.1;
-  
-  window.addEventListener('wheel', (e) => {
-    targetY += e.deltaY * 0.5;
-    targetY = Math.max(0, Math.min(targetY, document.body.scrollHeight - window.innerHeight));
-  }, { passive: true });
-  
-  function updateScroll() {
-    const diff = targetY - scrollY;
-    velocity += diff * acceleration;
-    velocity *= friction;
-    scrollY += velocity;
-    
-    window.scrollTo(0, scrollY);
-    requestAnimationFrame(updateScroll);
-  }
-  
-  // Only enable on non-touch devices
-  if (!window.matchMedia('(pointer: coarse)').matches) {
-    // updateScroll(); // Disabled for now - native scroll is better
-  }
+  (function loop(){
+    if (active) {
+      preview.style.transform = `translate(${mx + 28}px,${my - 110}px)`;
+    }
+    requestAnimationFrame(loop);
+  })();
 })();
-</script>
 
+/* ── Custom cursor — magnetic system ── */
+(function(){
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const c = document.getElementById('cursor'), d = document.getElementById('cursorDot');
+  if (!c || !d) return;
+  c.style.display = ''; d.style.display = '';
+  let mx = -200, my = -200, cx = -200, cy = -200;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop(){
+    cx += (mx - cx) * 0.12; cy += (my - cy) * 0.12;
+    c.style.transform = `translate(${cx - 20}px,${cy - 20}px)`;
+    d.style.transform = `translate(${mx - 2}px,${my - 2}px)`;
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,.wl-item,.svc-item').forEach(el => {
+    el.addEventListener('mouseenter', () => c.classList.add('hover'));
+    el.addEventListener('mouseleave', () => c.classList.remove('hover'));
+  });
+})();
+
+/* ── Nav scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('s', scrollY > 60);
+}, { passive: true });
+</script>
 </body>
 </html>

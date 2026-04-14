@@ -205,16 +205,24 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <p class="phase-sub">Almost done. A few last things before we get to work.</p>
       </div>
       <div class="field">
-        <label class="field-label">Domain</label>
-        <p style="font-size:.75rem;color:var(--dim);line-height:1.7;margin-bottom:1rem">Will you be providing your own domain, or would you like us to register one?</p>
+        <label class="field-label" style="display:flex;align-items:center;gap:.4rem">
+          Domain
+          <span id="domainHelpBtn" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid var(--bord2);font-size:.55rem;color:var(--dim);cursor:pointer;flex-shrink:0;line-height:1" tabindex="0">?</span>
+        </label>
+        <div id="domainTooltip" style="display:none;background:var(--bg2);border:1px solid var(--bord2);padding:.85rem 1rem;margin-bottom:1rem;font-size:.75rem;color:var(--dim);line-height:1.75">
+          A <strong style="color:var(--sand);font-weight:400">domain</strong> is your website&rsquo;s address on the internet &mdash; like <span style="color:var(--brass)">yourbrand.com</span>. You purchase it once and pay a small renewal fee each year (~$15&ndash;$20). If you already have one, great. If not, we can register one for you.
+        </div>
+        <p style="font-size:.75rem;color:var(--dim);line-height:1.7;margin-bottom:1rem">How would you like to handle your domain?</p>
         <div style="display:flex;flex-direction:column;gap:.75rem">
-          <label class="check-row"><input type="radio" name="domainChoice" id="domainClient" value="client_provides" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>I have a domain &mdash; I&rsquo;ll connect it myself</span></label>
-          <label class="check-row"><input type="radio" name="domainChoice" id="domainVelocity" value="velocity_provides" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>Register a domain for me (&sim;$20/yr, more if the domain costs more)</span></label>
+          <label class="check-row"><input type="radio" name="domainChoice" id="domainClient" value="client_provides" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>I already have a domain &mdash; I&rsquo;ll connect it myself</span></label>
+          <label class="check-row"><input type="radio" name="domainChoice" id="domainClientSetup" value="client_has_needs_setup" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>I already have a domain but need help connecting it &mdash; please set it up for me</span></label>
+          <label class="check-row"><input type="radio" name="domainChoice" id="domainVelocity" value="velocity_provides" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>I don&rsquo;t have a domain &mdash; please register one for me (&sim;$20/yr)</span></label>
         </div>
       </div>
       <div class="field" id="domainNameField" style="display:none">
-        <label class="field-label" for="domainName">Preferred Domain</label>
-        <input type="text" id="domainName" placeholder="e.g. yourbrand.com &mdash; we&rsquo;ll confirm availability">
+        <label class="field-label" for="domainName" id="domainNameLabel">Domain Name</label>
+        <input type="text" id="domainName" placeholder="e.g. yourbrand.com">
+        <p id="domainNameHint" style="font-size:.6rem;color:var(--dim);margin-top:.4rem;letter-spacing:.04em"></p>
       </div>
       <div class="field" style="margin-top:2rem">
         <label class="field-label" for="additionalNotes">Additional Notes</label>
@@ -283,7 +291,27 @@ async function init() {
       setupUrlBlocks('inspirationList','addInspiration',true,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.inspiration)||[]);
       setupUrlBlocks('antiList','addAnti',false,(lead.full_data&&lead.full_data.phase2&&lead.full_data.phase2.anti_inspiration)||[]);
       document.getElementById('startingPoint').addEventListener('change',function(){ document.getElementById('existingUrlField').style.display=this.value==='existing'?'':'none'; });
-      document.querySelectorAll('input[name="domainChoice"]').forEach(r=>r.addEventListener('change',function(){ document.getElementById('domainNameField').style.display=this.value==='velocity_provides'?'':'none'; }));
+      document.querySelectorAll('input[name="domainChoice"]').forEach(r=>r.addEventListener('change',function(){
+        const show = this.value==='velocity_provides'||this.value==='client_has_needs_setup';
+        document.getElementById('domainNameField').style.display=show?'':'none';
+        const lbl=document.getElementById('domainNameLabel');
+        const hint=document.getElementById('domainNameHint');
+        if(this.value==='velocity_provides'){
+          lbl.textContent='Preferred Domain';
+          hint.textContent="We’ll confirm availability before registering.";
+        } else {
+          lbl.textContent='Your Domain Name';
+          hint.textContent="e.g. yourbrand.com — we’ll take care of the setup.";
+        }
+      }));
+      // Domain tooltip toggle
+      const helpBtn=document.getElementById('domainHelpBtn');
+      const tooltip=document.getElementById('domainTooltip');
+      if(helpBtn&&tooltip){
+        helpBtn.addEventListener('click',e=>{e.stopPropagation();tooltip.style.display=tooltip.style.display==='block'?'none':'block';});
+        helpBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tooltip.style.display=tooltip.style.display==='block'?'none':'block';}});
+        document.addEventListener('click',()=>{if(tooltip)tooltip.style.display='none';});
+      }
       document.getElementById('dueDate').min = new Date(Date.now()+48*3600000).toISOString().split('T')[0];
       bindNav();
       document.getElementById('email').value = VERIFIED_EMAIL;

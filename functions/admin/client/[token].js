@@ -77,7 +77,12 @@ ASSETS: ${p4.assets_links||''}
 SOCIALS: ${(p1.socials||[]).join(', ')}
 INCLUDE SOCIAL ICONS: ${p1.include_socials?'Yes':'No'}
 
-DOMAIN: ${lead.domain_choice==='velocity_provides'?`Velocity to register: ${lead.domain_name||'TBD'}`:'Client provides own domain'}
+DOMAIN: ${
+  lead.domain_choice==='client_provides'?'Client provides and connects own domain':
+  lead.domain_choice==='client_has_needs_setup'?`Client has domain (${lead.domain_name||'TBD'}) — Velocity to configure`:
+  lead.domain_choice==='velocity_provides'?`Velocity to register: ${lead.domain_name||'TBD'}`:
+  'Not specified'
+}
 
 ADDITIONAL NOTES: ${p5.additional_notes||''}`;
 
@@ -134,7 +139,12 @@ body{background:#0D0C09;color:#DEC8B5;font-family:'Inter',sans-serif;-webkit-fon
   ${section('Visual DNA', row('Background',p3.color_background)+row('Secondary',p3.color_secondary)+row('Accent',p3.color_accent)+row('Additional Palette',p3.colors_extra)+row('Typography',p3.fonts)+row('Upgrade Permission',lead.upgrade_permission?'Yes — full creative latitude':'No — follow specs'))}
   ${section('Logistics', row('Mottos/Taglines',p4.mottos)+row('Copyright',p4.copyright)+row('Starting Point',p4.starting_point)+row('Existing URL',p4.existing_url)+row('Assets',p4.assets_links))}
   ${socials?section('Socials',`<tr><td colspan="2" style="padding:6px 0">${socials}${row('Show Icons',p1.include_socials?'Yes':'No')}</td></tr>`):''}
-  ${section('Domain', row('Choice',lead.domain_choice)+row('Domain Name',lead.domain_name))}
+  ${section('Domain', row('Setup',
+    lead.domain_choice==='client_provides'?'Client has domain — connects themselves':
+    lead.domain_choice==='client_has_needs_setup'?'Client has domain — Velocity to configure':
+    lead.domain_choice==='velocity_provides'?'Velocity to register':
+    lead.domain_choice||'—'
+  )+row('Domain Name',lead.domain_name))}
   ${p5.additional_notes?section('Additional Notes',`<tr><td colspan="2" style="font-size:13px;color:#e8ddd3;line-height:1.8;padding:6px 0;white-space:pre-wrap">${esc(p5.additional_notes)}</td></tr>`):''}
   ${lead.site_link?`<div style="margin:0 0 32px"><div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C49C7B;margin-bottom:10px">Finished Site</div><a href="${esc(lead.site_link)}" target="_blank" style="color:#C49C7B;font-size:14px">${esc(lead.site_link)}</a></div>`:''}
 </div>
