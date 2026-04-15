@@ -1,6 +1,5 @@
 name = "velocitydelivery"
 pages_build_output_dir = "website/dist"
-pages_build_command = "cd website && npm run build"
 
 [[kv_namespaces]]
 binding = "DATA"
