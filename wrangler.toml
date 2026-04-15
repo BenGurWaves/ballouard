@@ -1,5 +1,5 @@
 name = "velocitydelivery"
-pages_build_output_dir = "website/dist"
+pages_build_output_dir = "website"
 pages_build_command = "cd website && npm install && npm run build"
 
 [[kv_namespaces]]
