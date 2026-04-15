@@ -1,4 +1,4 @@
-/audits/:prospect  /audits/:prospect.html  301
-/audits/:prospect/  /audits/:prospect.html  301
+/audits/xerjoff  /audits/xerjoff.html  200
+/audits/xerjoff/  /audits/xerjoff.html  200
 /admin/*  /admin/index.html  200
 /admin    /admin/index.html  200
