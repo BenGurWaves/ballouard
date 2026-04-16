@@ -17,7 +17,7 @@
     .audit-title { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 7vw, 6rem); line-height: 1; margin: 0 0 1rem; font-weight: 400; color: var(--paper); }
     .audit-client { color: var(--brass); font-style: italic; }
     
-    .audit-section { margin-bottom: 25vh; opacity: 0; transform: translateY(40px); }
+    .audit-section { margin-bottom: 25vh; }
     .as-title { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 3rem; font-weight: 400; border-bottom: 1px solid rgba(222,200,181,0.1); padding-bottom: 1.5rem; }
     
     .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; }
@@ -156,13 +156,7 @@
 
   // Animations
   gsap.from('#header > *', { opacity: 0, y: 50, duration: 1.5, stagger: 0.2, ease: 'expo.out', delay: 0.2 });
-  
-  document.querySelectorAll('.audit-section').forEach(sec => {
-    gsap.to(sec, {
-      opacity: 1, y: 0, duration: 1.5, ease: 'power3.out',
-      scrollTrigger: { trigger: sec, start: 'top 85%' }
-    });
-  });
+  gsap.from('.audit-section', { opacity: 0, y: 50, duration: 1.5, stagger: 0.3, ease: 'power3.out', delay: 0.4 });
 </script>
 </body>
 </html>
