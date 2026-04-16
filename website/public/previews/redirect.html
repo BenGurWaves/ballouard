@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Masterpiece Sigil</title>
+  <title>Velocity — The Refractive Monolith</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -11,163 +11,174 @@
   <style>
     body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; }
     
-    #bgCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0.3; }
-    #sigilCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
+    #mainCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    .archive-metadata { position:fixed; inset:4vh 6vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
-    .metadata-line { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:1.2em; font-size:0.45rem; color:var(--brass); opacity:0.4; animation: glitch 4s steps(1) infinite; }
-    @keyframes glitch { 0%, 95% { opacity: 0.4; } 96% { opacity: 0.8; transform: translateX(2px); } 97% { opacity: 0.2; } 98% { opacity: 0.4; transform: translateX(0); } }
+    .atelier-log { position:fixed; inset:4vh 6vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
+    .log-line { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:1em; font-size:0.45rem; color:var(--brass); opacity:0.3; }
     
-    .progress-bar-container { position:fixed; bottom:8vh; left:50%; transform:translateX(-50%); width:200px; height:2px; background:rgba(196,156,123,0.1); z-index:15; overflow:hidden; opacity:0; }
-    #archiveProgress { width:0%; height:100%; background:var(--brass); box-shadow:0 0 15px rgba(196,156,123,0.5); }
+    .status-badge { position:fixed; bottom:4vh; left:50%; transform:translateX(-50%); font-family:var(--sans); font-size:0.5rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--brass); opacity:0; }
 
-    .shimmer-handoff { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    #exitOverlay { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<canvas id="bgCanvas"></canvas>
-<canvas id="sigilCanvas"></canvas>
-<div class="progress-bar-container" id="pBar">
-  <div id="archiveProgress"></div>
-</div>
-<div class="shimmer-handoff" id="shimmer"></div>
+<canvas id="mainCanvas"></canvas>
+<div id="exitOverlay"></div>
 
-<div class="archive-metadata">
-  <div class="metadata-line">
-    <span>Archive 8442 — Preview Phase</span>
-    <span>Encrypted Tunnel: 09</span>
+<div class="atelier-log">
+  <div class="log-line">
+    <span>Archive 8442 // Extract</span>
+    <span>Atelier Alignment: 01</span>
   </div>
-  <div class="metadata-line">
-    <span>Prototype Handover</span>
-    <span>Returning to Source</span>
+  <div class="log-line">
+    <span>Status: Handoff Protocol</span>
+    <span>Extraction [100%]</span>
   </div>
 </div>
+
+<div class="status-badge" id="sBadge">Returning to Source</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
 window.addEventListener('load', () => {
-  const sCanvas = document.getElementById('sigilCanvas'), sCtx = sCanvas.getContext('2d');
-  const bCanvas = document.getElementById('bgCanvas'), bCtx = bCanvas.getContext('2d');
+  const canvas = document.getElementById('mainCanvas'), ctx = canvas.getContext('2d');
+  const hCanvas = document.createElement('canvas'), hCtx = hCanvas.getContext('2d');
   let w, h;
+
   function rs() { 
-    w = sCanvas.width = bCanvas.width = window.innerWidth; 
-    h = sCanvas.height = bCanvas.height = window.innerHeight; 
+    w = canvas.width = hCanvas.width = window.innerWidth; 
+    h = canvas.height = hCanvas.height = window.innerHeight; 
   }
   window.addEventListener('resize', rs); rs();
 
-  // 1. Approved Starfield (v14.1)
-  const stars = [];
-  for(let i=0; i<800; i++) stars.push({x: Math.random()*w, y: Math.random()*h, s: Math.random()*1.5});
-  function drawStars(warpX, warpY, intensity) {
-    bCtx.clearRect(0,0,w,h);
-    bCtx.fillStyle = 'rgba(222,200,181,0.4)';
-    stars.forEach(s => {
-      const dx = s.x - warpX, dy = s.y - warpY;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      const shift = (1000 * intensity) / (d + 100);
-      bCtx.fillRect(s.x + dx/d * shift, s.y + dy/d * shift, s.s, s.s);
-    });
-  }
+  const gridRows = 12, gridCols = 12;
+  let count = '5';
+  let impactScale = 1.2;
+  let textAlpha = 0;
+  let textBlur = 0;
+  let lightSweep = -w/2;
 
-  // 2. Approved 5,000-Point Sigil (v14.1)
-  const points = [];
-  const numPoints = 5000;
-  for(let i=0; i<numPoints; i++) {
-    points.push({
-      x: (Math.random()-0.5)*2.5, y: (Math.random()-0.5)*4.5, z: (Math.random()-0.5)*1.2,
-      size: Math.random()*1.5 + 0.5, alpha: Math.random()*0.8 + 0.2
-    });
-  }
-
-  let rotationY = 0, rotationX = 0;
-  let count = 5;
-  let surge = 0; // The Kinetic Pulse
-
-  // Approved Numerals Maps
-  const numerals = {
-    5: (x,y) => (y < -1 && x < 0.6) || (y > -0.2 && y < 0.2) || (y > 1 && x > -0.6) || (x < -0.5 && y < 0) || (x > 0.5 && y > 0),
-    4: (x,y) => (x < -0.5 && y < 0.2) || (x > 0.5) || (y > -0.1 && y < 0.1),
-    3: (x,y) => (y < -1) || (y > -0.1 && y < 0.1) || (y > 1) || (x > 0.5),
-    2: (x,y) => (y < -1) || (y > -0.1 && y < 0.1) || (y > 1) || (x > 0.5 && y < 0) || (x < -0.5 && y > 0),
-    1: (x,y) => (x > -0.05 && x < 0.05),
-    0: (x,y) => Math.abs(x) > 0.5 || Math.abs(y) > 1
-  };
-
-  function render() {
-    sCtx.clearRect(0,0,w,h);
-    rotationY += 0.007; rotationX += 0.003;
+  function drawGrid(time, currentNumeralAlpha) {
+    const spacingX = w / gridCols;
+    const spacingY = h / gridRows;
     
-    const perspective = 800;
-    const centerX = w/2, centerY = h/2;
-    const sY = Math.sin(rotationY), cY = Math.cos(rotationY);
-    const sX = Math.sin(rotationX), cX = Math.cos(rotationX);
+    // Draw the "Glass Mask" on hidden canvas
+    hCtx.clearRect(0,0,w,h);
+    hCtx.font = `italic 400 ${Math.min(w, h) * 0.75 * impactScale}px "Instrument Serif"`;
+    hCtx.textAlign = 'center'; hCtx.textBaseline = 'middle';
+    hCtx.fillStyle = 'white';
+    hCtx.fillText(count, w/2, h/2);
+    const maskData = hCtx.getImageData(0,0,w,h).data;
 
-    // NEW: HERO NUMERALS (The "Main Attraction" Upgrade)
-    // We render the numerals solid and bold to ensure they are the masterpiece focus
-    sCtx.save();
-    sCtx.font = `italic 400 ${Math.min(w, h) * 0.72}px "Instrument Serif"`;
-    sCtx.textAlign = 'center'; sCtx.textBaseline = 'middle';
-    // Solid high-alpha stroke to make it the main attraction
-    sCtx.strokeStyle = `rgba(222, 200, 181, ${0.45 + surge * 0.5})`;
-    sCtx.lineWidth = 2;
-    sCtx.strokeText(count, centerX, centerY);
-    sCtx.restore();
-
-    for(let i=0; i<numPoints; i++) {
-      const p = points[i];
-      let x = p.x * cY - p.z * sY;
-      let z = p.x * sY + p.z * cY;
-      let y = p.y * cX - z * sX;
-      let zFinal = p.y * sX + z * cX;
-
-      const f = perspective / (zFinal + 4.5);
-      const sx = centerX + x * f * 100;
-      const sy = centerY + y * f * 100;
-
-      const isNegative = numerals[count](x, y);
-      
-      const alphaBoost = isNegative ? 2.2 + surge * 3 : 0.08;
-      sCtx.globalAlpha = p.alpha * alphaBoost;
-      sCtx.fillStyle = isNegative ? '#DEC8B5' : '#C49C7B';
-      const sizeBoost = isNegative ? 2.2 + surge * 2.5 : 0.4;
-      
-      if(isNegative && Math.random() > (0.97 - surge*0.1)) {
-        sCtx.globalAlpha = 1;
-        sCtx.fillStyle = '#FFF';
+    // Draw the Background Grid with Refraction
+    ctx.strokeStyle = 'rgba(196, 156, 123, 0.08)';
+    ctx.lineWidth = 1;
+    
+    for(let i=0; i<=gridCols; i++) {
+      ctx.beginPath();
+      for(let j=0; j<=h; j+=5) {
+        let x = i * spacingX;
+        let y = j;
+        
+        // Refraction Check
+        const maskIndex = (Math.floor(y) * w + Math.floor(x)) * 4;
+        if(maskData[maskIndex] > 128) {
+          x += Math.sin(y * 0.1 + time * 0.005) * 15 * textAlpha;
+        }
+        
+        if(j===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
       }
-      
-      sCtx.fillRect(sx, sy, p.size * sizeBoost, p.size * sizeBoost);
+      ctx.stroke();
     }
     
-    drawStars(centerX, centerY, 1 + surge);
+    for(let i=0; i<=gridRows; i++) {
+      ctx.beginPath();
+      for(let j=0; j<=w; j+=5) {
+        let y = i * spacingY;
+        let x = j;
+        
+        const maskIndex = (Math.floor(y) * w + Math.floor(x)) * 4;
+        if(maskData[maskIndex] > 128) {
+          y += Math.cos(x * 0.1 + time * 0.005) * 15 * textAlpha;
+        }
+        
+        if(j===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+  }
+
+  function drawLightLeak() {
+    const grad = ctx.createRadialGradient(lightSweep, h/2, 0, lightSweep, h/2, w*0.8);
+    grad.addColorStop(0, 'rgba(196, 156, 123, 0.15)');
+    grad.addColorStop(1, 'rgba(13, 12, 9, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,w,h);
+  }
+
+  function drawHeroNumeral() {
+    ctx.save();
+    ctx.globalAlpha = textAlpha;
+    ctx.font = `italic 400 ${Math.min(w, h) * 0.75 * impactScale}px "Instrument Serif"`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    
+    // Glass Highlight (The "Monolith" edges)
+    ctx.strokeStyle = '#DEC8B5';
+    ctx.lineWidth = 1;
+    ctx.strokeText(count, w/2, h/2);
+    
+    // Volumetric Glow
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = 'rgba(196, 156, 123, 0.3)';
+    ctx.fillStyle = 'rgba(222, 200, 181, 0.05)';
+    ctx.fillText(count, w/2, h/2);
+    ctx.restore();
+  }
+
+  function render(time) {
+    ctx.fillStyle = '#0D0C09';
+    ctx.fillRect(0,0,w,h);
+    
+    drawLightLeak();
+    drawGrid(time, textAlpha);
+    drawHeroNumeral();
+    
+    lightSweep += (w * 1.5) / 400; // Continuous sweep
+    if(lightSweep > w * 1.5) lightSweep = -w * 0.5;
+
     requestAnimationFrame(render);
   }
-  render();
+  render(0);
 
+  // AWWWARDS-CALIBER PHYSICS
   const tl = gsap.timeline();
-  tl.to('.archive-metadata', { opacity: 1, duration: 2 }, 0.5);
-  tl.to('#pBar', { opacity: 1, duration: 1.5 }, 0.5);
+  tl.to('.atelier-log', { opacity: 1, duration: 2 }, 0.5);
+  tl.to('#sBadge', { opacity: 0.3, duration: 2 }, 1);
 
-  const countdown = [5, 4, 3, 2, 1, 0];
+  const countdown = ['5', '4', '3', '2', '1', '0'];
   countdown.forEach((val, i) => {
     tl.to({}, { 
-      duration: 1, 
-      onStart: () => { 
-        count = val; 
-        // Trigger Kinetic Pulse (Surge)
-        gsap.fromTo({s:1}, { s:0, duration: 0.7, onUpdate: function() { surge = this.targets()[0].s; }, ease: 'expo.out' });
-        // Update Progress Bar
-        gsap.to('#archiveProgress', { width: `${((i+1)/6)*100}%`, duration: 0.8, ease: 'power2.inOut' });
-      } 
+      duration: 1.2, 
+      onStart: () => {
+        gsap.fromTo({s: 1.1, a: 0}, {
+          s: 1, a: 1, duration: 0.8,
+          onUpdate: function() {
+            impactScale = this.targets()[0].s;
+            textAlpha = this.targets()[0].a;
+          },
+          onStart: () => { count = val; },
+          ease: 'expo.out'
+        });
+      }
     });
   });
 
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, 6.5);
+  tl.to('#exitOverlay', { opacity: 1, duration: 1.5, ease: 'expo.in' }, 7);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, 7.7);
+  }, 8.3);
 });
 </script>
 </body>
