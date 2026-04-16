@@ -27,8 +27,11 @@
     .content-matrix { position:relative; z-index:10; background:#000; margin-top:-60vh; }
     .windowSection { min-height:100vh; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:20vh 5vw; }
     .floatingWindow { position:relative; width:100%; max-width:1100px; display:grid; grid-template-columns:1.2fr 1fr; gap:8vw; align-items:center; }
-    .windowFrame { position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:#111; border:1px solid var(--border); box-shadow:0 50px 100px rgba(0,0,0,0.5); transform:perspective(1000px); }
-    .windowImg { width:100%; height:120%; object-fit:cover; position:absolute; top:-10%; left:0; filter:contrast(1.1) brightness(0.9); }
+    .windowFrame { position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:#111; border:1px solid var(--border); box-shadow:0 50px 100px rgba(0,0,0,0.5); transform:perspective(1000px); transition: border-color 0.8s, background 0.8s; }
+    .windowFrame.blueprint { background:transparent; border-color:var(--brass); border-style:dashed; }
+    .windowImg { width:100%; height:120%; object-fit:cover; position:absolute; top:-10%; left:0; filter:contrast(1.1) brightness(0.9); transition: opacity 0.8s; }
+    .windowFrame.blueprint .windowImg { opacity: 0; }
+    
     .windowLabel { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.3em; font-size:0.7rem; color:var(--brass); margin-bottom:2.5rem; display:block; }
     .windowTitle { font-family:var(--serif); font-size:clamp(3rem, 7vw, 6rem); margin:0 0 2.5rem; line-height:0.95; font-weight:400; color:var(--sand); }
     .windowDesc { font-size:1.15rem; line-height:1.8; color:var(--dim); max-width:450px; font-weight:300; }
@@ -38,16 +41,25 @@
     .expAction:hover { color:var(--bg); border-color:var(--sand); }
     .expAction:hover::after { left:0; }
 
-    /* The Salon Handoff (Final UX Clarity) */
+    /* "Architectural Emergence" Takeover */
     .handoff-panel { position:fixed; inset:0; background:#000; z-index:30000; display:none; align-items:center; justify-content:center; opacity:0; }
-    .handoff-inner { text-align:center; max-width:600px; width:90%; padding:4rem; }
-    .handoff-logo { font-family:var(--serif); font-size:3.5rem; color:var(--sand); margin-bottom:1rem; display:block; }
-    .handoff-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.4em; font-size:0.6rem; color:var(--brass); margin-bottom:3rem; display:block; }
-    .handoff-title { font-family:var(--serif); font-size:clamp(2rem, 5vw, 3.5rem); line-height:1.1; margin-bottom:2rem; font-weight:400; }
-    .handoff-desc { font-size:1rem; line-height:1.7; color:var(--dim); margin-bottom:4rem; font-weight:300; }
+    .handoff-canvas { position:absolute; inset:0; opacity:0.1; pointer-events:none; }
+    .handoff-inner { text-align:center; max-width:640px; width:90%; padding:4rem; position:relative; }
     
-    .handoff-progress-wrap { width:100%; height:1px; background:rgba(196, 156, 123, 0.1); position:relative; overflow:hidden; }
-    .handoff-progress-bar { position:absolute; top:0; left:0; width:0%; height:100%; background:var(--brass); }
+    /* Auto-Drawing Lines */
+    .draw-line { position:absolute; background:var(--brass); opacity:0; }
+    .dl-top { top:0; left:0; width:0%; height:1px; }
+    .dl-right { top:0; right:0; width:1px; height:0%; rotate: 180deg; }
+    .dl-bottom { bottom:0; right:0; width:0%; height:1px; rotate: 180deg; }
+    .dl-left { bottom:0; left:0; width:1px; height:0%; }
+
+    .handoff-logo { font-family:var(--serif); font-size:3.5rem; color:var(--sand); margin-bottom:1rem; display:block; opacity:0; }
+    .handoff-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.4em; font-size:0.6rem; color:var(--brass); margin-bottom:3rem; display:block; opacity:0; }
+    .handoff-title { font-family:var(--serif); font-size:clamp(2rem, 5vw, 3.5rem); line-height:1.1; margin-bottom:2rem; font-weight:400; opacity:0; }
+    .handoff-desc { font-size:1.05rem; line-height:1.7; color:var(--dim); margin-bottom:4.5rem; font-weight:300; opacity:0; }
+    
+    .handoff-progress-wrap { width:100%; height:20px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .handoff-coords { font-family:var(--sans); font-size:0.6rem; color:var(--brass); letter-spacing:0.2em; white-space:nowrap; }
 
     svg.filters { position:absolute; width:0; height:0; pointer-events:none; }
   </style>
@@ -134,13 +146,20 @@
 </div>
 
 <div class="handoff-panel" id="handoffPanel">
+  <canvas class="handoff-canvas" id="handoffCanvas"></canvas>
   <div class="handoff-inner">
-    <span class="handoff-logo">Velocity.</span>
-    <span class="handoff-tag">Digital Atelier Prototype</span>
-    <h2 class="handoff-title">Preview Session<br>Complete.</h2>
-    <p class="handoff-desc">This bespoke preview is a structural artifact. You are now being securely returned to the primary Velocity salon in New York.</p>
+    <div class="draw-line dl-top" id="dlTop"></div>
+    <div class="draw-line dl-right" id="dlRight"></div>
+    <div class="draw-line dl-bottom" id="dlBottom"></div>
+    <div class="draw-line dl-left" id="dlLeft"></div>
+    
+    <span class="handoff-logo" id="hLogo">Velocity.</span>
+    <span class="handoff-tag" id="hTag">Digital Atelier Prototype</span>
+    <h2 class="handoff-title" id="hTitle">Preview Session<br>Complete.</h2>
+    <p class="handoff-desc" id="hDesc">This bespoke preview is a structural artifact. You are now being securely returned to the primary Velocity salon in New York.</p>
+    
     <div class="handoff-progress-wrap">
-      <div class="handoff-progress-bar" id="handoffProgress"></div>
+      <div class="handoff-coords" id="hCoords">RECALIBRATING: 40.7128° N, 74.0060° W</div>
     </div>
   </div>
 </div>
@@ -154,21 +173,59 @@
 (function(){
   document.addEventListener('click', e => {
     const btn=e.target.closest('.action-trigger');
-    if(btn){ e.preventDefault(); e.stopPropagation(); startTheHandoff(); }
+    if(btn){ e.preventDefault(); e.stopPropagation(); startTheArchitecturalEmergence(); }
   });
 })();
 
-function startTheHandoff(){
-  const panel=document.getElementById('handoffPanel'), bar=document.getElementById('handoffProgress');
+function startTheArchitecturalEmergence(){
+  const panel=document.getElementById('handoffPanel'), coords=document.getElementById('hCoords');
   if(window.lenisInst) window.lenisInst.stop();
   
   const tl=gsap.timeline();
-  tl.to('.content-matrix, .hero-proxy, #stringCanvas',{opacity:0, duration:0.8, ease:'expo.out'});
-  tl.to(panel,{display:'flex', opacity:1, duration:1},0.4);
-  tl.to(bar,{width:'100%', duration:5, ease:'none'});
-  tl.to(panel,{opacity:0, duration:0.6, onComplete:()=>{
-    window.location.href='https://velocity.calyvent.com';
+  
+  // Phase 1: The Unraveling
+  tl.to('.windowFrame', { className: 'windowFrame blueprint', duration: 1, stagger: 0.1 });
+  tl.to('.windowText, .hero-proxy, #stringCanvas', { opacity: 0, duration: 0.6 }, 0.2);
+  tl.to('.monolith', { opacity: 0, scale: 0.8, filter: 'blur(20px)', duration: 1.2, ease: 'power2.in' }, 0);
+  
+  // Phase 2: Fade in Takeover
+  tl.to(panel, { display: 'flex', opacity: 1, duration: 1 }, 0.6);
+  
+  // Phase 3: Architectural Emergence (Auto-drawing lines)
+  tl.to(['#dlTop', '#dlRight', '#dlBottom', '#dlLeft'], { opacity: 1, duration: 0.1 }, 1.2);
+  tl.to('#dlTop', { width: '100%', duration: 0.8, ease: 'power2.inOut' }, 1.2);
+  tl.to('#dlRight', { height: '100%', duration: 0.8, ease: 'power2.inOut' }, 1.6);
+  tl.to('#dlBottom', { width: '100%', duration: 0.8, ease: 'power2.inOut' }, 2.0);
+  tl.to('#dlLeft', { height: '100%', duration: 0.8, ease: 'power2.inOut' }, 2.4);
+  
+  // Typography Reveal
+  tl.to(['#hLogo', '#hTag', '#hTitle', '#hDesc'], { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'expo.out' }, 1.8);
+
+  // Coordinate Stream Logic
+  let count = 0;
+  const i = setInterval(() => {
+    count++;
+    const lat = (40.7128 + (Math.random()-0.5)*0.1).toFixed(4);
+    const lon = (74.0060 + (Math.random()-0.5)*0.1).toFixed(4);
+    coords.innerText = `RECALIBRATING: ${lat}° N, ${lon}° W`;
+    if(count > 100) clearInterval(i);
+  }, 40);
+
+  // FINAL: Redirect
+  tl.to(panel, { opacity: 0, scale: 1.1, filter: 'blur(20px)', duration: 1.2, delay: 4, ease: 'expo.in', onComplete: () => {
+    window.location.href = 'https://velocity.calyvent.com';
   }});
+
+  // Grid Canvas
+  const cv=document.getElementById('handoffCanvas'), ctx=cv.getContext('2d');
+  let w,h; function rs(){w=cv.width=window.innerWidth; h=cv.height=window.innerHeight;}
+  window.addEventListener('resize',rs); rs();
+  function draw(){
+    ctx.clearRect(0,0,w,h); ctx.strokeStyle='rgba(196,156,123,0.15)'; ctx.lineWidth=0.5;
+    for(let x=0; x<w; x+=60){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for(let y=0; y<h; y+=60){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+    requestAnimationFrame(draw);
+  } draw();
 }
 
 /* ═══ PRELOADER ═══ */
@@ -240,7 +297,7 @@ function boot(){
   }
   gsap.from('.footer-tagline',{scrollTrigger:{trigger:'.footer-exp',start:'top 65%'},opacity:0,y:20,duration:1,ease:'expo.out',delay:.2});
   const coordsEl=document.getElementById('footerCoords');
-  if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}tick();setInterval(tick,1000)}
+  if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds').padStart(2,'0')}`}tick();setInterval(tick,1000)}
 
   (function particle_footer(){
     const fcv=document.getElementById('footerParticles');if(!fcv)return;
