@@ -3,60 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Singularity</title>
+  <title>Velocity — The Atelier Transition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=31">
   <style>
-    body, html { margin:0; padding:0; background:#000; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
+    body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
     
-    .grain-overlay { position:fixed; inset:0; z-index:100; pointer-events:none; opacity:0.06; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .velvet-grain { position:fixed; inset:0; z-index:100; pointer-events:none; opacity:0.04; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
     
-    .singularity-wrap { position:relative; width:100vw; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-    #liquidCanvas { position:absolute; inset:-10%; width:120%; height:120%; z-index:1; filter: url(#liquidFilter) contrast(1.2) brightness(0.8); }
+    .atelier-canvas { position:absolute; inset:0; z-index:1; opacity:0.7; pointer-events:none; }
     
-    .content-layer { position:relative; z-index:10; pointer-events:none; }
-    .status-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:1em; font-size:0.5rem; color:var(--brass); margin-bottom:5rem; display:block; opacity:0; }
+    .transition-container { position:relative; z-index:10; text-align:center; max-width:800px; padding:0 5vw; }
+    .atelier-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.5rem; color:var(--brass); margin-bottom:4rem; display:block; opacity:0; filter:blur(10px); }
     
-    .title-matrix { position:relative; display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
-    .title-line { font-family:var(--serif); font-size:clamp(4rem, 12vw, 14rem); font-weight:400; line-height:0.8; letter-spacing:-0.06em; color:var(--sand); white-space:nowrap; opacity:0; will-change:transform, filter; }
-    .title-line em { font-style:italic; color:var(--brass); }
+    .salon-title { font-family:var(--serif); font-size:clamp(3.5rem, 10vw, 8rem); line-height:0.9; margin-bottom:3rem; font-weight:400; opacity:0; filter:blur(20px); }
+    .salon-title em { font-style:italic; color:var(--brass); }
     
-    .progress-handshake { position:fixed; bottom:10vh; width:200px; height:1px; background:rgba(222,200,181,0.1); overflow:hidden; opacity:0; }
-    .progress-fill { width:0%; height:100%; background:var(--brass); }
+    .salon-desc { font-size:1.1rem; line-height:1.9; color:var(--dim); font-weight:300; opacity:0; max-width:45ch; margin-inline:auto; letter-spacing:0.02em; filter:blur(5px); }
 
-    .implosion-core { position:fixed; inset:0; z-index:1000; background:var(--sand); clip-path:circle(0% at 50% 50%); pointer-events:none; }
+    .countdown-ring-wrap { position:relative; width:40px; height:40px; margin:6rem auto 0; opacity:0; }
+    .countdown-ring-svg { width:40px; height:40px; transform: rotate(-90deg); }
+    .countdown-ring-path { fill:none; stroke:var(--brass); stroke-width:1; stroke-dasharray:113; stroke-dashoffset:113; opacity:0.4; }
 
-    svg.filters { position:absolute; width:0; height:0; pointer-events:none; }
+    .exit-shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<div class="grain-overlay"></div>
-<div class="implosion-core" id="core"></div>
+<div class="velvet-grain"></div>
+<div class="exit-shimmer" id="shimmer"></div>
+<canvas class="atelier-canvas" id="atelierCanvas"></canvas>
 
-<svg class="filters">
-  <filter id="liquidFilter">
-    <feTurbulence type="fractalNoise" baseFrequency="0.01 0.015" numOctaves="3" result="noise" id="turb" />
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G" id="disp" />
-  </filter>
-</svg>
-
-<div class="singularity-wrap" id="wrap">
-  <canvas id="liquidCanvas"></canvas>
+<div class="transition-container">
+  <span class="atelier-tag" id="aTag">Velocity Bespoke Preview</span>
+  <h1 class="salon-title" id="sTitle">Returning to the<br><em>Primary Salon.</em></h1>
+  <p class="salon-desc" id="sDesc">Your bespoke preview session is now complete. We are elegantly returning you to the Velocity source atelier to explore the live digital archive.</p>
   
-  <div class="content-layer">
-    <span class="status-tag" id="tag">Archive Handshake Initialized</span>
-    <div class="title-matrix">
-      <div class="title-line" id="l1">PROTOTYPE<em>.</em></div>
-      <div class="title-line" id="l2">ARCHIVED<em>.</em></div>
-    </div>
+  <div class="countdown-ring-wrap" id="rWrap">
+    <svg class="countdown-ring-svg" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="18" stroke="rgba(196,156,123,0.1)" stroke-width="1" fill="none" />
+      <circle class="countdown-ring-path" id="rPath" cx="20" cy="20" r="18" />
+    </svg>
   </div>
-</div>
-
-<div class="progress-handshake" id="progressWrap">
-  <div class="progress-fill" id="progressFill"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -65,49 +55,36 @@
 window.addEventListener('load', () => {
   const tl = gsap.timeline();
   
-  // Cinematic Entrance
-  tl.to('#tag', { opacity: 1, y: -20, duration: 1.5, ease: 'expo.out' }, 0.5);
-  tl.to('#l1', { opacity: 1, duration: 2, ease: 'power2.inOut' }, 0.7);
-  tl.to('#l2', { opacity: 1, duration: 2, ease: 'power2.inOut' }, 0.9);
-  tl.to('#progressWrap', { opacity: 1, duration: 1 }, 1.5);
+  // Cinematic Focus Reveal
+  tl.to('#aTag', { opacity: 1, filter: 'blur(0px)', duration: 2, ease: 'expo.out' }, 0.5);
+  tl.to('#sTitle', { opacity: 1, filter: 'blur(0px)', duration: 2.5, ease: 'expo.out' }, 0.8);
+  tl.to('#sDesc', { opacity: 1, filter: 'blur(0px)', duration: 2.5, ease: 'power2.out' }, 1.2);
+  tl.to('#rWrap', { opacity: 1, duration: 2 }, 1.8);
   
-  // Fluid Distortion Ramp
-  tl.to('#turb', { attr: { baseFrequency: '0.05 0.08' }, duration: 5, ease: 'none' }, 0.5);
-  tl.to('#disp', { attr: { scale: 500 }, duration: 5, ease: 'none' }, 0.5);
-  tl.to('#progressFill', { width: '100%', duration: 5, ease: 'none' }, 0.5);
+  // Elegant Countdown
+  tl.to('#rPath', { strokeDashoffset: 0, duration: 5, ease: 'none' }, 1.8);
   
-  // Kinetic Text Distortion
-  tl.to(['#l1', '#l2'], { 
-    letterSpacing: '0.2em', 
-    scale: 1.1, 
-    filter: 'blur(10px)', 
-    opacity: 0.2, 
-    duration: 5, 
-    ease: 'power1.in' 
-  }, 0.5);
-
-  // THE IMPLOSION
-  tl.to('#core', { clipPath: 'circle(150% at 50% 50%)', duration: 1.2, ease: 'expo.in' }, 5.2);
-  tl.to('body', { backgroundColor: '#DEC8B5', duration: 0.1 }, 6.2);
+  // Soft Shimmer Exit & Redirect
+  tl.to('#shimmer', { opacity: 1, duration: 1.5, delay: 4.5, ease: 'power2.inOut' });
+  tl.to('body', { opacity: 0, duration: 0.1 }, 6.0);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, 6.4);
+  }, 6.2);
 
-  // Liquid Canvas Drawing
-  const cv = document.getElementById('liquidCanvas'), ctx = cv.getContext('2d');
-  let w, h, shapes = [];
-  function rs() { w = cv.width = window.innerWidth * 1.2; h = cv.height = window.innerHeight * 1.2; init(); }
+  // Ethereal Light Prism (Canvas)
+  const cv = document.getElementById('atelierCanvas'), ctx = cv.getContext('2d');
+  let w, h, points = [];
+  function rs() { w = cv.width = window.innerWidth; h = cv.height = window.innerHeight; init(); }
   function init() {
-    shapes = [];
-    for(let i=0; i<40; i++) {
-      shapes.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() * 200 + 50,
-        color: Math.random() > 0.5 ? '#DEC8B5' : '#C49C7B',
-        opacity: Math.random() * 0.1,
-        vx: (Math.random()-0.5) * 2,
-        vy: (Math.random()-0.5) * 2
+    points = [];
+    for(let i=0; i<3; i++) {
+      points.push({
+        x: Math.random() * w, 
+        y: Math.random() * h, 
+        r: Math.random() * w * 0.5 + w * 0.2, 
+        vx: (Math.random()-0.5) * 0.6, 
+        vy: (Math.random()-0.5) * 0.6,
+        color: i === 0 ? 'rgba(196,156,123,0.08)' : (i === 1 ? 'rgba(222,200,181,0.05)' : 'rgba(86,82,80,0.05)')
       });
     }
   }
@@ -115,15 +92,19 @@ window.addEventListener('load', () => {
 
   function draw() {
     ctx.clearRect(0,0,w,h);
-    shapes.forEach(s => {
-      s.x += s.vx; s.y += s.vy;
-      if(s.x < 0 || s.x > w) s.vx *= -1;
-      if(s.y < 0 || s.y > h) s.vy *= -1;
+    points.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0 || p.x > w) p.vx *= -1;
+      if(p.y < 0 || p.y > h) p.vy *= -1;
       
+      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      grad.addColorStop(0, p.color);
+      grad.addColorStop(1, 'transparent');
+      
+      ctx.fillStyle = grad;
+      ctx.globalCompositeOperation = 'screen';
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, 6.28);
-      ctx.fillStyle = s.color;
-      ctx.globalAlpha = s.opacity;
+      ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
     });
     requestAnimationFrame(draw);
