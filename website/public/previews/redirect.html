@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Shutter Monolith</title>
+  <title>Velocity — The Mechanical Assemblage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
     
     #heroCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.5rem; color:var(--brass); opacity:0.3; pointer-events:none; }
+    .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.5rem; color:var(--brass); opacity:0.15; pointer-events:none; }
     
     #shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
@@ -29,87 +29,103 @@
 <script>
 window.addEventListener('load', () => {
   const canvas = document.getElementById('heroCanvas'), ctx = canvas.getContext('2d');
+  const buffer = document.createElement('canvas'), bCtx = buffer.getContext('2d');
   let w, h;
   
-  function rs() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  function rs() { w = canvas.width = buffer.width = window.innerWidth; h = canvas.height = buffer.height = window.innerHeight; }
   window.addEventListener('resize', rs); rs();
 
-  // 1. Warp Corridor Background
+  // 1. Atmosphere Scenery
   const lines = [];
-  for(let i=0; i<60; i++) lines.push({ x: Math.random()*w, y: Math.random()*h, s: Math.random()*20 + 10, a: Math.random()*0.15 });
+  for(let i=0; i<40; i++) lines.push({ x: Math.random()*w, y: Math.random()*h, s: Math.random()*15 + 5, a: Math.random()*0.1 });
 
   let count = '5';
-  let glitch = 0; // The Shutter Flash amount
-  let settleScale = 1;
-  let settleAlpha = 1;
+  let numSlices = 60;
+  let slices = [];
+  for(let i=0; i<numSlices; i++) slices.push({ offset: 0, amp: Math.random() * 2 });
 
-  function render() {
+  let shatterAmount = 0; // The transition smear amount
+
+  // Update Buffer with current Number
+  function updateBuffer(text) {
+    bCtx.clearRect(0,0,w,h);
+    bCtx.font = `italic 400 ${Math.min(w, h) * 0.75}px "Instrument Serif"`;
+    bCtx.textAlign = 'center'; bCtx.textBaseline = 'middle';
+    bCtx.fillStyle = '#DEC8B5';
+    bCtx.fillText(text, w/2, h/2);
+  }
+  updateBuffer('5');
+
+  function render(time) {
     ctx.fillStyle = '#0D0C09';
     ctx.fillRect(0,0,w,h);
     
-    // Draw Warp Lines
-    ctx.strokeStyle = 'rgba(196, 156, 123, 0.1)';
+    // Draw Backdrop Lines
+    ctx.strokeStyle = 'rgba(196, 156, 123, 0.05)';
     ctx.lineWidth = 1;
     lines.forEach(l => {
-      l.y += l.s;
-      if(l.y > h) l.y = -100;
-      ctx.beginPath();
-      ctx.moveTo(l.x, l.y);
-      ctx.lineTo(l.x, l.y + 100);
-      ctx.globalAlpha = l.a;
-      ctx.stroke();
+      l.x += l.s;
+      if(l.x > w) l.x = -200;
+      ctx.beginPath(); ctx.moveTo(l.x, l.y); ctx.lineTo(l.x + 200, l.y);
+      ctx.globalAlpha = l.a; ctx.stroke();
     });
 
-    // DRAW THE HERO NUMERAL (The "Impossible to Miss" Centerpiece)
-    const drawText = (offsetX = 0, color = '#DEC8B5', alpha = settleAlpha) => {
-      ctx.save();
-      ctx.translate(w/2 + offsetX + (Math.random()-0.5)*glitch*20, h/2 + (Math.random()-0.5)*glitch*20);
-      ctx.scale(settleScale, settleScale);
-      ctx.globalAlpha = alpha;
-      ctx.font = `italic 400 ${Math.min(w, h) * 0.7}px "Instrument Serif"`;
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillStyle = color;
-      ctx.fillText(count, 0, 0);
-      ctx.restore();
-    };
-
-    if (glitch > 0) {
-      // Chromatic Aberration Shutter Flash
-      drawText(-glitch*30, '#F00', 0.4);
-      drawText(glitch*30, '#0FF', 0.4);
+    // DRAW THE MECHANICAL ASSEMBLAGE
+    // We render the number as 60 horizontal slices
+    const sliceH = h / numSlices;
+    for(let i=0; i<numSlices; i++) {
+      const p = slices[i];
+      // Idle vibration + Shatter smear
+      const vibration = Math.sin(time * 0.01 + i) * p.amp;
+      const xOffset = vibration + (p.offset * shatterAmount * w * 0.8);
+      
+      ctx.globalAlpha = 1 - (Math.abs(p.offset) * shatterAmount * 0.5);
+      ctx.drawImage(buffer, 0, i * sliceH, w, sliceH, xOffset, i * sliceH, w, sliceH);
+      
+      // High-end Chromatic Edge during shatter
+      if (shatterAmount > 0.1) {
+        ctx.globalAlpha = 0.3 * shatterAmount;
+        ctx.drawImage(buffer, 0, i * sliceH, w, sliceH, xOffset + shatterAmount * 20, i * sliceH, w, sliceH);
+      }
     }
-    drawText();
 
     requestAnimationFrame(render);
   }
-  render();
+  render(0);
 
+  // AWWWARDS-CALIBER MECHANICAL TRANSITION
   const tl = gsap.timeline();
   
-  // THE SHUTTER COUNTDOWN (5-4-3-2-1)
-  const nums = ['4', '3', '2', '1', '0'];
-  nums.forEach(num => {
-    tl.to({}, { 
-      duration: 1.2, 
+  const nums = ['5', '4', '3', '2', '1', '0'];
+  nums.forEach((num, index) => {
+    // Each tick: Shatter -> Update -> Assemble
+    tl.to({}, {
+      duration: 1.2,
       onStart: () => {
-        // Dramatic Shutter Transition
-        gsap.fromTo({g: 1, s: 1.1, a: 0.5}, {
-          g: 0, s: 1, a: 1,
-          duration: 0.6,
-          onUpdate: function() {
-            glitch = this.targets()[0].g;
-            settleScale = this.targets()[0].s;
-            settleAlpha = this.targets()[0].a;
-          },
-          ease: 'expo.out',
-          onStart: () => { count = num; }
+        // 1. Shatter
+        slices.forEach(s => s.offset = (Math.random() - 0.5) * 2);
+        
+        gsap.fromTo({v: 0}, { 
+          v: 1, duration: 0.4, 
+          onUpdate: function() { shatterAmount = this.targets()[0].v; },
+          ease: 'power2.in',
+          onComplete: () => {
+            // 2. Swop number at peak shatter
+            updateBuffer(num);
+            // 3. Assemble
+            gsap.to({v: 1}, { 
+              v: 0, duration: 0.6, 
+              onUpdate: function() { shatterAmount = this.targets()[0].v; },
+              ease: 'expo.out'
+            });
+          }
         });
       }
     });
   });
 
-  // FINAL SHUTTER & HANDOFF
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.6');
+  // FINAL REDIRECT
+  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.5');
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
   }, '+=0.1');
