@@ -1,333 +1,306 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Preview - Xerjoff</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=31">
-<meta name="viewport" content="width=device-width">
-<style>
-:root { --color-black: #0A0A0A; --color-dark: #141414; --color-cream: #C9A87C; --color-cream-muted: #8B7355; --color-orange: #B8956C; --ease-atelier: cubic-bezier(0.25, 0.1, 0.25, 1); }
-* { box-sizing: border-box; }
-body { background: var(--color-black); color: var(--color-cream); font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 0; overflow-x: hidden; }
-@media (min-width: 900px) { body { max-width: 1200px; margin: auto; } }
-h1 { font-family: 'Cinzel', Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 8vw, 4rem); margin: 0 0 1rem; }
-button { background: var(--color-orange); color: var(--color-black); border: none; padding: 1rem 2rem; font-family: 'Inter', sans-serif; font-size: 1rem; cursor: pointer; border-radius: 4px; transition: opacity 0.3s; }
-button:hover { opacity: 0.9; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XERJOFF — Structural Monolith</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=31">
+  <style>
+    /* Prototype Specific Overrides */
+    :root { --brass: #C49C7B; --gold: #D4AF37; --dim: rgba(222, 200, 181, 0.4); }
+    body, html { margin: 0; padding: 0; background: #000; overflow-x: hidden; color: var(--sand); font-family: var(--sans); cursor: none; -webkit-font-smoothing: antialiased; }
 
-/* Preloader */
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--color-black);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s var(--ease-atelier);
-}
-#preloader.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-.preloader-letters {
-  display: flex;
-  align-items: baseline;
-  font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
-  font-size: clamp(48px, 8vw, 80px);
-  color: var(--color-cream);
-}
-.preloader-letter {
-  opacity: 0;
-  transform: translateY(40px);
-  animation: letterEnter 0.8s var(--ease-atelier) forwards;
-}
-.preloader-letter.dot {
-  color: var(--color-orange);
-}
-@keyframes letterEnter {
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* Scroll Prompt */
+    .scroll-prompt { position: fixed; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 20; font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.65rem; opacity: 0; pointer-events: none; }
+    .scroll-line { width: 1px; height: 60px; background: rgba(222,200,181,0.15); margin: 15px auto 0; position: relative; overflow: hidden; }
+    .scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--brass); animation: scrollLine 2.2s cubic-bezier(0.76, 0, 0.24, 1) infinite; }
+    @keyframes scrollLine { 0% { top: -100%; } 50% { top: 0%; } 100% { top: 100%; } }
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(10, 10, 11, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Inter', sans-serif;
-  animation: modalFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.modal-content {
-  background: linear-gradient(145deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 11, 0.98) 100%);
-  border: 1px solid rgba(201, 168, 124, 0.2);
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(201, 168, 124, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  padding: 4rem 3rem;
-  max-width: 560px;
-  width: 90%;
-  border-radius: 16px;
-  text-align: center;
-  animation: modalSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-.modal-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-orange), transparent);
-  opacity: 0.5;
-}
-@keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.modal-title {
-  color: var(--color-cream);
-  margin: 0 0 1.5rem;
-  font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
-  font-size: 2.25rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-}
-.modal-text {
-  color: var(--color-cream-muted);
-  margin-bottom: 2.5rem;
-  line-height: 1.8;
-  font-size: 1rem;
-  font-weight: 300;
-}
-.modal-link {
-  color: var(--color-orange);
-  text-decoration: none;
-  font-weight: 400;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  display: inline-block;
-}
-.modal-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--color-orange);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.modal-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-.modal-link:hover {
-  opacity: 0.8;
-}
-.progress-container {
-  margin-top: 3rem;
-  position: relative;
-}
-.progress-bar {
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-orange), var(--color-cream));
-  margin: 0;
-  width: 100%;
-  animation: progress 5s linear forwards;
-  position: relative;
-  overflow: hidden;
-}
-.progress-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s infinite;
-}
-@keyframes progress {
-  from { width: 100%; }
-  to { width: 0%; }
-}
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-.redirect-text {
-  margin-top: 1rem;
-  font-size: 0.75rem;
-  color: var(--color-cream-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
+    /* Hero Monolith */
+    .hero-proxy { height: 260vh; }
+    .z-wrap { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .monolith { 
+      font-family: var(--serif); 
+      font-size: clamp(4rem, 24vw, 24rem); 
+      font-weight: 400; 
+      letter-spacing: -0.05em; 
+      display: flex; 
+      white-space: nowrap; 
+      flex-wrap: nowrap; 
+      color: transparent; 
+      -webkit-text-stroke: 1px rgba(222, 200, 181, 0.25); 
+      will-change: transform; 
+      pointer-events: none; 
+    }
+    .char { display: inline-block; opacity: 0; transform: translateZ(-200px); }
+    .monolith.is-active { -webkit-text-stroke: 0px; color: var(--sand); text-shadow: 0 0 50px rgba(196, 156, 123, 0.25); filter: url(#liquidFilter); }
+    #stringCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
 
-/* Footer */
-footer {
-  background: var(--color-black);
-  padding: 6rem 2rem;
-  border-top: 1px solid rgba(201, 168, 124, 0.1);
-}
-.footer-content {
-  max-width: 4rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-@media (min-width: 768px) {
-  footer { padding: 6rem 3rem; }
-  .footer-content {
-    max-width: 64rem;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-}
-.footer-brand {
-  flex: 1;
-}
-.footer-brand p:first-child {
-  font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
-  font-size: 24px;
-  color: var(--color-cream);
-  margin: 0;
-}
-.footer-brand p:last-child {
-  margin-top: 0.5rem;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-cream-muted);
-}
-.footer-email {
-  color: var(--color-cream-muted);
-  font-size: 13px;
-  text-decoration: none;
-  transition: color 0.5s;
-}
-.footer-email:hover {
-  color: var(--color-cream);
-}
-.footer-bottom {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(201, 168, 124, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer-bottom p {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  color: var(--color-cream-muted);
-  margin: 0;
-}
-</style>
+    /* Content Matrix */
+    .content-matrix { position: relative; z-index: 10; background: #000; margin-top: -60vh; padding-bottom: 0vh; }
+    
+    .windowSection { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20vh 5vw; }
+    .floatingWindow { position: relative; width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 8vw; align-items: center; }
+    .windowFrame { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; background: #111; border: 1px solid var(--border); box-shadow: 0 50px 100px rgba(0,0,0,0.5); transform: perspective(1000px); }
+    .windowImg { width: 100%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: 0; filter: contrast(1.1) brightness(0.9); }
+    
+    .windowText { position: relative; z-index: 5; }
+    .windowLabel { font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; color: var(--brass); margin-bottom: 2.5rem; display: block; }
+    .windowTitle { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); margin: 0 0 2.5rem; line-height: 0.95; font-weight: 400; color: var(--sand); }
+    .windowDesc { font-size: 1.15rem; line-height: 1.8; color: var(--dim); max-width: 450px; font-weight: 300; }
+
+    .expAction { display: inline-block; margin-top: 4rem; color: var(--sand); text-decoration: none; border: 1px solid var(--border2); padding: 1.5rem 4rem; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; position: relative; overflow: hidden; transition: color 0.4s; }
+    .expAction::after { content: ''; position: absolute; top:0; left:-100%; width:100%; height:100%; background:var(--sand); z-index:-1; transition: left 0.5s var(--ease); }
+    .expAction:hover { color: var(--bg); border-color: var(--sand); }
+    .expAction:hover::after { left: 0; }
+
+    /* Modal Styling */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(20px); z-index: 20000; display: none; align-items: center; justify-content: center; opacity: 0; }
+    .modal-card { 
+      background: var(--bg); border: 1px solid var(--border2); color: var(--sand); 
+      padding: clamp(3rem, 6vw, 6rem); max-width: 600px; text-align: center; border-radius: 20px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8); transform: translateY(30px);
+    }
+    .modal-label { font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); margin-bottom: 2.5rem; display: block; }
+    .modal-title { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; letter-spacing: -0.04em; margin-bottom: 2rem; font-weight: 400; }
+    .modal-desc { font-size: 0.95rem; line-height: 1.8; color: var(--dim); margin-bottom: 3.5rem; max-width: 40ch; margin-inline: auto; font-weight: 300; }
+    .modal-countdown { font-family: var(--serif); font-style: italic; font-size: 5rem; color: var(--brass); display: block; margin-bottom: 3rem; line-height: 1; }
+    .modal-btn { display: inline-block; padding: 1.2rem 3.5rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--brass); color: var(--bg); border-radius: 50px; text-decoration: none; transition: transform 0.3s var(--ease); }
+    .modal-btn:hover { transform: scale(1.05); }
+
+    svg.filters { position: absolute; width:0; height:0; pointer-events: none; }
+  </style>
 </head>
 <body>
 
-<!-- Preloader -->
-<div id="preloader">
-  <div class="preloader-letters">
-    <span class="preloader-letter" style="animation-delay: 0.2s">V</span>
-    <span class="preloader-letter" style="animation-delay: 0.28s">e</span>
-    <span class="preloader-letter" style="animation-delay: 0.36s">l</span>
-    <span class="preloader-letter" style="animation-delay: 0.44s">o</span>
-    <span class="preloader-letter" style="animation-delay: 0.52s">c</span>
-    <span class="preloader-letter" style="animation-delay: 0.6s">i</span>
-    <span class="preloader-letter" style="animation-delay: 0.68s">t</span>
-    <span class="preloader-letter" style="animation-delay: 0.76s">y</span>
-    <span class="preloader-letter dot" style="animation-delay: 0.84s">.</span>
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<svg class="filters">
+  <filter id="liquidFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" result="noise" id="turb" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
+<div class="preloader" id="preloader">
+  <span class="pl-brand">Velocity<em>.</em></span>
+  <div class="pl-line"><div class="pl-line-inner" id="plLine"></div></div>
+</div>
+
+<div class="scroll-prompt" id="scrollPrompt">
+  Scroll
+  <div class="scroll-line"></div>
+</div>
+
+<div class="hero-proxy"></div>
+<canvas id="stringCanvas"></canvas>
+<div class="z-wrap" id="zWrap">
+  <div class="monolith" id="monolith">
+    <span class="char">X</span><span class="char">E</span><span class="char">R</span><span class="char">J</span>
+    <span class="char" id="targetO">O</span>
+    <span class="char">F</span><span class="char">F</span>
   </div>
 </div>
 
-<!-- Main Content -->
-<div style="padding: 4rem 2rem;">
-  <h1>Hero Section</h1>
-  <p style="color: var(--color-cream-muted); margin-bottom: 2rem;">Elevated copy adapted to Xerjoff.</p>
-  <button onclick="openModal()">Consultation</button>
-</div>
-
-<!-- Footer -->
-<footer>
-  <div class="footer-content">
-    <div class="footer-brand">
-      <p>Velocity.</p>
-      <p>Digital Ateliers</p>
-    </div>
-    <a href="mailto:atelier@velocity.delivery" class="footer-email">
-      atelier@velocity.delivery
-    </a>
-  </div>
-  <div class="footer-bottom">
-    <p>Four commissions per year</p>
-    <p>2026</p>
-  </div>
-</footer>
-
-<script>
-// Preloader
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const preloader = document.getElementById('preloader');
-    preloader.classList.add('hidden');
-    setTimeout(() => {
-      preloader.style.display = 'none';
-    }, 500);
-  }, 2500);
-});
-
-function openModal() {
-  const modal = document.createElement('div');
-  modal.className = 'modal-overlay';
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h2 class="modal-title">This is not a real website.</h2>
-      <p class="modal-text">This is a prototype designed by Velocity — the bespoke digital atelier. It represents what your digital presence could become. Experience the vision before reality.</p>
-      <a href="https://velocity.calyvent.com" class="modal-link">velocity.calyvent.com</a>
-      <div class="progress-container">
-        <div class="progress-bar"></div>
-        <p class="redirect-text">Redirecting in 5 seconds</p>
+<div class="content-matrix" id="contentMatrix">
+  <section class="windowSection">
+    <div class="floatingWindow">
+      <div class="windowFrame">
+        <img src="/images/xerjoff/gibeonDeskMob1.jpg" class="windowImg" alt="Xerjoff Gibeon">
+      </div>
+      <div class="windowText">
+        <span class="windowLabel">01 — Origin</span>
+        <h2 class="windowTitle">A matter of<br><em>Time.</em></h2>
+        <p class="windowDesc">The Gibeon collection represents the cosmic collision between celestial artifacts and the patience of Italian craftsmanship.</p>
+        <a href="#" class="expAction action-trigger">Explore Artefact</a>
       </div>
     </div>
-  `;
-  document.body.appendChild(modal);
+  </section>
+
+  <section class="windowSection">
+    <div class="floatingWindow" style="grid-template-columns: 1fr 1.2fr; direction: rtl;">
+      <div class="windowFrame" style="direction: ltr;">
+        <img src="/images/xerjoff/xjBlockErbaPuraMob.jpg" class="windowImg" alt="Xerjoff Erba Pura">
+      </div>
+      <div class="windowText" style="direction: ltr;">
+        <span class="windowLabel">02 — Craft</span>
+        <h2 class="windowTitle">Liquid<br><em>Scintillation.</em></h2>
+        <p class="windowDesc">Every interaction is calibrated. The digital weight must match the mechanical density of the gilded cap.</p>
+        <a href="#" class="expAction action-trigger">Acquire Essence</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-exp" id="footerExp">
+    <canvas class="footer-particle-canvas" id="footerParticles"></canvas>
+    <div class="footer-orbit" style="top:30%;left:50%"><div class="footer-orbit-dot"></div></div>
+    <div class="footer-content">
+      <a href="#" class="footer-email" id="footerEmail"></a>
+      <p class="footer-tagline">Heritage is not preserved. It <em>compounds.</em></p>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-coords" id="footerCoords"></span>
+      <div class="footer-meta">
+        <span>© 2026 Velocity by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a></span>
+        <div class="footer-links"><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card" id="modalCard">
+    <span class="modal-label">Structural Interruption</span>
+    <h2 class="modal-title">This is a<br>Structural Prototype.</h2>
+    <p class="modal-desc">This digital artefact is an architectural preview only. You are being securely returned to the primary Velocity salon.</p>
+    <span class="modal-countdown" id="countdown">5</span>
+    <a href="https://velocity.calyvent.com" class="modal-btn">Return Immediately</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script>
+/* ═══ PRELOADER ═══ */
+(function(){
+  const pl=document.getElementById('preloader'),brand=pl.querySelector('.pl-brand'),line=document.getElementById('plLine');
+  function go(){
+    setTimeout(()=>{brand.style.transition='opacity .5s,transform .5s';brand.style.opacity='1';brand.style.transform='translateY(0)'},80);
+    setTimeout(()=>{const l=pl.querySelector('.pl-line');l.style.transition='opacity .3s';l.style.opacity='1';line.style.transition='width .8s cubic-bezier(.16,1,.3,1)';line.style.width='100%'},350);
+    setTimeout(()=>{gsap.to(pl,{clipPath:'inset(0 0 100% 0)',duration:1,ease:'expo.inOut',onComplete:()=>{pl.classList.add('is-done');boot()}})},1300);
+  }
+  if(document.readyState==='complete')go();else window.addEventListener('load',go);
+})();
+
+function boot(){
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis=new Lenis({duration:2.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,smoothTouch:false});
+  lenis.on('scroll',ScrollTrigger.update);
+  gsap.ticker.add(t=>lenis.raf(t*1000));
+
+  gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
+  gsap.to('#scrollPrompt', { opacity: 1, duration: 1.2, delay: 0.5 });
+
+  // CURSOR & GLOW (EXACT HOME PARITY)
+  const g=document.getElementById('cursorGlow'),r=document.getElementById('cursorRing'),d=document.getElementById('cursorDot');
+  let mx=-200,my=-200,rx=-200,ry=-200,gx=-200,gy=-200,tx=-200,ty=-200,mag=false;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!mag){tx=mx;ty=my}});
+  document.querySelectorAll('a,button,.windowFrame').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{r.classList.add('is-active');mag=true});
+    el.addEventListener('mouseleave',()=>{r.classList.remove('is-active');mag=false;tx=mx;ty=my});
+    el.addEventListener('mousemove',()=>{if(!mag)return;const b=el.getBoundingClientRect();tx=mx+((b.left+b.width/2)-mx)*.2;ty=my+((b.top+b.height/2)-my)*.2});
+  });
+  (function tick_cursor(){
+    rx+=(tx-rx)*.07;ry+=(ty-ry)*.07;gx+=(mx-gx)*.05;gy+=(my-gy)*.05;
+    r.style.transform=`translate(${rx-20}px,${ry-20}px)`;
+    d.style.transform=`translate(${mx-2.5}px,${my-2.5}px)`;
+    g.style.transform=`translate(${gx-250}px,${gy-250}px)`;
+    requestAnimationFrame(tick_cursor)
+  })();
+
+  // HERO PHYSICS & MONOLITH
+  const cv = document.getElementById('stringCanvas'), ctx = cv.getContext('2d');
+  let w, h, targetY, currentY = 0, velY = 0;
+  function rs(){ w=cv.width=window.innerWidth; h=cv.height=window.innerHeight; targetY=currentY=h/2; }
+  window.addEventListener('resize', rs); rs();
+  gsap.ticker.add(() => {
+    ctx.clearRect(0,0,w,h+1);
+    if (Math.abs(mx - w/2) < w*0.2 && Math.abs(my - h/2) < 120) targetY = my; else targetY = h/2;
+    velY += (targetY - currentY) * 0.05; velY *= 0.85; currentY += velY;
+    ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, h/2); ctx.quadraticCurveTo(w/2, currentY, w, h/2); ctx.strokeStyle = 'rgba(222,200,181,0.6)'; ctx.stroke();
+  });
+
+  const mono = document.getElementById('monolith'), chars = document.querySelectorAll('.char'), oChar = document.getElementById('targetO');
+  gsap.fromTo(chars, { opacity:0, z:-400, rotationX:40 }, { opacity:1, z:0, rotationX:0, duration:1.5, stagger:0.06, ease:'expo.out' });
   
-  let redirectTimer = setTimeout(() => {
-    modal.remove();
-    window.location.href = 'https://velocity.calyvent.com';
-  }, 5000);
-  
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      clearTimeout(redirectTimer);
-      modal.remove();
+  const updateO = () => {
+    const br = oChar.getBoundingClientRect(), wr = mono.getBoundingClientRect();
+    gsap.set(mono, { transformOrigin: `${(br.left - wr.left) + br.width/2}px ${(br.top - wr.top) + br.height/2}px` });
+  };
+  setTimeout(updateO, 100);
+
+  const heroTl = gsap.timeline({ scrollTrigger: { trigger: '.hero-proxy', start: 'top top', end: 'bottom bottom', scrub: 1 } });
+  heroTl.to('#scrollPrompt', { opacity: 0, duration: 0.1 }, 0);
+  heroTl.to('#stringCanvas', { opacity: 0, duration: 0.2 }, 0);
+  heroTl.to(mono, { onStart: () => mono.classList.add('is-active'), onReverseComplete: () => mono.classList.remove('is-active') }, 0.1);
+  heroTl.to('#turb', { attr: { baseFrequency: '0.001 0.005' }, duration: 0.8 }, 0);
+  heroTl.to(mono, { scale: 120, opacity: 0, ease: 'power2.in' }, 0.4);
+  heroTl.to('#zWrap', { autoAlpha: 0, duration: 0 }, 1);
+
+  // Parallax Windows
+  document.querySelectorAll('.windowFrame').forEach((wf) => {
+    const img = wf.querySelector('.windowImg');
+    gsap.to(img, { yPercent: 15, ease: 'none', scrollTrigger: { trigger: wf, start: 'top bottom', end: 'bottom top', scrub: true } });
+  });
+
+  /* ═══ FOOTER — ABSOLUTE PARITY ═══ */
+  const ftEmail=document.getElementById('footerEmail');
+  if(ftEmail){
+    const t='atelier@calyvent.com'; ftEmail.href='mailto:'+t;
+    ftEmail.innerHTML=t.split('').map(c=>`<span class="char">${c}</span>`).join('');
+    gsap.from('.footer-email .char',{scrollTrigger:{trigger:'.footer-exp',start:'top 70%'},opacity:0,y:50,rotateZ:10,duration:1.4,ease:'expo.out',stagger:.015});
+  }
+  gsap.from('.footer-tagline',{scrollTrigger:{trigger:'.footer-exp',start:'top 65%'},opacity:0,y:20,duration:1,ease:'expo.out',delay:.2});
+  const coordsEl=document.getElementById('footerCoords');
+  if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}tick();setInterval(tick,1000)}
+
+  (function particle_footer(){
+    const fcv=document.getElementById('footerParticles'); if(!fcv)return;
+    const fctx=fcv.getContext('2d'); let fw,fh,particles=[],formed=false;
+    const frs=()=>{fw=fcv.width=fcv.offsetWidth;fh=fcv.height=fcv.offsetHeight;initP()};
+    const finit=()=>{
+      particles=[]; const off=document.createElement('canvas');off.width=fw;off.height=fh;
+      const oc=off.getContext('2d'); const fs=Math.min(fw*.13,160);
+      oc.font=`400 ${fs}px 'Instrument Serif',serif`; oc.fillStyle='#fff';oc.textAlign='center';oc.textBaseline='middle';
+      oc.fillText('Velocity.',fw/2,fh*.30); const d=oc.getImageData(0,0,fw,fh).data; const gap=Math.max(3,Math.round(fw/380));
+      for(let y=0;y<fh;y+=gap){for(let x=0;x<fw;x+=gap){ if(d[((y*fw+x)*4)+3]>128){
+        particles.push({tx:x,ty:y,x:Math.random()*fw,y:Math.random()*fh,vx:0,vy:0,sz:.8+Math.random()*1.2,r:Math.random()>.3?196:222,g:Math.random()>.3?156:200,b:Math.random()>.3?123:181});
+      }}}
+    };
+    frs(); window.addEventListener('resize',frs);
+    let fx=-1e3,fy=-1e3; document.addEventListener('mousemove',e=>{ const r=fcv.getBoundingClientRect(); fx=e.clientX-r.left;fy=e.clientY-r.top; });
+    ScrollTrigger.create({trigger:'#footerExp',start:'top 80%',onEnter:()=>{formed=true},onLeaveBack:()=>{formed=false}});
+    const fdraw=()=>{
+      fctx.clearRect(0,0,fw,fh);
+      particles.forEach(p=>{
+        if(formed){
+          const dx=fx-p.x,dy=fy-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5}
+          p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04;
+        } else { p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003; p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1; }
+        p.vx*=0.88; p.vy*=0.88; p.x+=p.vx; p.y+=p.vy;
+        fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`; fctx.fillRect(p.x,p.y,p.sz,p.sz);
+      });
+      requestAnimationFrame(fdraw);
+    }; fdraw();
+  })();
+
+  // MODAL TRIGGER
+  const overlay = document.getElementById('modalOverlay'), mCard = document.getElementById('modalCard'), cdEl = document.getElementById('countdown');
+  document.body.addEventListener('click', e => {
+    const btn = e.target.closest('.action-trigger');
+    if(btn){
+      e.preventDefault(); lenis.stop();
+      overlay.style.display = 'flex';
+      gsap.to(overlay, { opacity: 1, duration: 0.6 });
+      gsap.to(mCard, { y: 0, opacity: 1, duration: 0.8, delay: 0.1, ease: 'expo.out' });
+      let t = 5; cdEl.innerText = t;
+      const i = setInterval(() => {
+        t--; cdEl.innerText = t;
+        if (t <= 0) { 
+          clearInterval(i); 
+          gsap.to(overlay, { opacity: 0, duration: 0.4, onComplete: () => { window.location.href = 'https://velocity.calyvent.com'; }});
+        }
+      }, 1000);
     }
   });
 }
