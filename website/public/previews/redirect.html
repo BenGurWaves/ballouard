@@ -104,11 +104,11 @@ window.addEventListener('load', () => {
 
     // Render Large Elegant Ghost Numeral (Line-drawn)
     sCtx.save();
-    sCtx.font = `italic 400 ${Math.min(w, h) * 0.7}px "Instrument Serif"`;
+    sCtx.font = `italic 400 ${Math.min(w, h) * 0.72}px "Instrument Serif"`;
     sCtx.textAlign = 'center'; sCtx.textBaseline = 'middle';
-    sCtx.strokeStyle = `rgba(196, 156, 123, ${0.15 + surge * 0.5})`;
+    sCtx.strokeStyle = `rgba(196, 156, 123, ${0.25 + surge * 0.6})`;
     sCtx.lineWidth = 1;
-    sCtx.setLineDash([20, 10]);
+    sCtx.setLineDash([15, 12]);
     sCtx.strokeText(count, centerX, centerY);
     sCtx.restore();
 
