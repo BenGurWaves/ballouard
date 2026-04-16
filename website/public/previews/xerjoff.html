@@ -19,30 +19,16 @@
 
     .hero-proxy { height:260vh; }
     .z-wrap { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:5; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-    .monolith { 
-      font-family:var(--serif); 
-      font-size:clamp(4rem, 24vw, 24rem); 
-      font-weight:400; 
-      letter-spacing:-0.05em; 
-      display:flex; 
-      white-space:nowrap; 
-      flex-wrap:nowrap; 
-      color:transparent; 
-      -webkit-text-stroke:1px rgba(222,200,181,0.25); 
-      will-change:transform; 
-      pointer-events:none; 
-    }
-    .char { display:inline-block; opacity:0; transform:translateZ(-200px); }
+    .monolith { font-family:var(--serif); font-size:clamp(4rem, 24vw, 24rem); font-weight:400; letter-spacing:-0.05em; display:flex; white-space:nowrap; flex-wrap:nowrap; color:transparent; -webkit-text-stroke:1px rgba(222,200,181,0.25); will-change:transform; pointer-events:none; }
+    .monolith .char { display:inline-block; opacity:0; transform:translateZ(-200px); }
     .monolith.is-active { -webkit-text-stroke:0px; color:var(--sand); text-shadow:0 0 50px rgba(196,156,123,0.25); filter:url(#liquidFilter); }
     #stringCanvas { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:2; pointer-events:none; }
 
-    .content-matrix { position:relative; z-index:10; background:#000; margin-top:-60vh; padding-bottom:0px; }
+    .content-matrix { position:relative; z-index:10; background:#000; margin-top:-60vh; }
     .windowSection { min-height:100vh; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:20vh 5vw; }
     .floatingWindow { position:relative; width:100%; max-width:1100px; display:grid; grid-template-columns:1.2fr 1fr; gap:8vw; align-items:center; }
     .windowFrame { position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:#111; border:1px solid var(--border); box-shadow:0 50px 100px rgba(0,0,0,0.5); transform:perspective(1000px); }
     .windowImg { width:100%; height:120%; object-fit:cover; position:absolute; top:-10%; left:0; filter:contrast(1.1) brightness(0.9); }
-    
-    .windowText { position:relative; z-index:5; }
     .windowLabel { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.3em; font-size:0.7rem; color:var(--brass); margin-bottom:2.5rem; display:block; }
     .windowTitle { font-family:var(--serif); font-size:clamp(3rem, 7vw, 6rem); margin:0 0 2.5rem; line-height:0.95; font-weight:400; color:var(--sand); }
     .windowDesc { font-size:1.15rem; line-height:1.8; color:var(--dim); max-width:450px; font-weight:300; }
@@ -52,19 +38,15 @@
     .expAction:hover { color:var(--bg); border-color:var(--sand); }
     .expAction:hover::after { left:0; }
 
-    /* Modal Styling */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0, 0, 0, 0.45); backdrop-filter:blur(20px); z-index:20000; display:none; align-items:center; justify-content:center; opacity:0; }
-    .modal-card { 
-      background:var(--bg); border:1px solid var(--border2); color:var(--sand); 
-      padding:clamp(3rem, 6vw, 6rem); max-width:640px; text-align:center; border-radius:24px;
-      box-shadow:0 40px 100px rgba(0,0,0,0.85); transform:translateY(40px);
-    }
-    .modal-label { font-size:0.55rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--brass); margin-bottom:2.5rem; display:block; }
-    .modal-title { font-family:var(--serif); font-size:clamp(2.5rem, 5vw, 4.5rem); line-height:1; letter-spacing:-0.04em; margin-bottom:2rem; font-weight:400; }
-    .modal-desc { font-size:1.05rem; line-height:1.8; color:var(--dim); margin-bottom:3.5rem; max-width:42ch; margin-inline:auto; font-weight:300; }
-    .modal-countdown { font-family:var(--serif); font-style:italic; font-size:6rem; color:var(--brass); display:block; margin-bottom:3.5rem; line-height:1; }
-    .modal-btn { display:inline-block; padding:1.2rem 3.5rem; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; background:var(--brass); color:var(--bg); border-radius:100px; text-decoration:none; transition:transform 0.4s var(--ease); }
-    .modal-btn:hover { transform:scale(1.05); }
+    /* "Glass Monolith" Elite Takeover */
+    .handoff-panel { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(40px); z-index:30000; display:none; align-items:center; justify-content:center; opacity:0; overflow:hidden; }
+    .massive-countdown { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:60vh; color:rgba(196,156,123,0.05); pointer-events:none; z-index:0; }
+    
+    .handoff-inner { text-align:center; max-width:640px; width:90%; padding:4rem; position:relative; z-index:10; }
+    .handoff-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.6em; font-size:0.55rem; color:var(--brass); margin-bottom:2.5rem; display:block; opacity:0; transform:translateY(10px); }
+    .handoff-title { font-family:var(--serif); font-size:clamp(2.5rem, 6vw, 4.5rem); line-height:1; margin-bottom:2.5rem; font-weight:400; font-style:italic; opacity:0; transform:translateY(20px); }
+    .handoff-desc { font-size:1.05rem; line-height:1.8; color:var(--dim); margin-bottom:4.5rem; font-weight:300; opacity:0; max-width:45ch; margin-inline:auto; }
+    .handoff-btn { display:inline-block; padding:1.2rem 3.5rem; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; background:var(--brass); color:var(--bg); border-radius:100px; text-decoration:none; opacity:0; transform:translateY(10px); }
 
     svg.filters { position:absolute; width:0; height:0; pointer-events:none; }
   </style>
@@ -150,13 +132,13 @@
   </footer>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-card" id="modalCard">
-    <span class="modal-label">Structural Interruption</span>
-    <h2 class="modal-title">This is a<br>Structural Prototype.</h2>
-    <p class="modal-desc">This digital artefact is an architectural preview only. You are being securely returned to the primary Velocity salon.</p>
-    <span class="modal-countdown" id="countdown">5</span>
-    <a href="https://velocity.calyvent.com" class="modal-btn">Return Immediately</a>
+<div class="handoff-panel" id="handoffPanel">
+  <div class="massive-countdown" id="massiveCountdown">5</div>
+  <div class="handoff-inner">
+    <span class="handoff-tag" id="hTag">PROTOTYPE ENVIRONMENT</span>
+    <h2 class="handoff-title" id="hTitle">Structural Artifact<br>Session Concluded.</h2>
+    <p class="handoff-desc" id="hDesc">This is not a website. It is an architectural preview. You are now being securely returned to the primary Velocity salon to explore the live digital archive.</p>
+    <a href="https://velocity.calyvent.com" class="handoff-btn" id="hBtn">Return Immediately</a>
   </div>
 </div>
 
@@ -165,27 +147,38 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <script>
-/* ═══ GLOBAL MODAL LOGIC (IMMEDIATE) ═══ */
+/* ═══ GLOBAL ACTIONS ═══ */
 (function(){
-  const overlay=document.getElementById('modalOverlay'), mCard=document.getElementById('modalCard'), cdEl=document.getElementById('countdown');
   document.addEventListener('click', e => {
     const btn=e.target.closest('.action-trigger');
-    if(btn){
-      e.preventDefault(); e.stopPropagation();
-      if(window.lenisInstance) window.lenisInstance.stop();
-      overlay.style.display='flex';
-      gsap.to(overlay,{opacity:1,duration:0.6});
-      gsap.to(mCard,{y:0,opacity:1,duration:0.8,delay:0.1,ease:'expo.out'});
-      let t=5; cdEl.innerText=t;
-      const i=setInterval(()=>{
-        t--; cdEl.innerText=t;
-        if(t<=0){ clearInterval(i); gsap.to(overlay,{opacity:0,duration:0.4,onComplete:()=>{ window.location.href='https://velocity.calyvent.com'; }}); }
-      },1000);
-    }
+    if(btn){ e.preventDefault(); e.stopPropagation(); startTheGlassHandoff(); }
   });
 })();
 
-/* ═══ PRELOADER (EXACT HOME PARITY) ═══ */
+function startTheGlassHandoff(){
+  const panel=document.getElementById('handoffPanel'), cd=document.getElementById('massiveCountdown');
+  if(window.lenisInst) window.lenisInst.stop();
+  
+  const tl=gsap.timeline();
+  tl.to('.content-matrix, .hero-proxy, #stringCanvas',{opacity:0, scale:0.95, filter:'blur(10px)', duration:1.5, ease:'expo.inOut'});
+  tl.to(panel,{display:'flex', opacity:1, duration:1.2},0.4);
+  tl.to(['#hTag', '#hTitle'],{opacity:1, y:0, duration:1, stagger:0.2, ease:'expo.out'},1);
+  tl.to('#hDesc',{opacity:1, duration:1, ease:'power2.out'},1.4);
+  tl.to('#hBtn',{opacity:1, y:0, duration:1, ease:'expo.out'},1.6);
+
+  // Heartbeat Countdown
+  let t=5; cd.innerText=t;
+  const i=setInterval(()=>{
+    t--; if(t>=1){ cd.innerText=t; gsap.fromTo(cd,{scale:0.8, opacity:0},{scale:1, opacity:0.05, duration:0.8, ease:'expo.out'}); }
+    if(t<=0){ 
+      clearInterval(i); 
+      gsap.to(panel,{opacity:0, scale:1.2, filter:'blur(40px)', duration:1, onComplete:()=>{ window.location.href='https://velocity.calyvent.com'; }}); 
+    }
+  },1000);
+  gsap.fromTo(cd,{scale:0.8, opacity:0},{scale:1, opacity:0.05, duration:1, ease:'expo.out', delay:0.4});
+}
+
+/* ═══ PRELOADER ═══ */
 (function(){
   const pl=document.getElementById('preloader'),brand=pl.querySelector('.pl-brand'),line=document.getElementById('plLine');
   function go(){
@@ -201,12 +194,12 @@ function boot(){
   const lenis=new Lenis({duration:2.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
   lenis.on('scroll',ScrollTrigger.update);
   gsap.ticker.add(t=>lenis.raf(t*1000));
-  window.lenisInstance = lenis;
+  window.lenisInst=lenis;
 
   gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
-  gsap.to('#scrollPrompt', { opacity:1, duration:1.2, delay:0.5 });
+  gsap.to('#scrollPrompt',{opacity:1,duration:1.2,delay:0.5});
 
-  // CURSOR & GLOW (EXACT HOME PARITY)
+  // CURSOR & GLOW
   const g=document.getElementById('cursorGlow'),r=document.getElementById('cursorRing'),d=document.getElementById('cursorDot');
   let mx=-200,my=-200,rx=-200,ry=-200,gx=-200,gy=-200,tx=-200,ty=-200,mag=false;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!mag){tx=mx;ty=my}});
@@ -215,23 +208,21 @@ function boot(){
     el.addEventListener('mouseleave',()=>{r.classList.remove('is-active');mag=false;tx=mx;ty=my});
     el.addEventListener('mousemove',()=>{if(!mag)return;const b=el.getBoundingClientRect();tx=mx+((b.left+b.width/2)-mx)*.2;ty=my+((b.top+b.height/2)-my)*.2});
   });
-  (function tick_cursor(){rx+=(tx-rx)*.07;ry+=(ty-ry)*.07;gx+=(mx-gx)*.05;gy+=(my-gy)*.05; r.style.transform=`translate(${rx-20}px,${ry-20}px)`; d.style.transform=`translate(${mx-2.5}px,${my-2.5}px)`; g.style.transform=`translate(${gx-250}px,${gy-250}px)`; requestAnimationFrame(tick_cursor)})();
+  (function cursorLoop(){rx+=(tx-rx)*.07; ry+=(ty-ry)*.07; gx+=(mx-gx)*.05; gy+=(my-gy)*.05; r.style.transform=`translate(${rx-20}px,${ry-20}px)`; d.style.transform=`translate(${mx-2.5}px,${my-2.5}px)`; g.style.transform=`translate(${gx-250}px,${gy-250}px)`; requestAnimationFrame(cursorLoop);})();
 
-  // HERO PHYSICS & MONOLITH (STABILIZED)
+  // HERO MONOLITH
   const cv=document.getElementById('stringCanvas'),ctx=cv.getContext('2d');
   let w,h,targetY,currentY=0,velY=0;
-  function rs(){w=cv.width=window.innerWidth;h=cv.height=window.innerHeight;targetY=currentY=h/2;}
-  window.addEventListener('resize',rs);rs();
+  function rs(){w=cv.width=window.innerWidth; h=cv.height=window.innerHeight; targetY=currentY=h/2;}
+  window.addEventListener('resize',rs); rs();
   gsap.ticker.add(()=>{
     ctx.clearRect(0,0,w,h+1); if(Math.abs(mx-w/2)<w*.2 && Math.abs(my-h/2)<120) targetY=my; else targetY=h/2;
-    velY+=(targetY-currentY)*.05;velY*=.85;currentY+=velY;
-    ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,h/2);ctx.quadraticCurveTo(w/2,currentY,w,h/2);ctx.strokeStyle='rgba(222,200,181,0.6)';ctx.stroke();
+    velY+=(targetY-currentY)*.05; velY*=.85; currentY+=velY;
+    ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,h/2); ctx.quadraticCurveTo(w/2,currentY,w,h/2); ctx.strokeStyle='rgba(222,200,181,0.6)'; ctx.stroke();
   });
 
   const mono=document.getElementById('monolith'),chars=document.querySelectorAll('.char');
   gsap.fromTo(chars,{opacity:0,z:-400,rotationX:40},{opacity:1,z:0,rotationX:0,duration:1.5,stagger:0.06,ease:'expo.out'});
-  
-  // Use stable center transformOrigin to prevent sideways drift
   gsap.set(mono,{transformOrigin:'center center'});
 
   const heroTl=gsap.timeline({scrollTrigger:{trigger:'.hero-proxy',start:'top top',end:'bottom bottom',scrub:1}});
@@ -247,10 +238,10 @@ function boot(){
     gsap.to(img,{yPercent:15,ease:'none',scrollTrigger:{trigger:wf,start:'top bottom',end:'bottom top',scrub:true}});
   });
 
-  /* ═══ FOOTER (EXACT HOME PARITY) ═══ */
+  /* ═══ FOOTER ═══ */
   const ftEmail=document.getElementById('footerEmail');
   if(ftEmail){
-    const t='atelier@calyvent.com';ftEmail.href='mailto:'+t;
+    const t='atelier@calyvent.com'; ftEmail.href='mailto:'+t;
     ftEmail.innerHTML=t.split('').map(c=>`<span class="char">${c}</span>`).join('');
     gsap.from('.footer-email .char',{scrollTrigger:{trigger:'.footer-exp',start:'top 70%'},opacity:0,y:50,rotateZ:10,duration:1.4,ease:'expo.out',stagger:.015});
   }
@@ -263,18 +254,16 @@ function boot(){
     const fctx=fcv.getContext('2d');let fw,fh,particles=[],formed=false;
     const frs=()=>{fw=fcv.width=fcv.offsetWidth;fh=fcv.height=fcv.offsetHeight;initP()};
     const finit=()=>{
-      particles=[];const off=document.createElement('canvas');off.width=fw;off.height=fh;
-      const oc=off.getContext('2d');const fs=Math.min(fw*.13,160);
-      oc.font=`400 ${fs}px 'Instrument Serif',serif`;oc.fillStyle='#fff';oc.textAlign='center';oc.textBaseline='middle';
-      // Center 'Velocity.' precisely within the upper segment for parity
-      oc.fillText('Velocity.',fw/2,fh*.28);
-      const d=oc.getImageData(0,0,fw,fh).data;const gap=Math.max(3,Math.round(fw/380));
-      for(let y=0;y<fh;y+=gap){for(let x=0;x<fw;x+=gap){if(d[((y*fw+x)*4)+3]>128){
+      particles=[]; const off=document.createElement('canvas');off.width=fw;off.height=fh;
+      const oc=off.getContext('2d'); const fs=Math.min(fw*.13,160);
+      oc.font=`400 ${fs}px 'Instrument Serif',serif`; oc.fillStyle='#fff';oc.textAlign='center';oc.textBaseline='middle';
+      oc.fillText('Velocity.',fw/2,fh*.28); const d=oc.getImageData(0,0,fw,fh).data; const gap=Math.max(3,Math.round(fw/380));
+      for(let y=0;y<fh;y+=gap){for(let x=0;x<fw;x+=gap){ if(d[((y*fw+x)*4)+3]>128){
         particles.push({tx:x,ty:y,x:Math.random()*fw,y:Math.random()*fh,vx:0,vy:0,sz:.8+Math.random()*1.2,r:Math.random()>.3?196:222,g:Math.random()>.3?156:200,b:Math.random()>.3?123:181});
       }}}
     };
-    frs();window.addEventListener('resize',frs);
-    let fx=-1e3,fy=-1e3;document.addEventListener('mousemove',e=>{const r=fcv.getBoundingClientRect();fx=e.clientX-r.left;fy=e.clientY-r.top;});
+    frs(); window.addEventListener('resize',frs);
+    let fx=-1e3,fy=-1e3; document.addEventListener('mousemove',e=>{ const r=fcv.getBoundingClientRect(); fx=e.clientX-r.left;fy=e.clientY-r.top; });
     ScrollTrigger.create({trigger:'#footerExp',start:'top 80%',onEnter:()=>{formed=true},onLeaveBack:()=>{formed=false}});
     const fdraw=()=>{
       fctx.clearRect(0,0,fw,fh);
@@ -283,15 +272,12 @@ function boot(){
           const dx=fx-p.x,dy=fy-p.y,dist=Math.sqrt(dx*dx+dy*dy);
           if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5}
           p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04;
-        }else{
-          p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003;
-          p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1;p.vy+=Math.cos(Date.now()*0.001+p.ty)*.1;
-        }
-        p.vx*=0.88;p.vy*=0.88;p.x+=p.vx;p.y+=p.vy;
-        fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`;fctx.fillRect(p.x,p.y,p.sz,p.sz);
+        } else { p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003; p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1; p.vy+=Math.cos(Date.now()*0.001+p.ty)*.1; }
+        p.vx*=0.88; p.vy*=0.88; p.x+=p.vx; p.y+=p.vy;
+        fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`; fctx.fillRect(p.x,p.y,p.sz,p.sz);
       });
       requestAnimationFrame(fdraw);
-    };fdraw();
+    }; fdraw();
   })();
 }
 </script>
