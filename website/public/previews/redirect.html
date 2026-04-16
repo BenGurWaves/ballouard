@@ -3,40 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Geometric Genesis</title>
+  <title>Velocity — The Liquid Artifact</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=31">
   <style>
-    body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
+    body, html { margin:0; padding:0; background:#000; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
     
-    .velvet-void { position:fixed; inset:0; z-index:100; pointer-events:none; opacity:0.05; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .vapor-grain { position:fixed; inset:0; z-index:100; pointer-events:none; opacity:0.04; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
     
-    #genesisCanvas { position:absolute; inset:0; z-index:1; width:100%; height:100%; }
+    #artifactCanvas { position:absolute; inset:0; z-index:1; width:100%; height:100%; }
     
-    .interface-layer { position:relative; z-index:10; pointer-events:none; display:flex; flex-direction:column; align-items:center; }
-    .genesis-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:1.2em; font-size:0.5rem; color:var(--brass); margin-bottom:5vh; opacity:0; }
+    .interface-layer { position:relative; z-index:10; pointer-events:none; }
+    .artifact-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:1.5em; font-size:0.5rem; color:var(--brass); margin-bottom:5vh; opacity:0; text-align:center; display:block; }
     
-    .status-panel { position:fixed; bottom:6vh; display:flex; flex-direction:column; align-items:center; gap:1.5rem; opacity:0; }
-    .status-title { font-family:var(--serif); font-size:clamp(1.5rem, 3vw, 2.8rem); font-style:italic; font-weight:400; color:var(--sand); }
-    .status-line { width:120px; height:1px; background:rgba(222,200,181,0.15); overflow:hidden; position:relative; }
+    .status-panel { position:fixed; bottom:8vh; left:50%; transform:translateX(-50%); text-align:center; opacity:0; }
+    .status-title { font-family:var(--serif); font-size:clamp(1.5rem, 3vw, 3rem); font-style:italic; font-weight:400; color:var(--sand); margin-bottom:1.5rem; }
+    .status-bar { width:200px; height:1px; background:rgba(222,200,181,0.1); margin:0 auto; overflow:hidden; position:relative; }
     .status-fill { position:absolute; inset:0; width:0%; background:var(--brass); }
 
-    .shimmer-exit { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    .exit-flare { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<div class="velvet-void"></div>
-<div class="shimmer-exit" id="shimmer"></div>
-<canvas id="genesisCanvas"></canvas>
+<div class="vapor-grain"></div>
+<div class="exit-flare" id="flare"></div>
+<canvas id="artifactCanvas"></canvas>
 
 <div class="interface-layer">
-  <span class="genesis-tag" id="gTag">Mathematical Genesis — Prototype Archive</span>
+  <span class="artifact-tag" id="aTag">Bespoke Artifact Handover</span>
   <div class="status-panel" id="sPanel">
-    <h2 class="status-title">Returning to the Source</h2>
-    <div class="status-line"><div class="status-fill" id="sFill"></div></div>
+    <h2 class="status-title">Stabilizing Transition</h2>
+    <div class="status-bar"><div class="status-fill" id="sFill"></div></div>
   </div>
 </div>
 
@@ -44,103 +44,81 @@
 
 <script>
 window.addEventListener('load', () => {
-  const canvas = document.getElementById('genesisCanvas'), ctx = canvas.getContext('2d');
-  let w, h, mouse = { x: 0, y: 0 };
+  const canvas = document.getElementById('artifactCanvas'), ctx = canvas.getContext('2d');
+  let w, h, mouse = { x: 0, y: 0, tx: 0, ty: 0 };
   function rs() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
   window.addEventListener('resize', rs); rs();
-  window.addEventListener('mousemove', e => { mouse.x = (e.clientX - w/2) / (w/2); mouse.y = (e.clientY - h/2) / (h/2); });
+  window.addEventListener('mousemove', e => { mouse.tx = e.clientX; mouse.ty = e.clientY; });
 
-  // Aizawa Attractor Logic
-  let points = [];
-  const numPoints = 12000;
-  let x = 0.1, y = 0.1, z = 0.1;
-  const a = 0.95, b = 0.7, c = 0.6, d = 3.5, e = 0.25, f = 0.1;
-  const dt = 0.01;
-
-  // Pre-generate the attractor shell
-  for(let i=0; i<numPoints; i++) {
-    const dx = (z - b) * x - d * y;
-    const dy = d * x + (z - b) * y;
-    const dz = c + a * z - (z**3 / 3) - (x**2 + y**2) * (1 + e * z) + f * z * (x**3);
-    x += dx * dt; y += dy * dt; z += dz * dt;
-    points.push({ x, y, z, ox: x, oy: y, oz: z });
-  }
-
-  let rotationX = 0, rotationY = 0;
-  let imploding = false, implodeFactor = 0;
-
-  function project(p) {
-    // Rotation
-    let { x, y, z } = p;
-    if(imploding) {
-      x *= (1 - implodeFactor); y *= (1 - implodeFactor); z *= (1 - implodeFactor);
-    }
+  // Fluid Ribbon Engine
+  let time = 0;
+  let stability = 0; // 0 (chaotic) to 1 (solid line)
+  
+  function drawRibbon() {
+    ctx.clearRect(0,0,w,h);
+    time += 0.015;
     
-    // Y-axis Rotation (Mouse Influenced)
-    const sinY = Math.sin(rotationY + mouse.x * 0.5), cosY = Math.cos(rotationY + mouse.x * 0.5);
-    const x1 = x * cosY - z * sinY;
-    const z1 = x * sinY + z * cosY;
+    // Smooth mouse
+    mouse.x += (mouse.tx - mouse.x) * 0.05;
+    mouse.y += (mouse.ty - mouse.y) * 0.05;
+
+    const segments = 120;
+    const centerX = w / 2;
+    const centerY = h / 2;
     
-    // X-axis Rotation
-    const sinX = Math.sin(rotationX + mouse.y * 0.5), cosX = Math.cos(rotationX + mouse.y * 0.5);
-    const y1 = y * cosX - z1 * sinX;
-    const z2 = y * sinX + z1 * cosX;
+    ctx.lineCap = 'round';
+    ctx.globalCompositeOperation = 'screen';
 
-    const perspective = w * 0.8;
-    const cameraZ = 3;
-    const f = perspective / (z2 + cameraZ);
-    return {
-      sx: w/2 + x1 * f,
-      sy: h/2 + y1 * f,
-      size: Math.max(0.1, f * 0.02),
-      alpha: Math.max(0, Math.min(0.6, (z2 + 2) / 4))
-    };
-  }
-
-  function render() {
-    ctx.clearRect(0, 0, w, h);
-    rotationY += 0.003; rotationX += 0.001;
-
-    // We only render every 2nd point for performance during high-end motion
-    ctx.fillStyle = '#DEC8B5';
-    ctx.globalCompositeOperation = 'lighter';
-    for(let i=0; i<numPoints; i+=2) {
-      const p = points[i];
-      const { sx, sy, size, alpha } = project(p);
-      if(sx < 0 || sx > w || sy < 0 || sy > h) continue;
+    // We draw multiple layers to create the "Liquid Mass" look
+    for (let layer = 0; layer < 3; layer++) {
+      ctx.beginPath();
+      ctx.lineWidth = (3 - layer) * 4;
+      ctx.strokeStyle = layer === 0 ? 'rgba(196,156,123,0.3)' : (layer === 1 ? 'rgba(222,200,181,0.15)' : 'rgba(255,255,255,0.05)');
       
-      ctx.globalAlpha = alpha;
-      ctx.fillRect(sx, sy, size, size);
+      for (let i = 0; i < segments; i++) {
+        const p = i / segments;
+        const x = (p * w * 1.2) - (w * 0.1);
+        
+        // Mathematical Wave with Magnetic Mouse Tug
+        const mouseTug = Math.exp(-Math.pow(x - mouse.x, 2) / 20000) * (mouse.y - centerY) * 0.8;
+        const wave = Math.sin(time + i * 0.05) * (150 * (1 - stability)) + mouseTug;
+        
+        const y = centerY + wave * Math.sin(time * 0.5 + p * 2);
+        
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
     }
-
-    // Connect some points for the "Wireframe Monolith" feel
-    ctx.strokeStyle = 'rgba(196,156,123,0.08)';
-    ctx.beginPath();
-    for(let i=0; i<200; i+=10) {
-      const p1 = project(points[i]), p2 = project(points[i+500]);
-      ctx.moveTo(p1.sx, p1.sy);
-      ctx.lineTo(p2.sx, p2.sy);
-    }
-    ctx.stroke();
-
-    requestAnimationFrame(render);
   }
-  render();
+
+  function loop() {
+    drawRibbon();
+    requestAnimationFrame(loop);
+  }
+  loop();
 
   // Experience Timeline
   const tl = gsap.timeline();
-  tl.to('#gTag', { opacity: 0.3, duration: 2, ease: 'power2.inOut' }, 0.5);
-  tl.to('#sPanel', { opacity: 1, duration: 2, ease: 'power2.inOut' }, 1);
-  tl.to('#sFill', { width: '100%', duration: 5, ease: 'none' }, 1);
+  tl.to('#aTag', { opacity: 0.4, y: 15, duration: 2, ease: 'expo.out' }, 0.5);
+  tl.to('#sPanel', { opacity: 1, duration: 2, ease: 'power2.inOut' }, 1.2);
+  tl.to('#sFill', { width: '100%', duration: 5, ease: 'none' }, 1.2);
 
-  // THE IMPLOSION FINALE
-  tl.to({}, { duration: 1, onStart: () => { imploding = true; } }, 5.5);
-  tl.to({v:0}, { v:1, duration: 0.8, onUpdate: function() { implodeFactor = this.targets()[0].v; }, ease: 'expo.in' }, 5.5);
-  tl.to('#shimmer', { opacity: 1, duration: 0.8, ease: 'power2.in' }, 6);
-  tl.to('body', { opacity: 0, duration: 0.1 }, 6.8);
+  // STABILIZATION SEQUENCE
+  tl.to({}, { 
+    duration: 5, 
+    onUpdate: function() { 
+      stability = this.progress(); 
+    },
+    ease: 'power2.inOut'
+  }, 1.2);
+
+  // FINAL: Redirect
+  tl.to('#flare', { opacity: 1, duration: 1.2, ease: 'expo.in' }, 6.2);
+  tl.to('body', { opacity: 0, duration: 0.1 }, 7.2);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, 7);
+  }, 7.4);
 });
 </script>
 </body>
