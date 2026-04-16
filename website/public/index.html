@@ -249,14 +249,16 @@ function boot(){
   const atelierH=document.getElementById('atelierHeading');
   if(atelierH){
     const html=atelierH.innerHTML;
-    let result='',inTag=false,tagBuf='';
+    let result='',inTag=false,tagBuf='',wordBuf='';
+    const flush=()=>{if(wordBuf){result+=`<span style="display:inline-block;white-space:nowrap">${wordBuf}</span>`;wordBuf=''}};
     for(let i=0;i<html.length;i++){
       const c=html[i];
       if(c==='<'){inTag=true;tagBuf='<';continue}
-      if(inTag){tagBuf+=c;if(c==='>'){inTag=false;result+=tagBuf;tagBuf=''}continue}
-      if(c===' '){result+=' ';continue}
-      result+=`<span class="tc">${c}</span>`;
+      if(inTag){tagBuf+=c;if(c==='>'){inTag=false;wordBuf+=tagBuf;tagBuf=''}continue}
+      if(c===' '){flush();result+=' ';continue}
+      wordBuf+=`<span class="tc">${c}</span>`;
     }
+    flush(); 
     atelierH.style.position='relative';
     atelierH.innerHTML=result;
     const cursorEl=document.createElement('span');
