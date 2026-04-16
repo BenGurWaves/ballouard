@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Pure Numeral</title>
+  <title>Velocity — The Masterpiece Sigil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -11,153 +11,163 @@
   <style>
     body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; }
     
-    #heroCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
+    #bgCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0.3; }
+    #sigilCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.55rem; color:var(--brass); opacity:0.3; pointer-events:none; }
+    .archive-metadata { position:fixed; inset:4vh 6vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
+    .metadata-line { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:1.2em; font-size:0.45rem; color:var(--brass); opacity:0.4; animation: glitch 4s steps(1) infinite; }
+    @keyframes glitch { 0%, 95% { opacity: 0.4; } 96% { opacity: 0.8; transform: translateX(2px); } 97% { opacity: 0.2; } 98% { opacity: 0.4; transform: translateX(0); } }
     
-    #shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    .progress-bar-container { position:fixed; bottom:8vh; left:50%; transform:translateX(-50%); width:200px; height:2px; background:rgba(196,156,123,0.1); z-index:15; overflow:hidden; opacity:0; }
+    #archiveProgress { width:0%; height:100%; background:var(--brass); box-shadow:0 0 15px rgba(196,156,123,0.5); }
+
+    .shimmer-handoff { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<canvas id="heroCanvas"></canvas>
-<div id="shimmer"></div>
-<div class="archive-header">Archive 8442 — Primary Handoff Term</div>
+<canvas id="bgCanvas"></canvas>
+<canvas id="sigilCanvas"></canvas>
+<div class="progress-bar-container" id="pBar">
+  <div id="archiveProgress"></div>
+</div>
+<div class="shimmer-handoff" id="shimmer"></div>
+
+<div class="archive-metadata">
+  <div class="metadata-line">
+    <span>Archive 8442 — Preview Phase</span>
+    <span>Encrypted Tunnel: 09</span>
+  </div>
+  <div class="metadata-line">
+    <span>Prototype Handover</span>
+    <span>Returning to Source</span>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
 window.addEventListener('load', () => {
-  const canvas = document.getElementById('heroCanvas'), ctx = canvas.getContext('2d');
-  const hCanvas = document.createElement('canvas'), hCtx = hCanvas.getContext('2d', { willReadFrequently: true });
+  const sCanvas = document.getElementById('sigilCanvas'), sCtx = sCanvas.getContext('2d');
+  const bCanvas = document.getElementById('bgCanvas'), bCtx = bCanvas.getContext('2d');
   let w, h;
-  
   function rs() { 
-    w = canvas.width = hCanvas.width = window.innerWidth; 
-    h = canvas.height = hCanvas.height = window.innerHeight; 
+    w = sCanvas.width = bCanvas.width = window.innerWidth; 
+    h = sCanvas.height = bCanvas.height = window.innerHeight; 
   }
   window.addEventListener('resize', rs); rs();
 
-  // 1. Starfield Engine
+  // 1. Approved Starfield (v14.1)
   const stars = [];
-  for(let i=0; i<600; i++) {
-    stars.push({
-      x: Math.random() * w, y: Math.random() * h, z: Math.random() * w, 
-      r: Math.random() * 1.5,
-      alpha: Math.random() * 0.5 + 0.1
+  for(let i=0; i<800; i++) stars.push({x: Math.random()*w, y: Math.random()*h, s: Math.random()*1.5});
+  function drawStars(warpX, warpY, intensity) {
+    bCtx.clearRect(0,0,w,h);
+    bCtx.fillStyle = 'rgba(222,200,181,0.4)';
+    stars.forEach(s => {
+      const dx = s.x - warpX, dy = s.y - warpY;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      const shift = (1000 * intensity) / (d + 100);
+      bCtx.fillRect(s.x + dx/d * shift, s.y + dy/d * shift, s.s, s.s);
     });
   }
 
+  // 2. Approved 5,000-Point Sigil (v14.1)
+  const points = [];
+  const numPoints = 5000;
+  for(let i=0; i<numPoints; i++) {
+    points.push({
+      x: (Math.random()-0.5)*2.5, y: (Math.random()-0.5)*4.5, z: (Math.random()-0.5)*1.2,
+      size: Math.random()*1.5 + 0.5, alpha: Math.random()*0.8 + 0.2
+    });
+  }
+
+  let rotationY = 0, rotationX = 0;
   let count = 5;
-  let textScale = 1;
-  let textAlpha = 0;
-  let textBlur = 20;
+  let surge = 0; // The Kinetic Pulse
+
+  // Approved Numerals Maps
+  const numerals = {
+    5: (x,y) => (y < -1 && x < 0.6) || (y > -0.2 && y < 0.2) || (y > 1 && x > -0.6) || (x < -0.5 && y < 0) || (x > 0.5 && y > 0),
+    4: (x,y) => (x < -0.5 && y < 0.2) || (x > 0.5) || (y > -0.1 && y < 0.1),
+    3: (x,y) => (y < -1) || (y > -0.1 && y < 0.1) || (y > 1) || (x > 0.5),
+    2: (x,y) => (y < -1) || (y > -0.1 && y < 0.1) || (y > 1) || (x > 0.5 && y < 0) || (x < -0.5 && y > 0),
+    1: (x,y) => (x > -0.05 && x < 0.05),
+    0: (x,y) => Math.abs(x) > 0.5 || Math.abs(y) > 1
+  };
 
   function render() {
-    ctx.clearRect(0,0,w,h);
+    sCtx.clearRect(0,0,w,h);
+    rotationY += 0.007; rotationX += 0.003;
     
-    // Draw the "Behind the Scenes" Starfield
-    ctx.fillStyle = 'rgba(222,200,181,0.2)';
-    stars.forEach(s => {
-      s.z -= 18;
-      if(s.z <= 0) s.z = w;
-      const f = 450 / s.z;
-      const x = (s.x - w/2) * f + w/2;
-      const y = (s.y - h/2) * f + h/2;
+    const perspective = 800;
+    const centerX = w/2, centerY = h/2;
+    const sY = Math.sin(rotationY), cY = Math.cos(rotationY);
+    const sX = Math.sin(rotationX), cX = Math.cos(rotationX);
+
+    // NEW: HERO NUMERALS (The "Main Attraction" Upgrade)
+    // We render the numerals solid and bold to ensure they are the masterpiece focus
+    sCtx.save();
+    sCtx.font = `italic 400 ${Math.min(w, h) * 0.72}px "Instrument Serif"`;
+    sCtx.textAlign = 'center'; sCtx.textBaseline = 'middle';
+    // Solid high-alpha stroke to make it the main attraction
+    sCtx.strokeStyle = `rgba(222, 200, 181, ${0.45 + surge * 0.5})`;
+    sCtx.lineWidth = 2;
+    sCtx.strokeText(count, centerX, centerY);
+    sCtx.restore();
+
+    for(let i=0; i<numPoints; i++) {
+      const p = points[i];
+      let x = p.x * cY - p.z * sY;
+      let z = p.x * sY + p.z * cY;
+      let y = p.y * cX - z * sX;
+      let zFinal = p.y * sX + z * cX;
+
+      const f = perspective / (zFinal + 4.5);
+      const sx = centerX + x * f * 100;
+      const sy = centerY + y * f * 100;
+
+      const isNegative = numerals[count](x, y);
       
-      // Basic Star
-      ctx.globalAlpha = s.alpha;
-      ctx.fillRect(x, y, s.r, s.r);
-    });
-
-    // Capture the Background for Refractive Pass
-    // We sample a high-contrast 'Negative Mask' for the numeral
-    hCtx.clearRect(0,0,w,h);
-    hCtx.font = `italic 400 ${Math.min(w, h) * 0.8 * textScale}px "Instrument Serif"`;
-    hCtx.textAlign = 'center'; hCtx.textBaseline = 'middle';
-    hCtx.fillStyle = 'white';
-    hCtx.fillText(count, w/2, h/2);
-
-    // DRAW THE HERO NUMERAL (The "Main Attraction")
-    ctx.save();
-    ctx.globalAlpha = textAlpha;
-    // We use a slight 'inner glow' by layering the text
-    ctx.shadowBlur = 40 * (1 - textAlpha);
-    ctx.shadowColor = 'rgba(196,156,123,0.5)';
-    ctx.filter = `blur(${textBlur}px)`;
-    
-    ctx.font = `italic 400 ${Math.min(w, h) * 0.8 * textScale}px "Instrument Serif"`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#DEC8B5';
-    ctx.fillText(count, w/2, h/2);
-    ctx.restore();
-
-    // REFRACTIVE INTERSECTION (Stars that pass "Behind" the numbers)
-    // We sample the imageData of the numeral to flare stars
-    const idata = hCtx.getImageData(0,0,w,h).data;
-    ctx.fillStyle = '#FFF';
-    stars.forEach(s => {
-      const f = 450 / s.z;
-      const x = Math.floor((s.x - w/2) * f + w/2);
-      const y = Math.floor((s.y - h/2) * f + h/2);
+      const alphaBoost = isNegative ? 2.2 + surge * 3 : 0.08;
+      sCtx.globalAlpha = p.alpha * alphaBoost;
+      sCtx.fillStyle = isNegative ? '#DEC8B5' : '#C49C7B';
+      const sizeBoost = isNegative ? 2.2 + surge * 2.5 : 0.4;
       
-      if (x > 0 && x < w && y > 0 && y < h) {
-        if (idata[(y * w + x) * 4] > 128) {
-          // Flare effect
-          ctx.globalAlpha = textAlpha * 0.6;
-          ctx.beginPath();
-          ctx.arc(x, y, 2, 0, Math.PI * 2);
-          ctx.fill();
-        }
+      if(isNegative && Math.random() > (0.97 - surge*0.1)) {
+        sCtx.globalAlpha = 1;
+        sCtx.fillStyle = '#FFF';
       }
-    });
-
+      
+      sCtx.fillRect(sx, sy, p.size * sizeBoost, p.size * sizeBoost);
+    }
+    
+    drawStars(centerX, centerY, 1 + surge);
     requestAnimationFrame(render);
   }
   render();
 
-  // THE MASTERPIECE TIMELINE
   const tl = gsap.timeline();
-  
-  // Initial Fade in
-  tl.to({a:0, b:20, s:1.1}, {
-    a: 1, b: 0, s: 1,
-    duration: 2.2,
-    onUpdate: function() {
-      textAlpha = this.targets()[0].a;
-      textBlur = this.targets()[0].b;
-      textScale = this.targets()[0].s;
-    },
-    ease: 'expo.out'
-  });
+  tl.to('.archive-metadata', { opacity: 1, duration: 2 }, 0.5);
+  tl.to('#pBar', { opacity: 1, duration: 1.5 }, 0.5);
 
-  // THE IMPACT COUNTDOWN (5-4-3-2-1)
-  const nums = [4, 3, 2, 1, 0];
-  nums.forEach(num => {
+  const countdown = [5, 4, 3, 2, 1, 0];
+  countdown.forEach((val, i) => {
     tl.to({}, { 
-      duration: 1.2, 
-      onStart: () => {
-        // Dramatic Impact Shift
-        gsap.to({s: 1.05, a: 0.5, b: 10}, {
-          s: 1, a: 1, b: 0,
-          duration: 0.8,
-          onUpdate: function() {
-            textScale = this.targets()[0].s;
-            textAlpha = this.targets()[0].a;
-            textBlur = this.targets()[0].b;
-          },
-          ease: 'expo.out',
-          onStart: () => { count = num; }
-        });
-      }
+      duration: 1, 
+      onStart: () => { 
+        count = val; 
+        // Trigger Kinetic Pulse (Surge)
+        gsap.fromTo({s:1}, { s:0, duration: 0.7, onUpdate: function() { surge = this.targets()[0].s; }, ease: 'expo.out' });
+        // Update Progress Bar
+        gsap.to('#archiveProgress', { width: `${((i+1)/6)*100}%`, duration: 0.8, ease: 'power2.inOut' });
+      } 
     });
   });
 
-  // FINAL SHIMMER & HANDOFF
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.6');
+  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, 6.5);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, '+=0.1');
+  }, 7.7);
 });
 </script>
 </body>
