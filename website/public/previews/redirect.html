@@ -3,178 +3,163 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Kinetic Numeral</title>
+  <title>Velocity — The Architectural Assembly</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=31">
   <style>
-    body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
+    body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; }
     
-    .atelier-grid { position:fixed; inset:0; z-index:1; opacity:0.1; pointer-events:none; }
+    .blueprint-overlay { position:fixed; inset:0; z-index:1; opacity:0.08; pointer-events:none; }
+    #assemblyCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    #kineticCanvas { position:absolute; inset:0; z-index:10; width:100%; height:100%; transition: opacity 2s ease; }
-    
-    .interface-layer { position:relative; z-index:20; pointer-events:none; display:flex; flex-direction:column; align-items:center; }
-    .status-msg { font-family:var(--sans); text-transform:uppercase; letter-spacing:1.2em; font-size:0.55rem; color:rgba(222,200,181,0.4); margin-top:20vh; opacity:0; }
-    
-    .final-shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    .contextual-framing { position:fixed; inset:4vh 6vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
+    .framing-header { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.55rem; color:var(--brass); opacity:0; }
+    .framing-footer { display:flex; flex-direction:column; align-items:flex-start; gap:0.5rem; opacity:0; }
+    .status-pill { padding:4px 12px; background:rgba(196,156,123,0.1); border:1px solid rgba(196,156,123,0.2); font-size:0.5rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--brass); }
+    .framing-msg { font-family:var(--serif); font-size:clamp(1.2rem, 2vw, 2rem); font-style:italic; color:var(--sand); }
+
+    .magnetic-implosion { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<canvas class="atelier-grid" id="gridCanvas"></canvas>
-<canvas id="kineticCanvas"></canvas>
-<div class="final-shimmer" id="shimmer"></div>
+<canvas class="blueprint-overlay" id="bgCanvas"></canvas>
+<canvas id="assemblyCanvas"></canvas>
+<div class="magnetic-implosion" id="implode"></div>
 
-<div class="interface-layer">
-  <span class="status-msg" id="sMsg">Returning to Primary Source</span>
+<div class="contextual-framing">
+  <div class="framing-header" id="fHeader">
+    <span>Archive 8442 — Preview Term</span>
+    <span>Prototype Env — 0.2.1-B</span>
+  </div>
+  
+  <div class="framing-footer" id="fFooter">
+    <div class="status-pill">Active Extraction</div>
+    <h2 class="framing-msg">Handing over to primary digital salon...</h2>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
 window.addEventListener('load', () => {
-  const canvas = document.getElementById('kineticCanvas'), ctx = canvas.getContext('2d');
-  const gCanvas = document.getElementById('gridCanvas'), gCtx = gCanvas.getContext('2d');
+  const canvas = document.getElementById('assemblyCanvas'), ctx = canvas.getContext('2d');
+  const bgCanvas = document.getElementById('bgCanvas'), bgCtx = bgCanvas.getContext('2d');
   let w, h;
-  
   function rs() { 
-    w = canvas.width = gCanvas.width = window.innerWidth; 
-    h = canvas.height = gCanvas.height = window.innerHeight; 
-    drawGrid();
+    w = canvas.width = bgCanvas.width = window.innerWidth; 
+    h = canvas.height = bgCanvas.height = window.innerHeight; 
+    drawBlueprint();
   }
   window.addEventListener('resize', rs); rs();
 
-  function drawGrid() {
-    gCtx.clearRect(0,0,w,h);
-    gCtx.strokeStyle = 'rgba(196,156,123,0.3)';
-    gCtx.lineWidth = 0.5;
-    const step = 80;
-    for(let x=0; x<w; x+=step) { gCtx.beginPath(); gCtx.moveTo(x,0); gCtx.lineTo(x,h); gCtx.stroke(); }
-    for(let y=0; y<h; y+=step) { gCtx.beginPath(); gCtx.moveTo(0,y); gCtx.lineTo(w,y); gCtx.stroke(); }
+  // 1. Blueprint Background (Rotating 3D Wireframe)
+  function drawBlueprint() {
+    bgCtx.clearRect(0,0,w,h);
+    bgCtx.strokeStyle = 'rgba(222,200,181,0.3)';
+    bgCtx.lineWidth = 0.5;
+    const step = 60;
+    // Static coordinate grid (simulated)
+    for(let x=0; x<w; x+=step) { bgCtx.beginPath(); bgCtx.moveTo(x,0); bgCtx.lineTo(x,h); bgCtx.stroke(); }
+    for(let y=0; y<h; y+=step) { bgCtx.beginPath(); bgCtx.moveTo(0,y); bgCtx.lineTo(w,y); bgCtx.stroke(); }
   }
 
-  // Kinetic Typography Logic
+  // 2. Mechanical Assemblage Engine (Numerals as line segments)
   let count = 5;
-  let shearX = 0;
-  let stretchX = 1;
-  let textAlpha = 0;
-  let trails = [];
-  
-  function drawNumeral() {
-    ctx.clearRect(0, 0, w, h);
-    
-    ctx.font = `italic 400 ${Math.min(w, h) * 0.8}px "Instrument Serif"`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    // Trail handling
-    trails.push({ shear: shearX, stretch: stretchX, alpha: textAlpha });
-    if(trails.length > 15) trails.shift();
-    
-    ctx.globalCompositeOperation = 'lighter';
-    
-    trails.forEach((t, i) => {
-      ctx.save();
-      ctx.translate(w/2, h/2);
-      ctx.transform(t.stretch, 0, t.shear, 1, 0, 0);
-      ctx.globalAlpha = t.alpha * (i/trails.length) * 0.15;
-      
-      // Chromatic split on trails
-      ctx.fillStyle = 'rgba(255, 100, 100, 0.5)';
-      ctx.fillText(count, t.shear * 5, 0);
-      ctx.fillStyle = 'rgba(100, 255, 255, 0.5)';
-      ctx.fillText(count, -t.shear * 5, 0);
-      
-      ctx.fillStyle = '#C49C7B';
-      ctx.fillText(count, 0, 0);
-      ctx.restore();
-    });
+  let points = [];
+  const numPoints = 600;
 
-    // Primary Numeral
-    ctx.save();
-    ctx.translate(w/2, h/2);
-    ctx.transform(stretchX, 0, shearX, 1, 0, 0);
-    ctx.globalAlpha = textAlpha;
-    
-    // Chromatic split on primary
-    if (Math.abs(shearX) > 0.1) {
-      ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = 'rgba(255, 100, 100, 0.3)';
-      ctx.fillText(count, shearX * 10, 0);
-      ctx.fillStyle = 'rgba(100, 255, 255, 0.3)';
-      ctx.fillText(count, -shearX * 10, 0);
+  function initPoints() {
+    for(let i=0; i<numPoints; i++) {
+      points.push({
+        x: Math.random() * w, 
+        y: Math.random() * h,
+        tx: w/2, ty: h/2, // target x, y
+        size: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.5 + 0.1
+      });
     }
-    
-    ctx.fillStyle = '#DEC8B5';
-    ctx.fillText(count, 0, 0);
-    ctx.restore();
-
-    requestAnimationFrame(drawNumeral);
   }
-  drawNumeral();
+  initPoints();
 
-  // THE MASTERPIECE TIMELINE
+  // Define numeral patterns (simplified coordinates for 0-5)
+  const patterns = {
+    5: [[-1, -2], [1, -2], [-1, 0], [1, 0], [1, 2], [-1, 2]],
+    4: [[-1, -2], [-1, 0], [1, 0], [1, -2], [1, 2]],
+    3: [[-1, -2], [1, -2], [1, 0], [-1, 0], [1, 0], [1, 2], [-1, 2]],
+    2: [[-1, -2], [1, -2], [1, 0], [-1, 0], [-1, 2], [1, 2]],
+    1: [[0, -2], [0, 2]],
+    0: [[-1, -2], [1, -2], [1, 2], [-1, 2], [-1, -2]]
+  };
+
+  function updateTargets() {
+    const scale = 80;
+    const pat = patterns[count];
+    for(let i=0; i<numPoints; i++) {
+      const p = points[i];
+      const targetBase = pat[i % pat.length];
+      p.tx = w/2 + targetBase[0] * scale + (Math.random() - 0.5) * 10;
+      p.ty = h/2 + targetBase[1] * scale + (Math.random() - 0.5) * 10;
+    }
+  }
+  updateTargets();
+
+  function render() {
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle = '#DEC8B5';
+    ctx.lineWidth = 1;
+
+    for(let i=0; i<numPoints; i++) {
+      const p = points[i];
+      p.x += (p.tx - p.x) * 0.15;
+      p.y += (p.ty - p.y) * 0.15;
+      
+      ctx.globalAlpha = p.alpha;
+      ctx.strokeRect(p.x, p.y, p.size, p.size);
+      
+      // Draw lines between some points to create the "Wireframe Assemblage" feel
+      if(i % 20 === 0 && i < numPoints - 20) {
+        ctx.beginPath();
+        ctx.globalAlpha = 0.05;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(points[i+20].x, points[i+20].y);
+        ctx.stroke();
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  render();
+
+  // 3. Experience Timeline
   const tl = gsap.timeline();
-  
-  // Fade in sequence
-  tl.to({a:0}, { a:1, duration: 2, onUpdate: function() { textAlpha = this.targets()[0].a; }, ease: 'power2.inOut' });
-  tl.to('#sMsg', { opacity: 1, y: -20, duration: 2, ease: 'expo.out' }, 0.5);
+  tl.to(['#fHeader', '#fFooter'], { opacity: 1, duration: 1.5, stagger: 0.3, ease: 'power2.inOut' }, 0.5);
 
-  // The Kinetic Countdown
-  const numbers = [5, 4, 3, 2, 1];
-  numbers.forEach((num, i) => {
-    // Each count triggers a shear/liquidation
+  // Countdown sync
+  const timing = [5, 4, 3, 2, 1, 0];
+  timing.forEach((val, i) => {
     tl.to({}, { 
       duration: 1, 
-      onStart: () => {
-        // Liquidation Animation
-        gsap.fromTo({sX: 0, str: 1}, { 
-          sX: 2, 
-          str: 2.5,
-          duration: 0.4, 
-          onUpdate: function() { 
-            shearX = this.targets()[0].sX; 
-            stretchX = this.targets()[0].str;
-          },
-          ease: 'expo.in',
-          onComplete: () => {
-            count = num;
-            gsap.to({sX: 2, str: 2.5}, { 
-              sX: 0, 
-              str: 1,
-              duration: 0.6,
-              onUpdate: function() { 
-                shearX = this.targets()[0].sX; 
-                stretchX = this.targets()[0].str;
-              },
-              ease: 'expo.out'
-            });
-          }
+      onStart: () => { 
+        count = val; 
+        updateTargets(); 
+        // Rapid jiggle on change
+        gsap.to(points, { 
+          alpha: 1, 
+          duration: 0.1, 
+          stagger: 0.0001, 
+          onComplete: () => { gsap.to(points, { alpha: 0.5, duration: 0.4 }); } 
         });
-      }
+      } 
     });
   });
 
-  // Final Dispersion
-  tl.to({a:1, sX: 0, str: 1}, { 
-    a:0, 
-    sX: 5, 
-    str: 10, 
-    duration: 1.5, 
-    onUpdate: function() { 
-      textAlpha = this.targets()[0].a;
-      shearX = this.targets()[0].sX;
-      stretchX = this.targets()[0].str;
-    }, 
-    ease: 'expo.in' 
-  });
-  
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'power2.inOut' }, '-=0.5');
+  // Implosion Finale
+  tl.to('#implode', { opacity: 1, duration: 1, ease: 'expo.in' }, 6.5);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, '+=0.2');
+  }, 7.5);
 });
 </script>
 </body>
