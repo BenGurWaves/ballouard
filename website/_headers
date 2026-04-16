@@ -21,10 +21,10 @@
 /admin/*
   Cache-Control: no-store, no-cache
 
-# ── Preview pages: CDN caches for 1hr ────────────────────────────────────────
+# ── Preview pages: no cache ─────────────────────────────────────────────────
 /previews/*
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net unpkg.com; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://www.transparenttextures.com https://velocity.calyvent.com; connect-src 'self'; frame-ancestors 'none';
-  Cache-Control: public, s-maxage=3600, max-age=0, must-revalidate
+  Cache-Control: no-store, no-cache, must-revalidate
 
 # ── Immutable assets (hash in filename or content never changes) ─────────────
 /*.css
