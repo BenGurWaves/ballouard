@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>XERJOFF — Structural Monolith</title>
+  <title>XERJOFF — Molecular Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=31">
   <style>
-    /* Prototype Overrides */
-    body, html { margin:0; padding:0; background:#000; overflow-x:hidden; color:var(--sand); font-family:var(--sans); cursor:none; -webkit-font-smoothing:antialiased; }
+    body, html { margin:0; padding:0; background:#0D0C09; overflow-x:hidden; color:var(--sand); font-family:var(--sans); cursor:none; -webkit-font-smoothing:antialiased; }
     
     .scroll-prompt { position:fixed; bottom:4vh; left:50%; transform:translateX(-50%); z-index:20; text-transform:uppercase; letter-spacing:0.4em; font-size:0.65rem; opacity:0; pointer-events:none; }
     .scroll-line { width:1px; height:60px; background:rgba(222,200,181,0.15); margin:15px auto 0; position:relative; overflow:hidden; }
@@ -24,19 +23,19 @@
     .monolith.is-active { -webkit-text-stroke:0px; color:var(--sand); text-shadow:0 0 50px rgba(196,156,123,0.25); filter:url(#liquidFilter); }
     #stringCanvas { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:2; pointer-events:none; }
 
-    .content-matrix { position:relative; z-index:10; background:#000; margin-top:-60vh; }
+    .content-matrix { position:relative; z-index:10; background:#0D0C09; margin-top:-60vh; }
     .windowSection { min-height:100vh; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:20vh 5vw; }
-    .floatingWindow { position:relative; width:100%; max-width:1100px; display:grid; grid-template-columns:1.2fr 1fr; gap:8vw; align-items:center; }
-    .windowFrame { position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:#111; border:1px solid var(--border); box-shadow:0 50px 100px rgba(0,0,0,0.5); transform:perspective(1000px); }
-    .windowImg { width:100%; height:120%; object-fit:cover; position:absolute; top:-10%; left:0; filter:contrast(1.1) brightness(0.9); }
-    .windowLabel { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.3em; font-size:0.7rem; color:var(--brass); margin-bottom:2.5rem; display:block; }
-    .windowTitle { font-family:var(--serif); font-size:clamp(3rem, 7vw, 6rem); margin:0 0 2.5rem; line-height:0.95; font-weight:400; color:var(--sand); }
-    .windowDesc { font-size:1.15rem; line-height:1.8; color:var(--dim); max-width:450px; font-weight:300; }
+    .floatingWindow { position:relative; width:100%; max-width:1200px; display:grid; grid-template-columns:1fr 1fr; gap:10vw; align-items:center; }
+    .windowFrame { position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:#111; border:1px solid rgba(196,156,123,0.1); box-shadow:0 50px 100px rgba(0,0,0,0.5); transform:perspective(1000px); }
+    canvas.portal { width:100%; height:100%; position:absolute; top:0; left:0; }
+    
+    .windowLabel { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.4em; font-size:0.6rem; color:var(--brass); margin-bottom:2.5rem; display:block; opacity:0.6; }
+    .windowTitle { font-family:var(--serif); font-size:clamp(3rem, 7vw, 6.5rem); margin:0 0 2.5rem; line-height:0.9; font-weight:400; color:var(--sand); }
+    .windowTitle em { display:block; margin-top:0.2em; font-style:italic; }
+    .windowDesc { font-size:1.15rem; line-height:1.7; color:rgba(222,200,181,0.6); max-width:450px; font-weight:300; }
 
-    .expAction { display:inline-block; margin-top:4rem; color:var(--sand); text-decoration:none; border:1px solid var(--border2); padding:1.5rem 4rem; text-transform:uppercase; letter-spacing:0.3em; font-size:0.7rem; position:relative; overflow:hidden; transition:color 0.4s; }
-    .expAction::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--sand); z-index:-1; transition:left 0.5s var(--ease); }
-    .expAction:hover { color:var(--bg); border-color:var(--sand); }
-    .expAction:hover::after { left:0; }
+    .expAction { display:inline-block; margin-top:4rem; color:var(--sand); text-decoration:none; border:1px solid rgba(222,200,181,0.15); padding:1.5rem 4rem; text-transform:uppercase; letter-spacing:0.3em; font-size:0.65rem; position:relative; overflow:hidden; transition:all 0.4s; }
+    .expAction:hover { border-color:var(--sand); letter-spacing:0.5em; }
 
     svg.filters { position:absolute; width:0; height:0; pointer-events:none; }
   </style>
@@ -62,7 +61,7 @@
 </div>
 
 <div class="scroll-prompt" id="scrollPrompt">
-  Scroll
+  Explore
   <div class="scroll-line"></div>
 </div>
 
@@ -79,28 +78,28 @@
 <div class="content-matrix" id="contentMatrix">
   <section class="windowSection">
     <div class="floatingWindow">
-      <div class="windowFrame">
-        <img src="/images/xerjoff/gibeonDeskMob1.jpg" class="windowImg" alt="Xerjoff Gibeon">
+      <div class="windowFrame" id="frameOrigin">
+        <canvas class="portal" id="canvasOrigin"></canvas>
       </div>
       <div class="windowText">
-        <span class="windowLabel">01 — Origin</span>
-        <h2 class="windowTitle">A matter of<br><em>Time.</em></h2>
-        <p class="windowDesc">The Gibeon collection represents the cosmic collision between celestial artifacts and the patience of Italian craftsmanship.</p>
-        <a href="/previews/redirect.html" class="expAction action-trigger">Explore Artefact</a>
+        <span class="windowLabel">Archive 01 — Spectroscopy</span>
+        <h2 class="windowTitle">A matter of<br><em>Materiality.</em></h2>
+        <p class="windowDesc">Removing the literal allows the essence to assemble. Origin is not an image, but a refractive frequency of pure intent.</p>
+        <a href="/previews/redirect.html" class="expAction">Analyze Artefact</a>
       </div>
     </div>
   </section>
 
   <section class="windowSection">
-    <div class="floatingWindow" style="grid-template-columns: 1fr 1.2fr; direction: rtl;">
-      <div class="windowFrame" style="direction: ltr;">
-        <img src="/images/xerjoff/xjBlockErbaPuraMob.jpg" class="windowImg" alt="Xerjoff Erba Pura">
+    <div class="floatingWindow" style="grid-template-columns: 1fr 1fr; direction: rtl;">
+      <div class="windowFrame" id="frameCraft" style="direction: ltr;">
+        <canvas class="portal" id="canvasCraft"></canvas>
       </div>
       <div class="windowText" style="direction: ltr;">
-        <span class="windowLabel">02 — Craft</span>
-        <h2 class="windowTitle">Liquid<br><em>Scintillation.</em></h2>
-        <p class="windowDesc">Every interaction is calibrated. The digital weight must match the mechanical density of the gilded cap.</p>
-        <a href="/previews/redirect.html" class="expAction action-trigger">Acquire Essence</a>
+        <span class="windowLabel">Archive 02 — Kineticism</span>
+        <h2 class="windowTitle">Liquid<br><em>Assembly.</em></h2>
+        <p class="windowDesc">Every digital weight is calibrated. The craft is in the collision of data-points and the monumental void between them.</p>
+        <a href="/previews/redirect.html" class="expAction">Observe Form</a>
       </div>
     </div>
   </section>
@@ -115,7 +114,7 @@
     <div class="footer-bottom">
       <span class="footer-coords" id="footerCoords"></span>
       <div class="footer-meta">
-        <span>© 2026 Velocity by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a></span>
+        <span>© 2026 Velocity — Pure Typography Environment</span>
         <div class="footer-links"><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>
@@ -147,32 +146,29 @@ function boot(){
   gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
   gsap.to('#scrollPrompt',{opacity:1,duration:1.2,delay:0.5});
 
-  // CURSOR & GLOW
+  // CURSOR
   const g=document.getElementById('cursorGlow'),r=document.getElementById('cursorRing'),d=document.getElementById('cursorDot');
   let mx=-200,my=-200,rx=-200,ry=-200,gx=-200,gy=-200,tx=-200,ty=-200,mag=false;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!mag){tx=mx;ty=my}});
   document.querySelectorAll('a,button,.windowFrame').forEach(el=>{
     el.addEventListener('mouseenter',()=>{r.classList.add('is-active');mag=true});
     el.addEventListener('mouseleave',()=>{r.classList.remove('is-active');mag=false;tx=mx;ty=my});
-    el.addEventListener('mousemove',()=>{if(!mag)return;const b=el.getBoundingClientRect();tx=mx+((b.left+b.width/2)-mx)*.2;ty=my+((b.top+b.height/2)-my)*.2});
   });
   (function cursorLoop(){rx+=(tx-rx)*.07; ry+=(ty-ry)*.07; gx+=(mx-gx)*.05; gy+=(my-gy)*.05; r.style.transform=`translate(${rx-20}px,${ry-20}px)`; d.style.transform=`translate(${mx-2.5}px,${my-2.5}px)`; g.style.transform=`translate(${gx-250}px,${gy-250}px)`; requestAnimationFrame(cursorLoop);})();
 
-  // HERO MONOLITH
-  const cv=document.getElementById('stringCanvas'),ctx=cv.getContext('2d');
-  let w,h,targetY,currentY=0,velY=0;
-  function rs(){w=cv.width=window.innerWidth; h=cv.height=window.innerHeight; targetY=currentY=h/2;}
+  // HERO STRING
+  const scv=document.getElementById('stringCanvas'),sctx=scv.getContext('2d');
+  let sw,sh,targetY,currentY=0,velY=0;
+  function rs(){sw=scv.width=window.innerWidth; sh=scv.height=window.innerHeight; targetY=currentY=sh/2;}
   window.addEventListener('resize',rs); rs();
   gsap.ticker.add(()=>{
-    ctx.clearRect(0,0,w,h+1); if(Math.abs(mx-w/2)<w*.2 && Math.abs(my-h/2)<120) targetY=my; else targetY=h/2;
+    sctx.clearRect(0,0,sw,sh+1); if(Math.abs(mx-sw/2)<sw*.2 && Math.abs(my-sh/2)<120) targetY=my; else targetY=sh/2;
     velY+=(targetY-currentY)*.05; velY*=.85; currentY+=velY;
-    ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,h/2); ctx.quadraticCurveTo(w/2,currentY,w,h/2); ctx.strokeStyle='rgba(222,200,181,0.6)'; ctx.stroke();
+    sctx.lineWidth=1; sctx.beginPath(); sctx.moveTo(0,sh/2); sctx.quadraticCurveTo(sw/2,currentY,sw,sh/2); sctx.strokeStyle='rgba(222,200,181,0.6)'; sctx.stroke();
   });
 
   const mono=document.getElementById('monolith'),chars=document.querySelectorAll('.char');
   gsap.fromTo(chars,{opacity:0,z:-400,rotationX:40},{opacity:1,z:0,rotationX:0,duration:1.5,stagger:0.06,ease:'expo.out'});
-  gsap.set(mono,{transformOrigin:'center center'});
-
   const heroTl=gsap.timeline({scrollTrigger:{trigger:'.hero-proxy',start:'top top',end:'bottom bottom',scrub:1}});
   heroTl.to('#scrollPrompt',{opacity:0,duration:0.1},0);
   heroTl.to('#stringCanvas',{opacity:0,duration:0.2},0);
@@ -181,10 +177,48 @@ function boot(){
   heroTl.to(mono,{scale:120,opacity:0,ease:'power2.in'},0.4);
   heroTl.to('#zWrap',{autoAlpha:0,duration:0},1);
 
-  document.querySelectorAll('.windowFrame').forEach(wf=>{
-    const img=wf.querySelector('.windowImg');
-    gsap.to(img,{yPercent:15,ease:'none',scrollTrigger:{trigger:wf,start:'top bottom',end:'bottom top',scrub:true}});
-  });
+  // PORTAL 01: ORIGIN (Liquid Typography)
+  (function initPortalOrigin(){
+    const c=document.getElementById('canvasOrigin'),cx=c.getContext('2d');
+    let cw,ch; 
+    const frs=()=>{cw=c.width=c.offsetWidth; ch=c.height=c.offsetHeight;};
+    frs(); window.addEventListener('resize',frs);
+    let time=0;
+    const draw=()=>{
+      time+=0.015; cx.clearRect(0,0,cw,ch); cx.fillStyle='#0D0C09'; cx.fillRect(0,0,cw,ch);
+      cx.font=`italic 400 ${cw*0.22}px 'Instrument Serif',serif`; cx.textAlign='center'; cx.textBaseline='middle';
+      const grad=cx.createLinearGradient(0,0,cw,ch); grad.addColorStop(0,'#DEC8B5'); grad.addColorStop(1,'#C49C7B'); cx.fillStyle=grad;
+      // Multi-layer liquid text
+      for(let i=0;i<6;i++){
+        cx.globalAlpha=0.15/(i+1);
+        const ox=Math.sin(time+i)*25,oy=Math.cos(time+i)*15;
+        cx.fillText('ORIGIN',cw/2+ox,ch/2+oy);
+      }
+      cx.globalAlpha=1; cx.fillText('ORIGIN',cw/2,ch/2);
+      requestAnimationFrame(draw);
+    }; draw();
+  })();
+
+  // PORTAL 02: CRAFT (Kinetic Monolith)
+  (function initPortalCraft(){
+    const c=document.getElementById('canvasCraft'),cx=c.getContext('2d');
+    let cw,ch; 
+    const frs=()=>{cw=c.width=c.offsetWidth; ch=c.height=c.offsetHeight;};
+    frs(); window.addEventListener('resize',frs);
+    const pts=[]; for(let i=0;i<800;i++){pts.push({x:Math.random()*2-1,y:Math.random()*4-2,z:Math.random()*2-1,s:Math.random()*1.5+0.5})}
+    let ry=0;
+    const draw=()=>{
+      ry+=0.01; cx.clearRect(0,0,cw,ch); cx.fillStyle='#0D0C09'; cx.fillRect(0,0,cw,ch);
+      const f=800,cxp=cw/2,cyp=ch/2,sy=Math.sin(ry),cy=Math.cos(ry);
+      pts.forEach(p=>{
+        const rx=p.x*cy-p.z*sy,rz=p.x*sy+p.z*cy;
+        const pers=f/(rz+4); const scx=cxp+rx*pers*60,scy=cyp+p.y*pers*60;
+        cx.fillStyle='rgba(196,156,123,0.6)'; cx.fillRect(scx,scy,p.s,p.s);
+        if(Math.random()>0.99){cx.fillStyle='#DEC8B5';cx.fillRect(scx,scy,2,2)}
+      });
+      requestAnimationFrame(draw);
+    }; draw();
+  })();
 
   /* ═══ FOOTER ═══ */
   const ftEmail=document.getElementById('footerEmail');
@@ -193,14 +227,13 @@ function boot(){
     ftEmail.innerHTML=t.split('').map(c=>`<span class="char">${c}</span>`).join('');
     gsap.from('.footer-email .char',{scrollTrigger:{trigger:'.footer-exp',start:'top 70%'},opacity:0,y:50,rotateZ:10,duration:1.4,ease:'expo.out',stagger:.015});
   }
-  gsap.from('.footer-tagline',{scrollTrigger:{trigger:'.footer-exp',start:'top 65%'},opacity:0,y:20,duration:1,ease:'expo.out',delay:.2});
   const coordsEl=document.getElementById('footerCoords');
   if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}tick();setInterval(tick,1000)}
 
   (function particle_footer(){
     const fcv=document.getElementById('footerParticles');if(!fcv)return;
     const fctx=fcv.getContext('2d');let fw,fh,particles=[],formed=false;
-    const frs=()=>{fw=fcv.width=fcv.offsetWidth;fh=fcv.height=fcv.offsetHeight;initP()};
+    const frs=()=>{fw=fcv.width=fcv.offsetWidth;fh=fcv.height=fcv.offsetHeight;finit()};
     const finit=()=>{
       particles=[]; const off=document.createElement('canvas');off.width=fw;off.height=fh;
       const oc=off.getContext('2d'); const fs=Math.min(fw*.13,160);
@@ -213,19 +246,7 @@ function boot(){
     frs(); window.addEventListener('resize',frs);
     let fx=-1e3,fy=-1e3; document.addEventListener('mousemove',e=>{ const r=fcv.getBoundingClientRect(); fx=e.clientX-r.left;fy=e.clientY-r.top; });
     ScrollTrigger.create({trigger:'#footerExp',start:'top 80%',onEnter:()=>{formed=true},onLeaveBack:()=>{formed=false}});
-    const fdraw=()=>{
-      fctx.clearRect(0,0,fw,fh);
-      particles.forEach(p=>{
-        if(formed){
-          const dx=fx-p.x,dy=fy-p.y,dist=Math.sqrt(dx*dx+dy*dy);
-          if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5}
-          p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04;
-        } else { p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003; p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1; p.vy+=Math.cos(Date.now()*0.001+p.ty)*.1; }
-        p.vx*=0.88; p.vy*=0.88; p.x+=p.vx; p.y+=p.vy;
-        fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`; fctx.fillRect(p.x,p.y,p.sz,p.sz);
-      });
-      requestAnimationFrame(fdraw);
-    }; fdraw();
+    const fdraw=()=>{ fctx.clearRect(0,0,fw,fh); particles.forEach(p=>{ if(formed){ const dx=fx-p.x,dy=fy-p.y,dist=Math.sqrt(dx*dx+dy*dy); if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5} p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04; } else { p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003; p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1; p.vy+=Math.cos(Date.now()*0.001+p.ty)*.1; } p.vx*=0.88; p.vy*=0.88; p.x+=p.vx; p.y+=p.vy; fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`; fctx.fillRect(p.x,p.y,p.sz,p.sz); }); requestAnimationFrame(fdraw); }; fdraw();
   })();
 }
 </script>

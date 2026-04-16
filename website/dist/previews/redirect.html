@@ -32,7 +32,7 @@ window.addEventListener('load', () => {
   const buffer = document.createElement('canvas'), bCtx = buffer.getContext('2d');
   let w, h;
   
-  function rs() { w = canvas.width = buffer.width = window.innerWidth; h = canvas.height = buffer.innerHeight = window.innerHeight; }
+  function rs() { w = canvas.width = buffer.width = window.innerWidth; h = canvas.height = buffer.height = window.innerHeight; }
   window.addEventListener('resize', rs); rs();
 
   const lines = [];
@@ -47,7 +47,7 @@ window.addEventListener('load', () => {
 
   function updateBuffer(text) {
     bCtx.clearRect(0,0,w,h);
-    bCtx.font = `italic 400 ${Math.min(w, h) * 0.75}px "Instrument Serif"`;
+    bCtx.font = `italic 400 ${Math.min(w, h) * 0.7}px "Instrument Serif"`;
     bCtx.textAlign = 'center'; bCtx.textBaseline = 'middle';
     bCtx.fillStyle = '#DEC8B5';
     bCtx.fillText(text, w/2, h/2);
