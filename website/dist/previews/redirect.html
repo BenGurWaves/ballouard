@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Luminous Monolith</title>
+  <title>Velocity — The Pure Numeral</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -11,126 +11,104 @@
   <style>
     body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; }
     
-    #heroCanvas { position:absolute; inset:0; z-index:10; width:100%; height:100%; }
+    #heroCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.5rem; color:var(--brass); opacity:0.4; pointer-events:none; }
+    .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.55rem; color:var(--brass); opacity:0.3; pointer-events:none; }
     
-    .shimmer-exit { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    #shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
 <canvas id="heroCanvas"></canvas>
-<div class="shimmer-exit" id="shimmer"></div>
-<div class="archive-header">Archive 8442 — Handover Prototype</div>
+<div id="shimmer"></div>
+<div class="archive-header">Archive 8442 — Primary Handoff Term</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
 window.addEventListener('load', () => {
   const canvas = document.getElementById('heroCanvas'), ctx = canvas.getContext('2d');
-  const hiddenCanvas = document.createElement('canvas'), hCtx = hiddenCanvas.getContext('2d', { willReadFrequently: true });
+  const hCanvas = document.createElement('canvas'), hCtx = hCanvas.getContext('2d', { willReadFrequently: true });
   let w, h;
   
   function rs() { 
-    w = canvas.width = hiddenCanvas.width = window.innerWidth; 
-    h = canvas.height = hiddenCanvas.height = window.innerHeight; 
+    w = canvas.width = hCanvas.width = window.innerWidth; 
+    h = canvas.height = hCanvas.height = window.innerHeight; 
   }
   window.addEventListener('resize', rs); rs();
 
-  // 1. Point Engine
-  const numPoints = 8000;
-  const points = [];
-  for(let i=0; i<numPoints; i++) {
-    points.push({
-      x: Math.random() * w, y: Math.random() * h,
-      tx: Math.random() * w, ty: Math.random() * h,
-      vx: 0, vy: 0,
-      size: Math.random() * 1.5 + 0.5,
-      alpha: Math.random() * 0.8 + 0.2
-    });
-  }
-
-  // 2. Starfield (Background Scenery)
+  // 1. Starfield Engine
   const stars = [];
-  for(let i=0; i<400; i++) stars.push({x: Math.random()*w, y: Math.random()*h, z: Math.random()*w});
-  function drawStars() {
-    ctx.fillStyle = 'rgba(222,200,181,0.15)';
-    stars.forEach(s => {
-      s.z -= 15;
-      if(s.z <= 0) s.z = w;
-      const f = 400 / s.z;
-      const x = (s.x - w/2) * f + w/2;
-      const y = (s.y - h/2) * f + h/2;
-      ctx.fillRect(x, y, 1, 1);
+  for(let i=0; i<600; i++) {
+    stars.push({
+      x: Math.random() * w, y: Math.random() * h, z: Math.random() * w, 
+      r: Math.random() * 1.5,
+      alpha: Math.random() * 0.5 + 0.1
     });
-  }
-
-  // 3. Typographic Path Sampler
-  function getTargets(text) {
-    hCtx.clearRect(0,0,w,h);
-    hCtx.font = `italic 400 ${Math.min(w, h) * 0.8}px "Instrument Serif"`;
-    hCtx.textAlign = 'center'; hCtx.textBaseline = 'middle';
-    hCtx.fillStyle = 'white';
-    hCtx.fillText(text, w/2, h/2);
-    
-    const idata = hCtx.getImageData(0,0,w,h).data;
-    const targets = [];
-    // Sample with step to be efficient
-    const step = 4;
-    for (let y = 0; y < h; y += step) {
-      for (let x = 0; x < w; x += step) {
-        if (idata[(y * w + x) * 4] > 128) {
-          targets.push({x, y});
-        }
-      }
-    }
-    return targets;
   }
 
   let count = 5;
-  function morph(text) {
-    const targets = getTargets(text);
-    points.forEach((p, i) => {
-      const t = targets[i % targets.length];
-      gsap.to(p, {
-        tx: t.x + (Math.random()-0.5)*10,
-        ty: t.y + (Math.random()-0.5)*10,
-        duration: 1.2,
-        ease: 'expo.inOut',
-        delay: Math.random() * 0.2
-      });
-    });
-  }
-
-  // Start with 5
-  morph('5');
+  let textScale = 1;
+  let textAlpha = 0;
+  let textBlur = 20;
 
   function render() {
-    ctx.fillStyle = 'rgba(13, 12, 9, 0.4)';
-    ctx.fillRect(0,0,w,h);
+    ctx.clearRect(0,0,w,h);
     
-    drawStars();
+    // Draw the "Behind the Scenes" Starfield
+    ctx.fillStyle = 'rgba(222,200,181,0.2)';
+    stars.forEach(s => {
+      s.z -= 18;
+      if(s.z <= 0) s.z = w;
+      const f = 450 / s.z;
+      const x = (s.x - w/2) * f + w/2;
+      const y = (s.y - h/2) * f + h/2;
+      
+      // Basic Star
+      ctx.globalAlpha = s.alpha;
+      ctx.fillRect(x, y, s.r, s.r);
+    });
 
+    // Capture the Background for Refractive Pass
+    // We sample a high-contrast 'Negative Mask' for the numeral
+    hCtx.clearRect(0,0,w,h);
+    hCtx.font = `italic 400 ${Math.min(w, h) * 0.8 * textScale}px "Instrument Serif"`;
+    hCtx.textAlign = 'center'; hCtx.textBaseline = 'middle';
+    hCtx.fillStyle = 'white';
+    hCtx.fillText(count, w/2, h/2);
+
+    // DRAW THE HERO NUMERAL (The "Main Attraction")
+    ctx.save();
+    ctx.globalAlpha = textAlpha;
+    // We use a slight 'inner glow' by layering the text
+    ctx.shadowBlur = 40 * (1 - textAlpha);
+    ctx.shadowColor = 'rgba(196,156,123,0.5)';
+    ctx.filter = `blur(${textBlur}px)`;
+    
+    ctx.font = `italic 400 ${Math.min(w, h) * 0.8 * textScale}px "Instrument Serif"`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillStyle = '#DEC8B5';
-    points.forEach(p => {
-      p.x += (p.tx - p.x) * 0.12;
-      p.y += (p.ty - p.y) * 0.12;
+    ctx.fillText(count, w/2, h/2);
+    ctx.restore();
+
+    // REFRACTIVE INTERSECTION (Stars that pass "Behind" the numbers)
+    // We sample the imageData of the numeral to flare stars
+    const idata = hCtx.getImageData(0,0,w,h).data;
+    ctx.fillStyle = '#FFF';
+    stars.forEach(s => {
+      const f = 450 / s.z;
+      const x = Math.floor((s.x - w/2) * f + w/2);
+      const y = Math.floor((s.y - h/2) * f + h/2);
       
-      const dist = Math.sqrt(Math.pow(p.tx - p.x, 2) + Math.pow(p.ty - p.y, 2));
-      const trail = Math.min(dist * 0.1, 5);
-      
-      ctx.globalAlpha = p.alpha;
-      ctx.fillRect(p.x, p.y, p.size, p.size);
-      
-      // High-end Detail: Luminous Motion Trails during morph
-      if (dist > 1) {
-        ctx.globalAlpha = p.alpha * 0.2;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - (p.tx - p.x)*0.1, p.y - (p.ty - p.y)*0.1);
-        ctx.strokeStyle = '#C49C7B';
-        ctx.stroke();
+      if (x > 0 && x < w && y > 0 && y < h) {
+        if (idata[(y * w + x) * 4] > 128) {
+          // Flare effect
+          ctx.globalAlpha = textAlpha * 0.6;
+          ctx.beginPath();
+          ctx.arc(x, y, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     });
 
@@ -140,19 +118,46 @@ window.addEventListener('load', () => {
 
   // THE MASTERPIECE TIMELINE
   const tl = gsap.timeline();
-  tl.to({}, { duration: 1.5 }); // Initial pause to admire '5'
+  
+  // Initial Fade in
+  tl.to({a:0, b:20, s:1.1}, {
+    a: 1, b: 0, s: 1,
+    duration: 2.2,
+    onUpdate: function() {
+      textAlpha = this.targets()[0].a;
+      textBlur = this.targets()[0].b;
+      textScale = this.targets()[0].s;
+    },
+    ease: 'expo.out'
+  });
 
-  [4, 3, 2, 1, 0].forEach(num => {
+  // THE IMPACT COUNTDOWN (5-4-3-2-1)
+  const nums = [4, 3, 2, 1, 0];
+  nums.forEach(num => {
     tl.to({}, { 
       duration: 1.2, 
-      onStart: () => { morph(num.toString()); } 
+      onStart: () => {
+        // Dramatic Impact Shift
+        gsap.to({s: 1.05, a: 0.5, b: 10}, {
+          s: 1, a: 1, b: 0,
+          duration: 0.8,
+          onUpdate: function() {
+            textScale = this.targets()[0].s;
+            textAlpha = this.targets()[0].a;
+            textBlur = this.targets()[0].b;
+          },
+          ease: 'expo.out',
+          onStart: () => { count = num; }
+        });
+      }
     });
   });
 
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.5');
+  // FINAL SHIMMER & HANDOFF
+  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.6');
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, '+=0.2');
+  }, '+=0.1');
 });
 </script>
 </body>
