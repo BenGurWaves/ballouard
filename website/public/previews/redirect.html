@@ -15,8 +15,8 @@
     
     .archive-header { position:fixed; top:4vh; left:6vw; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.5rem; color:var(--brass); opacity:0.15; pointer-events:none; }
     
-    .prototype-warning { position:fixed; top:12vh; left:50%; transform:translateX(-50%); font-family:var(--sans); text-transform:uppercase; letter-spacing:0.5em; font-size:0.45rem; color:var(--brass); opacity:0; z-index:15; display:flex; align-items:center; gap:10px; }
-    .prototype-warning::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--brass); animation: blink 1s infinite; }
+    .prototype-warning { position:fixed; top:8vh; left:50%; transform:translateX(-50%); font-family:var(--sans); text-transform:uppercase; letter-spacing:0.5em; font-size:0.6rem; color:var(--sand); opacity:0; z-index:15; display:flex; align-items:center; gap:12px; }
+    .prototype-warning::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--brass); animation: blink 1s infinite; }
     @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     
     #shimmer { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
@@ -141,7 +141,7 @@ window.addEventListener('load', () => {
   }
 
   // Initial Delay, then start the Atomic Chain
-  gsap.to('#pWarning', { opacity: 0.6, duration: 2, delay: 0.5 });
+  gsap.to('#pWarning', { opacity: 0.8, duration: 1.5, delay: 0.2 });
   gsap.delayedCall(1.0, () => tick(5));
 });
 </script>
