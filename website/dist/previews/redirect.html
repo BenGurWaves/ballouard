@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Velocity — The Architectural Assembly</title>
+  <title>Velocity — The Geometric Sigil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -11,184 +11,133 @@
   <style>
     body, html { margin:0; padding:0; background:#0D0C09; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; }
     
-    .blueprint-overlay { position:fixed; inset:0; z-index:1; opacity:0.08; pointer-events:none; }
-    #assemblyCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
+    #bgCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0.3; }
+    #sigilCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; }
     
-    .contextual-framing { position:fixed; inset:4vh 6vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
-    .framing-header { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:0.8em; font-size:0.55rem; color:var(--brass); opacity:0; }
+    .archive-metadata { position:fixed; inset:6vh 8vw; display:flex; flex-direction:column; justify-content:space-between; z-index:10; pointer-events:none; }
+    .metadata-line { display:flex; justify-content:space-between; font-family:var(--sans); text-transform:uppercase; letter-spacing:1.2em; font-size:0.45rem; color:var(--brass); opacity:0.4; }
     
-    .data-stream { position:fixed; top:20vh; right:6vw; font-family:var(--sans); font-size:0.45rem; color:rgba(196,156,123,0.3); text-align:right; display:flex; flex-direction:column; gap:2px; opacity:0; }
+    .status-sidebar { position:fixed; top:50%; right:4vw; transform:translateY(-50%) rotate(90deg); font-family:var(--sans); font-size:0.5rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--brass); opacity:0; white-space:nowrap; }
 
-    .framing-footer { display:flex; justify-content:space-between; align-items:flex-end; opacity:0; }
-    .footer-left { display:flex; flex-direction:column; align-items:flex-start; gap:0.5rem; }
-    .status-pill { padding:4px 12px; background:rgba(196,156,123,0.1); border:1px solid rgba(196,156,123,0.2); font-size:0.5rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--brass); }
-    .framing-msg { font-family:var(--serif); font-size:clamp(1.2rem, 2vw, 2rem); font-style:italic; color:var(--sand); }
-    .extraction-perc { font-family:var(--serif); font-size:4rem; color:rgba(222,200,181,0.05); line-height:1; }
-
-    .magnetic-implosion { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
+    .shimmer-handoff { position:fixed; inset:0; z-index:1000; background:var(--sand); opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
 
-<canvas class="blueprint-overlay" id="bgCanvas"></canvas>
-<canvas id="assemblyCanvas"></canvas>
-<div class="magnetic-implosion" id="implode"></div>
+<canvas id="bgCanvas"></canvas>
+<canvas id="sigilCanvas"></canvas>
+<div class="shimmer-handoff" id="shimmer"></div>
 
-<div class="contextual-framing">
-  <div class="framing-header" id="fHeader">
-    <span>Archive 8442 — Preview Term</span>
-    <span>Prototype Env — 0.2.1-B</span>
+<div class="archive-metadata">
+  <div class="metadata-line" id="mTop">
+    <span>Archive 8442</span>
+    <span>Prototype Ref: B-02</span>
   </div>
-  
-  <div class="data-stream" id="dStream"></div>
-  
-  <div class="framing-footer" id="fFooter">
-    <div class="footer-left">
-      <div class="status-pill">Active Extraction</div>
-      <h2 class="framing-msg">Handing over to primary digital salon...</h2>
-    </div>
-    <div class="extraction-perc" id="ePerc">00%</div>
+  <div class="metadata-line" id="mBottom">
+    <span>Extraction Phase 09</span>
+    <span>Returning to Source</span>
   </div>
 </div>
+
+<div class="status-sidebar" id="sSide">Handover Initiated</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
 window.addEventListener('load', () => {
-  const canvas = document.getElementById('assemblyCanvas'), ctx = canvas.getContext('2d');
-  const bgCanvas = document.getElementById('bgCanvas'), bgCtx = bgCanvas.getContext('2d');
+  const sCanvas = document.getElementById('sigilCanvas'), sCtx = sCanvas.getContext('2d');
+  const bCanvas = document.getElementById('bgCanvas'), bCtx = bCanvas.getContext('2d');
   let w, h;
   function rs() { 
-    w = canvas.width = bgCanvas.width = window.innerWidth; 
-    h = canvas.height = bgCanvas.height = window.innerHeight; 
-    drawBlueprint();
+    w = sCanvas.width = bCanvas.width = window.innerWidth; 
+    h = sCanvas.height = bCanvas.height = window.innerHeight; 
   }
   window.addEventListener('resize', rs); rs();
 
-  // 1. Blueprint Background (Rotating 3D Wireframe)
-  function drawBlueprint() {
-    bgCtx.clearRect(0,0,w,h);
-    bgCtx.strokeStyle = 'rgba(222,200,181,0.3)';
-    bgCtx.lineWidth = 0.5;
-    const step = 60;
-    // Static coordinate grid (simulated)
-    for(let x=0; x<w; x+=step) { bgCtx.beginPath(); bgCtx.moveTo(x,0); bgCtx.lineTo(x,h); bgCtx.stroke(); }
-    for(let y=0; y<h; y+=step) { bgCtx.beginPath(); bgCtx.moveTo(0,y); bgCtx.lineTo(w,y); bgCtx.stroke(); }
+  // 1. Gravitational Starfield
+  const stars = [];
+  for(let i=0; i<800; i++) stars.push({x: Math.random()*w, y: Math.random()*h, ox:0, oy:0, s: Math.random()*1.5});
+  function drawStars(warpX, warpY) {
+    bCtx.clearRect(0,0,w,h);
+    bCtx.fillStyle = 'rgba(222,200,181,0.4)';
+    stars.forEach(s => {
+      const dx = s.x - warpX, dy = s.y - warpY;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      const shift = 1000 / (d + 100);
+      bCtx.fillRect(s.x + dx/d * shift, s.y + dy/d * shift, s.s, s.s);
+    });
   }
 
-  // 2. Mechanical Assemblage Engine (Numerals as line segments)
+  // 2. 5,000-Point Volumetric Sigil
+  const points = [];
+  const numPoints = 5000;
+  for(let i=0; i<numPoints; i++) {
+    points.push({
+      x: (Math.random()-0.5)*2, y: (Math.random()-0.5)*4, z: (Math.random()-0.5)*0.8,
+      size: Math.random()*1.5 + 0.5, alpha: Math.random()*0.8 + 0.2
+    });
+  }
+
+  let rotationY = 0, rotationX = 0;
   let count = 5;
-  let points = [];
-  const numPoints = 600;
 
-  function initPoints() {
-    for(let i=0; i<numPoints; i++) {
-      points.push({
-        x: Math.random() * w, 
-        y: Math.random() * h,
-        lx: Math.random() * w, ly: Math.random() * h, // ghost trail
-        tx: w/2, ty: h/2, // target x, y
-        size: Math.random() * 2 + 1,
-        alpha: Math.random() * 0.5 + 0.1
-      });
-    }
-  }
-  initPoints();
-
-  // Define numeral patterns (simplified coordinates for 0-5)
-  const patterns = {
-    5: [[-1, -2], [1, -2], [-1, 0], [1, 0], [1, 2], [-1, 2]],
-    4: [[-1, -2], [-1, 0], [1, 0], [1, -2], [1, 2]],
-    3: [[-1, -2], [1, -2], [1, 0], [-1, 0], [1, 0], [1, 2], [-1, 2]],
-    2: [[-1, -2], [1, -2], [1, 0], [-1, 0], [-1, 2], [1, 2]],
-    1: [[0, -2], [0, 2]],
-    0: [[-1, -2], [1, -2], [1, 2], [-1, 2], [-1, -2]]
+  // Numeral Negative Space Maps
+  const numerals = {
+    5: (x,y) => (y < -0.8 && x < 0.5) || (y > -0.2 && y < 0.2) || (y > 0.8 && x > -0.5) || (x < -0.4 && y < 0) || (x > 0.4 && y > 0),
+    4: (x,y) => (x < -0.4 && y < 0) || (x > 0.4) || (y > -0.1 && y < 0.1),
+    3: (x,y) => (y < -0.8) || (y > -0.1 && y < 0.1) || (y > 0.8) || (x > 0.4),
+    2: (x,y) => (y < -0.8) || (y > -0.1 && y < 0.1) || (y > 0.8) || (x > 0.4 && y < 0) || (x < -0.4 && y > 0),
+    1: (x,y) => (x > -0.05 && x < 0.05),
+    0: (x,y) => Math.abs(x) > 0.4 || Math.abs(y) > 0.8
   };
 
-  function updateTargets() {
-    const scale = 80;
-    const pat = patterns[count];
-    for(let i=0; i<numPoints; i++) {
-      const p = points[i];
-      const targetBase = pat[i % pat.length];
-      p.tx = w/2 + targetBase[0] * scale + (Math.random() - 0.5) * 10;
-      p.ty = h/2 + targetBase[1] * scale + (Math.random() - 0.5) * 10;
-    }
-  }
-  updateTargets();
-
   function render() {
-    ctx.fillStyle = 'rgba(13, 12, 9, 0.15)';
-    ctx.fillRect(0,0,w,h);
-    ctx.strokeStyle = '#DEC8B5';
-    ctx.lineWidth = 1;
-
-    // Update real-time log
-    if (Math.random() > 0.8) {
-      const log = document.getElementById('dStream');
-      const entry = document.createElement('div');
-      entry.innerText = `X:${(Math.random()*1000).toFixed(2)} Y:${(Math.random()*1000).toFixed(2)} Z:${Math.random().toFixed(4)} A:${Math.random().toFixed(2)}`;
-      log.prepend(entry);
-      if (log.children.length > 15) log.lastChild.remove();
-    }
+    sCtx.clearRect(0,0,w,h);
+    rotationY += 0.006; rotationX += 0.002;
+    
+    const perspective = 800;
+    const centerX = w/2, centerY = h/2;
+    const sY = Math.sin(rotationY), cY = Math.cos(rotationY);
+    const sX = Math.sin(rotationX), cX = Math.cos(rotationX);
 
     for(let i=0; i<numPoints; i++) {
       const p = points[i];
-      p.lx = p.x; p.ly = p.y;
-      p.x += (p.tx - p.x) * 0.15;
-      p.y += (p.ty - p.y) * 0.15;
+      let x = p.x * cY - p.z * sY;
+      let z = p.x * sY + p.z * cY;
+      let y = p.y * cX - z * sX;
+      let zFinal = p.y * sX + z * cX;
+
+      const f = perspective / (zFinal + 4);
+      const sx = centerX + x * f * 100;
+      const sy = centerY + y * f * 100;
+
+      // Negative Space Check
+      const isNegative = numerals[count](x, y);
       
-      ctx.globalAlpha = p.alpha;
-      ctx.beginPath();
-      ctx.moveTo(p.lx, p.ly);
-      ctx.lineTo(p.x, p.y);
-      ctx.stroke();
-      
-      // Draw lines between some points to create the "Wireframe Assemblage" feel
-      if(i % 25 === 0 && i < numPoints - 25) {
-        ctx.beginPath();
-        ctx.globalAlpha = 0.05 * p.alpha;
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(points[i+25].x, points[i+25].y);
-        ctx.stroke();
-      }
+      sCtx.globalAlpha = isNegative ? p.alpha * 1.5 : p.alpha * 0.1;
+      sCtx.fillStyle = isNegative ? '#DEC8B5' : '#C49C7B';
+      const size = isNegative ? p.size * 1.5 : p.size * 0.5;
+      sCtx.fillRect(sx, sy, size, size);
     }
+    
+    drawStars(centerX, centerY);
     requestAnimationFrame(render);
   }
   render();
 
   // 3. Experience Timeline
   const tl = gsap.timeline();
-  tl.to(['#fHeader', '#fFooter', '#dStream'], { opacity: 1, duration: 1.5, stagger: 0.2, ease: 'power2.inOut' }, 0.5);
+  tl.to(['#mTop', '#mBottom', '#sSide'], { opacity: 1, duration: 2, stagger: 0.3, ease: 'power2.inOut' }, 0.5);
 
-  // Countdown sync
-  const timing = [5, 4, 3, 2, 1, 0];
-  timing.forEach((val, i) => {
-    tl.to({}, { 
-      duration: 1, 
-      onStart: () => { 
-        count = val; 
-        updateTargets(); 
-        // Update percentage display
-        const p = Math.floor(((5-val)/5) * 100);
-        document.getElementById('ePerc').innerText = `${p < 10 ? '0' : ''}${p}%`;
-        
-        // Rapid jiggle on change
-        gsap.to(points, { 
-          alpha: 1, 
-          duration: 0.1, 
-          stagger: 0.0001, 
-          onComplete: () => { gsap.to(points, { alpha: 0.5, duration: 0.4 }); } 
-        });
-      } 
-    });
+  const countdown = [5, 4, 3, 2, 1, 0];
+  countdown.forEach((val, i) => {
+    tl.to({}, { duration: 1, onStart: () => { count = val; } });
   });
 
-  // Implosion Finale
-  tl.to('#implode', { opacity: 1, duration: 1, ease: 'expo.in' }, 6.5);
+  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, 6.5);
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
-  }, 7.5);
+  }, 7.7);
 });
 </script>
 </body>
