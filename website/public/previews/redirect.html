@@ -12,6 +12,7 @@
     body, html { margin:0; padding:0; background:#000; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
     
     .atelier-vault { position:fixed; inset:0; z-index:1; opacity:0; pointer-events:none; }
+    #vignette { position:fixed; inset:0; z-index:10; pointer-events:none; background:radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 120%); }
     
     #corridorCanvas { position:absolute; inset:0; z-index:5; width:100%; height:100%; will-change: filter, opacity; }
     
@@ -28,6 +29,7 @@
 <body>
 
 <canvas class="atelier-vault" id="gridCanvas"></canvas>
+<div id="vignette"></div>
 <canvas id="corridorCanvas"></canvas>
 <div class="shimmer-exit" id="shimmer"></div>
 
