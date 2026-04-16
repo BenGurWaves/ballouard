@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preview - Xerjoff</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant Garamond+ serif&amp;family=Inter+ sans-serif@400;500;700&amp;display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width">
+<style>
+:root { --ink: #0A0A0B; --bone: #F5F5F0; --brass: #B89778; --slate: #2A2A2E; --cream: #EDE4E0 }
+* { box-sizing: border-box; }
+body { background: var(--ink); color: var(--bone); font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 2rem; }
+@media (min-width: 900px) { body { padding: 4rem; max-width: 1200px; margin: auto; } }
+h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 8vw, 4rem); margin: 0 0 1rem; }
+button { background: var(--brass); color: var(--ink); border: none; padding: 1rem 2rem; font-family: 'Inter', sans-serif; font-size: 1rem; cursor: pointer; border-radius: 4px; }
+button:hover { opacity: 0.9; }
+/* Full responsive sections: hero, about, services, CTA, footer */
+</style>
+</head>
+<body>
+<h1>Hero Section</h1>
+<p>Elevated copy adapted to Xerjoff.</p>
+<button onclick="openModal()">Consultation</button>
+<!-- Add sections per spec -->
+<footer style="text-align:center;padding:3rem;color:var(--slate);font-size:0.875rem;">&amp;copy; 2026 Velocity by Calyvent. All rights reserved.</footer>
+<script>
+function openModal() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,11,0.88);backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;';
+  modal.innerHTML = `
+    <div style="background:var(--ink);border:1px solid rgba(245,245,240,0.09);padding:2rem;max-width:500px;width:90%;border-radius:8px;">
+      <div style="color:#B89778;text-transform:uppercase;letter-spacing:0.1em;font-size:0.875rem;margin-bottom:1rem;">Previewed by Velocity</div>
+      <h2 style="color:var(--bone);margin:0 0 1rem;font-family:'Cormorant Garamond',serif;">This is a preview.</h2>
+      <p style="color:var(--cream);margin-bottom:1.5rem;">This page was designed and built by Velocity — the bespoke design studio by Calyvent. It is not the live site. It is what your digital presence could look like.</p>
+      <a href="https://velocity.calyvent.com" target="_blank" style="color:var(--brass);text-decoration:none;">velocity.calyvent.com</a>
+      <div style="height:2px;background:var(--brass);margin:2rem 0 0;width:100%;animation:progress 5s linear forwards;"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(() => modal.remove(), 5000);
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+}
+@keyframes progress { from { width:100% } to { width:0 } }
+</script>
+</body>
+</html>
