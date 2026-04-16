@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Velocity — Digital Transition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=31">
+  <style>
+    body, html { margin:0; padding:0; background:#000; overflow:hidden; color:var(--sand); font-family:var(--sans); -webkit-font-smoothing:antialiased; height:100vh; display:flex; align-items:center; justify-content:center; }
+    
+    .transition-canvas { position:absolute; inset:0; z-index:1; opacity:0.6; }
+    .grain-overlay { position:fixed; inset:0; z-index:10; pointer-events:none; opacity:0.04; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    
+    .content-wrap { position:relative; z-index:5; text-align:center; max-width:800px; padding:0 5vw; }
+    .header-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.6em; font-size:0.55rem; color:var(--brass); margin-bottom:3rem; display:block; opacity:0; transform:translateY(10px); }
+    .main-title { font-family:var(--serif); font-size:clamp(3rem, 8vw, 6rem); line-height:0.95; margin-bottom:2.5rem; font-weight:400; font-style:italic; opacity:0; transform:translateY(30px); }
+    .main-desc { font-size:1.15rem; line-height:1.8; color:var(--dim); font-weight:300; opacity:0; max-width:45ch; margin-inline:auto; }
+
+    .countdown-wrap { position:relative; width:100%; height:1px; background:rgba(222,200,181,0.1); margin-top:6rem; overflow:hidden; opacity:0; }
+    .countdown-bar { position:absolute; top:0; left:0; width:0%; height:100%; background:var(--brass); }
+
+    .source-label { position:fixed; bottom:4vh; left:50%; transform:translateX(-50%); font-family:var(--sans); text-transform:uppercase; letter-spacing:0.4em; font-size:0.6rem; color:rgba(222,200,181,0.25); z-index:5; opacity:0; }
+  </style>
+</head>
+<body>
+
+<div class="grain-overlay"></div>
+<canvas class="transition-canvas" id="canvas"></canvas>
+
+<div class="content-wrap">
+  <span class="header-tag" id="hTag">Digital Transition Handshake</span>
+  <h1 class="main-title" id="hTitle">Structural Artifact<br>Session Concluded.</h1>
+  <p class="main-desc" id="hDesc">This prototype session is now being securely archived. We are returning you to the primary Velocity salon to continue your exploration.</p>
+  
+  <div class="countdown-wrap" id="cWrap">
+    <div class="countdown-bar" id="cBar"></div>
+  </div>
+</div>
+
+<span class="source-label" id="sLabel">Velocity Architecture v2.0</span>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<script>
+window.addEventListener('load', () => {
+  const tl = gsap.timeline();
+  
+  // Cinematic Entrance
+  tl.to('#hTag', { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out' }, 0.4);
+  tl.to('#hTitle', { opacity: 1, y: 0, duration: 1.5, ease: 'expo.out' }, 0.6);
+  tl.to('#hDesc', { opacity: 1, duration: 2, ease: 'power2.out' }, 1.0);
+  tl.to('#cWrap', { opacity: 1, duration: 1 }, 1.5);
+  tl.to('#sLabel', { opacity: 1, duration: 2 }, 2.0);
+  
+  // Progress Bar & Countdown
+  tl.to('#cBar', { width: '100%', duration: 5, ease: 'none' }, 1.5);
+  
+  // Final Dissolve & Redirect
+  tl.to('body', { opacity: 0, scale: 1.05, filter: 'blur(30px)', duration: 1.2, delay: 4.2, ease: 'expo.in', onComplete: () => {
+    window.location.href = 'https://velocity.calyvent.com';
+  }});
+
+  // Abstract Orbital Source (Canvas)
+  const cv = document.getElementById('canvas'), ctx = cv.getContext('2d');
+  let w, h, dots = [];
+  function rs() { w = cv.width = window.innerWidth; h = cv.height = window.innerHeight; init(); }
+  function init() {
+    dots = [];
+    for(let i=0; i<80; i++) {
+      dots.push({
+        x: Math.random() * w, 
+        y: Math.random() * h, 
+        vx: (Math.random()-0.5)*0.8, 
+        vy: (Math.random()-0.5)*0.8, 
+        r: Math.random()*1.5
+      });
+    }
+  }
+  window.addEventListener('resize', rs); rs();
+
+  function draw() {
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(196,156,123,0.15)';
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if(d.x < 0 || d.x > w) d.vx *= -1;
+      if(d.y < 0 || d.y > h) d.vy *= -1;
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 6.28); ctx.fill();
+    });
+    
+    // Abstract Ring
+    const time = Date.now() * 0.001;
+    ctx.strokeStyle = 'rgba(196,156,123,0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(w/2, h/2, Math.min(w,h)*0.35 + Math.sin(time)*10, 0, 6.28);
+    ctx.stroke();
+    
+    requestAnimationFrame(draw);
+  } draw();
+});
+</script>
+</body>
+</html>

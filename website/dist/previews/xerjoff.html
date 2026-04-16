@@ -38,16 +38,6 @@
     .expAction:hover { color:var(--bg); border-color:var(--sand); }
     .expAction:hover::after { left:0; }
 
-    /* "Glass Monolith" Elite Takeover */
-    .handoff-panel { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(40px); z-index:30000; display:none; align-items:center; justify-content:center; opacity:0; overflow:hidden; }
-    .massive-countdown { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:60vh; color:rgba(196,156,123,0.05); pointer-events:none; z-index:0; }
-    
-    .handoff-inner { text-align:center; max-width:640px; width:90%; padding:4rem; position:relative; z-index:10; }
-    .handoff-tag { font-family:var(--sans); text-transform:uppercase; letter-spacing:0.6em; font-size:0.55rem; color:var(--brass); margin-bottom:2.5rem; display:block; opacity:0; transform:translateY(10px); }
-    .handoff-title { font-family:var(--serif); font-size:clamp(2.5rem, 6vw, 4.5rem); line-height:1; margin-bottom:2.5rem; font-weight:400; font-style:italic; opacity:0; transform:translateY(20px); }
-    .handoff-desc { font-size:1.05rem; line-height:1.8; color:var(--dim); margin-bottom:4.5rem; font-weight:300; opacity:0; max-width:45ch; margin-inline:auto; }
-    .handoff-btn { display:inline-block; padding:1.2rem 3.5rem; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; background:var(--brass); color:var(--bg); border-radius:100px; text-decoration:none; opacity:0; transform:translateY(10px); }
-
     svg.filters { position:absolute; width:0; height:0; pointer-events:none; }
   </style>
 </head>
@@ -96,7 +86,7 @@
         <span class="windowLabel">01 — Origin</span>
         <h2 class="windowTitle">A matter of<br><em>Time.</em></h2>
         <p class="windowDesc">The Gibeon collection represents the cosmic collision between celestial artifacts and the patience of Italian craftsmanship.</p>
-        <a href="#" class="expAction action-trigger">Explore Artefact</a>
+        <a href="/previews/redirect.html" class="expAction action-trigger">Explore Artefact</a>
       </div>
     </div>
   </section>
@@ -110,7 +100,7 @@
         <span class="windowLabel">02 — Craft</span>
         <h2 class="windowTitle">Liquid<br><em>Scintillation.</em></h2>
         <p class="windowDesc">Every interaction is calibrated. The digital weight must match the mechanical density of the gilded cap.</p>
-        <a href="#" class="expAction action-trigger">Acquire Essence</a>
+        <a href="/previews/redirect.html" class="expAction action-trigger">Acquire Essence</a>
       </div>
     </div>
   </section>
@@ -132,52 +122,11 @@
   </footer>
 </div>
 
-<div class="handoff-panel" id="handoffPanel">
-  <div class="massive-countdown" id="massiveCountdown">5</div>
-  <div class="handoff-inner">
-    <span class="handoff-tag" id="hTag">PROTOTYPE ENVIRONMENT</span>
-    <h2 class="handoff-title" id="hTitle">Structural Artifact<br>Session Concluded.</h2>
-    <p class="handoff-desc" id="hDesc">This is not a website. It is an architectural preview. You are now being securely returned to the primary Velocity salon to explore the live digital archive.</p>
-    <a href="https://velocity.calyvent.com" class="handoff-btn" id="hBtn">Return Immediately</a>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <script>
-/* ═══ GLOBAL ACTIONS ═══ */
-(function(){
-  document.addEventListener('click', e => {
-    const btn=e.target.closest('.action-trigger');
-    if(btn){ e.preventDefault(); e.stopPropagation(); startTheGlassHandoff(); }
-  });
-})();
-
-function startTheGlassHandoff(){
-  const panel=document.getElementById('handoffPanel'), cd=document.getElementById('massiveCountdown');
-  if(window.lenisInst) window.lenisInst.stop();
-  
-  const tl=gsap.timeline();
-  tl.to('.content-matrix, .hero-proxy, #stringCanvas',{opacity:0, scale:0.95, filter:'blur(10px)', duration:1.5, ease:'expo.inOut'});
-  tl.to(panel,{display:'flex', opacity:1, duration:1.2},0.4);
-  tl.to(['#hTag', '#hTitle'],{opacity:1, y:0, duration:1, stagger:0.2, ease:'expo.out'},1);
-  tl.to('#hDesc',{opacity:1, duration:1, ease:'power2.out'},1.4);
-  tl.to('#hBtn',{opacity:1, y:0, duration:1, ease:'expo.out'},1.6);
-
-  // Heartbeat Countdown
-  let t=5; cd.innerText=t;
-  const i=setInterval(()=>{
-    t--; if(t>=1){ cd.innerText=t; gsap.fromTo(cd,{scale:0.8, opacity:0},{scale:1, opacity:0.05, duration:0.8, ease:'expo.out'}); }
-    if(t<=0){ 
-      clearInterval(i); 
-      gsap.to(panel,{opacity:0, scale:1.2, filter:'blur(40px)', duration:1, onComplete:()=>{ window.location.href='https://velocity.calyvent.com'; }}); 
-    }
-  },1000);
-  gsap.fromTo(cd,{scale:0.8, opacity:0},{scale:1, opacity:0.05, duration:1, ease:'expo.out', delay:0.4});
-}
-
 /* ═══ PRELOADER ═══ */
 (function(){
   const pl=document.getElementById('preloader'),brand=pl.querySelector('.pl-brand'),line=document.getElementById('plLine');
@@ -194,7 +143,6 @@ function boot(){
   const lenis=new Lenis({duration:2.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
   lenis.on('scroll',ScrollTrigger.update);
   gsap.ticker.add(t=>lenis.raf(t*1000));
-  window.lenisInst=lenis;
 
   gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
   gsap.to('#scrollPrompt',{opacity:1,duration:1.2,delay:0.5});
