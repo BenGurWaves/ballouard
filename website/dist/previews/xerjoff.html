@@ -3,18 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>XERJOFF — The Symphony of Scent</title>
+  <title>XERJOFF — Structural Monolith</title>
   <style>
-    :root { --brass: #C49C7B; --gold: #D4AF37; --obsidian: #0D0C09; --paper: #F5F5F5; --dim: rgba(245, 245, 245, 0.4); }
-    body, html { margin: 0; padding: 0; background: #000; overflow-x: hidden; color: var(--paper); font-family: 'Inter', sans-serif; cursor: none; -webkit-font-smoothing: antialiased; }
+    :root { 
+      --brass: #C49C7B; --gold: #D4AF37; --obsidian: #0D0C09; --paper: #F5F5F5; --dim: rgba(245, 245, 245, 0.4); 
+      --sans: 'Inter', system-ui, sans-serif; --serif: 'Instrument Serif', Georgia, serif;
+    }
+    body, html { margin: 0; padding: 0; background: #000; overflow-x: hidden; color: var(--paper); font-family: var(--sans); cursor: none; -webkit-font-smoothing: antialiased; }
     
     /* Preloader */
     #jl-preloader { position: fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; }
-    .jl-logo-wrap { width: 180px; overflow: hidden; position: relative; }
-    .jl-logo-wrap svg { width: 100%; height: auto; opacity:0; transform: translateY(20px); filter: invert(1); }
+    .jl-logo-wrap { width: 220px; position: relative; }
+    .jl-logo-wrap svg { width: 100%; height: auto; opacity: 0; transform: translateY(20px); }
+    .jl-logo-wrap svg path { fill: #fff !important; }
 
     /* Scroll Prompt */
-    .scroll-prompt { position: fixed; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 20; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.65rem; opacity: 0; pointer-events: none; }
+    .scroll-prompt { position: fixed; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 20; font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.65rem; opacity: 0; pointer-events: none; }
     .scroll-line { width: 1px; height: 60px; background: rgba(255,255,255,0.15); margin: 15px auto 0; position: relative; overflow: hidden; }
     .scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--brass); animation: scrollLine 2.2s cubic-bezier(0.76, 0, 0.24, 1) infinite; }
     @keyframes scrollLine { 0% { top: -100%; } 50% { top: 0%; } 100% { top: 100%; } }
@@ -25,50 +29,67 @@
     .c-ring.is-active { width: 90px; height: 90px; border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.03); }
 
     /* Hero Matrix */
-    .hero-proxy { height: 450vh; }
+    .hero-proxy { height: 250vh; }
     .z-wrap { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-    .monolith { font-family: 'Times New Roman', serif; font-size: 28vw; font-weight: 400; letter-spacing: -0.5vw; color: transparent; -webkit-text-stroke: 1px rgba(212, 175, 55, 0.3); will-change: transform; pointer-events: none; }
+    .monolith { 
+      font-family: var(--serif); 
+      font-size: clamp(4rem, 24vw, 24rem); 
+      font-weight: 400; 
+      letter-spacing: -0.05em; 
+      display: flex; 
+      white-space: nowrap; 
+      flex-wrap: nowrap; 
+      color: transparent; 
+      -webkit-text-stroke: 1px rgba(212, 175, 55, 0.3); 
+      will-change: transform; 
+      pointer-events: none; 
+    }
     .char { display: inline-block; opacity: 0; transform: translateZ(-200px); }
     .monolith.is-active { -webkit-text-stroke: 0px; color: #fff; text-shadow: 0 0 50px rgba(255,215,0,0.25); filter: url(#liquidFilter); }
     #stringCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
 
-    /* Atmosphere Typography */
-    .atm-text { position: absolute; font-family: 'Times New Roman', serif; font-size: 20vw; color: rgba(255,255,255,0.03); white-space: nowrap; pointer-events: none; z-index: 1; text-transform: uppercase; font-style: italic; letter-spacing: -0.05em; will-change: transform; }
-
     /* Content Matrix */
-    .content-matrix { position: relative; z-index: 10; background: transparent; padding-bottom: 20vh; }
+    .content-matrix { position: relative; z-index: 10; background: #000; margin-top: -50vh; padding-bottom: 20vh; }
     
-    .windowSection { min-height: 120vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 5vw; }
+    .windowSection { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20vh 5vw; }
     .floatingWindow { position: relative; width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 8vw; align-items: center; }
     .windowFrame { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; background: #111; box-shadow: 0 50px 100px rgba(0,0,0,0.5); transform: perspective(1000px); }
     .windowImg { width: 100%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: 0; filter: contrast(1.1) brightness(0.9); }
     
     .windowText { position: relative; z-index: 5; }
-    .windowLabel { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; color: var(--gold); margin-bottom: 2.5rem; display: block; }
-    .windowTitle { font-family: 'Times New Roman', serif; font-size: clamp(3rem, 7vw, 6rem); margin: 0 0 2.5rem; line-height: 0.95; font-weight: 400; }
+    .windowLabel { font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; color: var(--gold); margin-bottom: 2.5rem; display: block; }
+    .windowTitle { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); margin: 0 0 2.5rem; line-height: 0.95; font-weight: 400; }
     .windowDesc { font-size: 1.15rem; line-height: 1.8; color: var(--dim); max-width: 450px; font-weight: 300; }
 
-    /* Experience Action */
     .expAction { display: inline-block; margin-top: 4rem; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); padding: 1.5rem 4rem; text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; position: relative; overflow: hidden; transition: color 0.4s; }
     .expAction::after { content: ''; position: absolute; top:0; left:-100%; width:100%; height:100%; background:#fff; z-index:-1; transition: left 0.5s cubic-bezier(0.76, 0, 0.24, 1); }
     .expAction:hover { color: #000; border-color: #fff; }
     .expAction:hover::after { left: 0; }
 
-    /* Original Velocity Footer Integration */
-    .footer-exp { position: relative; width: 100%; background: #000; min-height: 100vh; padding-top: 10vh; z-index: 20; border-top: 1px solid rgba(255,255,255,0.05); }
-    .footer-particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 60%; pointer-events: none; }
-    .footer-content { position: relative; z-index: 10; text-align: center; padding-top: 25vh; }
-    .footer-email { font-family: 'Times New Roman', serif; font-size: clamp(2rem, 5vw, 4rem); color: var(--paper); text-decoration: none; display: block; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
-    .footer-tagline { font-family: 'Inter', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; color: var(--dim); font-style: normal; }
-    .footer-bottom { position: absolute; bottom: 4vh; width: 100%; padding: 0 5vw; box-sizing: border-box; display: flex; justify-content: space-between; align-items: flex-end; font-family: 'Inter', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--dim); }
-    .footer-links a { color: var(--dim); text-decoration: none; margin-left: 2rem; transition: color 0.3s; }
-    .footer-links a:hover { color: #fff; }
+    /* ═══ FOOTER — IDENTICAL TO HOME ═══ */
+    .footer-exp{position:relative;min-height:100vh;background:#000;border-top:1px solid rgba(222,200,181,.07);display:flex;flex-direction:column;overflow:hidden}
+    .footer-particle-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+    .footer-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:0 clamp(1.75rem,5vw,5.5rem) clamp(6rem,10vw,10rem);pointer-events:none}
+    .footer-email{display:block;font-family:var(--serif);font-style:italic;font-size:clamp(1.8rem,4.5vw,5.5rem);letter-spacing:-.04em;line-height:1;color:var(--brass);white-space:nowrap;transition:color .4s;margin-bottom:clamp(2rem,3.5vw,3rem);pointer-events:auto; text-decoration:none}
+    .footer-email:hover{color:var(--gold)}
+    .footer-email .char{display:inline-block;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+    .footer-email:hover .char:nth-child(odd){transform:translateY(-5px)}
+    .footer-email:hover .char:nth-child(even){transform:translateY(5px)}
+    .footer-tagline{font-family:var(--serif);font-size:clamp(.9rem,1.8vw,1.5rem);color:var(--dim);letter-spacing:-.02em;margin-top:clamp(1.5rem,3vw,3rem)}
+    .footer-tagline em{font-style:italic;color:var(--brass)}
+    .footer-orbit{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:clamp(200px,32vw,400px);height:clamp(200px,32vw,400px);border:1px solid rgba(222,200,181,.07);border-radius:50%;animation:orbit 30s linear infinite;pointer-events:none;z-index:0}
+    @keyframes orbit{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+    .footer-orbit-dot{position:absolute;top:-3px;left:50%;width:6px;height:6px;background:var(--brass);border-radius:50%;transform:translateX(-50%)}
+    .footer-bottom{position:relative;z-index:1;padding:clamp(2rem,4vw,4rem) clamp(1.75rem,5vw,5.5rem);display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:2rem}
+    .footer-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.6rem}
+    .footer-meta span,.footer-meta a{font-size:.52rem;letter-spacing:.1em;color:var(--dim);transition:color .25s; text-decoration:none}
+    .footer-meta a:hover{color:#fff}
+    .footer-coords{font-family:var(--serif);font-style:italic;font-size:.6rem;letter-spacing:.04em;color:var(--dim);opacity:.6}
+    .footer-links{display:flex;gap:1.5rem}
 
-    /* Structural Prototype Takeover */
     .takeover { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; color: #000; z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .t-head { font-size: 5vw; font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 3vh; }
     .t-count { font-family: monospace; font-size: 15vw; line-height: 1; -webkit-text-stroke: 2px #000; color: transparent; }
-
     svg.filters { position: absolute; width:0; height:0; pointer-events: none; }
   </style>
 </head>
@@ -87,14 +108,16 @@
 <div id="jl-preloader">
   <div class="jl-logo-wrap">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 160 28" id="jl-svg">
-      <path fill="white" d="M90.1873 14.0749V13.9988C90.1873 6.6526 95.8271 0.5 103.805 0.5C111.784 0.5 117.348 6.57886 117.348 13.9251V13.9988C117.348 21.3474 111.708 27.5 103.73 27.5C95.7515 27.5 90.1873 21.4211 90.1873 14.0749ZM112.561 14.0749V14.0012C112.561 8.92929 108.886 4.71465 103.73 4.71465C98.5737 4.71465 94.9743 8.85555 94.9743 13.9274V14.0012C94.9743 19.073 98.6471 23.2877 103.805 23.2877C108.964 23.2877 112.563 19.1468 112.563 14.0749H112.561Z" />
-      <path fill="white" d="M0.371405 0.947041L9.46084 13.7765L0 27.053H5.23177L12.0959 17.1696L18.9233 27.053H24.3041L14.8791 13.7016L23.9327 0.947041H18.7009L12.2082 10.3073L5.7522 0.947041H0.371405Z" />
-      <path fill="white" d="M69.2609 27.0507L69.2625 27.053L69.2648 27.0507H69.2609Z" />
-      <path fill="white" d="M61.385 15.8838L69.2609 27.0507H63.884L56.0639 15.9368H52.3315V11.8351H58.4665C61.7312 11.8351 63.8083 10.5585 63.8083 8.51682V8.45921C63.8083 6.30234 61.8046 5.12252 58.4276 5.12482H49.4703V0.94474H58.799C62.0637 0.94474 68.4463 2.73752 68.4463 8.28408V8.36012C68.4371 12.5241 65.1266 15.0819 61.385 15.8838Z" />
-      <path fill="white" d="M70.175 23.2116L73.1806 20.1169C74.7029 22.0571 76.2229 23.1747 78.4124 23.1747C80.8609 23.1747 82.5299 21.534 82.5299 18.066V0.947041H87.2046V18.1766C87.2046 21.2714 86.3128 23.5849 84.7927 25.115C83.2727 26.6451 81.0833 27.4263 78.4857 27.4263C74.4782 27.4263 71.8807 25.562 70.175 23.2116Z" />
-      <path fill="white" d="M120.344 0.947041V27.053H124.909V15.9391H136.184V11.8374H124.909V5.05108H138.889V0.947041H120.344Z" />
-      <path fill="white" d="M141.455 27.053V0.947041H159.998V5.05108H146.017V11.8374H157.292V15.9391H146.017V27.053H141.455Z" />
-      <path fill="white" d="M46.3408 0.947041H27.7958V27.0553H46.3408V22.9512H32.3604V15.9391H44.4723V11.8374H32.3604V5.05108H46.3408V0.947041Z" />
+      <g fill="white">
+        <path d="M90.1873 14.0749V13.9988C90.1873 6.6526 95.8271 0.5 103.805 0.5C111.784 0.5 117.348 6.57886 117.348 13.9251V13.9988C117.348 21.3474 111.708 27.5 103.73 27.5C95.7515 27.5 90.1873 21.4211 90.1873 14.0749ZM112.561 14.0749V14.0012C112.561 8.92929 108.886 4.71465 103.73 4.71465C98.5737 4.71465 94.9743 8.85555 94.9743 13.9274V14.0012C94.9743 19.073 98.6471 23.2877 103.805 23.2877C108.964 23.2877 112.563 19.1468 112.563 14.0749H112.561Z" />
+        <path d="M0.371405 0.947041L9.46084 13.7765L0 27.053H5.23177L12.0959 17.1696L18.9233 27.053H24.3041L14.8791 13.7016L23.9327 0.947041H18.7009L12.2082 10.3073L5.7522 0.947041H0.371405Z" />
+        <path d="M69.2609 27.0507L69.2625 27.053L69.2648 27.0507H69.2609Z" />
+        <path d="M61.385 15.8838L69.2609 27.0507H63.884L56.0639 15.9368H52.3315V11.8351H58.4665C61.7312 11.8351 63.8083 10.5585 63.8083 8.51682V8.45921C63.8083 6.30234 61.8046 5.12252 58.4276 5.12482H49.4703V0.94474H58.799C62.0637 0.94474 68.4463 2.73752 68.4463 8.28408V8.36012C68.4371 12.5241 65.1266 15.0819 61.385 15.8838Z" />
+        <path d="M70.175 23.2116L73.1806 20.1169C74.7029 22.0571 76.2229 23.1747 78.4124 23.1747C80.8609 23.1747 82.5299 21.534 82.5299 18.066V0.947041H87.2046V18.1766C87.2046 21.2714 86.3128 23.5849 84.7927 25.115C83.2727 26.6451 81.0833 27.4263 78.4857 27.4263C74.4782 27.4263 71.8807 25.562 70.175 23.2116Z" />
+        <path d="M120.344 0.947041V27.053H124.909V15.9391H136.184V11.8374H124.909V5.05108H138.889V0.947041H120.344Z" />
+        <path d="M141.455 27.053V0.947041H159.998V5.05108H146.017V11.8374H157.292V15.9391H146.017V27.053H141.455Z" />
+        <path d="M46.3408 0.947041H27.7958V27.0553H46.3408V22.9512H32.3604V15.9391H44.4723V11.8374H32.3604V5.05108H46.3408V0.947041Z" />
+      </g>
     </svg>
   </div>
 </div>
@@ -115,10 +138,6 @@
 </div>
 
 <div class="content-matrix" id="contentMatrix">
-  
-  <div class="atm-text" style="top: 20vh; left: -10vw;" id="atm1">Provenance</div>
-  <div class="atm-text" style="top: 150vh; right: -5vw;" id="atm2">Savoir-Faire</div>
-
   <section class="windowSection">
     <div class="floatingWindow">
       <div class="windowFrame" id="wf1">
@@ -127,7 +146,7 @@
       <div class="windowText">
         <span class="windowLabel">01 — Origin</span>
         <h2 class="windowTitle">A matter of<br><em>Time.</em></h2>
-        <p class="windowDesc">The Gibeon collection represents the cosmic collision between celestial artifacts and the patience of Italian craftsmanship. A scent that has travelled across light-years to reach the skin.</p>
+        <p class="windowDesc">The Gibeon collection represents the cosmic collision between celestial artifacts and the patience of Italian craftsmanship.</p>
         <a href="#" class="expAction acquire-essence">Explore Artefact</a>
       </div>
     </div>
@@ -141,7 +160,7 @@
       <div class="windowText" style="direction: ltr;">
         <span class="windowLabel">02 — Craft</span>
         <h2 class="windowTitle">Liquid<br><em>Scintillation.</em></h2>
-        <p class="windowDesc">Every interaction is calibrated. The digital weight must match the mechanical density of the gilded cap. Silk and Stone, balanced in absolute harmony.</p>
+        <p class="windowDesc">Every interaction is calibrated. The digital weight must match the mechanical density of the gilded cap.</p>
         <a href="#" class="expAction acquire-essence">Acquire Essence</a>
       </div>
     </div>
@@ -149,7 +168,7 @@
 
   <footer class="footer-exp" id="footerExp">
     <canvas class="footer-particle-canvas" id="footerParticles"></canvas>
-    <div class="footer-orbit" style="top:25%;left:50%"><div class="footer-orbit-dot"></div></div>
+    <div class="footer-orbit" style="top:30%;left:50%"><div class="footer-orbit-dot"></div></div>
     <div class="footer-content">
       <a href="#" class="footer-email" id="footerEmail"></a>
       <p class="footer-tagline">Heritage is not preserved. It <em>compounds.</em></p>
@@ -162,7 +181,6 @@
       </div>
     </div>
   </footer>
-
 </div>
 
 <div class="takeover" id="takeover">
@@ -183,15 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const tlLoad = gsap.timeline({
     onComplete: () => {
       gsap.set('#jl-preloader', { display: 'none' });
-      gsap.to('#scrollPrompt', { opacity: 1, duration: 1.5, ease: 'power2.out' });
+      gsap.to('#scrollPrompt', { opacity: 1, duration: 1 });
       initExperience();
     }
   });
-  tlLoad.to('#jl-svg', { opacity: 1, y: 0, duration: 1.5, ease: 'expo.out' })
-        .to('#jl-preloader', { opacity: 0, duration: 0.8, ease: 'power2.inOut' });
+  tlLoad.to('#jl-svg', { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out' })
+        .to('#jl-preloader', { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, "+=0.2");
 
   function initExperience() {
-    const lenis = new Lenis({ duration: 1.8, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    const lenis = new Lenis({ duration: 1.5, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
 
@@ -210,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('mouseleave', () => cRing.classList.remove('is-active'));
     });
 
-    // Liquid String
+    // String Physics
     const cv = document.getElementById('stringCanvas'), ctx = cv.getContext('2d');
     let w, h, targetY, currentY = 0, velY = 0;
     const rs = () => { w = cv.width = window.innerWidth; h = cv.height = window.innerHeight; targetY = currentY = h/2; };
@@ -224,9 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.moveTo(0, h/2); ctx.quadraticCurveTo(w/2, currentY + velY*4, w, h/2); ctx.strokeStyle = 'rgba(196,156,123,0.4)'; ctx.stroke();
     });
 
-    // Z-Axis Zoom
+    // Z-Axis Hero
     const mono = document.getElementById('monolith'), chars = document.querySelectorAll('.char'), oChar = document.getElementById('targetO');
-    gsap.fromTo(chars, { opacity:0, z:-400, rotationX:40 }, { opacity:1, z:0, rotationX:0, duration:1.8, stagger:0.08, ease:'expo.out' });
+    gsap.fromTo(chars, { opacity:0, z:-400, rotationX:40 }, { opacity:1, z:0, rotationX:0, duration:1.5, stagger:0.06, ease:'expo.out' });
     const updateO = () => {
       const r = oChar.getBoundingClientRect(), wr = mono.getBoundingClientRect();
       gsap.set(mono, { transformOrigin: `${(r.left - wr.left) + r.width/2}px ${(r.top - wr.top) + r.height/2}px` });
@@ -236,59 +254,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroTl = gsap.timeline({ scrollTrigger: { trigger: '.hero-proxy', start: 'top top', end: 'bottom bottom', scrub: 1 } });
     heroTl.to('#scrollPrompt', { opacity: 0, duration: 0.1 }, 0);
     heroTl.to('#stringCanvas', { opacity: 0, duration: 0.2 }, 0);
-    heroTl.to(mono, { onStart: () => mono.classList.add('is-active'), onReverseComplete: () => mono.classList.remove('is-active') }, 0.15);
+    heroTl.to(mono, { onStart: () => mono.classList.add('is-active'), onReverseComplete: () => mono.classList.remove('is-active') }, 0.1);
     heroTl.to('#turb', { attr: { baseFrequency: '0.001 0.005' }, duration: 0.8 }, 0);
-    heroTl.to(mono, { scale: 180, opacity: 0, ease: 'power2.in' }, 0.4);
+    heroTl.to(mono, { scale: 120, opacity: 0, ease: 'power2.in' }, 0.4);
     heroTl.to('#zWrap', { autoAlpha: 0, duration: 0 }, 1);
 
-    // Parallax Windows and Atmospheric Text
-    gsap.to('#atm1', { x: -200, scrollTrigger: { trigger: '.hero-proxy', start: 'top top', end: 'bottom top', scrub: 1 } });
-    gsap.to('#atm2', { x: 200, scrollTrigger: { trigger: '#wf2', start: 'top bottom', end: 'bottom top', scrub: 1 } });
-
-    document.querySelectorAll('.windowFrame').forEach((wf, i) => {
-      gsap.from(wf, { y: 150, opacity: 0, duration: 1.5, ease: 'expo.out', scrollTrigger: { trigger: wf, start: 'top 95%' } });
+    // Parallax
+    document.querySelectorAll('.windowFrame').forEach((wf) => {
       const img = wf.querySelector('.windowImg');
       gsap.to(img, { yPercent: 15, ease: 'none', scrollTrigger: { trigger: wf, start: 'top bottom', end: 'bottom top', scrub: true } });
-      
-      wf.addEventListener('mousemove', e => {
-        const r = wf.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
-        gsap.to(wf, { rotateY: x*10, rotateX: -y*10, duration: 0.5 });
-      });
-      wf.addEventListener('mouseleave', () => gsap.to(wf, { rotateY: 0, rotateX: 0, duration: 1 }));
     });
 
-    // Velocity Signature Particles
+    /* ═══ FOOTER — IDENTICAL TO HOME ═══ */
+    const ftEmail=document.getElementById('footerEmail');
+    if(ftEmail){
+      const t='atelier@calyvent.com';
+      ftEmail.href='mailto:'+t;
+      ftEmail.innerHTML=t.split('').map(c=>`<span class="char">${c}</span>`).join('');
+      gsap.from('.footer-email .char',{scrollTrigger:{trigger:'.footer-exp',start:'top 70%'},opacity:0,y:50,rotateZ:10,duration:1.4,ease:'expo.out',stagger:.015});
+    }
+    gsap.from('.footer-tagline',{scrollTrigger:{trigger:'.footer-exp',start:'top 65%'},opacity:0,y:20,duration:1,ease:'expo.out',delay:.2});
+
+    const coordsEl=document.getElementById('footerCoords');
+    if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}tick();setInterval(tick,1000)}
+
+    /* Particle text */
     (function(){
-      const fcv=document.getElementById('footerParticles'); if(!fcv)return;
-      const fctx=fcv.getContext('2d'); let fw, fh, particles=[], formed=false;
-      const frs=()=>{fw=fcv.width=fcv.offsetWidth; fh=fcv.height=fcv.offsetHeight; finit()};
+      const fcv=document.getElementById('footerParticles');if(!fcv)return;
+      const fctx=fcv.getContext('2d');let fw,fh,particles=[],formed=false;
+      const frs=()=>{fw=fcv.width=fcv.offsetWidth;fh=fcv.height=fcv.offsetHeight;initP()};
       const finit=()=>{
-        particles=[]; const off=document.createElement('canvas'); off.width=fw; off.height=fh;
-        const octx=off.getContext('2d'); octx.font=`400 ${Math.min(fw*.13,160)}px 'Times New Roman', serif`;
-        octx.fillStyle='#fff'; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillText('Velocity.', fw/2, fh*.3);
-        const data=octx.getImageData(0,0,fw,fh).data; const gap=Math.max(4, Math.round(fw/400));
-        for(let y=0; y<fh; y+=gap){ for(let x=0; x<fw; x+=gap){ if(data[((y*fw+x)*4)+3]>128){
-          particles.push({tx:x, ty:y, x:Math.random()*fw, y:Math.random()*fh, vx:0, vy:0, sz:0.7+Math.random()*1.2});
+        particles=[]; const off=document.createElement('canvas');off.width=fw;off.height=fh;
+        const oc=off.getContext('2d'); const fs=Math.min(fw*.13,160);
+        oc.font=`400 ${fs}px 'Instrument Serif',serif`; oc.fillStyle='#fff';oc.textAlign='center';oc.textBaseline='middle';
+        oc.fillText('Velocity.',fw/2,fh*.30); const d=oc.getImageData(0,0,fw,fh).data; const gap=Math.max(3,Math.round(fw/380));
+        for(let y=0;y<fh;y+=gap){for(let x=0;x<fw;x+=gap){ if(d[((y*fw+x)*4)+3]>128){
+          particles.push({tx:x,ty:y,x:Math.random()*fw,y:Math.random()*fh,vx:0,vy:0,sz:.8+Math.random()*1.2,r:Math.random()>.3?196:222,g:Math.random()>.3?156:200,b:Math.random()>.3?123:181});
         }}}
       };
-      frs(); window.addEventListener('resize', frs);
-      ScrollTrigger.create({ trigger: '#footerExp', start: 'top 80%', onEnter: () => formed=true, onLeaveBack: () => formed=false });
+      frs(); window.addEventListener('resize',frs);
+      let mouseX=-1e3,mouseY=-1e3;
+      document.addEventListener('mousemove',e=>{ const r=fcv.getBoundingClientRect(); mouseX=e.clientX-r.left;mouseY=e.clientY-r.top; });
+      ScrollTrigger.create({trigger:'#footerExp',start:'top 80%',onEnter:()=>{formed=true},onLeaveBack:()=>{formed=false}});
       const fdraw=()=>{
         fctx.clearRect(0,0,fw,fh);
         particles.forEach(p=>{
-          if(formed){ p.vx+=(p.tx-p.x)*0.045; p.vy+=(p.ty-p.y)*0.045; }
-          else { p.vx+=(p.tx-p.x)*0.003; p.vy+=(p.ty-p.y)*0.003; p.vx+=Math.sin(Date.now()*0.001+p.tx)*0.1; }
-          p.vx*=0.88; p.vy*=0.88; p.x+=p.vx; p.y+=p.vy;
-          fctx.fillStyle='rgba(196,156,123,0.55)'; fctx.fillRect(p.x, p.y, p.sz, p.sz);
+          if(formed){
+            const dx=mouseX-p.x,dy=mouseY-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+            if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5}
+            p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04;
+          }else{
+            p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003;
+            p.vx+=Math.sin(Date.now()*0.001+p.tx)*.1;p.vy+=Math.cos(Date.now()*0.001+p.ty)*.1;
+          }
+          p.vx*=.88;p.vy*=.88;p.x+=p.vx;p.y+=p.vy;
+          fctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`; fctx.fillRect(p.x,p.y,p.sz,p.sz);
         });
         requestAnimationFrame(fdraw);
       }; fdraw();
     })();
-
-    // Utils
-    const em='atelier@calyvent.com'; const fEm=document.getElementById('footerEmail');
-    if(fEm){ fEm.href='mailto:'+em; fEm.innerHTML=em.split('').map(c=>`<span>${c}</span>`).join(''); }
-    const fCo=document.getElementById('footerCoords'); if(fCo){ setInterval(()=>{ const d=new Date(); fCo.innerHTML=`40°42'N 74°00'W — ${d.getUTCHours().toString().padStart(2,'0')}:${d.getUTCMinutes().toString().padStart(2,'0')}:${d.getUTCSeconds().toString().padStart(2,'0')} UTC`; },1000); }
 
     document.querySelectorAll('.acquire-essence').forEach(btn => {
       btn.addEventListener('click', e => {
