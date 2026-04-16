@@ -125,7 +125,16 @@ window.addEventListener('load', () => {
   });
 
   // FINAL REDIRECT
-  tl.to('#shimmer', { opacity: 1, duration: 1.2, ease: 'expo.in' }, '+=0.5');
+  tl.to('#shimmer', { 
+    opacity: 1, 
+    duration: 1.2, 
+    ease: 'expo.in',
+    onStart: () => {
+      // Final Kinetic Impact Flash
+      ctx.fillStyle = '#DEC8B5';
+      ctx.fillRect(0,0,w,h);
+    }
+  }, '+=0.5');
   tl.add(() => {
     window.location.href = 'https://velocity.calyvent.com';
   }, '+=0.1');
