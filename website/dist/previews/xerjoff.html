@@ -116,12 +116,14 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+
   gsap.registerPlugin(ScrollTrigger);
 
   // Smooth Scroll
   const lenis = new Lenis({ duration: 2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((t) => lenis.raf(t * 1000));
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 
   // Cursor
@@ -196,25 +198,25 @@
     // Draw chromatic line
     ctx.lineWidth = 1;
     
-    // Red split
+    // Deep Gold split
     ctx.beginPath();
     ctx.moveTo(0, h/2);
     ctx.quadraticCurveTo(w/2, currentY + velY*5 + Math.sin(Date.now()*.002)*10, w, h/2);
-    ctx.strokeStyle = 'rgba(255, 0, 80, 0.6)';
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
     ctx.stroke();
 
-    // Cyan split
+    // Bright Gold split
     ctx.beginPath();
     ctx.moveTo(0, h/2);
     ctx.quadraticCurveTo(w/2, currentY - velY*5 + Math.sin(Date.now()*.0025)*10, w, h/2);
-    ctx.strokeStyle = 'rgba(0, 255, 255, 0.6)';
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
     ctx.stroke();
 
-    // Core white
+    // Core bright
     ctx.beginPath();
     ctx.moveTo(0, h/2);
     ctx.quadraticCurveTo(w/2, currentY, w, h/2);
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.stroke();
 
     requestAnimationFrame(draw);
@@ -288,6 +290,7 @@
   // Acquire CTA fades in
   tl.to('#acquireBtn', { opacity: 1, pointerEvents: 'auto', duration: 0.2 }, 0.9);
 
+});
 </script>
 </body>
 </html>
