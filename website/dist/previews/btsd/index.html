@@ -3,33 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>By The Sky — Digital Atelier</title>
-  <!-- Deployed: 2026-04-17 -->
-  <meta name="description" content="Award-winning design studio. Websites, brands, digital experiences.">
+  <title>By The Sky Design — Award-Winning Digital Studio</title>
+  <meta name="description" content="Award-winning design studio creating bespoke websites, brands, and digital experiences. Based in Sheffield, UK, working with ambitious brands worldwide.">
+  <link rel="canonical" href="https://velocity.calyvent.com/previews/btsd">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="By The Sky Design — Award-Winning Digital Studio">
+  <meta property="og:description" content="Award-winning design studio creating bespoke websites, brands, and digital experiences.">
+  <meta property="og:url" content="https://velocity.calyvent.com/previews/btsd">
+  <meta property="og:image" content="https://velocity.calyvent.com/previews/btsd/og-image.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="By The Sky Design — Award-Winning Digital Studio">
+  <meta name="twitter:description" content="Award-winning design studio creating bespoke websites, brands, and digital experiences.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><circle cx='24' cy='24' r='20' fill='%231d4ed8'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='Arial' font-size='20' font-weight='bold'>B</text></svg>">
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 
   <!-- Grain -->
-  <div class="grain"></div>
+  <div class="grain" aria-hidden="true"></div>
 
   <!-- Cursor -->
-  <div class="cursor" id="cursor">
+  <div class="cursor" id="cursor" aria-hidden="true">
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
     <div class="cursor-text"></div>
   </div>
 
   <!-- Loader -->
-  <div class="loader" id="loader">
-    <canvas id="loader-canvas"></canvas>
+  <div class="loader" id="loader" role="status" aria-label="Loading" aria-live="polite">
+    <canvas id="loader-canvas" aria-hidden="true"></canvas>
     <div class="loader-content">
-      <div class="loader-ring"></div>
-      <div class="loader-ring loader-ring-2"></div>
-      <div class="loader-text">
+      <div class="loader-ring" aria-hidden="true"></div>
+      <div class="loader-ring loader-ring-2" aria-hidden="true"></div>
+      <div class="loader-text" aria-hidden="true">
         <span>B</span><span>Y</span>
         <span class="space"></span>
         <span>T</span><span>H</span><span>E</span>
@@ -41,10 +60,10 @@
   </div>
 
   <!-- Nav - Hidden on hero -->
-  <nav class="nav" id="nav">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="https://velocity.calyvent.com/previews/redirect" class="nav-logo magnetic" data-cursor="link">
-        <span class="nav-dot"></span>
+      <a href="https://velocity.calyvent.com/previews/redirect" class="nav-logo magnetic" data-cursor="link" aria-label="By The Sky Design - Home">
+        <span class="nav-dot" aria-hidden="true"></span>
         <span>BTS</span>
       </a>
       <div class="nav-links">
@@ -59,35 +78,35 @@
   </nav>
 
   <!-- Menu Overlay -->
-  <div class="menu-overlay" id="menu-overlay">
-    <div class="menu-items">
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-label="Mobile menu" aria-hidden="true">
+    <div class="menu-items" role="navigation" aria-label="Menu navigation">
       <a href="https://velocity.calyvent.com/previews/redirect" class="menu-item" data-cursor="link">
-        <span class="mi-num">01</span>
+        <span class="mi-num" aria-hidden="true">01</span>
         <span class="mi-text">Work</span>
       </a>
       <a href="https://velocity.calyvent.com/previews/redirect" class="menu-item" data-cursor="link">
-        <span class="mi-num">02</span>
+        <span class="mi-num" aria-hidden="true">02</span>
         <span class="mi-text">Studio</span>
       </a>
       <a href="https://velocity.calyvent.com/previews/redirect" class="menu-item" data-cursor="link">
-        <span class="mi-num">03</span>
+        <span class="mi-num" aria-hidden="true">03</span>
         <span class="mi-text">Contact</span>
       </a>
     </div>
-    <div class="menu-bg-text">MENU</div>
+    <div class="menu-bg-text" aria-hidden="true">MENU</div>
   </div>
 
   <main>
 
     <!-- EPIC HERO -->
-    <section class="hero" id="hero">
-      <canvas id="hero-canvas"></canvas>
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-content">
         <div class="hero-eyebrow" data-reveal>
-          <span class="line"></span>
+          <span class="line" aria-hidden="true"></span>
           <span>Digital Atelier — Est. 2004</span>
         </div>
-        <h1 class="hero-title">
+        <h1 class="hero-title" id="hero-title">
           <span class="ht-line" data-reveal>Crafting</span>
           <span class="ht-line" data-reveal>Digital</span>
           <span class="ht-line ht-accent" data-reveal>Experiences</span>
@@ -97,9 +116,9 @@
           Twenty years of pushing creative boundaries.
         </p>
         <div class="hero-cta-group" data-reveal>
-          <a href="https://velocity.calyvent.com/previews/redirect" class="hero-cta magnetic" data-cursor="explore">
+          <a href="https://velocity.calyvent.com/previews/redirect" class="hero-cta magnetic" data-cursor="explore" aria-label="Explore our work portfolio">
             <span>Explore Work</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M7 17L17 7M17 7H7M17 7V17"/>
             </svg>
           </a>
@@ -108,58 +127,58 @@
           </a>
         </div>
       </div>
-      <div class="hero-indicator">
+      <div class="hero-indicator" aria-hidden="true">
         <div class="indicator-line"></div>
         <span>Scroll</span>
       </div>
     </section>
 
     <!-- SELECTED WORK -->
-    <section class="work-section" id="work">
+    <section class="work-section" id="work" aria-labelledby="work-title">
       <div class="section-header" data-reveal>
-        <span class="sec-num">01</span>
-        <h2 class="sec-title">Selected Work</h2>
+        <span class="sec-num" aria-hidden="true">01</span>
+        <h2 class="sec-title" id="work-title">Selected Work</h2>
       </div>
       <div class="work-grid">
-        <a href="https://velocity.calyvent.com/previews/redirect" class="work-item magnetic" data-cursor="view" data-cursor-text="View">
+        <a href="https://velocity.calyvent.com/previews/redirect" class="work-item magnetic" data-cursor="view" data-cursor-text="View" aria-labelledby="work-1-title">
           <div class="work-visual">
-            <div class="work-image" style="background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #60a5fa 100%)"></div>
-            <div class="work-overlay"></div>
-            <span class="work-view-btn">View Project</span>
+            <div class="work-image" style="background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #60a5fa 100%)" aria-hidden="true"></div>
+            <div class="work-overlay" aria-hidden="true"></div>
+            <span class="work-view-btn" aria-hidden="true">View Project</span>
           </div>
           <div class="work-info">
             <div class="work-meta">
-              <span>001</span>
-              <span>•</span>
+              <span aria-hidden="true">001</span>
+              <span aria-hidden="true">•</span>
               <span>Website / Brand</span>
             </div>
-            <h3>Charlie Luxton Design</h3>
+            <h3 id="work-1-title">Charlie Luxton Design</h3>
             <p>A complete digital transformation for one of the UK's leading architectural designers. New brand identity, website, and marketing collateral.</p>
             <span class="work-link">
               <span>See case study</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </span>
           </div>
         </a>
-        <a href="https://velocity.calyvent.com/previews/redirect" class="work-item magnetic" data-cursor="view" data-cursor-text="View">
+        <a href="https://velocity.calyvent.com/previews/redirect" class="work-item magnetic" data-cursor="view" data-cursor-text="View" aria-labelledby="work-2-title">
           <div class="work-visual">
-            <div class="work-image" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)"></div>
-            <div class="work-overlay"></div>
-            <span class="work-view-btn">View Project</span>
+            <div class="work-image" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)" aria-hidden="true"></div>
+            <div class="work-overlay" aria-hidden="true"></div>
+            <span class="work-view-btn" aria-hidden="true">View Project</span>
           </div>
           <div class="work-info">
             <div class="work-meta">
-              <span>002</span>
-              <span>•</span>
+              <span aria-hidden="true">002</span>
+              <span aria-hidden="true">•</span>
               <span>Identity System</span>
             </div>
-            <h3>PROOVE</h3>
+            <h3 id="work-2-title">PROOVE</h3>
             <p>Comprehensive brand identity for a performance testing consultancy. Strategy, visual language, and digital presence.</p>
             <span class="work-link">
               <span>See case study</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </span>
@@ -212,11 +231,11 @@
       </div>
     </section>
 
-    <!-- STUDIO - Human & Warm -->
-    <section class="studio-section" id="studio">
-      <div class="studio-image-side" data-reveal>
+    <!-- STUDIO - Intriguing & Abstract -->
+    <section class="studio-section" id="studio" aria-labelledby="studio-title">
+      <div class="studio-image-side" data-reveal aria-hidden="true">
         <div class="studio-photo">
-          <div class="sp-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+          <div class="sp-bg" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);"></div>
           <div class="sp-overlay"></div>
           <div class="sp-content">
             <span class="sp-year">Est. 2004</span>
@@ -225,8 +244,8 @@
         </div>
       </div>
       <div class="studio-content-side">
-        <span class="sec-num" data-reveal>02</span>
-        <h2 class="studio-title" data-reveal>The Studio</h2>
+        <span class="sec-num" data-reveal aria-hidden="true">02</span>
+        <h2 class="studio-title" id="studio-title" data-reveal>The Studio</h2>
         <p class="studio-lead" data-reveal>Sam and Anna. A creative partnership built on trust, craft, and 20 years of shared obsession with good design.</p>
         <p class="studio-text" data-reveal>We work from a converted barn on the edge of the Peak District. No commute. No open-plan office. Just space to think, create, and care deeply about every project that comes through our door.</p>
         <div class="studio-team-row" data-reveal>
@@ -253,38 +272,38 @@
     </section>
 
     <!-- PROCESS - Dynamic -->
-    <section class="process-section" id="process">
+    <section class="process-section" id="process" aria-labelledby="process-title">
       <div class="process-header" data-reveal>
-        <span class="sec-num">03</span>
-        <h2 class="sec-title">How We Work</h2>
+        <span class="sec-num" aria-hidden="true">03</span>
+        <h2 class="sec-title" id="process-title">How We Work</h2>
       </div>
       <div class="process-list">
-        <div class="process-card" data-cursor="card">
-          <div class="pc-number">01</div>
+        <article class="process-card" data-cursor="card">
+          <div class="pc-number" aria-hidden="true">01</div>
           <div class="pc-content">
             <h4>Discover</h4>
             <p>We listen. We understand. We dig deep into what makes your brand unique. Research, workshops, and strategy sessions to uncover the real you.</p>
           </div>
           <div class="pc-icon" data-parallax="0.08">◆</div>
         </div>
-        <div class="process-card" data-cursor="card">
-          <div class="pc-number">02</div>
+        <article class="process-card" data-cursor="card">
+          <div class="pc-number" aria-hidden="true">02</div>
           <div class="pc-content">
             <h4>Define</h4>
             <p>Strategy meets creativity. We map the path from where you are to where you want to be. Clear direction. Bold vision. Measurable goals.</p>
           </div>
           <div class="pc-icon" data-parallax="0.08">◎</div>
         </div>
-        <div class="process-card" data-cursor="card">
-          <div class="pc-number">03</div>
+        <article class="process-card" data-cursor="card">
+          <div class="pc-number" aria-hidden="true">03</div>
           <div class="pc-content">
             <h4>Design</h4>
             <p>Craft in every pixel. Every interaction considered. Every detail perfected. This is where ideas become reality and your brand comes alive.</p>
           </div>
           <div class="pc-icon" data-parallax="0.08">◇</div>
         </div>
-        <div class="process-card" data-cursor="card">
-          <div class="pc-number">04</div>
+        <article class="process-card" data-cursor="card">
+          <div class="pc-number" aria-hidden="true">04</div>
           <div class="pc-content">
             <h4>Deliver</h4>
             <p>Launch with confidence. Your vision, fully realized and ready to perform. We don't just hand over files — we ensure success.</p>
@@ -295,10 +314,11 @@
     </section>
 
     <!-- REVIEWS - Animated & Lively -->
-    <section class="reviews-section">
-      <div class="reviews-bg" data-parallax="0.05">VOICE</div>
+    <section class="reviews-section" aria-labelledby="reviews-title">
+      <div class="reviews-bg" data-parallax="0.05" aria-hidden="true">VOICE</div>
       <div class="reviews-content">
-        <div class="review active" data-index="0">
+        <h2 class="sr-only" id="reviews-title">Client Reviews</h2>
+        <article class="review active" data-index="0" aria-live="polite">
           <div class="review-visual">
             <div class="rv-avatar">CL</div>
           </div>
@@ -311,7 +331,7 @@
             <span class="ra-role">Channel 4 TV Presenter</span>
           </div>
         </div>
-        <div class="review" data-index="1">
+        <article class="review" data-index="1" aria-live="polite">
           <div class="review-visual">
             <div class="rv-avatar">MK</div>
           </div>
@@ -324,7 +344,7 @@
             <span class="ra-role">Founder, FITISM</span>
           </div>
         </div>
-        <div class="review" data-index="2">
+        <article class="review" data-index="2" aria-live="polite">
           <div class="review-visual">
             <div class="rv-avatar">SJ</div>
           </div>
@@ -338,10 +358,10 @@
           </div>
         </div>
       </div>
-      <div class="reviews-nav">
-        <button class="rn-dot active" data-i="0" data-cursor="pointer"></button>
-        <button class="rn-dot" data-i="1" data-cursor="pointer"></button>
-        <button class="rn-dot" data-i="2" data-cursor="pointer"></button>
+      <div class="reviews-nav" role="tablist" aria-label="Review navigation">
+        <button class="rn-dot active" data-i="0" data-cursor="pointer" role="tab" aria-selected="true" aria-label="Review 1"></button>
+        <button class="rn-dot" data-i="1" data-cursor="pointer" role="tab" aria-selected="false" aria-label="Review 2"></button>
+        <button class="rn-dot" data-i="2" data-cursor="pointer" role="tab" aria-selected="false" aria-label="Review 3"></button>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="review-progress"></div>
@@ -349,12 +369,12 @@
     </section>
 
     <!-- CTA - Impact -->
-    <section class="cta-section" id="contact">
+    <section class="cta-section" id="contact" aria-labelledby="cta-title">
       <div class="cta-bg">
-        <canvas id="cta-particles"></canvas>
+        <canvas id="cta-particles" aria-hidden="true"></canvas>
       </div>
       <div class="cta-content">
-        <h2 class="cta-title" data-reveal>
+        <h2 class="cta-title" id="cta-title" data-reveal>
           <span>Have a project</span>
           <span class="cta-accent">in mind?</span>
         </h2>
@@ -368,7 +388,7 @@
   </main>
 
   <!-- FOOTER - Dramatic -->
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-hero">
       <span class="fh-label">Ready to start?</span>
       <h2 class="fh-title">
@@ -390,31 +410,37 @@
       </div>
       <div class="fg-col">
         <h4>Sitemap</h4>
-        <ul>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Work</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Studio</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Services</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Contact</a></li>
-        </ul>
+        <nav aria-label="Footer sitemap">
+          <ul>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Work</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Studio</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Services</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Contact</a></li>
+          </ul>
+        </nav>
       </div>
       <div class="fg-col">
         <h4>Social</h4>
-        <ul>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Instagram</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">LinkedIn</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Twitter</a></li>
-        </ul>
+        <nav aria-label="Social media">
+          <ul>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Instagram</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">LinkedIn</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">Twitter</a></li>
+          </ul>
+        </nav>
       </div>
       <div class="fg-col">
         <h4>Contact</h4>
-        <ul>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">hello@bytheskydesign.com</a></li>
-          <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">0114 438 3238</a></li>
-        </ul>
+        <nav aria-label="Contact information">
+          <ul>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">hello@bytheskydesign.com</a></li>
+            <li><a href="https://velocity.calyvent.com/previews/redirect" data-cursor="link">0114 438 3238</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="fb-credit">© 2025 By The Sky Design</span>
+      <span class="fb-credit"> 2025 By The Sky Design</span>
       <button class="fb-back magnetic" id="back-to-top" data-cursor="pointer">
         <span>Back to top</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
