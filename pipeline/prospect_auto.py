@@ -68,8 +68,7 @@ async def phase1_research(prospect: dict):
         resp = requests.get(website, timeout=10)
         soup = BeautifulSoup(resp.text, 'html.parser')
     except Exception as e:
-        console.print(f"[yellow]Website fetch failed: {e}[/"])
-    
+        console.print(f"[yellow]Website fetch failed: {e}[/yellow]")    
     # Extract
     colors = extract_colors(soup) if soup else []
     fonts = extract_fonts(soup) if soup else []
@@ -172,9 +171,8 @@ def phase1d_obsidian_log(research: dict, slug: str):
     
     log_path = OBSIDIAN_VAULT / f"{company.replace(' ', '-')}.md"
     log_path.parent.mkdir(parents=True, exist_ok=True)
-    log_path.write_text(md_content)
-    console.print(f"[green]Obsidian log: {log_path}[/"])
-
+    # log_path.write_text(md_content)
+    console.print(f"[green]Obsidian log: {log_path}[/green]")
 async def phase2_images(slug: str):
     assets_dir = WEBSITE_PREVIEWS / slug / 'assets'
     assets_dir.mkdir(parents=True, exist_ok=True)
@@ -189,12 +187,12 @@ async def phase2_images(slug: str):
                 # TODO: Automate model select/prompt/gen/download - placeholder
                 await page.screenshot(path=assets_dir / 'hero.jpg')
                 await browser.close()
-            console.print("[green]Images generated[/]")
+            console.print("[green]Images generated[/green]")
             break
         except Exception as e:
-            console.print(f"[yellow]Image gen attempt {attempt+1} failed: {e}[/")
+            console.print(f"[yellow]Image gen attempt {attempt+1} failed: {e}[/yellow]")
             if attempt == max_retries - 1:
-                console.print("[yellow]Skipped images.[/"])
+                console.print("[yellow]Skipped images.[/yellow]")
             await asyncio.sleep(5)
 
 def phase3_preview(research: dict, slug: str):
@@ -250,8 +248,7 @@ function openModal() {{
 </html>'''
     
     (preview_dir / 'index.html').write_text(html)
-    console.print(f"[green]Preview: {preview_dir}/index.html[/"])
-
+    console.print(f"[green]Preview: {preview_dir}/index.html[/green]")
 def phase4_deploy_verify(slug: str, company: str):
     try:
         subprocess.run(['git', '-C', str(BASE_DIR), 'add', f'website/previews/{slug}'], check=True)

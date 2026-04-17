@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" fill="#1A1410"/>
+
+  <!-- Architectural frame — thin square, top-right corner open -->
+  <path d="M128 128 L128 384 L384 384 L384 168" stroke="#E0CAB8" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- The break — top edge stops short, leaving corner open -->
+  <line x1="128" y1="128" x2="344" y2="128" stroke="#E0CAB8" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Single vertical line inside, off-center to the left -->
+  <line x1="224" y1="200" x2="224" y2="316" stroke="#E0CAB8" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Accent — the corner extends past the frame by ~3% -->
+  <line x1="384" y1="168" x2="400" y2="112" stroke="#C69F7F" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Dashboard — Velocity</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0D0C09;--bg2:#121109;--sand:#DEC8B5;--brass:#C49C7B;--dim:#565250;--muted:#252320;--border:rgba(222,200,181,.07);--bord2:rgba(222,200,181,.13);--ease:cubic-bezier(0.16,1,0.3,1);--px:clamp(1.5rem,5vw,5rem)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--sand);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:1px solid var(--brass);outline-offset:4px}
+.grain{position:fixed;inset:-50%;width:200%;height:200%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.87' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:9000;animation:gr .5s steps(2) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-2%,-2%)}50%{transform:translate(2%,1%)}75%{transform:translate(-1%,3%)}}
+.nav{position:fixed;inset:0 0 auto;height:64px;padding:0 var(--px);display:flex;align-items:center;justify-content:space-between;background:rgba(13,12,9,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
+.nav-brand{font-family:"Instrument Serif",Georgia,serif;font-size:1.1rem;letter-spacing:-.02em}
+.nav-brand em{font-style:normal;color:var(--brass)}
+.nav-right{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.75rem}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .4s}
+.live-dot.active{background:#8fc98f;box-shadow:0 0 0 3px rgba(143,201,143,.12);animation:livepulse 2.5s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* Auth gate */
+.auth-wrap{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;background:var(--bg)}
+@media(max-width:700px){.auth-wrap{grid-template-columns:1fr}}
+.auth-left{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:space-between;padding:clamp(2rem,5vw,4rem);position:relative;overflow:hidden}
+.auth-left::after{content:"";position:absolute;bottom:-20%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(196,156,123,.07) 0%,transparent 70%);pointer-events:none}
+@media(max-width:700px){.auth-left{display:none}}
+.auth-left-brand{font-family:"Instrument Serif",Georgia,serif;font-size:1.1rem;color:var(--sand)}
+.auth-left-brand em{font-style:normal;color:var(--brass)}
+.auth-left-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3rem 0}
+.auth-left-label{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin-bottom:1.25rem;display:block}
+.auth-left-title{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(2rem,3.5vw,3.5rem);letter-spacing:-.04em;line-height:1;color:var(--sand);margin-bottom:1.5rem}
+.auth-left-steps{display:flex;flex-direction:column;gap:.6rem}
+.auth-step{display:flex;align-items:flex-start;gap:.75rem;font-size:.72rem;color:var(--dim);line-height:1.6}
+.auth-step-dot{width:5px;height:5px;border-radius:50%;background:var(--brass);flex-shrink:0;margin-top:.45rem}
+.auth-left-foot{font-size:.58rem;color:var(--dim);letter-spacing:.06em;line-height:1.7}
+.auth-right{display:flex;align-items:center;justify-content:center;padding:clamp(2rem,6vw,5rem)}
+.auth-box{max-width:360px;width:100%}
+.auth-eyebrow{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:2rem;display:flex;align-items:center;gap:.6rem}
+.auth-eyebrow::before{content:"";display:block;width:20px;height:1px;background:var(--bord2);flex-shrink:0}
+.auth-title{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.04em;line-height:1.05;color:var(--sand);margin-bottom:.6rem}
+.auth-sub{font-size:.75rem;color:var(--dim);line-height:1.85;margin-bottom:2rem;max-width:32ch}
+.auth-field-label{display:block;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
+.auth-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bord2);color:var(--sand);font-family:"Inter",sans-serif;font-size:.88rem;font-weight:300;padding:.6rem 0;outline:none;transition:border-color .3s}
+.auth-input:focus{border-color:var(--brass)}
+::placeholder{color:var(--dim);opacity:.45}
+.auth-btn{font-size:.68rem;letter-spacing:.08em;color:var(--bg);background:var(--sand);padding:.72rem 1.75rem;transition:background .3s;border:none;cursor:pointer;margin-top:1.5rem;display:block;width:100%}
+.auth-btn:hover{background:var(--brass)}
+.auth-btn:disabled{opacity:.35;pointer-events:none}
+.auth-err{font-size:.6rem;color:#e07070;margin-top:.75rem;display:none;letter-spacing:.04em}
+.auth-err.show{display:block}
+
+/* Main dashboard */
+.page{padding:80px 0 0;opacity:0;transition:opacity .5s var(--ease)}
+.page.in{opacity:1}
+
+/* Hero band */
+.hero-band{padding:clamp(3rem,6vw,6rem) var(--px) clamp(2rem,4vw,4rem);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero-band::before{content:"";position:absolute;top:0;right:-10%;width:50%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(196,156,123,.04) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:1.25rem}
+.hero-name{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(3rem,8vw,7rem);letter-spacing:-.05em;line-height:.92;color:var(--sand);margin-bottom:1.5rem}
+.hero-name em{font-style:normal;color:var(--brass)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+
+/* Status pill */
+.pill{display:inline-flex;align-items:center;gap:.4rem;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;padding:.32rem .8rem;border:1px solid}
+.pill-pending  {color:var(--dim);border-color:var(--bord2)}
+.pill-accepted {color:#8fc98f;border-color:rgba(143,201,143,.25)}
+.pill-in_progress{color:var(--brass);border-color:rgba(196,156,123,.25)}
+.pill-declined {color:#c08080;border-color:rgba(192,128,128,.25)}
+.pill-completed{color:#8fc98f;border-color:rgba(143,201,143,.25)}
+.pill-paid     {color:#8fc98f;border-color:rgba(143,201,143,.25)}
+.pill-upgrade  {color:var(--brass);border-color:rgba(196,156,123,.2);cursor:pointer;position:relative}
+.pill-upgrade:hover{background:rgba(196,156,123,.06)}
+
+/* Upgrade tooltip popup */
+.upgrade-popup{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--bg2);border:1px solid var(--bord2);padding:14px 16px;min-width:260px;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.upgrade-popup.show{display:block}
+.upgrade-popup p{font-size:.72rem;color:var(--dim);line-height:1.7}
+.upgrade-popup strong{color:var(--sand);font-weight:400}
+
+/* Content grid */
+.content{max-width:1000px;margin:0 auto;padding:0 var(--px)}
+
+/* Sections */
+.section{padding:clamp(2.5rem,4vw,4rem) 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-label{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin-bottom:1.75rem;display:block}
+
+/* Admin message banner */
+.msg-banner{background:rgba(196,156,123,.06);border:1px solid rgba(196,156,123,.18);padding:1.25rem 1.5rem;margin-bottom:2rem}
+.msg-text{font-size:.85rem;color:var(--sand);line-height:1.75}
+.msg-link{display:inline-block;margin-top:.5rem;font-size:.72rem;color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3);padding-bottom:1px}
+.msg-exp{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.5rem}
+
+/* Countdown */
+.countdown-block{display:flex;flex-direction:column;gap:.5rem}
+.countdown-lbl{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.countdown-time{font-family:"Instrument Serif",Georgia,serif;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:-.04em;line-height:1;color:var(--sand)}
+.countdown-time.urgent{color:#c08080}
+.edit-btn{display:inline-block;margin-top:.75rem;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3);padding-bottom:2px;transition:border-color .3s}
+.edit-btn:hover{border-color:var(--brass)}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column}
+.tl-row{display:grid;grid-template-columns:20px 1fr;gap:0 1.25rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
+.tl-row:last-child{border-bottom:none}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;padding-top:.35rem}
+.tl-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .4s}
+.tl-dot.done{background:#8fc98f}
+.tl-dot.active{background:var(--brass);box-shadow:0 0 0 3px rgba(196,156,123,.15)}
+.tl-line{flex:1;width:1px;background:var(--border);margin-top:4px}
+.tl-content{padding-bottom:.25rem}
+.tl-title{font-size:.8rem;color:var(--sand);font-weight:300;line-height:1.5}
+.tl-sub{font-size:.62rem;color:var(--dim);margin-top:.2rem;letter-spacing:.03em;line-height:1.5}
+
+/* Payment */
+.quote-display{padding:clamp(1.5rem,3vw,2.5rem);border:1px solid var(--bord2);margin-top:1rem}
+.quote-amount{font-family:"Instrument Serif",Georgia,serif;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:-.04em;color:var(--sand);line-height:1;margin:.5rem 0 1rem}
+.quote-note{font-size:.78rem;color:var(--dim);line-height:1.8;margin-bottom:1.5rem;max-width:38ch}
+.pay-btn{font-size:.72rem;letter-spacing:.08em;color:var(--bg);background:var(--sand);padding:.85rem 2.5rem;transition:background .3s;border:none;cursor:pointer}
+.pay-btn:hover{background:var(--brass)}
+.pay-btn:disabled{opacity:.4;pointer-events:none}
+.paid-block{display:flex;gap:1.25rem;align-items:flex-start;padding:1.5rem;border:1px solid rgba(143,201,143,.15);margin-top:1rem}
+.paid-icon{color:#8fc98f;font-size:1.1rem;flex-shrink:0;padding-top:.1rem}
+.paid-h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:1.25rem;letter-spacing:-.02em;color:var(--sand);margin-bottom:.3rem}
+.paid-p{font-size:.75rem;color:var(--dim);line-height:1.7}
+.frozen-quote{font-size:.78rem;color:var(--dim);margin-top:.75rem}
+.frozen-quote strong{color:var(--sand);font-weight:400}
+
+/* Site link */
+.site-link-block{margin-top:1rem;padding:1.5rem;border:1px solid rgba(196,156,123,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.site-link-label{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:.35rem}
+.site-link-url{font-family:"Instrument Serif",Georgia,serif;font-size:1.1rem;color:var(--sand);letter-spacing:-.02em}
+.site-link-cta{font-size:.68rem;letter-spacing:.08em;color:var(--bg);background:var(--sand);padding:.6rem 1.5rem;transition:background .3s;white-space:nowrap;border:none}
+.site-link-cta:hover{background:var(--brass)}
+
+/* Brief summary */
+.brief-grid{display:grid;grid-template-columns:140px 1fr;gap:.65rem 1.5rem}
+@media(max-width:500px){.brief-grid{grid-template-columns:1fr;gap:.2rem}}
+.bk{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding-top:.1rem}
+.bv{font-size:.8rem;color:var(--sand);font-weight:300;line-height:1.65}
+.bsep{grid-column:1/-1;height:1px;background:var(--border);margin:.2rem 0}
+.brief-long{grid-column:1/-1;font-size:.78rem;color:var(--sand);line-height:1.8;background:rgba(222,200,181,.02);border:1px solid var(--border);padding:.85rem 1rem;white-space:pre-wrap;font-family:"Inter",sans-serif}
+.frozen-notice{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--bord2);margin-bottom:2rem}
+.frozen-icon{color:var(--dim);font-size:.9rem;flex-shrink:0}
+.frozen-text{font-size:.75rem;color:var(--dim);line-height:1.65}
+.frozen-text a{color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3)}
+
+/* Footer */
+.dash-footer{padding:clamp(2rem,4vw,4rem) var(--px);border-top:1px solid var(--border);max-width:1000px;margin:0 auto}
+.dash-footer p{font-size:.62rem;color:var(--dim);letter-spacing:.04em;line-height:1.8}
+.dash-footer a{color:var(--sand);border-bottom:1px solid var(--border);transition:border-color .25s}
+.dash-footer a:hover{border-color:var(--sand)}
+
+/* Declined screen */
+.declined-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:80px var(--px) 4rem;text-align:center}
+.declined-box{max-width:420px}
+.declined-title{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em;color:var(--sand);margin:1rem 0 .75rem}
+.declined-sub{font-size:.82rem;color:var(--dim);line-height:1.9;margin-bottom:2rem;max-width:38ch;margin-left:auto;margin-right:auto}
+.declined-back{font-size:.68rem;letter-spacing:.1em;color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3);padding-bottom:2px}
+
+@media(max-width:600px){
+  .hero-name{font-size:clamp(2.2rem,12vw,4rem)}
+  .countdown-time{font-size:clamp(2rem,10vw,3.5rem)}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<nav class="nav">
+  <a href="/" class="nav-brand">Velocity<em>.</em></a>
+  <span class="nav-right"><span class="live-dot" id="liveDot"></span><span id="navRight">Dashboard</span></span>
+</nav>
+
+<!-- Auth gate -->
+<div id="authWrap" class="auth-wrap" style="display:none">
+  <!-- Left panel — context -->
+  <div class="auth-left">
+    <div class="auth-left-brand">Velocity<em>.</em></div>
+    <div class="auth-left-body">
+      <span class="auth-left-label">Project Portal</span>
+      <h2 class="auth-left-title">Your project<br>lives here.</h2>
+      <div class="auth-left-steps">
+        <div class="auth-step"><div class="auth-step-dot"></div><span>Track your project status in real time</span></div>
+        <div class="auth-step"><div class="auth-step-dot"></div><span>Review and confirm your quote</span></div>
+        <div class="auth-step"><div class="auth-step-dot"></div><span>Edit your brief within the 24-hour window</span></div>
+        <div class="auth-step"><div class="auth-step-dot"></div><span>Access your finished site when it’s live</span></div>
+      </div>
+    </div>
+    <div class="auth-left-foot">Velocity by Calyvent &mdash; bespoke design &amp; engineering.</div>
+  </div>
+  <!-- Right panel — form -->
+  <div class="auth-right">
+    <div class="auth-box">
+      <span class="auth-eyebrow">Secure Access</span>
+      <h1 class="auth-title">Sign in to<br>your dashboard.</h1>
+      <p class="auth-sub">Enter the email address you used when submitting your brief.</p>
+      <label class="auth-field-label" for="authEmail">Email Address</label>
+      <input class="auth-input" type="email" id="authEmail" placeholder="you@company.com" autocomplete="email">
+      <div class="auth-err" id="authErr">That email doesn’t match this project. Please check and try again.</div>
+      <button class="auth-btn" id="authBtn">Access Dashboard →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div id="loadWrap" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
+  <p style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">Loading…</p>
+</div>
+
+<!-- Error -->
+<div id="errWrap" style="display:none;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem">
+  <div><h2 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:2.5rem;letter-spacing:-.04em;margin-bottom:.75rem">Not found.</h2><p style="font-size:.82rem;color:var(--dim)">Contact <a href="mailto:client@calyvent.com" style="color:var(--brass)">client@calyvent.com</a> for assistance.</p></div>
+</div>
+
+<!-- Declined -->
+<div id="declinedWrap" class="declined-wrap" style="display:none">
+  <div class="declined-box">
+    <div style="font-size:1rem;color:var(--dim)">&#9632;</div>
+    <h2 class="declined-title">Not the right fit.</h2>
+    <p class="declined-sub">After reviewing your brief, our studio has decided not to move forward with this project. This is not a reflection on you or your idea — we are selective about the work we take on.</p>
+    <p class="declined-sub" style="margin-top:-.5rem">We wish you the very best.</p>
+    <a href="/" class="declined-back">Return to Velocity →</a>
+  </div>
+</div>
+
+<!-- Main -->
+<div id="mainWrap" class="page" style="display:none">
+  <div class="hero-band">
+    <div class="content">
+      <span class="hero-eyebrow">Your Project</span>
+      <div class="hero-name" id="heroName">Client<em>.</em></div>
+      <div class="hero-meta" id="heroMeta"></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- Admin message -->
+    <div id="msgBanner" style="display:none;padding-top:2rem"></div>
+
+    <!-- Window / Timer -->
+    <div class="section" id="secTimer"></div>
+
+    <!-- Payment -->
+    <div class="section" id="secPayment"></div>
+
+    <!-- Timeline -->
+    <div class="section">
+      <span class="sec-label">Project Timeline</span>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- Brief summary -->
+    <div class="section" id="secBrief"></div>
+
+  </div>
+  <div class="dash-footer">
+    <p>Questions? Email us at <a href="mailto:client@calyvent.com">client@calyvent.com</a> — we reply within 24 hours.</p>
+  </div>
+</div>
+
+<script>
+let TOKEN='', LEAD=null;
+(function(){const p=location.pathname.split('/').filter(Boolean);TOKEN=p[1]||'';})();
+
+const SL={pending:'Under Review',accepted:'Accepted',in_progress:'In Progress',declined:'Declined',completed:'Completed'};
+const SP={pending:'pill-pending',accepted:'pill-accepted',in_progress:'pill-in_progress',declined:'pill-declined',completed:'pill-completed'};
+const TL=[
+  {key:'submitted',label:'Brief Submitted',sub:'Your project brief has been received and is under review.'},
+  {key:'accepted', label:'Project Accepted',sub:'We’re moving forward. Payment confirms your spot.'},
+  {key:'paid',     label:'Payment Confirmed',sub:'Your project is fully booked. Work begins soon.'},
+  {key:'in_progress',label:'Design & Build',sub:'Active development — your brief is locked to protect scope.'},
+  {key:'completed',label:'Delivered',sub:'Your site is live and yours.'},
+];
+
+function show(id){const el=document.getElementById(id);if(el){el.style.display='';}}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+function fmt(c){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(c/100)}
+function cdwn(anchor){const d=new Date(anchor).getTime()+86400000,n=Date.now(),diff=d-n;if(diff<=0)return null;return{h:Math.floor(diff/3600000),m:Math.floor(diff%3600000/60000),s:Math.floor(diff%60000/1000),diff};}
+
+function ensureUrl(v){if(!v)return '';v=v.trim();if(v&&!/^https?:\/\//.test(v))v='https://'+v;return v;}
+async function init(){
+  if(!TOKEN){hide('loadWrap');show('errWrap');return;}
+  const justPaid=new URLSearchParams(location.search).get('paid')==='1';
+  if(justPaid)history.replaceState({},'',location.pathname);
+  let lead;
+  try{const r=await fetch('/api/leads/'+TOKEN);if(!r.ok){hide('loadWrap');show('errWrap');return;}lead=await r.json();}
+  catch{hide('loadWrap');show('errWrap');return;}
+  LEAD=lead;
+  hide('loadWrap');
+
+  // Declined — show graceful screen then redirect
+  if(lead.status==='declined'){show('declinedWrap');setTimeout(()=>location.href='/',6000);return;}
+
+  // Check session storage for verified email
+  const sessEmail=sessionStorage.getItem('v_dash_'+TOKEN);
+  const p1=(lead.full_data&&lead.full_data.phase1)||{};
+  const leadEmail=(lead.client_email||p1.email||'').toLowerCase();
+
+  if(leadEmail && sessEmail!==leadEmail){
+    // Need email verification
+    hide('loadWrap');show('authWrap');
+    const btn=document.getElementById('authBtn');
+    const input=document.getElementById('authEmail');
+    const err=document.getElementById('authErr');
+    function tryAuth(){
+      const val=input.value.trim().toLowerCase();
+      if(!val||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){err.classList.add('show');return;}
+      if(val!==leadEmail){err.classList.add('show');return;}
+      err.classList.remove('show');
+      sessionStorage.setItem('v_dash_'+TOKEN,val);
+      hide('authWrap');renderDash(lead,justPaid);
+    }
+    btn.onclick=tryAuth;
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')tryAuth();});
+    return;
+  }
+  renderDash(lead,justPaid);
+}
+
+function renderDash(lead,justPaid=false){
+  // Activate live indicator
+  const dot = document.getElementById('liveDot');
+  if (dot) dot.classList.add('active');
+  show('mainWrap');
+  setTimeout(()=>document.getElementById('mainWrap').classList.add('in'),50);
+
+  const p1=(lead.full_data&&lead.full_data.phase1)||{};
+  const p2=(lead.full_data&&lead.full_data.phase2)||{};
+  const p3=(lead.full_data&&lead.full_data.phase3)||{};
+  const p4=(lead.full_data&&lead.full_data.phase4)||{};
+  const p5=(lead.full_data&&lead.full_data.phase5)||{};
+  const name=lead.client_name||p1.full_name||'Client';
+  const paid=lead.is_paid,hasQ=lead.quote_amount&&lead.quote_amount>0;
+  const inProgress=['in_progress','completed'].includes(lead.status);
+
+  // Hero
+  document.getElementById('heroName').innerHTML=name+'<em>.</em>';
+  document.getElementById('navRight').textContent=name;
+  const meta=document.getElementById('heroMeta');
+  meta.innerHTML=`<span class="pill ${SP[lead.status]||'pill-pending'}">${SL[lead.status]||'Pending'}</span>
+    ${paid?'<span class="pill pill-paid">Payment Confirmed</span>':''}
+    ${lead.upgrade_permission?`<span class="pill pill-upgrade" id="upgradePill" tabindex="0">Upgrade Approved<div class="upgrade-popup" id="upgradePopup"><p><strong>What this means:</strong> You’ve given the Velocity team full creative latitude to elevate your brand — colors, typography, layout, and identity — beyond your original specifications if we see a better direction. We’ll always show you before applying major changes.</p></div></span>`:''}`;
+
+  // Upgrade popup toggle
+  const upgPill=document.getElementById('upgradePill');
+  if(upgPill){
+    upgPill.addEventListener('click',e=>{e.stopPropagation();document.getElementById('upgradePopup').classList.toggle('show');});
+    document.addEventListener('click',()=>document.getElementById('upgradePopup')&&document.getElementById('upgradePopup').classList.remove('show'));
+  }
+
+  // Admin message banner
+  if(lead.admin_comment&&lead.admin_comment.text){
+    const banner=document.getElementById('msgBanner');
+    const exp=new Date(lead.admin_comment.created_at).getTime()+86400000;
+    const hoursLeft=Math.max(0,Math.floor((exp-Date.now())/3600000));
+    banner.innerHTML=`<div class="msg-banner"><div style="font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:.6rem">Message from The Velocity Team</div><div class="msg-text">${esc(lead.admin_comment.text)}</div>${lead.admin_comment.link?`<a href="${esc(ensureUrl(lead.admin_comment.link))}" class="msg-link" target="_blank" rel="noopener noreferrer">View Link ↗</a>`:''}${hoursLeft>0?`<div class="msg-exp">This message expires in ${hoursLeft}h</div>`:''}</div>`;
+    show('msgBanner');
+  }
+
+  // Timer section
+  const timerEl=document.getElementById('secTimer');
+  const anchor=lead.first_submitted_at||lead.submitted_at;
+  if(!lead.submitted_at){
+    timerEl.innerHTML=`<span class="sec-label">Brief</span><p style="font-size:.82rem;color:var(--dim)">Your brief hasn’t been submitted yet. <a href="/onboard/${TOKEN}" style="color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3)">Start your onboarding →</a></p>`;
+  } else if(lead.is_locked||inProgress){
+    const lockMsg=inProgress
+      ?`Project is in progress — brief is locked to protect scope.`
+      :`The 24-hour editing window has passed. Your brief is read-only.`;
+    timerEl.innerHTML=`<span class="sec-label">Brief Window</span><p style="font-size:.78rem;color:var(--dim);line-height:1.75">${lockMsg}</p>`;
+    if(inProgress){
+      timerEl.innerHTML+=`<div class="frozen-notice" style="margin-top:1rem"><span class="frozen-icon">■</span><div class="frozen-text">Need to change something? Email <a href="mailto:client@calyvent.com">client@calyvent.com</a> and we’ll discuss scope adjustments.</div></div>`;
+    }
+  } else {
+    timerEl.innerHTML=`<span class="sec-label">Editing Window</span><div class="countdown-block"><div class="countdown-lbl">Brief locks in</div><div class="countdown-time" id="countdown">--:--:--</div></div><a href="/onboard/${TOKEN}" class="edit-btn">Edit brief →</a>`;
+    function tick(){
+      const c=cdwn(anchor);
+      const el=document.getElementById('countdown');
+      if(!el)return;
+      if(!c){el.textContent='Locked';el.classList.add('urgent');return;}
+      el.textContent=String(c.h).padStart(2,'0')+':'+String(c.m).padStart(2,'0')+':'+String(c.s).padStart(2,'0');
+      if(c.diff<3600000)el.classList.add('urgent');
+    }
+    tick();setInterval(tick,1000);
+  }
+
+  // Payment section
+  const payEl=document.getElementById('secPayment');
+  if(paid||justPaid){
+    payEl.innerHTML=`<span class="sec-label">Payment</span><div class="paid-block"><div class="paid-icon">✓</div><div><div class="paid-h">Payment Received.</div><div class="paid-p">Your project is confirmed and in queue. We’ll be in touch within 24 hours to begin work.</div>${lead.quote_amount?`<div class="frozen-quote" style="margin-top:.75rem">Amount paid: <strong>${fmt(lead.quote_amount)}</strong></div>`:''}</div></div>
+      ${lead.site_link?siteBlock(lead.site_link):''}`;
+  } else if(hasQ){
+    payEl.innerHTML=`<span class="sec-label">Your Quote</span><div class="quote-display"><p style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)">Project Investment</p><div class="quote-amount">${fmt(lead.quote_amount)}</div><p class="quote-note">This is your custom project quote. Confirm to secure your spot. Work begins immediately after payment.</p><button class="pay-btn" id="payBtn">Proceed to Payment →</button></div>`;
+    document.getElementById('payBtn').onclick=async()=>{
+      const btn=document.getElementById('payBtn');btn.disabled=true;btn.textContent='Redirecting…';
+      try{const r=await fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:TOKEN})});const d=await r.json();if(d.url)location.href=d.url;else{btn.disabled=false;btn.textContent='Proceed to Payment →';alert(d.error||'Error');}}
+      catch{btn.disabled=false;btn.textContent='Proceed to Payment →';alert('Network error.');}
+    };
+  } else if(lead.submitted_at){
+    payEl.innerHTML=`<span class="sec-label">Next Step</span><p style="font-size:.82rem;color:var(--dim);line-height:1.8">We’re reviewing your brief. A custom quote will appear here once we’ve assessed your project. You’ll be notified at <strong style="color:var(--sand);font-weight:400">${esc(lead.client_email||p1.email||'your email')}</strong>.</p>`;
+  } else { payEl.style.display='none'; }
+
+  // Timeline
+  const done=new Set();
+  if(lead.submitted_at)done.add('submitted');
+  if(['accepted','in_progress','completed'].includes(lead.status))done.add('accepted');
+  if(paid)done.add('paid');
+  if(['in_progress','completed'].includes(lead.status))done.add('in_progress');
+  if(lead.status==='completed')done.add('completed');
+  const tlHtml=TL.map((s,i)=>{
+    const isDone=done.has(s.key);
+    const isLast=i===TL.length-1;
+    return `<div class="tl-row"><div class="tl-dot-col"><div class="tl-dot ${isDone?'done':''}"></div>${isLast?'':'<div class="tl-line"></div>'}</div><div class="tl-content"><div class="tl-title">${s.label}</div><div class="tl-sub">${s.sub}</div></div></div>`;
+  }).join('');
+  document.getElementById('timeline').innerHTML=tlHtml;
+
+  // Brief summary
+  const briefEl=document.getElementById('secBrief');
+  if(lead.submitted_at){
+    const insp=(p2.inspiration||[]).filter(i=>i.url).map(i=>`<div style="margin-bottom:8px"><div style="font-size:.75rem;color:var(--brass)">${esc(i.url)}</div>${i.notes?`<div style="font-size:.7rem;color:var(--dim);margin-top:2px">${esc(i.notes)}</div>`:''}</div>`).join('');
+    const anti=(p2.anti_inspiration||[]).filter(i=>i.url).map(i=>`<div style="margin-bottom:8px"><div style="font-size:.75rem;color:#c08080">${esc(i.url)}</div>${i.notes?`<div style="font-size:.7rem;color:var(--dim);margin-top:2px">${esc(i.notes)}</div>`:''}</div>`).join('');
+    briefEl.innerHTML=`<span class="sec-label">Your Brief Summary</span>
+      ${inProgress?`<div class="frozen-notice"><span class="frozen-icon" style="color:var(--brass)">■</span><div class="frozen-text">Brief locked — project is in progress. To request any changes, email <a href="mailto:client@calyvent.com">client@calyvent.com</a>.</div></div>`:''}
+      <div class="brief-grid">
+        ${p1.company_name?`<div class="bk">Company</div><div class="bv">${esc(p1.company_name)}</div><div class="bsep"></div>`:''}
+        <div class="bk">Email</div><div class="bv">${esc(lead.client_email||p1.email||'—')}</div><div class="bsep"></div>
+        ${lead.due_date?`<div class="bk">Deadline</div><div class="bv">${new Date(lead.due_date+'T00:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'})}</div><div class="bsep"></div>`:''}
+        <div class="bk">Submitted</div><div class="bv">${new Date(lead.submitted_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})}</div>
+        ${lead.domain_choice?`<div class="bsep"></div><div class="bk">Domain</div><div class="bv">${
+          lead.domain_choice==='client_provides'?'You’ll connect your own domain':
+          lead.domain_choice==='client_has_needs_setup'?`We’ll configure your domain${lead.domain_name?' ('+esc(lead.domain_name)+')':''}`:
+          lead.domain_choice==='velocity_provides'?`We’ll register a domain for you${lead.domain_name?' — '+esc(lead.domain_name):''}`:
+          esc(lead.domain_choice)
+        }</div>`:''}
+      </div>
+      ${p1.context?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem">Business Context</div><div class="brief-long">${esc(p1.context)}</div></div>`:''}
+      ${insp?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem">Inspiration</div>${insp}</div>`:''}
+      ${anti?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem">Anti-Inspiration</div>${anti}</div>`:''}
+      ${p5.additional_notes?`<div style="margin-top:1.5rem"><div style="font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem">Additional Notes</div><div class="brief-long">${esc(p5.additional_notes)}</div></div>`:''}`;
+  } else { briefEl.style.display='none'; }
+  LEAD = lead;
+  startPollingIfNeeded(lead);
+}
+
+// Called after renderDash — start polling now that we have the lead
+function startPollingIfNeeded(lead) {
+  if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+  startPolling(lead);
+}
+
+function siteBlock(link){link=ensureUrl(link);
+  return `<div class="site-link-block"><div><div class="site-link-label">Your Website</div><div class="site-link-url">${esc(link)}</div></div><a href="${esc(link)}" class="site-link-cta" target="_blank" rel="noopener noreferrer">Open Site ↗</a></div>`;
+}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// Auto-refresh — poll every 30s when tab is visible, stop when terminal state reached
+let POLL_INTERVAL = null;
+const TERMINAL_STATES = ['completed','declined'];
+const STATIC_STATES  = ['in_progress']; // still refresh but slower (60s)
+
+function startPolling(lead) {
+  if (TERMINAL_STATES.includes(lead.status)) return; // never poll
+  const interval = STATIC_STATES.includes(lead.status) ? 60000 : 30000;
+  POLL_INTERVAL = setInterval(async () => {
+    if (document.hidden) return; // skip if tab is in background
+    try {
+      const r = await fetch('/api/leads/' + TOKEN);
+      if (!r.ok) return;
+      const fresh = await r.json();
+      // Only re-render if something actually changed
+      const changed =
+        fresh.status !== lead.status ||
+        fresh.is_paid !== lead.is_paid ||
+        fresh.quote_amount !== lead.quote_amount ||
+        fresh.site_link !== lead.site_link ||
+        JSON.stringify(fresh.admin_comment) !== JSON.stringify(lead.admin_comment);
+      if (changed) {
+        if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+        LEAD = fresh;
+        renderDash(fresh);
+        startPolling(fresh);
+      }
+    } catch (_) {}
+  }, interval);
+}
+
+// Pause polling when tab hidden, resume when visible
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && LEAD && !TERMINAL_STATES.includes(LEAD.status)) {
+    // Tab became visible — do an immediate refresh
+    fetch('/api/leads/' + TOKEN).then(r => r.ok ? r.json() : null).then(fresh => {
+      if (!fresh) return;
+      const changed =
+        fresh.status !== LEAD.status ||
+        fresh.is_paid !== LEAD.is_paid ||
+        fresh.quote_amount !== LEAD.quote_amount ||
+        fresh.site_link !== LEAD.site_link ||
+        JSON.stringify(fresh.admin_comment) !== JSON.stringify(LEAD.admin_comment);
+      if (changed) {
+        if (POLL_INTERVAL) clearInterval(POLL_INTERVAL);
+        LEAD = fresh;
+        renderDash(fresh);
+        startPolling(fresh);
+      }
+    }).catch(() => {});
+  }
+});
+
+init();
+</script>
+</body>
+</html>

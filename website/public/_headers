@@ -1,0 +1,65 @@
+# ── Global security headers ──────────────────────────────────────────────────
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'self' cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none';
+
+# ── Homepage: CDN caches for 10 minutes, browser revalidates ─────────────────
+/index.html
+  Cache-Control: public, s-maxage=600, max-age=0, must-revalidate
+
+# ── App shells: CDN caches for 1hr (same HTML for all users), browser no-store
+/_onboard.html
+  Cache-Control: public, s-maxage=3600, max-age=0, must-revalidate
+/_dashboard.html
+  Cache-Control: public, s-maxage=3600, max-age=0, must-revalidate
+
+# ── Admin: never cache ────────────────────────────────────────────────────────
+/admin/*
+  Cache-Control: no-store, no-cache
+
+# ── Preview pages: no cache ─────────────────────────────────────────────────
+/previews/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net unpkg.com; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://www.transparenttextures.com https://velocity.calyvent.com; connect-src 'self'; frame-ancestors 'none';
+  Cache-Control: no-store, no-cache, must-revalidate
+
+# ── Immutable assets (hash in filename or content never changes) ─────────────
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# ── Images: all formats — long CDN cache ─────────────────────────────────────
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=86400, s-maxage=604800
+
+/*.ico
+  Cache-Control: public, max-age=86400, s-maxage=604800
+
+# ── Video ─────────────────────────────────────────────────────────────────────
+/*.mp4
+  Cache-Control: public, max-age=31536000, immutable
+
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
