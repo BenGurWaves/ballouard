@@ -7,10 +7,7 @@ import { rateLimit } from '../../_lib/security.js';
 export async function onRequestOptions() { return optionsRes(); }
 
 export async function onRequestPost(context) {
-  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
-  const kv = context.env.DATA || context.env.LEADS;
-  const rl = await rateLimit(kv, `ratelimit:checkout:${ip}`, 5, 3600);
-  if (!rl.allowed) return errRes('Too many requests. Please try again later.', 429);
+
 
   const sb = getSupabase(context.env);
   if (!sb) return errRes('Service unavailable', 503);

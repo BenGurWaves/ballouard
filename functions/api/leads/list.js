@@ -7,12 +7,7 @@ import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from 
 export async function onRequestOptions() { return secureOptions(); }
 
 export async function onRequestGet(context) {
-  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
-  const kv = context.env.DATA || context.env.LEADS;
 
-  // Rate limit: 60 list requests per IP per minute
-  const rl = await rateLimit(kv, `ratelimit:list:${ip}`, 60, 60);
-  if (!rl.allowed) return secureErr('Too many requests', 429);
 
   const auth = await checkAdminAuth(context.request, context.env);
   if (auth.locked)  return secureErr('Too many failed attempts. Try again in 15 minutes.', 429);

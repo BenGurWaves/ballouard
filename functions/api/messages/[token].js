@@ -1,5 +1,5 @@
-import { getSupabase } from '../../../_lib/supabase.js';
-import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from '../../../_lib/security.js';
+import { getSupabase } from '../../_lib/supabase.js';
+import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from '../../_lib/security.js';
 
 export async function onRequestOptions() { return secureOptions(); }
 
@@ -15,8 +15,6 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const t = context.params.token;
   if (!t) return secureErr('Token required', 400);
-  const ip = context.request.headers.get('CF-Connecting-IP')||'unknown';
-  const kv = context.env.DATA||context.env.LEADS;
   const rl = await rateLimit(kv,'ratelimit:msg:'+ip,20,60);
   if (!rl.allowed) return secureErr('Too many requests',429);
   const sb = getSupabase(context.env);

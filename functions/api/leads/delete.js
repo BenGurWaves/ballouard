@@ -7,11 +7,7 @@ import { checkAdminAuth, rateLimit, secureJson, secureErr, secureOptions } from 
 export async function onRequestOptions() { return secureOptions(); }
 
 export async function onRequestDelete(context) {
-  const ip = context.request.headers.get('CF-Connecting-IP') || 'unknown';
-  const kv = context.env.DATA || context.env.LEADS;
 
-  const rl = await rateLimit(kv, `ratelimit:delete:${ip}`, 10, 60);
-  if (!rl.allowed) return secureErr('Too many requests', 429);
 
   const auth = await checkAdminAuth(context.request, context.env);
   if (auth.locked) return secureErr('Too many failed attempts. Try again in 15 minutes.', 429);

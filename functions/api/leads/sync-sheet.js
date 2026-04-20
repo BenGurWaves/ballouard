@@ -19,8 +19,7 @@ export async function onRequestPost(context) {
   const kv = context.env.DATA || context.env.LEADS;
 
   // Rate limit: 30 syncs per IP per minute
-  const rl = await rateLimit(kv, `ratelimit:sheetssync:${ip}`, 30, 60);
-  if (!rl.allowed) return secureErr('Too many requests', 429);
+
 
   // Auth required — only admin or internal calls
   const auth = await checkAdminAuth(context.request, context.env);
