@@ -64,53 +64,12 @@ export async function checkAdminAuth(request, env) {
 // ── Generic rate limiter ──────────────────────────────────────────────────────
 // Returns { allowed: boolean }
 // maxRequests per windowSeconds per key (usually IP-based)
+// -- Rate limiting: deferred to Cloudflare WAF (zero KV cost)
+// KV rate limiting removed - handled at edge via Cloudflare WAF rules.
+// This is a no-op stub kept for API compatibility.
 export async function rateLimit(kv, key, maxRequests, windowSeconds) {
-  if (!kv) return { allowed: true };
-  try {
-    const data = await kv.get(key, { type: 'json' }).catch(() => null);
-    const now  = Date.now();
-    const cutoff = now - (windowSeconds * 1000);
-    const recent = ((data && data.ts) || []).filter(t => t > cutoff);
-    if (recent.length >= maxRequests) return { allowed: false };
-    recent.push(now);
-    await kv.put(key, JSON.stringify({ ts: recent }), { expirationTtl: windowSeconds });
-    return { allowed: true };
-  } catch (_) {
-    return { allowed: true }; // fail open — don't block on KV errors
-  }
+  return { allowed: true };
 }
-
-// ── Input validation ──────────────────────────────────────────────────────────
-// Trims and enforces max lengths on all user-supplied string fields.
-// Returns sanitized object or throws a descriptive error string.
-const INPUT_LIMITS = {
-  // Lead fields
-  client_email:  254,
-  client_name:   120,
-  due_date:       10,
-  domain_name:   253,
-  domain_choice:  30,
-  site_link:    2000,
-  admin_comment: 1000,
-  admin_comment_link: 2000,
-  // full_data subfields (validated recursively where needed)
-  full_name:     120,
-  company_name:  120,
-  email:         254,
-  phone:          30,
-  context:      5000,
-  target_customer: 3000,
-  color_background: 100,
-  color_secondary:  100,
-  color_accent:     100,
-  colors_extra:    500,
-  fonts:           500,
-  mottos:         1000,
-  copyright:       200,
-  assets_links:   2000,
-  existing_url:   2000,
-  additional_notes: 3000,
-};
 
 export function validateLength(key, value) {
   if (typeof value !== 'string') return value;
