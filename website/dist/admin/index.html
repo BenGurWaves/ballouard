@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admin — Velocity</title>
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -127,7 +127,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
     <h1 class="auth-title">Velocity.</h1>
     <p class="auth-sub">Admin access only.</p>
     <label class="auth-label">Access Key</label>
-    <input class="auth-input" type="password" id="secretInput" placeholder="Enter admin key" autocomplete="current-password">
+    <div style="position:relative;display:inline-block"><input class="auth-input" type="password" id="secretInput" placeholder="Enter admin key" autocomplete="current-password" style="padding-right:2rem"><button onclick="var i=document.getElementById('secretInput');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='text'?'👁':'👁'︎'" type="button" style="position:absolute;right:.4rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.9rem;opacity:.5;padding:0;line-height:1">👁︎</button></div>
     <br><button class="auth-btn" id="authBtn">Enter &#8594;</button>
     <div class="auth-err" id="authErr">Incorrect key. Try again.</div>
   </div>
@@ -199,7 +199,6 @@ document.getElementById('authBtn').onclick=async()=>{
   document.getElementById('authGate').style.display='none';
   document.getElementById('app').style.display='';
   LEADS=await r.json();renderStats();renderLeads();
-  startPoll();
 };
 document.getElementById('btnRefresh').onclick=async()=>{const b=document.getElementById('btnRefresh');b.textContent='...';await reload();b.innerHTML='&#8635;&nbsp;Refresh';toast('Refreshed');};document.getElementById('btnLogout').onclick=()=>{sessionStorage.removeItem('v_admin');location.reload();};
 const saved=sessionStorage.getItem('v_admin');

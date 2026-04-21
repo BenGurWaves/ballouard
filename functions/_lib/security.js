@@ -29,35 +29,24 @@ export async function checkAdminAuth(request, env) {
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
   const lockKey  = `lock:admin:${ip}`;
   const failKey  = `fails:admin:${ip}`;
+
   const kv = env.DATA || env.LEADS;
-
-  if (kv) {
-    // Check if locked
-    const locked = await kv.get(lockKey).catch(() => null);
-    if (locked) return { ok: false, locked: true, retryAfter: 900 };
-  }
-
+  // KV only on auth FAILURE. Success path = zero KV reads (eliminates daily KV drain).
   const match = await timingSafeEqual(provided, env.ADMIN_SECRET);
-
-  if (kv) {
-    if (!match) {
-      // Increment failure counter
-      try {
-        const fails = parseInt(await kv.get(failKey).catch(() => '0') || '0', 10) + 1;
-        if (fails >= 5) {
-          await kv.put(lockKey, '1', { expirationTtl: 900 });  // lock 15 min
-          await kv.delete(failKey);
-          return { ok: false, locked: true, retryAfter: 900 };
-        }
-        await kv.put(failKey, String(fails), { expirationTtl: 300 }); // reset after 5 min
-      } catch (_) {}
-      return { ok: false, locked: false };
-    } else {
-      // Success — clear failure counter
-      try { await kv.delete(failKey); } catch (_) {}
-    }
+  if (!match && kv) {
+    try {
+      const locked = await kv.get(lockKey).catch(() => null);
+      if (locked) return { ok: false, locked: true, retryAfter: 900 };
+      const fails = parseInt(await kv.get(failKey).catch(() => '0') || '0', 10) + 1;
+      if (fails >= 5) {
+        await kv.put(lockKey, '1', { expirationTtl: 900 });
+        await kv.delete(failKey);
+        return { ok: false, locked: true, retryAfter: 900 };
+      }
+      await kv.put(failKey, String(fails), { expirationTtl: 300 });
+    } catch (_) {}
+    return { ok: false, locked: false };
   }
-
   return { ok: match, locked: false };
 }
 
