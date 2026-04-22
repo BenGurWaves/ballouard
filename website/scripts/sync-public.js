@@ -23,6 +23,13 @@ const SINGLE_FILES = [
   'sitemap.xml',
   '404.html',
   '_headers',
+  'previews/maciej-misnik/index.html',
+  'previews/maciej-misnik/styles.css',
+  'previews/maciej-misnik/script.js',
+  'previews/maciej-misnik/robots.txt',
+  'previews/maciej-misnik/assets/hero.png',
+  'previews/maciej-misnik/assets/physicist.png',
+  'previews/maciej-misnik/assets/chronometer.png',
 ];
 
 let count = 0;
