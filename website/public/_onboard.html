@@ -230,7 +230,9 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <div id="antiList"></div>
         <button class="add-btn" type="button" id="addAnti">+ Add Site</button>
       </div>
-      <div class="nav-btns">
+
+      <div class="field" style="margin-top:2rem"><label class="field-label" for="sitePages">Pages &amp; Sections</label><p style="font-size:.75rem;color:var(--dim);line-height:1.75;margin-bottom:.75rem">List the pages you want on your website. If you leave this blank, we will decide what makes sense based on your brief and brand.</p><textarea id="sitePages" rows="4" placeholder="e.g. Homepage, About, Collections, Contact &mdash; or leave blank and we decide for you."></textarea></div>
+            <div class="nav-btns">
         <button class="btn-back" id="back3">&larr; Back</button>
         <button class="btn-next" id="next3">Continue &rarr;</button>
       </div>
@@ -566,7 +568,7 @@ function collect(){
       context:getVal('context'),
       socials,include_socials:getChecked('includeSocials'),
     },
-    phase2:{inspiration,anti_inspiration:anti,target_customer:getVal('targetCustomer'),site_vibe:getVal('siteVibe')},
+    phase2:{inspiration,anti_inspiration:anti,target_customer:getVal('targetCustomer'),site_vibe:getVal('siteVibe'),site_pages:getVal('sitePages')},
     phase3:{color_background:getVal('colorBg'),color_secondary:getVal('colorSec'),color_accent:getVal('colorAcc'),colors_extra:getVal('colorsExtra'),fonts:getVal('fonts'),upgrade_permission:getChecked('upgradePerm')},
     phase4:{mottos:getVal('mottos'),copyright:getVal('copyright'),assets_links:getVal('assetsLinks'),starting_point:sp,existing_url:sp==='existing'?getVal('existingUrl'):'',due_date:getVal('dueDate')},
     phase5:{additional_notes:getVal('additionalNotes')}

@@ -357,11 +357,17 @@ function buildCard(l){
       <!-- Status -->
       <div class="cg"><span class="clabel">Status</span>
         <select class="cselect ss">
-          <option value="pending" ${l.status==='pending'?'selected':''}>Pending</option>
-          <option value="accepted" ${l.status==='accepted'?'selected':''}>Accepted</option>
+          <option value="outreach" ${l.status==='outreach'?'selected':''}>Outreach</option>
+          <option value="responded" ${l.status==='responded'?'selected':''}>Responded</option>
+          <option value="onboarding_sent" ${l.status==='onboarding_sent'?'selected':''}>Onboarding Sent</option>
+          <option value="pending" ${l.status==='pending'?'selected':''}>Onboarding Complete</option>
+          <option value="scope_sent" ${l.status==='scope_sent'?'selected':''}>Scope Sent</option>
+          <option value="accepted" ${l.status==='accepted'?'selected':''}>Scope Signed</option>
+          <option value="paid" ${l.status==='paid'?'selected':''}>Paid</option>
           <option value="in_progress" ${l.status==='in_progress'?'selected':''}>In Progress</option>
+          <option value="completed" ${l.status==='completed'?'selected':''}>Delivered</option>
           <option value="declined" ${l.status==='declined'?'selected':''}>Declined</option>
-          <option value="completed" ${l.status==='completed'?'selected':''}>Completed</option>
+          <option value="archived" ${l.status==='archived'?'selected':''}>Archived</option>
         </select>
       </div>
 

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haute Parfumerie Archive — Velocity</title>
+  <meta name="description" content="Haute Parfumerie archive — luxury fragrances and olfactory artistry.">
+  <meta property="og:title" content="Haute Parfumerie Archive — Velocity">
+  <meta property="og:description" content="Haute Parfumerie archive — luxury fragrances and olfactory artistry.">
+  <link rel="canonical" href="https://velocity.calyvent.com/archives/haute-parfumerie">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=31">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Velocity Digital Atelier","url":"https://velocity.calyvent.com","email":"atelier@calyvent.com"}</script>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="preloader" id="preloader">
+  <span class="pl-brand">Velocity<em>.</em></span>
+  <div class="pl-line"><div class="pl-line-inner" id="plLine"></div></div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-sticky" id="heroSticky">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-level1" id="heroL1">
+      <h1 class="hero-title" id="heroTitle">Velocity.</h1>
+      <p class="hero-sub">Digital Ateliers for Heritage Maisons</p>
+    </div>
+    <div class="hero-level2" id="heroL2">
+      <span class="hero-phrase" data-final-x="50" data-final-y="30" data-start-x="8" data-start-y="15" style="font-size:clamp(1.5rem,3.5vw,3.2rem)">We build</span>
+      <span class="hero-phrase" data-final-x="50" data-final-y="39" data-start-x="82" data-start-y="70" style="font-size:clamp(2rem,5vw,4.8rem);color:var(--brass);font-style:italic">digital ateliers</span>
+      <span class="hero-phrase" data-final-x="50" data-final-y="48" data-start-x="20" data-start-y="80" style="font-size:clamp(1.5rem,3.5vw,3.2rem)">for heritage brands —</span>
+      <span class="hero-phrase" data-final-x="50" data-final-y="58" data-start-x="75" data-start-y="20" style="font-size:clamp(1rem,2vw,1.6rem);color:var(--dim)">ensuring your presence is as considered as</span>
+      <span class="hero-phrase" data-final-x="50" data-final-y="66" data-start-x="15" data-start-y="55" style="font-size:clamp(1.5rem,3.5vw,3.2rem)">a Patek Philippe</span>
+      <span class="hero-phrase" data-final-x="50" data-final-y="74" data-start-x="85" data-start-y="45" style="font-size:clamp(2rem,5vw,4.8rem);color:var(--brass);font-style:italic">caseback.</span>
+    </div>
+    <div class="hero-portal" id="heroPortal"></div>
+  </div>
+</section>
+
+<!-- ═══ CONVICTION ═══ -->
+<section class="conviction" id="conviction">
+  <div class="conviction-wrap" id="convictionWrap">
+    <div class="conviction-inner">
+      <div class="conviction-grid">
+        <div>
+          <p class="conviction-label">The Conviction</p>
+          <h2 class="conviction-heading">Every pixel is a <em>decision.</em> Every transition, a <em>feeling.</em></h2>
+        </div>
+        <div class="conviction-right">
+          <div class="conviction-stat"><span class="conviction-stat-num" data-count="0">0</span><span class="conviction-stat-label">Templates used — ever</span></div>
+          <div class="conviction-divider"></div>
+          <div class="conviction-stat"><span class="conviction-stat-num" data-count="48">0</span><span class="conviction-stat-label">Hour response guarantee</span></div>
+          <div class="conviction-divider"></div>
+          <div class="conviction-stat"><span class="conviction-stat-num" data-count="100">0</span><span class="conviction-stat-label">Percent hand-coded</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHILOSOPHY ═══ -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-header"><span class="label">The Philosophy</span></div>
+  <div class="philosophy-track" id="philTrack">
+    <div class="phil-card"><div class="card-shine"></div><span class="phil-num">01 — Discovery</span><div><h3 class="phil-title">The Fitting</h3><p class="phil-desc">Before a single line of code is written, we study your provenance. We translate your savoir-faire into digital ritual — ensuring the visitor feels the weight of platinum or the whisper of silk.</p></div></div>
+    <div class="phil-sep"></div>
+    <div class="phil-counter">II</div>
+    <div class="phil-card"><div class="card-shine"></div><span class="phil-num">02 — Craft</span><div><h3 class="phil-title">The Bench</h3><p class="phil-desc">No templates. No frameworks. Every interaction is hand-tooled. Custom cursors that glide like a watch hand; product pages that unfold like leather-bound portfolios.</p></div></div>
+    <div class="phil-sep"></div>
+    <div class="phil-counter">III</div>
+    <div class="phil-card"><div class="card-shine"></div><span class="phil-num">03 — Stewardship</span><div><h3 class="phil-title">The Salon</h3><p class="phil-desc">Launched, but never finished. Like a master tailor maintaining a client's wardrobe, we steward your digital presence — ensuring it ages with the grace of patina, not the urgency of trends.</p></div></div>
+    <div class="phil-sep"></div>
+    <div class="phil-counter">IV</div>
+    <div class="phil-card"><div class="card-shine"></div><span class="phil-num">04 — Legacy</span><div><h3 class="phil-title">The Archive</h3><p class="phil-desc">Every commission enters our archive — a living record of digital craftsmanship. Your project becomes part of a lineage, informed by every Maison before it and shaping every one after.</p></div></div>
+  </div>
+</section>
+
+<!-- ═══ ATELIER ═══ -->
+<section class="atelier" id="atelier">
+  <div class="atelier-bg" id="atelierBg">Atelier</div>
+  <div class="atelier-grid">
+    <div class="atelier-left">
+      <span class="atelier-label">The Atelier</span>
+      <h2 class="atelier-heading" id="atelierHeading">Where heritage meets <em>precision.</em></h2>
+      <div class="atelier-line" id="atelierLine"></div>
+    </div>
+    <div class="atelier-right">
+      <p class="atelier-para">Velocity is a digital atelier by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a>. We serve Maisons — Jewelers, Horologers, and Tailors — who understand that heritage cannot be templated.</p>
+      <p class="atelier-para">Every commission is approached as a unique artifact. We study your provenance, curate your narrative, and craft digital experiences that carry the same weight as your physical creations.</p>
+      <div class="atelier-facts">
+        <div class="sf"><b>Commission</b><span>Bespoke by design</span></div>
+        <div class="sf"><b>Heritage</b><span>Curated with provenance</span></div>
+        <div class="sf"><b>Patina</b><span>Built to age gracefully</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MAISON ═══ -->
+<section class="maison" id="maison">
+  <div class="maison-sticky" id="maisonSticky">
+    <span class="label maison-label">For the Maison</span>
+    <div class="maison-item" id="m1t"><span class="maison-num">01</span><h3 class="maison-title">For the Horologer</h3></div>
+    <div class="maison-item" id="m1d"><p class="maison-desc">Product storytelling that captures fire, scintillation, and complications. Private client portals for high-touch commissions. Every click feels like winding a crown.</p></div>
+    <div class="maison-item" id="m2t"><span class="maison-num">02</span><h3 class="maison-title">For the Bespoke Tailor</h3></div>
+    <div class="maison-item" id="m2d"><p class="maison-desc">Appointment rituals that mirror the Savile Row experience. Fabric visualization that conveys texture and drape through tactility and motion.</p></div>
+    <div class="maison-item" id="m3t"><span class="maison-num">03</span><h3 class="maison-title">For the Parfumeur</h3></div>
+    <div class="maison-item" id="m3d"><p class="maison-desc">Olfactory storytelling through motion and sound. Sample request journeys that feel like receiving a physical gift.</p></div>
+    <div class="maison-item" id="m4t"><span class="maison-num">04</span><h3 class="maison-title">Maison Studies</h3></div>
+    <div class="maison-item" id="m4d"><p class="maison-desc">Archival explorations for heritage brands. Each study demonstrates curatorial precision and the patience of true craft.</p></div>
+    <div class="maison-cta" id="maisonCTA">
+      <p class="maison-cta-eye">Request a Private Consultation</p>
+      <p class="maison-cta-head">Heritage deserves more than templates.</p>
+      <p class="maison-cta-sub">We accept a limited number of commissions per quarter. Share your provenance, and we shall respond within 48 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer-exp" id="footerExp">
+  <canvas class="footer-particle-canvas" id="footerParticles"></canvas>
+  <div class="footer-orbit" style="top:30%;left:50%"><div class="footer-orbit-dot"></div></div>
+  <div class="footer-content">
+    <a href="#" class="footer-email" id="footerEmail"></a>
+    <p class="footer-tagline">Heritage is not preserved. It <em>compounds.</em></p>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-coords" id="footerCoords"></span>
+    <div class="footer-meta">
+      <span>© 2026 Velocity by <a href="https://calyvent.com" target="_blank" rel="noopener noreferrer">Calyvent</a></span>
+      <div class="footer-links"><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+
+/* ═══ PRELOADER ═══ */
+(function(){
+  const pl=document.getElementById('preloader'),brand=pl.querySelector('.pl-brand'),line=document.getElementById('plLine');
+  function go(){
+    setTimeout(()=>{brand.style.transition='opacity .5s,transform .5s';brand.style.opacity='1';brand.style.transform='translateY(0)'},80);
+    setTimeout(()=>{const l=pl.querySelector('.pl-line');l.style.transition='opacity .3s';l.style.opacity='1';line.style.transition='width .8s cubic-bezier(.16,1,.3,1)';line.style.width='100%'},350);
+    setTimeout(()=>{gsap.to(pl,{clipPath:'inset(0 0 100% 0)',duration:1,ease:'expo.inOut',onComplete:()=>{pl.classList.add('is-done');boot()}})},1300);
+  }
+  if(document.readyState==='complete')go();else window.addEventListener('load',go);
+})();
+
+function boot(){
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis=new Lenis({duration:2.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,smoothTouch:false});
+  lenis.on('scroll',ScrollTrigger.update);
+  gsap.ticker.add(t=>lenis.raf(t*1000));
+  gsap.ticker.lagSmoothing(0);
+
+  gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
+
+  /* ═══ HERO ═══ */
+  const heroTitle=document.getElementById('heroTitle');
+  const text=heroTitle.textContent.replace('.','');
+  heroTitle.innerHTML=text.split('').map((c,i)=>`<span class="char">${c}</span>`).join('')+'<span class="dot">.</span>';
+  const chars=heroTitle.querySelectorAll('.char'),dot=heroTitle.querySelector('.dot');
+
+  gsap.from(chars,{opacity:0,y:100,rotateX:-80,scale:.6,transformOrigin:'50% 100%',duration:1.5,ease:'expo.out',stagger:{each:.035},delay:.15});
+  gsap.from(dot,{opacity:0,scale:0,rotation:-360,duration:1.2,ease:'back.out(2)',delay:.15+text.length*.035+.1});
+  gsap.from('.hero-sub',{opacity:0,y:25,duration:1.3,ease:'expo.out',delay:.8});
+
+  const heroTL=gsap.timeline({scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1.5}});
+  /* Level 1: fly past */
+  heroTL.to('#heroL1',{scale:14,opacity:0,duration:.35,ease:'power2.in'},0);
+  chars.forEach((c,i)=>{heroTL.to(c,{x:(i-text.length/2)*50,y:(i%2?-1:1)*30,duration:.28},0)});
+  heroTL.to(dot,{rotation:1440,scale:5,duration:.35},0);
+  /* Level 2: phrases converge */
+  heroTL.to('#heroL2',{opacity:1,duration:.08},0.28);
+  document.querySelectorAll('.hero-phrase').forEach((p,i)=>{
+    const fx=+p.dataset.finalX,fy=+p.dataset.finalY,sx=+p.dataset.startX,sy=+p.dataset.startY;
+    gsap.set(p,{left:sx+'%',top:sy+'%',xPercent:-50,yPercent:-50,scale:.2,opacity:0,filter:'blur(8px)'});
+    heroTL.to(p,{left:fx+'%',top:fy+'%',scale:1,opacity:1,filter:'blur(0px)',duration:.18,ease:'expo.out'},0.30+i*.03);
+  });
+  /* Level 2: fly past */
+  heroTL.to('#heroL2',{scale:12,opacity:0,duration:.20,ease:'power2.in'},0.68);
+  /* Portal */
+  heroTL.fromTo('#heroPortal',{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(85% at 50% 50%)',duration:.18,ease:'power2.inOut'},0.82);
+
+  /* ═══ CONVICTION — pinned at center, zoom in→hold→zoom out ═══ */
+  const convWrap=document.getElementById('convictionWrap');
+  /* Starts at 88% with rounded corners (set in CSS) */
+  const convTL=gsap.timeline({scrollTrigger:{
+    trigger:'#conviction',start:'center center',end:'+=250%',pin:true,scrub:1.5
+  }});
+  convTL.to(convWrap,{scale:1,borderRadius:'0px',duration:.2,ease:'power2.inOut'},0);
+  /* Counters animate during middle */
+  document.querySelectorAll('.conviction-stat-num').forEach(el=>{
+    const target=parseInt(el.dataset.count);
+    convTL.to(el,{innerText:target,snap:{innerText:1},duration:.35,ease:'power2.out'},0.25);
+  });
+  convTL.from('.conviction-heading',{opacity:0,y:40,duration:.15,ease:'expo.out'},0.05);
+  /* Zoom back out */
+  convTL.to(convWrap,{scale:.88,borderRadius:'20px',duration:.2,ease:'power2.inOut'},0.75);
+
+  /* ═══ PHILOSOPHY — horizontal scroll, slower ═══ */
+  ScrollTrigger.matchMedia({
+    '(min-width:769px)':function(){
+      const track=document.getElementById('philTrack');
+      if(!track)return;
+      const total=track.scrollWidth-window.innerWidth+120;
+      /* 1.8x scroll distance = slower pace */
+      gsap.to(track,{x:-total,ease:'none',scrollTrigger:{
+        trigger:'.philosophy',start:'top top',end:()=>'+='+(total*1.8),
+        pin:true,scrub:2,anticipatePin:1,invalidateOnRefresh:true
+      }});
+      /* Stagger card entrance */
+      gsap.from('.phil-card',{opacity:0,y:80,scale:.88,duration:1.2,ease:'expo.out',stagger:.25,scrollTrigger:{trigger:'.philosophy',start:'top 60%'}});
+      /* Separators fade in */
+      gsap.from('.phil-sep',{opacity:0,scaleY:0,duration:1,ease:'expo.out',stagger:.2,scrollTrigger:{trigger:'.philosophy',start:'top 50%'}});
+    },
+    '(max-width:768px)':function(){
+      gsap.from('.phil-card',{scrollTrigger:{trigger:'.philosophy',start:'top 80%'},opacity:0,y:40,duration:1,ease:'expo.out',stagger:.15});
+    }
+  });
+
+  /* 3D Tilt on cards */
+  document.querySelectorAll('.phil-card').forEach(card=>{
+    const shine=card.querySelector('.card-shine');
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(800px) rotateX(${-y*20}deg) rotateY(${x*20}deg) scale(1.04)`;
+      card.style.transition='transform .1s ease-out';
+      if(shine)shine.style.background=`radial-gradient(circle at ${(x+.5)*100}% ${(y+.5)*100}%,rgba(196,156,123,.12),transparent 50%)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(800px) rotateX(0) rotateY(0) scale(1)';card.style.transition='transform .6s cubic-bezier(.16,1,.3,1)'});
+  });
+
+  /* ═══ ATELIER — typewriter heading with following cursor ═══ */
+  const atelierH=document.getElementById('atelierHeading');
+  if(atelierH){
+    const html=atelierH.innerHTML;
+    let result='',inTag=false,tagBuf='';
+    for(let i=0;i<html.length;i++){
+      const c=html[i];
+      if(c==='<'){inTag=true;tagBuf='<';continue}
+      if(inTag){tagBuf+=c;if(c==='>'){inTag=false;result+=tagBuf;tagBuf=''}continue}
+      if(c===' '){result+=' ';continue}
+      result+=`<span class="tc">${c}</span>`;
+    }
+    atelierH.style.position='relative';
+    atelierH.innerHTML=result;
+    const cursorEl=document.createElement('span');
+    cursorEl.className='atelier-cursor';
+    atelierH.appendChild(cursorEl);
+    const tcChars=atelierH.querySelectorAll('.tc');
+
+    /* Typewriter timeline — triggers only when heading is IN VIEW */
+    const typeTL=gsap.timeline({scrollTrigger:{
+      trigger:'#atelierHeading',start:'top 80%',end:'top 35%',scrub:true,
+      onUpdate:function(self){
+        /* Position cursor after last visible char */
+        const p=self.progress;
+        const idx=Math.min(Math.floor(p*tcChars.length),tcChars.length-1);
+        if(p>0.01&&idx>=0){
+          const ch=tcChars[idx];
+          const cr=ch.getBoundingClientRect();
+          const pr=atelierH.getBoundingClientRect();
+          cursorEl.style.left=(cr.right-pr.left)+'px';
+          cursorEl.style.top=(cr.top-pr.top)+'px';
+          cursorEl.style.height=cr.height+'px';
+          cursorEl.style.opacity='1';
+        }
+        if(p>=0.99)cursorEl.style.opacity='1';
+      }
+    }});
+    tcChars.forEach((c,i)=>{typeTL.to(c,{opacity:1,duration:0.01},i*(1/tcChars.length))});
+  }
+
+  /* Bg text parallax + split */
+  const bgText=document.getElementById('atelierBg');
+  gsap.to(bgText,{y:-180,ease:'none',scrollTrigger:{trigger:'.atelier',start:'top bottom',end:'bottom top',scrub:true}});
+  const bgChars=bgText.textContent.split('');
+  bgText.innerHTML=bgChars.map(c=>`<span style="display:inline-block">${c}</span>`).join('');
+  bgText.querySelectorAll('span').forEach((s,i)=>{gsap.to(s,{y:(i%2?-1:1)*(20+i*8),x:(i-3)*15,opacity:0,ease:'none',scrollTrigger:{trigger:'.atelier',start:'40% bottom',end:'bottom top',scrub:true}})});
+
+  gsap.to('#atelierLine',{width:'clamp(40px,8vw,100px)',duration:1.5,ease:'expo.out',scrollTrigger:{trigger:'.atelier',start:'top 60%'}});
+  gsap.from('.atelier-para',{scrollTrigger:{trigger:'.atelier-right',start:'top 72%'},opacity:0,y:35,duration:1.2,ease:'expo.out',stagger:.12});
+  gsap.from('.sf',{scrollTrigger:{trigger:'.atelier-facts',start:'top 85%'},opacity:0,y:25,duration:1,ease:'expo.out',stagger:.08});
+
+  /* ═══ MAISON — flying through space, scale PAST you ═══ */
+  const MT=gsap.timeline({scrollTrigger:{trigger:'#maison',start:'top top',end:'bottom top',scrub:1.5}});
+
+  /* All items start far away (tiny, from different positions) */
+  gsap.set('#m1t',{left:'-30%',top:'20%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m1d',{left:'130%',top:'75%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m2t',{left:'140%',top:'30%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m2d',{left:'-40%',top:'65%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m3t',{left:'50%',top:'-40%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m3d',{left:'50%',top:'140%',xPercent:-50,yPercent:-50,opacity:0,scale:.05});
+  gsap.set('#m4t',{left:'50%',top:'50%',xPercent:-50,yPercent:-50,opacity:0,scale:.02});
+  gsap.set('#m4d',{left:'50%',top:'65%',xPercent:-50,yPercent:-50,opacity:0,scale:.02});
+
+  function flyItem(tl,tId,dId,tStart,tFrom,dFrom){
+    const dur=.18;
+    /* Fly IN from far → center */
+    tl.to(tId,{left:'45%',top:'38%',scale:1,opacity:1,duration:dur*.5,ease:'power2.out'},tStart);
+    tl.to(dId,{left:'55%',top:'60%',scale:1,opacity:1,duration:dur*.5,ease:'power2.out'},tStart+.02);
+    /* Hold briefly */
+    /* Fly PAST — scale UP to 20x (behind the viewer) */
+    tl.to(tId,{scale:20,duration:dur*.5,ease:'power2.in'},tStart+dur*.6);
+    tl.to(dId,{scale:15,duration:dur*.5,ease:'power2.in'},tStart+dur*.6+.01);
+    /* Opacity drops only when already huge */
+    tl.to(tId,{opacity:0,duration:.02},tStart+dur*.9);
+    tl.to(dId,{opacity:0,duration:.02},tStart+dur*.9+.01);
+  }
+
+  flyItem(MT,'#m1t','#m1d',0.00);
+  flyItem(MT,'#m2t','#m2d',0.20);
+  flyItem(MT,'#m3t','#m3d',0.40);
+
+  /* Item 4 — CRASHES from dead center */
+  MT.to('#m4t',{scale:1,opacity:1,duration:.08,ease:'back.out(2)'},0.60);
+  MT.to('#m4d',{scale:1,opacity:1,top:'62%',duration:.06,ease:'power2.out'},0.64);
+  /* Hold longer */
+  MT.to('#m4t',{scale:25,duration:.07,ease:'power2.in'},0.74);
+  MT.to('#m4d',{scale:18,duration:.07,ease:'power2.in'},0.75);
+  MT.to('#m4t',{opacity:0,duration:.02},0.79);
+  MT.to('#m4d',{opacity:0,duration:.02},0.80);
+
+  /* SHAKE */
+  const shake=[{x:10,y:-6},{x:-8,y:7},{x:7,y:-5},{x:-9,y:4},{x:6,y:-7},{x:-5,y:6},{x:4,y:-3},{x:-3,y:3},{x:2,y:-1},{x:0,y:0}];
+  let sp=0.80;
+  shake.forEach(f=>{MT.to('#maisonSticky',{x:f.x,y:f.y,duration:.008},sp);sp+=.008});
+
+  /* CTA emerges */
+  MT.to('#maisonCTA',{opacity:1,duration:.06,ease:'power2.out'},0.90);
+  MT.from('.maison-cta-eye',{y:30,opacity:0,duration:.04},0.90);
+  MT.from('.maison-cta-head',{y:50,opacity:0,duration:.04},0.92);
+  MT.from('.maison-cta-sub',{y:30,opacity:0,duration:.04},0.94);
+
+  /* ═══ FOOTER ═══ */
+  const ftEmail=document.getElementById('footerEmail');
+  if(ftEmail){
+    const t='atelier@calyvent.com';
+    ftEmail.href='mailto:'+t;
+    ftEmail.innerHTML=t.split('').map(c=>`<span class="char">${c}</span>`).join('');
+    gsap.from('.footer-email .char',{scrollTrigger:{trigger:'.footer-exp',start:'top 70%'},opacity:0,y:50,rotateZ:10,duration:1.4,ease:'expo.out',stagger:.015});
+  }
+  gsap.from('.footer-tagline',{scrollTrigger:{trigger:'.footer-exp',start:'top 65%'},opacity:0,y:20,duration:1,ease:'expo.out',delay:.2});
+
+  const coordsEl=document.getElementById('footerCoords');
+  if(coordsEl){function tick(){const n=new Date();coordsEl.textContent=`40°42'N 74°00'W — ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}tick();setInterval(tick,1000)}
+
+  /* Particle text */
+  (function(){
+    const cv=document.getElementById('footerParticles');if(!cv)return;
+    const ctx=cv.getContext('2d');let w,h,particles=[],formed=false;
+    function resize(){w=cv.width=cv.offsetWidth;h=cv.height=cv.offsetHeight;initP()}
+    function initP(){
+      particles=[];
+      const off=document.createElement('canvas');off.width=w;off.height=h;
+      const oc=off.getContext('2d');
+      const fs=Math.min(w*.13,160);
+      oc.font=`400 ${fs}px 'Instrument Serif',serif`;
+      oc.fillStyle='#fff';oc.textAlign='center';oc.textBaseline='middle';
+      oc.fillText('Velocity.',w/2,h*.30);
+      const d=oc.getImageData(0,0,w,h).data;
+      const gap=Math.max(3,Math.round(w/380));
+      for(let y=0;y<h;y+=gap){for(let x=0;x<w;x+=gap){
+        const i=(y*w+x)*4;
+        if(d[i+3]>128){particles.push({tx:x,ty:y,x:Math.random()*w,y:Math.random()*h,vx:0,vy:0,sz:.8+Math.random()*1.2,r:Math.random()>.3?196:222,g:Math.random()>.3?156:200,b:Math.random()>.3?123:181})}
+      }}
+    }
+    resize();window.addEventListener('resize',resize);
+
+    /* Track mouse globally */
+    let mouseX=-1e3,mouseY=-1e3;
+    document.addEventListener('mousemove',e=>{
+      const r=cv.getBoundingClientRect();
+      mouseX=e.clientX-r.left;mouseY=e.clientY-r.top;
+    });
+
+    ScrollTrigger.create({trigger:'.footer-exp',start:'top 80%',onEnter:()=>{formed=true},onLeaveBack:()=>{formed=false}});
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{
+        if(formed){
+          const dx=mouseX-p.x,dy=mouseY-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120){const f=(120-dist)/120;p.vx-=(dx/dist)*f*5;p.vy-=(dy/dist)*f*5}
+          p.vx+=(p.tx-p.x)*.04;p.vy+=(p.ty-p.y)*.04;
+        }else{
+          p.vx+=(p.tx-p.x)*.003;p.vy+=(p.ty-p.y)*.003;
+          p.vx+=Math.sin(Date.now()*.001+p.tx)*.1;p.vy+=Math.cos(Date.now()*.001+p.ty)*.1;
+        }
+        p.vx*=.88;p.vy*=.88;p.x+=p.vx;p.y+=p.vy;
+        ctx.fillStyle=`rgba(${p.r},${p.g},${p.b},.6)`;
+        ctx.fillRect(p.x,p.y,p.sz,p.sz);
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+}
+
+/* ═══ CURSOR ═══ */
+(function(){
+  if(window.matchMedia('(pointer:coarse)').matches)return;
+  const g=document.getElementById('cursorGlow'),r=document.getElementById('cursorRing'),d=document.getElementById('cursorDot');
+  if(!r||!d||!g)return;
+  let mx=-200,my=-200,rx=-200,ry=-200,gx=-200,gy=-200,tx=-200,ty=-200,mag=false;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!mag){tx=mx;ty=my}});
+  document.querySelectorAll('a,button,.phil-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{r.classList.add('is-active');mag=true});
+    el.addEventListener('mouseleave',()=>{r.classList.remove('is-active');mag=false;tx=mx;ty=my});
+    el.addEventListener('mousemove',()=>{if(!mag)return;const b=el.getBoundingClientRect();tx=mx+((b.left+b.width/2)-mx)*.2;ty=my+((b.top+b.height/2)-my)*.2});
+  });
+  (function l(){rx+=(tx-rx)*.07;ry+=(ty-ry)*.07;gx+=(mx-gx)*.05;gy+=(my-gy)*.05;r.style.transform=`translate(${rx-20}px,${ry-20}px)`;d.style.transform=`translate(${mx-2.5}px,${my-2.5}px)`;g.style.transform=`translate(${gx-250}px,${gy-250}px)`;requestAnimationFrame(l)})();
+})();
+
+/* ═══ HERO CANVAS ═══ */
+(function(){
+  const cv=document.getElementById('heroCanvas');if(!cv)return;
+  const ctx=cv.getContext('2d');let w,h,mx=.5,my=.5;
+  function rs(){w=cv.width=cv.offsetWidth;h=cv.height=cv.offsetHeight}
+  rs();window.addEventListener('resize',rs);
+  document.addEventListener('mousemove',e=>{mx=e.clientX/window.innerWidth;my=e.clientY/window.innerHeight});
+  const C=[];for(let i=0;i<14;i++)C.push({y:Math.random(),a:.03+Math.random()*.06,f:.3+Math.random()*.5,s:.0002+Math.random()*.0003,p:Math.random()*6.28,t:.3+Math.random()*.8,o:.02+Math.random()*.035,c:i%3===0?'196,156,123':i%3===1?'222,200,181':'27,77,62'});
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    const bx=(.3+Math.sin(t*.0002)*.15+(mx-.5)*.1)*w,by=(.4+Math.cos(t*.00025)*.1+(my-.5)*.08)*h;
+    const g=ctx.createRadialGradient(bx,by,0,bx,by,w*.4);g.addColorStop(0,'rgba(196,156,123,.04)');g.addColorStop(1,'rgba(196,156,123,0)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    C.forEach(c=>{ctx.beginPath();ctx.strokeStyle=`rgba(${c.c},${c.o})`;ctx.lineWidth=c.t;const b=c.y*h,mi=(my-.5)*20;for(let x=0;x<=w;x+=3){const p=x/w,y=b+Math.sin(p*c.f*6.28+t*c.s+c.p)*c.a*h+Math.sin(p*1.5+t*c.s*.7)*c.a*h*.4+mi*Math.sin(p*3.14);if(!x)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()});
+    requestAnimationFrame(draw);
+  }requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

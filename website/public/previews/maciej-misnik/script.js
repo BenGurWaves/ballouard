@@ -1,10 +1,12 @@
 // ═══════════════════════════════════════
-// MACIEJ MIŚNIK — ROOM GALLERY ENGINE
-// Pure Typography · Liquid Parallax
+// MACIEJ MIŚNIK — HIGH-END ATELIER
+// GSAP Choreography, Fluid Canvas, Cursor Engine
 // ═══════════════════════════════════════
 
 (() => {
     'use strict';
+
+    gsap.registerPlugin(SplitText);
 
     const rooms     = document.querySelectorAll('.room');
     const dots      = document.querySelectorAll('.room-dot');
@@ -12,7 +14,7 @@
 
     let current = 0;
     let locked  = false;
-    const COOLDOWN = 1400; // Slower, more deliberate transitions
+    const COOLDOWN = 1600; // Slower, more deliberate transitions
 
     // ─── AMBIENT FLUID BACKGROUND ───
     const canvas = document.getElementById('fluid-canvas');
@@ -28,7 +30,7 @@
         });
 
         const particles = [];
-        const numParticles = 40;
+        const numParticles = 25; // Massive, slow moving gradients
 
         function initParticles() {
             particles.length = 0;
@@ -36,11 +38,10 @@
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    size: Math.random() * (width * 0.4) + (width * 0.2),
-                    colorStart: [165, 124, 76, Math.random() * 0.01 + 0.005], // Bronze
-                    colorEnd: [10, 30, 20, 0] // Fade to dark
+                    vx: (Math.random() - 0.5) * 0.15,
+                    vy: (Math.random() - 0.5) * 0.15,
+                    size: Math.random() * (width * 0.6) + (width * 0.3),
+                    colorStart: [195, 155, 107, Math.random() * 0.015 + 0.005]
                 });
             }
         }
@@ -61,7 +62,7 @@
 
                 const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
                 grad.addColorStop(0, `rgba(${p.colorStart[0]}, ${p.colorStart[1]}, ${p.colorStart[2]}, ${p.colorStart[3]})`);
-                grad.addColorStop(1, `rgba(${p.colorEnd[0]}, ${p.colorEnd[1]}, ${p.colorEnd[2]}, ${p.colorEnd[3]})`);
+                grad.addColorStop(1, `rgba(10, 10, 9, 0)`);
                 
                 ctx.fillStyle = grad;
                 ctx.beginPath();
@@ -73,8 +74,16 @@
         drawFluid();
     }
 
-    // ─── ROOM TRANSITIONS ───
+    // ─── SPLIT TEXT PREP ───
+    const splitElements = document.querySelectorAll('[data-split]');
+    const splits = [];
+    splitElements.forEach(el => {
+        const tr = new SplitText(el, { type: "chars, words" });
+        splits.push(tr);
+        gsap.set(tr.chars, { y: 150, opacity: 0 }); // Intial state
+    });
 
+    // ─── ROOM TRANSITIONS ───
     function goTo(index) {
         if (locked || index === current) return;
         if (index < 0 || index >= rooms.length) return;
@@ -84,13 +93,19 @@
         const to   = rooms[index];
         const dir  = index > current ? 1 : -1;
 
-        const fromEls = from.querySelectorAll('[data-animate]');
-        const toEls   = to.querySelectorAll('[data-animate]');
+        // Reset text
+        if(cursorText) cursorText.style.opacity = 0;
 
-        // Cursor pulse during transition
+        const fromAnimates = from.querySelectorAll('[data-animate]');
+        const toAnimates   = to.querySelectorAll('[data-animate]');
+        const toSplits = Array.from(to.querySelectorAll('[data-split]')).map(el => {
+            return splits.find(s => s.elements[0] === el).chars;
+        });
+
+        // Flash Ring
         if (cursorRing) {
-            gsap.to(cursorRing, { scale: 1.5, opacity: .2, duration: .4, ease: 'power2.out' });
-            gsap.to(cursorRing, { scale: 1, opacity: 1, duration: .6, ease: 'power2.inOut', delay: .6 });
+            gsap.to(cursorRing, { scale: 1.5, opacity: 0.1, duration: 0.5, ease: 'power2.out' });
+            gsap.to(cursorRing, { scale: 1, opacity: 1, duration: 0.7, ease: 'power2.inOut', delay: 0.5 });
         }
 
         const tl = gsap.timeline({
@@ -102,65 +117,69 @@
             }
         });
 
-        // Exit: Smooth float away
-        tl.to(fromEls, {
-            y: -25 * dir,
+        // Exit Out
+        tl.to(fromAnimates, {
+            y: -40 * dir,
             opacity: 0,
-            stagger: 0.04,
-            duration: 0.6,
-            ease: 'power2.inOut',
+            stagger: 0.05,
+            duration: 0.8,
+            ease: "power4.inOut"
         });
 
-        tl.to(from, {
-            opacity: 0,
-            duration: 0.4,
-            ease: 'power2.inOut',
-        }, '-=0.2');
+        tl.to(from, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, "-=0.4");
 
-        // Enter: Smooth float in
+        // Enter In
         to.classList.add('active');
-        tl.fromTo(to,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.4, ease: 'power2.out' },
-            '-=0.1'
+        tl.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, "-=0.2");
+
+        tl.fromTo(toAnimates, 
+            { y: 60 * dir, opacity: 0 }, 
+            { y: 0, opacity: 1, stagger: 0.1, duration: 1.2, ease: "expo.out" }, 
+            "-=0.3"
         );
 
-        tl.fromTo(toEls,
-            { y: 35 * dir, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.06, duration: 0.8, ease: 'power3.out' },
-            '-=0.2'
-        );
+        // Split Text Reveal
+        if(toSplits.length > 0) {
+            tl.to(toSplits, {
+                y: 0,
+                opacity: 1,
+                stagger: 0.02,
+                duration: 1.2,
+                ease: "expo.out"
+            }, "-=1.2");
+        }
     }
 
     function updateNav() {
         dots.forEach((d, i) => d.classList.toggle('active', i === current));
         if (counterEl) counterEl.textContent = String(current + 1).padStart(2, '0');
         
-        // Slightly shift background colors based on room
+        // Fluid Color Morphing
         if (particles && particles.length > 0) {
-            const hueShifts = [0, 5, 10, -5, 0, 15, 0];
-            const shift = hueShifts[current] || 0;
-            const newR = 165 + shift;
-            const newG = 124 - shift;
-            
+            const colors = [
+                [195, 155, 107], // 0: Bronze
+                [210, 180, 140], // 1: Pale
+                [160, 120, 80],  // 2: Deep
+                [180, 140, 100], // 3: Mid
+                [220, 200, 180], // 4: White/gold
+                [150, 110, 70],  // 5: Dark
+            ];
+            const c = colors[current] || colors[0];
             particles.forEach(p => {
-                gsap.to(p.colorStart, { 0: newR, 1: newG, duration: 1.5 });
+                gsap.to(p.colorStart, { 0: c[0], 1: c[1], 2: c[2], duration: 2.5, ease: "power2.out" });
             });
         }
     }
 
-    // ─── INPUT: WHEEL (Debounced & Accumulating) ───
-
-    let lastWheel = 0;
-    let wheelAccum = 0;
-
+    // ─── INPUT ENGINE ───
+    let lastWheel = 0, wheelAccum = 0;
     window.addEventListener('wheel', (e) => {
         e.preventDefault();
         const now = Date.now();
         if (now - lastWheel < COOLDOWN || locked) return;
 
         wheelAccum += e.deltaY;
-        if (Math.abs(wheelAccum) >= 40) {
+        if (Math.abs(wheelAccum) >= 50) {
             lastWheel = now;
             if (wheelAccum > 0) goTo(current + 1);
             else goTo(current - 1);
@@ -174,183 +193,108 @@
         wheelTimer = setTimeout(() => { wheelAccum = 0; }, 150);
     }, { passive: true });
 
-    // ─── INPUT: KEYBOARD ───
-
     window.addEventListener('keydown', (e) => {
         if (['ArrowDown', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); goTo(current + 1); }
         if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); goTo(current - 1); }
     });
 
-    // ─── INPUT: TOUCH ───
-
     let touchY = 0, touchTime = 0;
-
-    window.addEventListener('touchstart', (e) => {
-        touchY = e.touches[0].clientY;
-        touchTime = Date.now();
-    }, { passive: true });
-
+    window.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; touchTime = Date.now(); }, { passive: true });
     window.addEventListener('touchend', (e) => {
         const diff = touchY - e.changedTouches[0].clientY;
         const fast = Date.now() - touchTime < 250;
-        if (Math.abs(diff) > (fast ? 30 : 50)) {
-            if (diff > 0) goTo(current + 1);
-            else goTo(current - 1);
-        }
+        if (Math.abs(diff) > (fast ? 40 : 80)) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
     }, { passive: true });
+    document.addEventListener('touchmove', (e) => { if (e.touches.length === 1) e.preventDefault(); }, { passive: false });
 
-    document.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 1) e.preventDefault();
-    }, { passive: false });
+    dots.forEach(dot => dot.addEventListener('click', () => goTo(parseInt(dot.dataset.target))));
 
-    // ─── NAV DOTS ───
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => goTo(parseInt(dot.dataset.target)));
-    });
-
-    // ─── CURSOR & PARALLAX ENGINE ───
-
+    // ─── CURSOR & PARALLAX ───
     const cursorDot  = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
+    const cursorText = document.querySelector('.cursor-text');
     const isTouch = !window.matchMedia('(hover: hover)').matches;
 
-    // We store the target mouse position from the event
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    
-    // We store the interpolated position
-    let currentX = targetX;
-    let currentY = targetY;
-    
-    // Ring interpolation
-    let ringX = targetX;
-    let ringY = targetY;
+    let tX = window.innerWidth / 2, tY = window.innerHeight / 2;
+    let cX = tX, cY = tY, rX = tX, rY = tY;
 
     if (!isTouch && cursorDot && cursorRing) {
+        document.addEventListener('mousemove', (e) => { tX = e.clientX; tY = e.clientY; });
 
-        document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-        });
-
-        // The tick loop handles the smoothing (lerp)
         (function tick() {
-            // Lerp current mouse position slightly to smooth out tiny jitters
-            currentX += (targetX - currentX) * 0.25;
-            currentY += (targetY - currentY) * 0.25;
-
-            // Cursor dot follows smoothed position
-            cursorDot.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
+            cX += (tX - cX) * 0.25; cY += (tY - cY) * 0.25;
+            cursorDot.style.transform = `translate(${cX}px, ${cY}px) translate(-50%, -50%)`;
             
-            // Ring lags behind
-            ringX += (targetX - ringX) * 0.12;
-            ringY += (targetY - ringY) * 0.12;
-            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+            rX += (tX - rX) * 0.12; rY += (tY - rY) * 0.12;
+            cursorRing.style.transform = `translate(${rX}px, ${rY}px) translate(-50%, -50%)`;
+            if(cursorText) cursorText.style.transform = `translate(${rX}px, ${rY}px) translate(-50%, -50%)`;
 
-            // Mouse parallax on active room
+            // Parallax on current room only
             const activeRoom = rooms[current];
             if (activeRoom) {
-                // Use smoothed mouse coordinates for parallax
-                const nx = (currentX / window.innerWidth - 0.5) * 2;
-                const ny = (currentY / window.innerHeight - 0.5) * 2;
+                const nx = (cX / window.innerWidth - 0.5) * 2;
+                const ny = (cY / window.innerHeight - 0.5) * 2;
                 
                 activeRoom.querySelectorAll('[data-depth]').forEach(el => {
-                    // Cache depth property if not already
-                    if(!el._depth) el._depth = parseFloat(el.dataset.depth || 0);
-                    const d = el._depth;
-                    
-                    const tx = nx * d * -18;
-                    const ty = ny * d * -12;
-                    el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+                    const d = parseFloat(el.dataset.depth || 0);
+                    // Add subtle rotation to media blocks
+                    if (el.classList.contains('media-block') || el.classList.contains('hero-media')) {
+                        const rX = ny * d * 15;
+                        const rY = nx * d * -15;
+                        el.style.transform = `translate3d(${nx * d * -30}px, ${ny * d * -20}px, 0) rotateX(${rX}deg) rotateY(${rY}deg)`;
+                    } else {
+                        el.style.transform = `translate3d(${nx * d * -25}px, ${ny * d * -15}px, 0)`;
+                    }
                 });
             }
-
             requestAnimationFrame(tick);
         })();
 
-        // ── Cursor states ──
-
-        function setCS(cls) {
-            cursorDot.classList.add(cls);
-            cursorRing.classList.add(cls);
-        }
-        function clearCS(cls) {
-            cursorDot.classList.remove(cls);
-            cursorRing.classList.remove(cls);
-        }
-
-        // Links & buttons
+        // Hover States
         document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
-            el.addEventListener('mouseenter', () => setCS('on-link'));
-            el.addEventListener('mouseleave', () => clearCS('on-link'));
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
         });
 
-        // Headings
-        document.querySelectorAll('h1, h2, .room-title, .threshold-name').forEach(el => {
-            el.addEventListener('mouseenter', () => setCS('on-heading'));
-            el.addEventListener('mouseleave', () => clearCS('on-heading'));
-        });
-
-        // Ghost text
-        document.querySelectorAll('.ghost-text, .cl-ghost').forEach(el => {
-            el.addEventListener('mouseenter', () => setCS('on-ghost'));
-            el.addEventListener('mouseleave', () => clearCS('on-ghost'));
-        });
-
-        // Data values
-        document.querySelectorAll('.data-val').forEach(el => {
-            el.addEventListener('mouseenter', () => setCS('on-data'));
-            el.addEventListener('mouseleave', () => clearCS('on-data'));
-        });
-
-        // Click
-        document.addEventListener('mousedown', () => {
-            gsap.to(cursorRing, { scale: 0.6, duration: 0.15, ease: 'power2.in' });
-        });
-        document.addEventListener('mouseup', () => {
-            gsap.to(cursorRing, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
-        });
-
-        // Magnetic Objects
-        document.querySelectorAll('[data-magnetic]').forEach(el => {
-            el.addEventListener('mousemove', (e) => {
-                const r = el.getBoundingClientRect();
-                gsap.to(el, {
-                    x: (e.clientX - r.left - r.width / 2) * 0.4,
-                    y: (e.clientY - r.top - r.height / 2) * 0.4,
-                    duration: 0.3, ease: 'power2.out',
-                    overwrite: 'auto'
-                });
+        // Media Data-Cursor Hover
+        document.querySelectorAll('[data-cursor]').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-media');
+                if(cursorText) {
+                    cursorText.innerText = el.dataset.cursor;
+                    cursorText.classList.add('cursor-media-text');
+                }
             });
             el.addEventListener('mouseleave', () => {
-                gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)', overwrite: 'auto' });
+                document.body.classList.remove('cursor-media');
+                if(cursorText) cursorText.classList.remove('cursor-media-text');
             });
         });
 
+        document.addEventListener('mousedown', () => gsap.to(cursorRing, { scale: 0.7, duration: 0.15 }));
+        document.addEventListener('mouseup', () => gsap.to(cursorRing, { scale: 1, duration: 0.4, ease: 'elastic.out' }));
     } else {
         if (cursorDot) cursorDot.style.display = 'none';
         if (cursorRing) cursorRing.style.display = 'none';
-        
-        // Still run parallax on touch, but tie it to device orientation instead if possible
-        // For now, center it.
-        rooms.forEach((r) => {
-            r.querySelectorAll('[data-depth]').forEach(el => {
-                el.style.transform = `translate3d(0, 0, 0)`;
-            });
-        });
     }
 
-    // ─── ENTRANCE ANIMATION ───
+    // ─── INFINITE MARQUEE ───
+    const marquee = document.querySelector('.press-marquee');
+    if (marquee) {
+        gsap.to(marquee, { xPercent: -50, repeat: -1, duration: 25, ease: "none" });
+    }
 
+    // ─── INITIALIZE INTRO ───
     const first = rooms[0];
     if (first) {
         const els = first.querySelectorAll('[data-animate]');
-        gsap.set(els, { y: 40, opacity: 0 });
-        gsap.to(els, {
-            y: 0, opacity: 1,
-            stagger: 0.15, duration: 1.4,
-            ease: 'power3.out', delay: 0.2,
+        const sPl = splits.filter(s => first.contains(s.elements[0]));
+        
+        gsap.set(els, { y: 60, opacity: 0 });
+        gsap.to(els, { y: 0, opacity: 1, stagger: 0.1, duration: 1.8, ease: "expo.out", delay: 0.3 });
+        
+        sPl.forEach(sp => {
+            gsap.to(sp.chars, { y: 0, opacity: 1, stagger: 0.03, duration: 1.5, ease: "expo.out", delay: 0.4 });
         });
     }
 
