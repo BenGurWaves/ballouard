@@ -3,121 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maciej Miśnik — Independent Watchmaker</title>
-    <meta name="description" content="The official preview for Maciej Miśnik, a fifth-generation self-taught watchmaker and physicist creating high-complication horological masterpieces by hand.">
-    <link rel="stylesheet" href="styles.css">
-    <!-- SEO & Icons -->
+    <title>Maciej Miśnik — Independent Horologist</title>
+    <meta name="description" content="Fifth-generation self-taught watchmaker. PhD physicist. Every component by hand. Warsaw, Poland.">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="grain-bg"></div>
-    <div class="custom-cursor"></div>
 
-    <nav>
-        <a href="https://velocity.calyvent.com" class="nav-logo">Maciej Miśnik</a>
-        <div class="nav-links">
-            <a href="https://velocity.calyvent.com" class="caps" style="color: white; text-decoration: none; opacity: 0.5;">Return to Velocity</a>
-        </div>
+    <!-- The Void: Three.js Canvas -->
+    <canvas id="void"></canvas>
+
+    <!-- Film Grain -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Cursor System -->
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
+    <!-- Nav Marker (mix-blend-mode: difference) -->
+    <nav class="nav-marker" aria-label="Site identification">
+        <span class="classification">MM · ARCH — PREVIEW</span>
+        <a href="https://velocity.calyvent.com" class="classification" data-magnetic>Return</a>
     </nav>
 
-    <main data-scroll-container>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-bg">
-                <img src="assets/hero.png" alt="Watch Mechanism Close-up">
+    <main>
+
+        <!-- ═══ CHAMBER I: THRESHOLD ═══ -->
+        <section class="chamber threshold" id="threshold">
+            <div class="threshold-frame">
+                <div class="threshold-meta">
+                    <span class="classification">CLASSIFICATION: INDEPENDENT HOROLOGIST</span>
+                    <span class="classification">SUBJECT FILE NO. 001</span>
+                </div>
+                <h1 class="threshold-name" data-split>Maciej Miśnik</h1>
+                <div class="threshold-axiom">
+                    <div class="axiom-line"></div>
+                    <p class="axiom-text">Fifth generation. Self-taught.</p>
+                    <div class="axiom-line"></div>
+                </div>
+                <div class="threshold-coords">
+                    <span class="classification">54.1762°N 15.5769°E · KOŁOBRZEG</span>
+                    <span class="classification">EST. MMXVII · WARSAW</span>
+                </div>
             </div>
-            <div class="hero-content container">
-                <span class="hero-subtitle caps">Independent Watchmaker</span>
-                <h1 class="hero-title">Maciej<br>Miśnik</h1>
-                <p class="hero-desc caps">The Physics of Time. The Art of the Hand.</p>
-                <a href="#story" class="btn-magnetic">Explore the Workshop</a>
+            <div class="scroll-ritual">
+                <div class="scroll-line"></div>
             </div>
         </section>
 
-        <!-- Section 1: The Physicist -->
-        <section id="story" class="story-section container">
-            <div class="story-grid">
-                <div class="story-text">
-                    <div class="accent-line"></div>
-                    <span class="caps">01 / The Mind</span>
-                    <h2>The Physicist’s Hands</h2>
-                    <p>Before he was a watchmaker, Maciej was a scientist. With a PhD in physical sciences and a background in technical physics, he views time through the lens of refraction, thin layers, and quantum precision.</p>
-                    <p>He walked away from the laboratory to apply this rigor to the most complex mechanical micro-systems known to man.</p>
-                </div>
-                <div class="story-image">
-                    <img src="assets/physicist.png" alt="Physics dissertation and loupe">
-                </div>
+        <!-- ═══ CHAMBER II: DOSSIER (Horizontal Scroll) ═══ -->
+        <section class="chamber dossier" id="dossier">
+            <div class="dossier-label">
+                <span class="classification">DOSSIER · THE ARCHIVE</span>
+            </div>
+            <div class="dossier-track">
+                <article class="dossier-card">
+                    <span class="card-index">MM—001</span>
+                    <h3 class="card-title">Origin</h3>
+                    <p class="card-body">Born December 24, 1991. Kołobrzeg—a Baltic port city in northwestern Poland. His father, a seaman, spent months on the open water. Four generations of watchmakers preceded him. Nobody taught him the craft.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">1991</span>
+                </article>
+                <article class="dossier-card">
+                    <span class="card-index">MM—002</span>
+                    <h3 class="card-title">The Physicist</h3>
+                    <p class="card-body">BSc Technical Physics, Gdańsk University of Technology. PhD in Physical Sciences—research on thin layers of organic luminescent materials. Winner of the Polish government Diamond Grant. Published in JCR scientific journals.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">2014—2021</span>
+                </article>
+                <article class="dossier-card">
+                    <span class="card-index">MM—003</span>
+                    <h3 class="card-title">The Turning</h3>
+                    <p class="card-body">Two weeks of formal training at the Polish Watchmakers Association workshop. Everything else: self-taught from books, AHCI mentorship, and ten thousand hours of solitary practice. The physicist became a horologist.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">2017—2018</span>
+                </article>
+                <article class="dossier-card">
+                    <span class="card-index">MM—004</span>
+                    <h3 class="card-title">The Competition</h3>
+                    <p class="card-body">First place, F.P.Journe Young Talent Competition. Prize: CHF 20,000 and an invitation to exhibit alongside the masters. The jury: François-Paul Journe himself. The piece: a pocket watch with tourbillon, 200+ components, entirely by hand.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">2022</span>
+                </article>
+                <article class="dossier-card">
+                    <span class="card-index">MM—005</span>
+                    <h3 class="card-title">The Academy</h3>
+                    <p class="card-body">Candidate member, Académie Horlogère des Créateurs Indépendants. The youngest Polish member in history. He now exhibits alongside Vianney Halter, Kari Voutilainen, and the legends of independent horology.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">2023—</span>
+                </article>
+                <article class="dossier-card">
+                    <span class="card-index">MM—006</span>
+                    <h3 class="card-title">The Method</h3>
+                    <p class="card-body">One watch. One thousand hours. Every component machined, finished, and assembled by one pair of hands. No CNC. No assistants. No shortcuts. Independence is not a brand position. It is a physical constraint.</p>
+                    <div class="card-rule"></div>
+                    <span class="card-year">∞</span>
+                </article>
             </div>
         </section>
 
-        <!-- Section 2: 1,000 Hours -->
-        <section class="story-section container">
-            <div class="story-grid">
-                <div class="story-image" style="order: 2;">
-                    <img src="assets/hero.png" alt="Watch component">
+        <!-- ═══ CHAMBER III: THE SPECIMEN ═══ -->
+        <section class="chamber specimen" id="specimen">
+            <div class="specimen-layout">
+                <div class="specimen-visual">
+                    <div class="specimen-frame">
+                        <img src="assets/hero.png" alt="Tourbillon pocket watch movement, 200+ hand-made components">
+                    </div>
                 </div>
-                <div class="story-text" style="order: 1;">
-                    <div class="accent-line"></div>
-                    <span class="caps">02 / The Math</span>
-                    <h2>1,000 Hours. Zero CNC.</h2>
-                    <p>In a world of mass automation, Maciej chooses the brutal math of true independence. No computer-controlled machines. No shortcuts.</p>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-num">5</div>
-                            <div class="caps">Generations</div>
+                <div class="specimen-data">
+                    <span class="classification">SPECIMEN ANALYSIS</span>
+                    <h2 class="specimen-title">The Tourbillon</h2>
+                    <div class="data-grid">
+                        <div class="data-cell">
+                            <span class="data-label">TYPE</span>
+                            <span class="data-value">Pocket Watch</span>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-num">200+</div>
-                            <div class="caps">Components</div>
+                        <div class="data-cell">
+                            <span class="data-label">COMPLICATION</span>
+                            <span class="data-value">Tourbillon</span>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-num">1,000</div>
-                            <div class="caps">Hours / Piece</div>
+                        <div class="data-cell">
+                            <span class="data-label">COMPONENTS</span>
+                            <span class="data-value">200+</span>
+                        </div>
+                        <div class="data-cell">
+                            <span class="data-label">BUILD TIME</span>
+                            <span class="data-value">1,000+ hrs</span>
+                        </div>
+                        <div class="data-cell">
+                            <span class="data-label">CNC USAGE</span>
+                            <span class="data-value zero">Zero</span>
+                        </div>
+                        <div class="data-cell">
+                            <span class="data-label">PRIZE</span>
+                            <span class="data-value">CHF 20,000</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: The Seaman -->
-        <section class="story-section container">
-            <div class="story-grid">
-                <div class="story-text">
-                    <div class="accent-line"></div>
-                    <span class="caps">03 / The Legacy</span>
-                    <h2>The Seaman’s Chronometer</h2>
-                    <p>A tribute to his father, a seaman who was always on the horizon. Maciej built the marine chronometer as a love letter to heritage—reimagining the tools of navigation through the eyes of a fifth-generation craftsman.</p>
+        <!-- ═══ CHAMBER IV: THE CHRONOMETER ═══ -->
+        <section class="chamber chronometer" id="chronometer">
+            <div class="chronometer-layout">
+                <div class="chronometer-text">
+                    <span class="classification">THE LEGACY PIECE</span>
+                    <h2 class="chronometer-title">A Watch for<br>the Seaman</h2>
+                    <p class="chronometer-body">His father spent months at sea. The marine chronometer Maciej built is a love letter to a childhood spent watching ships disappear over the horizon—a tool of navigation reimagined through five generations of craft.</p>
                 </div>
-                <div class="story-image">
-                    <img src="assets/chronometer.png" alt="Marine Chronometer">
+                <div class="chronometer-visual">
+                    <div class="chronometer-frame">
+                        <img src="assets/chronometer.png" alt="Marine chronometer in mahogany case on Baltic Sea chart">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Quote Section -->
-        <section class="quote-section container">
-            <p class="quote-text">"Independence means freedom. In my case, it means the freedom to produce every single part in my own workshop."</p>
+        <!-- ═══ CHAMBER V: THE TESTAMENT ═══ -->
+        <section class="chamber testament" id="testament">
+            <div class="testament-content">
+                <div class="testament-mark">"</div>
+                <blockquote class="testament-quote">
+                    Independence means freedom. In the case of watchmaking, freedom for me means being able to produce every part at my own workshop.
+                </blockquote>
+                <cite class="testament-cite classification">Maciej Miśnik — Qlekta, 2023</cite>
+            </div>
         </section>
+
+        <!-- ═══ COLOPHON ═══ -->
+        <footer class="colophon" id="colophon">
+            <div class="colophon-grid">
+                <div class="colophon-cell">
+                    <span class="classification">COORDINATES</span>
+                    <p>Warsaw, Poland</p>
+                </div>
+                <div class="colophon-cell">
+                    <span class="classification">INSTAGRAM</span>
+                    <a href="https://www.instagram.com/maciej_misnik/" target="_blank" rel="noopener" data-magnetic>@maciej_misnik</a>
+                </div>
+                <div class="colophon-cell">
+                    <span class="classification">ACADEMY</span>
+                    <a href="https://www.ahci.ch/members/maciej-misnik/" target="_blank" rel="noopener" data-magnetic>AHCI Profile</a>
+                </div>
+                <div class="colophon-cell">
+                    <span class="classification">PREVIEW BY</span>
+                    <p>© 2026 Velocity</p>
+                </div>
+            </div>
+            <div class="colophon-line"></div>
+            <div class="colophon-sig">
+                <span class="classification">THIS IS A VELOCITY PREVIEW · NOT FOR RELEASE · VELOCITY.CALYVENT.COM</span>
+            </div>
+        </footer>
 
     </main>
 
-    <footer>
-        <div class="container footer-main">
-            <div class="footer-left">
-                <h3 class="caps">Contact</h3>
-                <p>Warsaw, Poland</p>
-                <a href="https://www.instagram.com/maciej_misnik/" target="_blank" class="caps" style="color: var(--accent); text-decoration: none;">Instagram @maciej_misnik</a>
-            </div>
-            <div class="footer-velocity">
-                <p>Velocity Preview / Not for Release</p>
-                <p>© 2024 Calyvent Digital</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
