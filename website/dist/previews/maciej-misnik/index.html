@@ -2,105 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maciej Miśnik — Independent Horology</title>
-    <meta name="description" content="Fifth-generation self-taught watchmaker.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Maciej Miśnik — Horological Art</title>
+    <meta name="description" content="A digital expression of mechanical autonomy.">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&family=Space+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 
-    <div class="noise" aria-hidden="true"></div>
-    <div class="ambient-light" aria-hidden="true"></div>
+    <!-- This div provides the actual scroll height (e.g. 500vh) so the user can scroll natively -->
+    <div id="scroll-proxy"></div>
 
+    <!-- The fixed stage where all the magic happens -->
+    <main id="fixed-stage">
+        
+        <!-- Ambient Background -->
+        <div class="void-gradient"></div>
+        <div class="noise" aria-hidden="true"></div>
+
+        <!-- Abstract Geometry (The Tourbillon) -->
+        <div class="geometry-container" id="geo">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+            <div class="axis-line axis-x"></div>
+            <div class="axis-line axis-y"></div>
+        </div>
+
+        <!-- Kinetic Typography Layers -->
+        <div class="kinetic-layer" id="layer-intro">
+            <h1 class="huge-name">
+                <span class="char-span m1">M</span><br>
+                <span class="char-span m2">I</span><br>
+                <span class="char-span m3">Ś</span><br>
+                <span class="char-span m4">N</span><br>
+                <span class="char-span m5">I</span><br>
+                <span class="char-span m6">K</span>
+            </h1>
+            <div class="coord-tag mono">52.2297°N / 21.0122°E</div>
+        </div>
+
+        <div class="kinetic-layer" id="layer-thesis">
+            <div class="thesis-text">
+                <span class="mono accent">THE PHYSICIST</span>
+                <p class="serif-xl">Abandoning the rigidity of academia to master absolute, solitary micro-mechanics.</p>
+            </div>
+        </div>
+
+        <div class="kinetic-layer" id="layer-data">
+            <div class="data-orbit" id="orbit-1"><span class="mono">1,000+ HOURS</span></div>
+            <div class="data-orbit" id="orbit-2"><span class="mono">200+ COMPONENTS</span></div>
+            <div class="data-orbit" id="orbit-3"><span class="mono">ZERO CNC</span></div>
+            <div class="center-core serif-xxl">AUTONOMY</div>
+        </div>
+
+        <div class="kinetic-layer" id="layer-legacy">
+            <div class="thesis-text right-align">
+                <span class="mono accent">THE SEAMAN</span>
+                <p class="serif-xl">A chronometer forged for a father navigating the Baltic. An instrument of legacy.</p>
+            </div>
+        </div>
+
+        <div class="kinetic-layer" id="layer-outro">
+            <div class="outro-content">
+                <span class="mono">MACIEJ MIŚNIK</span>
+                <div class="links">
+                    <a href="https://www.instagram.com/maciej_misnik/" target="_blank" class="serif-link">INSTAGRAM</a>
+                    <a href="https://www.ahci.ch/members/maciej-misnik/" target="_blank" class="serif-link">AHCI ACADEMY</a>
+                </div>
+                <span class="mono vel">© 2026 VELOCITY</span>
+            </div>
+        </div>
+
+        <div class="scroll-prompt mono">SCROLL</div>
+
+    </main>
+
+    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
-    <nav class="top-nav">
-        <span class="mono">M. MIŚNIK</span>
-        <span class="mono">ATELIER</span>
-    </nav>
-
-    <div class="scroll-container">
-        
-        <header class="section hero">
-            <div class="hero-content">
-                <h1 class="hero-title" data-speed="0.8">
-                    <span class="indent">MACIEJ</span><br>
-                    <span>MIŚNIK</span>
-                </h1>
-                <div class="hero-image-wrapper" data-speed="1.2">
-                    <img src="assets/watch_movement_editorial_1776897476651.png" alt="Movement" class="parallax-img">
-                </div>
-            </div>
-            <div class="scroll-indicator mono">SCROLL TO EXPLORE</div>
-        </header>
-
-        <section class="section abstract-split">
-            <div class="split-left" data-speed="1.1">
-                <h2 class="section-title">The<br>Physicist</h2>
-                <p class="body-text">He walked away from a PhD in physics to master micro-mechanics. Driven by the singular pursuit of perfection, creating every component by hand in solitary dedication.</p>
-            </div>
-            <div class="split-right" data-speed="0.9">
-                <div class="image-mask">
-                    <img src="assets/physicist_watchmaker_fusion_1776892739442.png" alt="The Physicist" class="parallax-img">
-                </div>
-            </div>
-        </section>
-
-        <section class="section showcase">
-            <div class="showcase-content">
-                <div class="showcase-image" data-speed="1.05">
-                    <img src="assets/hero_watch_mechanism_1776892714770.png" alt="Mechanism" class="parallax-img">
-                </div>
-                <div class="showcase-text" data-speed="0.95">
-                    <span class="mono accent">ZERO CNC</span>
-                    <h2 class="section-title">1,000+ Hours</h2>
-                    <p class="body-text">Every wheel, every pinion, every bridge finished by a single pair of hands. A mastery of traditional technique devoid of modern automation.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section seaman">
-            <div class="seaman-content">
-                <div class="seaman-text" data-speed="1.1">
-                    <h2 class="section-title">The<br>Seaman</h2>
-                    <p class="body-text">A marine chronometer crafted for a father who spent his life on the Baltic Sea. An instrument not merely for time, but for navigation and legacy.</p>
-                </div>
-                <div class="seaman-image" data-speed="0.85">
-                    <img src="assets/marine_chronometer_luxury_1776892821938.png" alt="Chronometer" class="parallax-img">
-                </div>
-            </div>
-        </section>
-
-        <section class="section quote-section">
-            <h3 class="quote-text">
-                "Independence is freedom.<br>
-                Freedom means producing<br>
-                every part myself."
-            </h3>
-        </section>
-
-        <footer class="section footer">
-            <div class="footer-content">
-                <a href="https://www.instagram.com/maciej_misnik/" target="_blank" class="footer-link">INSTAGRAM</a>
-                <a href="https://www.ahci.ch/members/maciej-misnik/" target="_blank" class="footer-link">AHCI MEMBER</a>
-                <div class="footer-meta mono">
-                    <span>52.2297°N, 21.0122°E</span>
-                    <span>© 2026 VELOCITY</span>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-
-    <!-- GSAP & Lenis -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <script src="script.js?v=10"></script>
+    <script src="script.js?v=11"></script>
 </body>
 </html>
