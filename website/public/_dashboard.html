@@ -187,7 +187,7 @@ button{font-family:inherit;background:none;border:none;cursor:pointer}
 .chat-send{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--sand);border:none;padding:.5rem 1.25rem;cursor:pointer;white-space:nowrap;transition:background .2s}
 .chat-send:hover{background:var(--brass)}
 .chat-send:disabled{opacity:.35;pointer-events:none}
-@media(max-width:640px){.hero-band{padding:clamp(4rem,12vw,6rem) 1.5rem clamp(1.5rem,4vw,2rem)}.hero-name{font-size:clamp(2.2rem,11vw,4rem)}.content{padding:0 1.5rem clamp(3rem,8vw,5rem)}.section{padding:clamp(1.5rem,4vw,2rem)}.timeline .tl-title{font-size:.8rem}.quote-amount{font-size:clamp(2rem,10vw,4rem)}.pay-btn{width:100%;padding:1rem}}</style>
+@media(max-width:640px){.hero-band{padding:clamp(4rem,12vw,6rem) 1.5rem clamp(1.5rem,4vw,2rem)}.hero-name{font-size:clamp(2.2rem,11vw,4rem)}.content{padding:0 1.5rem clamp(3rem,8vw,5rem)}.section{padding:clamp(1.5rem,4vw,2rem)}.timeline .tl-title{font-size:.8rem}.quote-amount{font-size:clamp(2rem,10vw,4rem)}.pay-btn{width:100%;padding:1rem}}.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:background .3s}.status-dot.pending{background:#c4a47b}.status-dot.accepted,.status-dot.in_progress{background:#8fc98f}.status-dot.completed{background:#8fc98f}.status-dot.declined{background:#c47b7b}.hero-status{display:flex;align-items:center;gap:.6rem;margin-top:1rem;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}</style>
 </head>
 <body>
 <div class="grain"></div>
@@ -260,7 +260,7 @@ button{font-family:inherit;background:none;border:none;cursor:pointer}
   <div class="content">
 
     <!-- Admin message -->
-    <div id="msgBanner" style="display:none;padding-top:2rem"></div>
+    <div id="msgBanner"></div>
 
     <!-- Window / Timer -->
     <div class="section" id="secTimer"></div>
@@ -365,17 +365,7 @@ function renderDash(lead,justPaid=false){
   // Hero
   document.getElementById('heroName').innerHTML=name+'<em>.</em>';
   document.getElementById('navRight').textContent=name;
-  const meta=document.getElementById('heroStatus');
-  meta.innerHTML=`<span class="pill ${SP[lead.status]||'pill-pending'}">${SL[lead.status]||'Pending'}</span>
-    ${paid?'<span class="pill pill-paid">Payment Confirmed</span>':''}
-    ${lead.upgrade_permission?`<span class="pill pill-upgrade" id="upgradePill" tabindex="0">Upgrade Approved<div class="upgrade-popup" id="upgradePopup"><p><strong>What this means:</strong> You’ve given the Velocity team full creative latitude to elevate your brand — colors, typography, layout, and identity — beyond your original specifications if we see a better direction. We’ll always show you before applying major changes.</p></div></span>`:''}`;
-
-  // Upgrade popup toggle
-  const upgPill=document.getElementById('upgradePill');
-  if(upgPill){
-    upgPill.addEventListener('click',e=>{e.stopPropagation();document.getElementById('upgradePopup').classList.toggle('show');});
-    document.addEventListener('click',()=>document.getElementById('upgradePopup')&&document.getElementById('upgradePopup').classList.remove('show'));
-  }
+  if(document.getElementById('statusDot'))document.getElementById('statusDot').className='status-dot '+(lead.status||'pending');if(document.getElementById('statusLabel'))document.getElementById('statusLabel').textContent=SL[lead.status]||'Pending';
 
   // Admin message banner
   if(lead.admin_comment&&lead.admin_comment.text){
