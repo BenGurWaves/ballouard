@@ -69,8 +69,6 @@ export async function onRequestPatch(context) {
     patch.first_submitted_at = body.submitted_at;
   }
 
-  if (patch.due_date && new Date(patch.due_date) < new Date(Date.now() + 48 * 3600000 - 60000))
-    return errRes('Due date must be at least 48 hours from now');
   if (!Object.keys(patch).length) return errRes('No valid fields to update');
 
   const updated = await sb.update('velocity_leads', `token=eq.${token}`, patch);
@@ -85,5 +83,23 @@ export async function onRequestPatch(context) {
     } catch (_) {}
   }
 
+  // Notify admin when brief is submitted
+  if (patch.submitted_at && context.env.RESEND_API_KEY) {
+    try {
+      const nm = (patch.client_name || '').replace(/</g, '&lt;');
+      const em = patch.client_email || '';
+      const au = (context.env.SITE_URL || 'https://velocity.calyvent.com') + '/admin';
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + context.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: 'Velocity System <client@calyvent.com>',
+          to: ['atelier@calyvent.com'],
+          subject: 'Brief submitted' + (nm ? ': ' + nm : ''),
+          text: 'A brief was submitted.' + (nm ? ' Client: ' + nm : '') + (em ? ' Email: ' + em : '') + ' Admin: ' + au,
+        }),
+      });
+    } catch (_) {}
+  }
   return jsonRes({ success: true, lead: Array.isArray(updated) ? updated[0] : updated });
 }

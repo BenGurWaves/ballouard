@@ -15,8 +15,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const t = context.params.token;
   if (!t) return secureErr('Token required', 400);
-  const rl = await rateLimit(kv,'ratelimit:msg:'+ip,20,60);
-  if (!rl.allowed) return secureErr('Too many requests',429);
+  
   const sb = getSupabase(context.env);
   if (!sb) return secureErr('Service unavailable',503);
   let body; try{body=await context.request.json();}catch{return secureErr('Invalid request');}
