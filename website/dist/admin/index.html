@@ -18,7 +18,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
 .grain{position:fixed;inset:-50%;width:200%;height:200%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.87' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:9000;animation:gr .5s steps(2) infinite}
 @keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-2%,-2%)}50%{transform:translate(2%,1%)}75%{transform:translate(-1%,3%)}}
 .auth-gate{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
-.auth-box{width:100%;max-width:340px}
+.auth-box{width:100%;max-width:380px}
 .auth-title{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:2.4rem;letter-spacing:-.04em;color:var(--sand);margin-bottom:.4rem}
 .auth-sub{font-size:.72rem;color:var(--dim);margin-bottom:2.5rem;letter-spacing:.04em}
 .auth-label{display:block;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
@@ -127,7 +127,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
     <h1 class="auth-title">Velocity.</h1>
     <p class="auth-sub">Admin access only.</p>
     <label class="auth-label">Access Key</label>
-    <div style="position:relative;display:inline-block"><input class="auth-input" type="password" id="secretInput" placeholder="Enter admin key" autocomplete="current-password" style="padding-right:3.5rem"><button id="togglePw" type="button" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:0;font-family:inherit">Show</button></div>
+    <div style="position:relative;display:block"><input class="auth-input" type="password" id="secretInput" placeholder="Enter admin key" autocomplete="current-password" style="padding-right:3.5rem"><button id="togglePw" type="button" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:0;font-family:inherit">Show</button></div>
     <br><button class="auth-btn" id="authBtn">Enter &#8594;</button>
     <div class="auth-err" id="authErr">Incorrect key. Try again.</div>
   </div>
@@ -203,13 +203,6 @@ document.getElementById('authBtn').onclick=async()=>{
 document.getElementById('btnRefresh').onclick=async()=>{const b=document.getElementById('btnRefresh');b.textContent='...';await reload();b.innerHTML='&#8635;&nbsp;Refresh';toast('Refreshed');};document.getElementById('btnLogout').onclick=()=>{sessionStorage.removeItem('v_admin');location.reload();};
 const saved=sessionStorage.getItem('v_admin');
 if(saved){document.getElementById('secretInput').value=saved;document.getElementById('authBtn').click();}
-
-});
-      if(r.ok){LEADS=await r.json();renderStats();renderLeads();}
-    }catch(_){}
-  },20000);
-  const badge = document.getElementById('autoBadge'); if(badge) badge.classList.add('live');
-}
 
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));b.classList.add('active');FILTER=b.dataset.filter;renderLeads();});
 document.getElementById('sDue').onclick=()=>{SORT='due_date';document.getElementById('sDue').classList.add('active');document.getElementById('sNew').classList.remove('active');renderLeads();};
