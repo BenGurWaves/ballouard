@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:wght@400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -137,13 +137,18 @@
     <!-- ═══ ROOM 5: THE TESTAMENT ═══ -->
     <section class="room room-5" data-room="5">
         <div class="room-inner center-layout testament">
-            <div class="testament-mark" data-animate>"</div>
+            <div class="testament-frame" data-animate>
+                <span class="rule-line-wide"></span>
+            </div>
             <blockquote class="testament-quote" data-animate>
                 Independence means freedom.<br>
                 In the case of watchmaking, freedom<br>
                 for me means being able to produce<br>
                 every part at my own workshop.
             </blockquote>
+            <div class="testament-frame" data-animate>
+                <span class="rule-line-wide"></span>
+            </div>
             <cite class="mono" data-animate>MACIEJ MIŚNIK — QLEKTA, 2023</cite>
         </div>
     </section>
@@ -151,6 +156,18 @@
     <!-- ═══ ROOM 6: COORDINATES ═══ -->
     <section class="room room-6" data-room="6">
         <div class="room-inner center-layout coordinates">
+            <div class="coord-press" data-animate>
+                <span class="mono">FEATURED IN</span>
+                <div class="press-names">
+                    <span>Hodinkee</span>
+                    <span class="press-dot">·</span>
+                    <span>New York Times</span>
+                    <span class="press-dot">·</span>
+                    <span>F.P.Journe</span>
+                    <span class="press-dot">·</span>
+                    <span>Europa Star</span>
+                </div>
+            </div>
             <div class="coord-grid">
                 <div class="coord-cell" data-animate>
                     <span class="mono">COORDINATES</span>
@@ -162,21 +179,21 @@
                 </div>
                 <div class="coord-cell" data-animate>
                     <span class="mono">ACADEMY</span>
-                    <a href="https://www.ahci.ch/members/maciej-misnik/" target="_blank" rel="noopener" data-magnetic>AHCI Profile</a>
+                    <a href="https://www.ahci.ch/members/maciej-misnik/" target="_blank" rel="noopener" data-magnetic>AHCI Member</a>
                 </div>
                 <div class="coord-cell" data-animate>
-                    <span class="mono">PREVIEW</span>
-                    <p>© 2026 Velocity</p>
+                    <span class="mono">NEXT EXHIBITION</span>
+                    <p>AHCI Geneva · April 2026</p>
                 </div>
             </div>
             <div class="coord-footer" data-animate>
                 <span class="rule-line-full"></span>
-                <span class="mono">VELOCITY PREVIEW · NOT FOR RELEASE</span>
+                <span class="mono">© 2026 VELOCITY · PREVIEW · NOT FOR RELEASE</span>
             </div>
         </div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>
