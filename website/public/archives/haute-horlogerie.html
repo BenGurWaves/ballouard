@@ -5,840 +5,556 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Haute Horlogerie — Velocity</title>
   <meta name="description" content="The art of time. We regulate digital calibers.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+
   <style>
     :root {
-      --void:      #0E0E0E;
-      --charcoal:  #1C1C1C;
-      --steel:     #5A5A5A;
-      --parchment: #EDE6DB;
-      --cream:     #D5CCC0;
-      --bronze:    #B08D57;
-      --burnished: #8B6F3A;
-      --gold:      #D4A864;
+      --bg: #050505;
+      --text: #F5F0E6;
+      --gold: #C8A97E;
+      --gold-dim: rgba(200, 169, 126, 0.3);
+      --gold-faint: rgba(200, 169, 126, 0.08);
+      --grey: #8C7A6B;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
-    html { overflow-x: hidden; }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      background: var(--void);
-      color: var(--parchment);
-      font-family: 'Cormorant Garamond', serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      cursor: none;
     }
 
-    /* ═══ ATMOSPHERE LAYERS ═══ */
-    #dust {
-      position: fixed; inset: 0;
-      z-index: 100; pointer-events: none;
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s;
+    }
+    .cursor-follower {
+      position: fixed;
+      top: 0; left: 0;
+      width: 40px; height: 40px;
+      border: 1px solid var(--gold-dim);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise Overlay */
+    .noise {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.04;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
     }
 
-    #grain {
-      position: fixed; inset: -50%;
-      width: 200%; height: 200%;
-      z-index: 101; pointer-events: none;
-      opacity: 0.035;
-      background-repeat: repeat;
-      background-size: 256px 256px;
-      animation: grainDrift 0.5s steps(4) infinite;
+    /* Typography */
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
     }
-    @keyframes grainDrift {
-      0%   { transform: translate(0, 0); }
-      25%  { transform: translate(-1.5%, 1%); }
-      50%  { transform: translate(1%, -0.5%); }
-      75%  { transform: translate(-0.5%, 1.5%); }
+    
+    .line-mask {
+      overflow: hidden;
+      display: block;
     }
-
-    #vignette {
-      position: fixed; inset: 0;
-      z-index: 99; pointer-events: none;
-      background: radial-gradient(ellipse at center, transparent 35%, rgba(14,14,14,0.7) 100%);
+    .line-mask > div, .line-mask > h2, .line-mask > span {
+      transform: translateY(110%);
+      will-change: transform;
+      display: block;
     }
 
-    /* ═══ LOADER ═══ */
-    #loader {
-      position: fixed; inset: 0;
-      z-index: 10000;
-      background: var(--void);
-      display: flex; align-items: center; justify-content: center;
-    }
-    #loader svg { width: 64px; height: 64px; }
-    #loader circle {
-      fill: none; stroke: var(--bronze); stroke-width: 1;
-      stroke-dasharray: 157; stroke-dashoffset: 157;
-    }
-
-    /* ═══ SCROLL HINT ═══ */
-    #scroll-hint {
-      position: fixed; bottom: 28px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 200; text-align: center;
-      font-size: 0.65rem; letter-spacing: 0.25em;
-      text-transform: uppercase; color: var(--steel);
-    }
-    #scroll-hint .line {
-      width: 1px; height: 28px;
-      background: var(--bronze); margin: 8px auto 0;
-      animation: hintPulse 2.2s ease-in-out infinite;
-      transform-origin: top;
-    }
-    @keyframes hintPulse {
-      0%, 100% { transform: scaleY(0.25); opacity: 0.2; }
-      50%      { transform: scaleY(1);    opacity: 0.7; }
-    }
-
-    /* ═══ PROGRESS BAR ═══ */
-    #progress-bar {
-      position: fixed; bottom: 0; left: 0;
-      height: 2px; width: 0%;
-      background: var(--bronze);
-      z-index: 300;
-    }
-
-    /* ═══ HORIZONTAL TRACK ═══ */
-    #world { position: relative; width: 100%; }
-
-    #track {
+    /* 3D Mechanism */
+    .mech-wrapper {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      perspective: 1200px;
+      z-index: 0;
+      pointer-events: none;
       display: flex;
-      width: max-content;
+      align-items: center;
+      justify-content: center;
+    }
+    .mech-container {
+      width: 1400px; height: 1400px;
+      transform-style: preserve-3d;
+      transform: rotateX(55deg) rotateZ(0deg);
       will-change: transform;
     }
+    .mech-layer {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      overflow: visible;
+    }
+    .mech-base { transform: translateZ(-80px); }
+    .mech-mid { transform: translateZ(40px); }
+    .mech-top { transform: translateZ(160px); }
+    
+    .mech-layer svg {
+      filter: drop-shadow(0 0 15px rgba(200, 169, 126, 0.15));
+    }
 
-    .scene {
-      width: 100vw; height: 100vh;
-      position: relative; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
+    /* Layout */
+    .content {
+      position: relative;
+      z-index: 10;
+    }
+
+    section {
+      position: relative;
+      width: 100vw;
+      padding: 0 8vw;
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero h1 {
+      font-size: clamp(4rem, 13vw, 16rem);
+      line-height: 0.85;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .hero h1.italic {
+      font-style: italic;
+      text-transform: none;
+      color: var(--gold);
+      padding-left: 15vw;
+    }
+    .hero-meta {
+      position: absolute;
+      bottom: 6vh; left: 8vw; right: 8vw;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    /* Statements */
+    .statement {
+      min-height: 130vh;
+      display: flex;
+      align-items: center;
+    }
+    .statement.right {
+      justify-content: flex-end;
+    }
+    .statement.center {
+      justify-content: center;
+      text-align: center;
+    }
+    .text-block {
+      max-width: 55vw;
+    }
+    .text-block .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 3rem;
+      display: block;
+    }
+    .text-block h2 {
+      font-size: clamp(2.5rem, 6vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .text-block p.desc {
+      margin-top: 3.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--grey);
+      max-width: 420px;
+      font-weight: 300;
+    }
+    .statement.right .text-block p.desc {
+      margin-left: auto;
+    }
+    .statement.center .text-block p.desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Footer */
+    .footer {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .footer h2 {
+      font-size: clamp(3rem, 9vw, 11rem);
+      margin-bottom: 3rem;
+    }
+    .cta {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 1.2rem 2.5rem;
+      border: 1px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 100%; left: 0; width: 100%; height: 100%;
+      background: var(--gold);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
+    }
+    .cta:hover {
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+    .cta:hover::before {
+      transform: translateY(-100%);
+    }
+
+    /* Loader */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 2.5rem;
+    }
+    .loader-text {
       overflow: hidden;
     }
-
-    /* ═══ SVG CONTAINERS ═══ */
-    .scene-art {
-      position: absolute;
-      width: 70vmin; height: 70vmin;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .scene-art svg {
-      width: 100%; height: 100%;
-      overflow: visible;
-      filter: drop-shadow(0 0 60px rgba(176, 141, 87, 0.08));
+    .loader-text span {
+      display: block;
+      transform: translateY(100%);
     }
 
-    /* ═══ TEXT ═══ */
-    .scene-text {
-      position: relative; z-index: 10;
-      text-align: center; max-width: 80vw;
-    }
-
-    .scene-text h2 {
-      font-size: clamp(2.2rem, 5.5vw, 5.5rem);
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      line-height: 1.1;
-      color: var(--parchment);
-      opacity: 0;
-    }
-
-    .scene-text .sub {
-      font-size: clamp(1rem, 1.6vw, 1.4rem);
-      font-weight: 300; font-style: italic;
-      letter-spacing: 0.06em;
-      margin-top: 1.2rem;
-      color: var(--cream);
-      opacity: 0;
-    }
-
-    .scene-text .detail {
-      font-size: clamp(0.75rem, 1vw, 0.95rem);
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      margin-top: 1.8rem;
-      color: var(--steel);
-      opacity: 0;
-    }
-
-    .cta-link {
-      display: inline-block;
-      font-family: 'Courier New', monospace;
-      font-size: clamp(0.85rem, 1.2vw, 1.1rem);
-      color: var(--bronze);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(176, 141, 87, 0.3);
-      padding-bottom: 4px;
-      margin-top: 2.5rem;
-      letter-spacing: 0.05em;
-      transition: border-color 0.3s, color 0.3s;
-      opacity: 0;
-    }
-    .cta-link:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-
-    /* ═══ DECORATIVE LINES ═══ */
-    .divider-line {
-      position: absolute;
-      right: 0; top: 15%; height: 70%;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(176,141,87,0.12), transparent);
-    }
-
-    /* ═══ MEASUREMENT MARKS ═══ */
-    .measure {
-      position: absolute;
-      font-family: 'Courier New', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      color: var(--steel);
-      opacity: 0.18;
-      text-transform: uppercase;
-    }
-
-    /* ═══ RESPONSIVE ═══ */
     @media (max-width: 768px) {
-      .scene-art { width: 85vmin; height: 85vmin; }
-      .scene-text h2 { letter-spacing: 0.06em; }
-      #scroll-hint { bottom: 20px; }
+      .text-block { max-width: 90vw; }
+      .hero h1.italic { padding-left: 5vw; }
+      .mech-container { width: 900px; height: 900px; }
+      .hero-meta { flex-direction: column; gap: 1rem; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ LOADER ═══ -->
-<div id="loader">
-  <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="25"/></svg>
-</div>
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+  <div class="noise"></div>
 
-<!-- ═══ ATMOSPHERE ═══ -->
-<canvas id="dust"></canvas>
-<div id="grain"></div>
-<div id="vignette"></div>
-
-<!-- ═══ SCROLL HINT ═══ -->
-<div id="scroll-hint">
-  <span>Scroll to explore</span>
-  <div class="line"></div>
-</div>
-
-<!-- ═══ PROGRESS ═══ -->
-<div id="progress-bar"></div>
-
-<!-- ═══ EXPERIENCE ═══ -->
-<main id="world">
-  <div id="track">
-
-    <!-- SCENE 1 ─── OVERTURE -->
-    <section class="scene" id="overture">
-      <div class="scene-art" id="art-dial"></div>
-      <div class="scene-text">
-        <h2>Haute<br>Horlogerie</h2>
-        <p class="sub">Where hands measure eternity</p>
-      </div>
-      <div class="divider-line"></div>
-      <span class="measure" style="top:12%;left:8%;">Ref. 001</span>
-      <span class="measure" style="bottom:10%;right:8%;">Cal. HH</span>
-    </section>
-
-    <!-- SCENE 2 ─── THE CALIBER -->
-    <section class="scene" id="caliber">
-      <div class="scene-art" id="art-gears"></div>
-      <div class="scene-text">
-        <h2>Three Hundred<br>Components</h2>
-        <p class="sub">One purpose</p>
-        <p class="detail">0.001mm — the space between instrument and masterwork</p>
-      </div>
-      <div class="divider-line"></div>
-      <span class="measure" style="top:10%;right:6%;">Ø 0.3mm</span>
-    </section>
-
-    <!-- SCENE 3 ─── THE OSCILLATION -->
-    <section class="scene" id="oscillation">
-      <div class="scene-art" id="art-balance"></div>
-      <div class="scene-text">
-        <h2>28,800</h2>
-        <p class="sub">Vibrations per hour</p>
-        <p class="detail">A heartbeat of precision — older than electricity</p>
-      </div>
-      <div class="divider-line"></div>
-      <span class="measure" style="bottom:8%;left:6%;">4 Hz</span>
-    </section>
-
-    <!-- SCENE 4 ─── THE COMPLICATION -->
-    <section class="scene" id="complication">
-      <div class="scene-art" id="art-tourbillon"></div>
-      <div class="scene-text">
-        <h2>Gravity Is<br>the Enemy</h2>
-        <p class="sub">Precision is the revenge</p>
-        <p class="detail">The tourbillon — a cage that defeats the invisible</p>
-      </div>
-      <div class="divider-line"></div>
-      <span class="measure" style="top:8%;left:5%;">Patent 1801</span>
-    </section>
-
-    <!-- SCENE 5 ─── THE ATELIER -->
-    <section class="scene" id="atelier">
-      <div class="scene-art" id="art-atelier"></div>
-      <div class="scene-text">
-        <h2>We Regulate<br>Digital Calibers</h2>
-        <a href="mailto:atelier@velocity.delivery" class="cta-link">atelier@velocity.delivery</a>
-      </div>
-    </section>
-
+  <div class="loader">
+    <div class="loader-text"><span>Calibrating...</span></div>
   </div>
-</main>
 
-<script>
-/* ══════════════════════════════════════════════════════
-   CONSTANTS & HELPERS
-   ══════════════════════════════════════════════════════ */
-const NS  = 'http://www.w3.org/2000/svg';
-const B   = '#B08D57';   // bronze
-const G   = '#D4A864';   // gold
-const P   = '#EDE6DB';   // parchment
-const STL = '#5A5A5A';   // steel
+  <div class="mech-wrapper">
+    <div class="mech-container">
+      <svg class="mech-layer mech-base" viewBox="-700 -700 1400 1400"></svg>
+      <svg class="mech-layer mech-mid" viewBox="-700 -700 1400 1400"></svg>
+      <svg class="mech-layer mech-top" viewBox="-700 -700 1400 1400"></svg>
+    </div>
+  </div>
 
-function el(tag, attrs) {
-  const e = document.createElementNS(NS, tag);
-  if (attrs) Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
-  return e;
-}
+  <div class="content">
+    <section class="hero">
+      <div class="line-mask"><h1 class="hero-title">HAUTE</h1></div>
+      <div class="line-mask"><h1 class="hero-title italic">Horlogerie</h1></div>
+      <div class="hero-meta">
+        <div class="line-mask"><span class="meta-text">REF. 001 — DIGITAL CALIBER</span></div>
+        <div class="line-mask"><span class="meta-text">VELOCITY ATELIER</span></div>
+      </div>
+    </section>
 
-function polar(cx, cy, r, deg) {
-  const rad = (deg - 90) * Math.PI / 180;
-  return [cx + Math.cos(rad) * r, cy + Math.sin(rad) * r];
-}
+    <section class="statement">
+      <div class="text-block">
+        <div class="line-mask"><span class="label anim-text">01 // PRECISION</span></div>
+        <div class="line-mask"><h2 class="anim-text">0.001mm.</h2></div>
+        <div class="line-mask"><h2 class="anim-text">The gap between</h2></div>
+        <div class="line-mask"><h2 class="anim-text">a tool and a</h2></div>
+        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">masterpiece.</h2></div>
+        <p class="desc anim-text-fade">Three hundred components. One purpose. We measure the space between intention and perfection.</p>
+      </div>
+    </section>
 
-/* ══════════════════════════════════════════════════════
-   PROCEDURAL SVG: GEAR PATH
-   ══════════════════════════════════════════════════════ */
-function gearPath(teeth, outerR, innerR, cx, cy) {
-  cx = cx || 0; cy = cy || 0;
-  const step = (Math.PI * 2) / teeth;
-  const tw   = step * 0.28;
-  let d = '';
-  for (let i = 0; i < teeth; i++) {
-    const a = i * step;
-    const pts = [
-      [cx + Math.cos(a - tw * 1.3) * innerR, cy + Math.sin(a - tw * 1.3) * innerR],
-      [cx + Math.cos(a - tw * 0.5) * outerR, cy + Math.sin(a - tw * 0.5) * outerR],
-      [cx + Math.cos(a + tw * 0.5) * outerR, cy + Math.sin(a + tw * 0.5) * outerR],
-      [cx + Math.cos(a + tw * 1.3) * innerR, cy + Math.sin(a + tw * 1.3) * innerR],
-    ];
-    pts.forEach((p, j) => {
-      d += (i === 0 && j === 0 ? 'M' : 'L') + p[0].toFixed(2) + ',' + p[1].toFixed(2);
+    <section class="statement right">
+      <div class="text-block">
+        <div class="line-mask"><span class="label anim-text">02 // KINETICS</span></div>
+        <div class="line-mask"><h2 class="anim-text">Gravity is</h2></div>
+        <div class="line-mask"><h2 class="anim-text">the enemy.</h2></div>
+        <div class="line-mask"><h2 class="anim-text">Precision is</h2></div>
+        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">the revenge.</h2></div>
+        <p class="desc anim-text-fade">A heartbeat of 28,800 vibrations per hour. Older than electricity, more accurate than human perception.</p>
+      </div>
+    </section>
+
+    <section class="statement center">
+      <div class="text-block">
+        <div class="line-mask"><span class="label anim-text">03 // ETERNITY</span></div>
+        <div class="line-mask"><h2 class="anim-text">Time is a liquid.</h2></div>
+        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">We are the dam.</h2></div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div class="line-mask"><h2 class="anim-text">The Atelier</h2></div>
+      <div class="anim-text-fade" style="margin-top: 2rem;">
+        <a href="mailto:atelier@velocity.delivery" class="cta">Request Commission</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // --- CUSTOM CURSOR ---
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+    let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    let fX = mouseX, fY = mouseY;
+    
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
     });
-  }
-  return d + 'Z';
-}
+    
+    gsap.ticker.add(() => {
+      fX += (mouseX - fX) * 0.15;
+      fY += (mouseY - fY) * 0.15;
+      follower.style.left = fX + 'px';
+      follower.style.top = fY + 'px';
+    });
 
-/* ══════════════════════════════════════════════════════
-   PROCEDURAL SVG: SPIRAL PATH (hairspring / mainspring)
-   ══════════════════════════════════════════════════════ */
-function spiralPath(cx, cy, rIn, rOut, turns) {
-  const steps = turns * 80;
-  let d = '';
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const a = t * turns * Math.PI * 2;
-    const r = rIn + (rOut - rIn) * t;
-    d += (i === 0 ? 'M' : 'L') + (cx + Math.cos(a) * r).toFixed(2) + ',' + (cy + Math.sin(a) * r).toFixed(2);
-  }
-  return d;
-}
-
-/* ══════════════════════════════════════════════════════
-   BUILD: SCENE 1 — WATCH DIAL
-   ══════════════════════════════════════════════════════ */
-(function buildDial() {
-  const svg = el('svg', { viewBox: '0 0 500 500' });
-  const cx = 250, cy = 250, r = 200;
-
-  // Geneva stripes bg pattern
-  const defs = el('defs');
-  const pat = el('pattern', { id: 'geneva', width: 14, height: 14, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(30)' });
-  pat.appendChild(el('line', { x1: 0, y1: 7, x2: 14, y2: 7, stroke: B, 'stroke-width': 0.4, opacity: 0.06 }));
-  defs.appendChild(pat);
-  svg.appendChild(defs);
-  svg.appendChild(el('circle', { cx, cy, r: r - 30, fill: 'url(#geneva)' }));
-
-  // Bezel
-  svg.appendChild(el('circle', { cx, cy, r, fill: 'none', stroke: B, 'stroke-width': 1.5, opacity: 0.55 }));
-  svg.appendChild(el('circle', { cx, cy, r: r - 6, fill: 'none', stroke: B, 'stroke-width': 0.4, opacity: 0.25 }));
-  svg.appendChild(el('circle', { cx, cy, r: r - 25, fill: 'none', stroke: B, 'stroke-width': 0.3, opacity: 0.15 }));
-
-  // 60 tick marks
-  for (let i = 0; i < 60; i++) {
-    const major = i % 5 === 0;
-    const a = (i / 60) * 360;
-    const [x1, y1] = polar(cx, cy, r - 6, a);
-    const [x2, y2] = polar(cx, cy, major ? r - 24 : r - 14, a);
-    svg.appendChild(el('line', {
-      x1, y1, x2, y2,
-      stroke: B, 'stroke-width': major ? 1.4 : 0.5,
-      opacity: major ? 0.65 : 0.25,
-      'stroke-linecap': 'round'
-    }));
-  }
-
-  // Hour hand → 10 o'clock
-  const [hx, hy] = polar(cx, cy, r * 0.42, (10 / 12) * 360);
-  svg.appendChild(el('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: P, 'stroke-width': 2.5, opacity: 0.75, 'stroke-linecap': 'round' }));
-
-  // Minute hand → 10 min (gives 10:10 symmetry)
-  const [mx, my] = polar(cx, cy, r * 0.68, (10 / 60) * 360);
-  svg.appendChild(el('line', { x1: cx, y1: cy, x2: mx, y2: my, stroke: P, 'stroke-width': 1.5, opacity: 0.75, 'stroke-linecap': 'round' }));
-
-  // Seconds hand group (animated)
-  const sg = el('g', { id: 'sec-hand' });
-  sg.appendChild(el('line', { x1: cx, y1: cy + 35, x2: cx, y2: cy - r * 0.78, stroke: G, 'stroke-width': 0.7, opacity: 0.85, 'stroke-linecap': 'round' }));
-  svg.appendChild(sg);
-
-  // Center jewel
-  svg.appendChild(el('circle', { cx, cy, r: 5, fill: G, opacity: 0.8 }));
-  svg.appendChild(el('circle', { cx, cy, r: 2, fill: '#0E0E0E' }));
-
-  document.getElementById('art-dial').appendChild(svg);
-})();
-
-/* ══════════════════════════════════════════════════════
-   BUILD: SCENE 2 — INTERLOCKING GEARS
-   ══════════════════════════════════════════════════════ */
-(function buildGears() {
-  const svg = el('svg', { viewBox: '-280 -200 560 400' });
-
-  // Perlage background
-  const defs = el('defs');
-  const pat = el('pattern', { id: 'perlage', width: 24, height: 24, patternUnits: 'userSpaceOnUse' });
-  pat.appendChild(el('circle', { cx: 12, cy: 12, r: 9, fill: 'none', stroke: B, 'stroke-width': 0.25, opacity: 0.06 }));
-  defs.appendChild(pat);
-  svg.appendChild(defs);
-  svg.appendChild(el('rect', { x: -280, y: -200, width: 560, height: 400, fill: 'url(#perlage)' }));
-
-  // Gear 1: 24 teeth at (-95, 0)
-  const g1 = el('g', { id: 'gear-1' });
-  g1.appendChild(el('path', { d: gearPath(24, 100, 82, -95, 0), fill: 'none', stroke: B, 'stroke-width': 1, opacity: 0.6 }));
-  g1.appendChild(el('circle', { cx: -95, cy: 0, r: 14, fill: 'none', stroke: B, 'stroke-width': 0.8, opacity: 0.35 }));
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    g1.appendChild(el('line', { x1: -95 + Math.cos(a) * 16, y1: Math.sin(a) * 16, x2: -95 + Math.cos(a) * 72, y2: Math.sin(a) * 72, stroke: B, 'stroke-width': 0.5, opacity: 0.2 }));
-  }
-  svg.appendChild(g1);
-
-  // Gear 2: 16 teeth at (72, 0)
-  const g2 = el('g', { id: 'gear-2' });
-  g2.appendChild(el('path', { d: gearPath(16, 68, 55, 72, 0), fill: 'none', stroke: B, 'stroke-width': 1, opacity: 0.6 }));
-  g2.appendChild(el('circle', { cx: 72, cy: 0, r: 10, fill: 'none', stroke: B, 'stroke-width': 0.8, opacity: 0.35 }));
-  for (let i = 0; i < 4; i++) {
-    const a = (i / 4) * Math.PI * 2;
-    g2.appendChild(el('line', { x1: 72 + Math.cos(a) * 12, y1: Math.sin(a) * 12, x2: 72 + Math.cos(a) * 46, y2: Math.sin(a) * 46, stroke: B, 'stroke-width': 0.5, opacity: 0.2 }));
-  }
-  svg.appendChild(g2);
-
-  // Gear 3: 12 teeth offset below-right of gear 2
-  const g3a = Math.PI * 0.65;
-  const g3x = 72 + Math.cos(g3a) * 105;
-  const g3y = Math.sin(g3a) * 105;
-  const g3 = el('g', { id: 'gear-3' });
-  g3.appendChild(el('path', { d: gearPath(12, 48, 38, g3x, g3y), fill: 'none', stroke: B, 'stroke-width': 1, opacity: 0.6 }));
-  g3.appendChild(el('circle', { cx: g3x, cy: g3y, r: 7, fill: 'none', stroke: B, 'stroke-width': 0.8, opacity: 0.35 }));
-  svg.appendChild(g3);
-
-  // Decorative dimension line
-  svg.appendChild(el('line', { x1: -200, y1: -170, x2: 200, y2: -170, stroke: STL, 'stroke-width': 0.3, opacity: 0.12, 'stroke-dasharray': '3 6' }));
-
-  document.getElementById('art-gears').appendChild(svg);
-})();
-
-/* ══════════════════════════════════════════════════════
-   BUILD: SCENE 3 — BALANCE WHEEL + HAIRSPRING
-   ══════════════════════════════════════════════════════ */
-(function buildBalance() {
-  const svg = el('svg', { viewBox: '0 0 500 500' });
-  const cx = 250, cy = 250, rim = 155;
-
-  const bg = el('g', { id: 'balance-group' });
-
-  // Rim
-  bg.appendChild(el('circle', { cx, cy, r: rim, fill: 'none', stroke: B, 'stroke-width': 1.6, opacity: 0.65 }));
-
-  // Spokes (3 double-lines for realism)
-  for (let i = 0; i < 3; i++) {
-    const a = (i / 3) * Math.PI * 2 - Math.PI / 2;
-    const ex = cx + Math.cos(a) * rim;
-    const ey = cy + Math.sin(a) * rim;
-    bg.appendChild(el('line', { x1: cx, y1: cy, x2: ex, y2: ey, stroke: B, 'stroke-width': 2.5, opacity: 0.35 }));
-    bg.appendChild(el('line', { x1: cx, y1: cy, x2: ex, y2: ey, stroke: B, 'stroke-width': 0.6, opacity: 0.7 }));
-  }
-
-  // Timing screws (8)
-  for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * Math.PI * 2;
-    const sx = cx + Math.cos(a) * rim;
-    const sy = cy + Math.sin(a) * rim;
-    bg.appendChild(el('circle', { cx: sx, cy: sy, r: 5.5, fill: 'none', stroke: G, 'stroke-width': 0.8, opacity: 0.4 }));
-    bg.appendChild(el('circle', { cx: sx, cy: sy, r: 1.8, fill: G, opacity: 0.3 }));
-  }
-
-  // Hairspring
-  bg.appendChild(el('path', { d: spiralPath(cx, cy, 6, 85, 6), fill: 'none', stroke: G, 'stroke-width': 0.55, opacity: 0.45 }));
-
-  // Center jewel
-  bg.appendChild(el('circle', { cx, cy, r: 7, fill: 'none', stroke: G, 'stroke-width': 1, opacity: 0.5 }));
-  bg.appendChild(el('circle', { cx, cy, r: 2.5, fill: G, opacity: 0.6 }));
-
-  svg.appendChild(bg);
-
-  // Static reference crosshair (behind balance)
-  const ch = el('g', { opacity: 0.08 });
-  ch.appendChild(el('line', { x1: cx - 200, y1: cy, x2: cx + 200, y2: cy, stroke: P, 'stroke-width': 0.4 }));
-  ch.appendChild(el('line', { x1: cx, y1: cy - 200, x2: cx, y2: cy + 200, stroke: P, 'stroke-width': 0.4 }));
-  svg.insertBefore(ch, bg);
-
-  document.getElementById('art-balance').appendChild(svg);
-})();
-
-/* ══════════════════════════════════════════════════════
-   BUILD: SCENE 4 — TOURBILLON
-   ══════════════════════════════════════════════════════ */
-(function buildTourbillon() {
-  const svg = el('svg', { viewBox: '0 0 500 500' });
-  const cx = 250, cy = 250;
-
-  const cage = el('g', { id: 'tourbillon-cage' });
-
-  // Outer cage frame
-  cage.appendChild(el('circle', { cx, cy, r: 165, fill: 'none', stroke: B, 'stroke-width': 1.4, opacity: 0.55 }));
-  cage.appendChild(el('circle', { cx, cy, r: 158, fill: 'none', stroke: B, 'stroke-width': 0.4, opacity: 0.2 }));
-
-  // Inner platform
-  cage.appendChild(el('circle', { cx, cy, r: 48, fill: 'none', stroke: B, 'stroke-width': 1.2, opacity: 0.5 }));
-
-  // Bridge bars (3)
-  for (let i = 0; i < 3; i++) {
-    const a = (i / 3) * Math.PI * 2 + Math.PI / 6;
-    cage.appendChild(el('line', {
-      x1: cx + Math.cos(a) * 48, y1: cy + Math.sin(a) * 48,
-      x2: cx + Math.cos(a) * 165, y2: cy + Math.sin(a) * 165,
-      stroke: B, 'stroke-width': 2.5, opacity: 0.25
-    }));
-    cage.appendChild(el('line', {
-      x1: cx + Math.cos(a) * 48, y1: cy + Math.sin(a) * 48,
-      x2: cx + Math.cos(a) * 165, y2: cy + Math.sin(a) * 165,
-      stroke: B, 'stroke-width': 0.7, opacity: 0.55
-    }));
-  }
-
-  // Escape wheel
-  cage.appendChild(el('path', { d: gearPath(15, 42, 30, cx, cy), fill: 'none', stroke: G, 'stroke-width': 0.7, opacity: 0.45 }));
-
-  // Small balance wheel offset
-  const bx = cx + 80, by = cy;
-  cage.appendChild(el('circle', { cx: bx, cy: by, r: 32, fill: 'none', stroke: G, 'stroke-width': 0.6, opacity: 0.35 }));
-  cage.appendChild(el('path', { d: spiralPath(bx, by, 3, 18, 3), fill: 'none', stroke: G, 'stroke-width': 0.4, opacity: 0.25 }));
-
-  // Pallet fork hint
-  cage.appendChild(el('line', { x1: cx, y1: cy - 42, x2: cx - 20, y2: cy - 70, stroke: G, 'stroke-width': 0.6, opacity: 0.3 }));
-  cage.appendChild(el('line', { x1: cx, y1: cy - 42, x2: cx + 20, y2: cy - 70, stroke: G, 'stroke-width': 0.6, opacity: 0.3 }));
-
-  // Top pivot
-  cage.appendChild(el('circle', { cx, cy, r: 4, fill: G, opacity: 0.5 }));
-
-  svg.appendChild(cage);
-  document.getElementById('art-tourbillon').appendChild(svg);
-})();
-
-/* ══════════════════════════════════════════════════════
-   BUILD: SCENE 5 — ATELIER (MINIMAL)
-   ══════════════════════════════════════════════════════ */
-(function buildAtelier() {
-  const svg = el('svg', { viewBox: '0 0 500 500' });
-  const cx = 250, cy = 250;
-
-  // Concentric circles (movement silhouette)
-  [180, 145, 110, 75, 40].forEach((r, i) => {
-    svg.appendChild(el('circle', {
-      cx, cy, r,
-      fill: 'none', stroke: B,
-      'stroke-width': 0.5,
-      opacity: 0.1 + i * 0.04,
-      'stroke-dasharray': i % 2 === 0 ? 'none' : '2 5'
-    }));
-  });
-
-  // Cross
-  svg.appendChild(el('line', { x1: cx - 185, y1: cy, x2: cx + 185, y2: cy, stroke: B, 'stroke-width': 0.3, opacity: 0.1 }));
-  svg.appendChild(el('line', { x1: cx, y1: cy - 185, x2: cx, y2: cy + 185, stroke: B, 'stroke-width': 0.3, opacity: 0.1 }));
-
-  // Subtle mainspring spiral
-  svg.appendChild(el('path', { d: spiralPath(cx, cy, 10, 120, 4), fill: 'none', stroke: B, 'stroke-width': 0.35, opacity: 0.08 }));
-
-  document.getElementById('art-atelier').appendChild(svg);
-})();
-
-/* ══════════════════════════════════════════════════════
-   FILM GRAIN
-   ══════════════════════════════════════════════════════ */
-(function initGrain() {
-  const c = document.createElement('canvas');
-  c.width = 256; c.height = 256;
-  const gx = c.getContext('2d');
-  const img = gx.createImageData(256, 256);
-  for (let i = 0; i < img.data.length; i += 4) {
-    const v = Math.random() * 255;
-    img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
-    img.data[i + 3] = 14;
-  }
-  gx.putImageData(img, 0, 0);
-  document.getElementById('grain').style.backgroundImage = 'url(' + c.toDataURL() + ')';
-})();
-
-/* ══════════════════════════════════════════════════════
-   PARTICLE SYSTEM (floating workshop dust)
-   ══════════════════════════════════════════════════════ */
-const dustCanvas = document.getElementById('dust');
-const dctx = dustCanvas.getContext('2d');
-let cW, cH;
-
-function resizeDust() {
-  cW = dustCanvas.width = window.innerWidth;
-  cH = dustCanvas.height = window.innerHeight;
-}
-resizeDust();
-window.addEventListener('resize', resizeDust);
-
-const motes = [];
-for (let i = 0; i < 55; i++) {
-  motes.push({
-    x: Math.random() * (cW || 1920), y: Math.random() * (cH || 1080),
-    r: Math.random() * 1.4 + 0.3,
-    vx: (Math.random() - 0.5) * 0.18,
-    vy: (Math.random() - 0.5) * 0.12,
-    a: Math.random() * 0.2 + 0.04
-  });
-}
-
-let mX = cW / 2, mY = cH / 2;
-document.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
-
-function tickDust() {
-  dctx.clearRect(0, 0, cW, cH);
-  motes.forEach(m => {
-    const dx = mX - m.x, dy = mY - m.y;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    if (d < 180 && d > 0) {
-      m.vx += dx / d * 0.008;
-      m.vy += dy / d * 0.008;
-    }
-    m.vx *= 0.998; m.vy *= 0.998;
-    m.x += m.vx; m.y += m.vy;
-    if (m.x < -10) m.x = cW + 10;
-    if (m.x > cW + 10) m.x = -10;
-    if (m.y < -10) m.y = cH + 10;
-    if (m.y > cH + 10) m.y = -10;
-    dctx.beginPath();
-    dctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-    dctx.fillStyle = 'rgba(176,141,87,' + m.a + ')';
-    dctx.fill();
-  });
-  requestAnimationFrame(tickDust);
-}
-tickDust();
-
-/* ══════════════════════════════════════════════════════
-   MOUSE PARALLAX ON SVG CONTAINERS
-   ══════════════════════════════════════════════════════ */
-const artEls = document.querySelectorAll('.scene-art');
-document.addEventListener('mousemove', e => {
-  const nx = (e.clientX / window.innerWidth  - 0.5) * 2;
-  const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-  artEls.forEach(a => {
-    gsap.to(a, { x: nx * 12, y: ny * 12, duration: 1.2, ease: 'power2.out', overwrite: 'auto' });
-  });
-});
-
-/* ══════════════════════════════════════════════════════
-   GSAP: HORIZONTAL SCROLL
-   ══════════════════════════════════════════════════════ */
-gsap.registerPlugin(ScrollTrigger);
-
-const track  = document.getElementById('track');
-const scenes = gsap.utils.toArray('.scene');
-
-const scrollTween = gsap.to(track, {
-  x: () => -(track.scrollWidth - window.innerWidth),
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#world',
-    pin: true,
-    scrub: 0.7,
-    end: () => '+=' + (track.scrollWidth - window.innerWidth),
-    invalidateOnRefresh: true,
-    onUpdate: self => {
-      document.getElementById('progress-bar').style.width = (self.progress * 100) + '%';
-      // Fade scroll hint
-      if (self.progress > 0.02) {
-        gsap.to('#scroll-hint', { opacity: 0, duration: 0.4, overwrite: true });
-      }
-    }
-  }
-});
-
-/* ── Per-scene text entrance / exit ── */
-scenes.forEach((scene, idx) => {
-  const h2     = scene.querySelector('h2');
-  const sub    = scene.querySelector('.sub');
-  const detail = scene.querySelector('.detail');
-  const cta    = scene.querySelector('.cta-link');
-  const items  = [h2, sub, detail, cta].filter(Boolean);
-
-  // Entrance
-  items.forEach((item, j) => {
-    gsap.fromTo(item,
-      { opacity: 0, y: 35 },
-      {
-        opacity: 1, y: 0,
-        scrollTrigger: {
-          trigger: scene,
-          containerAnimation: scrollTween,
-          start: 'left 75%',
-          end: 'left 35%',
-          scrub: true,
-        },
-        delay: j * 0.05
-      }
-    );
-  });
-
-  // Exit (skip last scene)
-  if (idx < scenes.length - 1) {
-    items.forEach(item => {
-      gsap.to(item, {
-        opacity: 0, y: -25,
-        scrollTrigger: {
-          trigger: scene,
-          containerAnimation: scrollTween,
-          start: 'right 65%',
-          end: 'right 35%',
-          scrub: true,
-        }
+    document.querySelectorAll('a').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(0)';
+        follower.style.transform = 'translate(-50%, -50%) scale(1.8)';
+        follower.style.background = 'rgba(200, 169, 126, 0.1)';
+        follower.style.borderColor = 'rgba(200, 169, 126, 0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        follower.style.transform = 'translate(-50%, -50%) scale(1)';
+        follower.style.background = 'transparent';
+        follower.style.borderColor = 'rgba(200, 169, 126, 0.3)';
       });
     });
-  }
-});
 
-/* ── Scene 1: Seconds hand sweep ── */
-gsap.to('#sec-hand', {
-  rotation: 360,
-  transformOrigin: '250px 250px',
-  scrollTrigger: {
-    trigger: '#overture',
-    containerAnimation: scrollTween,
-    start: 'left left',
-    end: 'right left',
-    scrub: true,
-  }
-});
+    // --- SMOOTH SCROLL (LENIS) ---
+    const lenis = new Lenis({
+      duration: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
 
-/* ── Scene 2: Gear rotations (proper meshing) ── */
-gsap.to('#gear-1', {
-  rotation: 360,
-  transformOrigin: '-95px 0px',
-  scrollTrigger: {
-    trigger: '#caliber',
-    containerAnimation: scrollTween,
-    start: 'left 90%',
-    end: 'right 10%',
-    scrub: true,
-  }
-});
-gsap.to('#gear-2', {
-  rotation: -540,            // 24/16 ratio
-  transformOrigin: '72px 0px',
-  scrollTrigger: {
-    trigger: '#caliber',
-    containerAnimation: scrollTween,
-    start: 'left 90%',
-    end: 'right 10%',
-    scrub: true,
-  }
-});
-const g3x = (72 + Math.cos(Math.PI * 0.65) * 105).toFixed(1);
-const g3y = (Math.sin(Math.PI * 0.65) * 105).toFixed(1);
-gsap.to('#gear-3', {
-  rotation: 720,             // 16/12 * 540
-  transformOrigin: g3x + 'px ' + g3y + 'px',
-  scrollTrigger: {
-    trigger: '#caliber',
-    containerAnimation: scrollTween,
-    start: 'left 90%',
-    end: 'right 10%',
-    scrub: true,
-  }
-});
-
-/* ── Scene 3: Balance wheel oscillation ── */
-ScrollTrigger.create({
-  trigger: '#oscillation',
-  containerAnimation: scrollTween,
-  start: 'left 90%',
-  end: 'right 10%',
-  onUpdate: self => {
-    const angle = Math.sin(self.progress * Math.PI * 12) * 28;
-    gsap.set('#balance-group', { rotation: angle, transformOrigin: '250px 250px' });
-  }
-});
-
-/* ── Scene 4: Tourbillon continuous rotation ── */
-gsap.to('#tourbillon-cage', {
-  rotation: 720,
-  transformOrigin: '250px 250px',
-  scrollTrigger: {
-    trigger: '#complication',
-    containerAnimation: scrollTween,
-    start: 'left 90%',
-    end: 'right 10%',
-    scrub: true,
-  }
-});
-
-/* ══════════════════════════════════════════════════════
-   LOADER ANIMATION
-   ══════════════════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  gsap.to('#loader circle', {
-    strokeDashoffset: 0,
-    duration: 0.8,
-    ease: 'power2.inOut',
-    onComplete() {
-      gsap.to(loader, {
-        opacity: 0,
-        duration: 0.4,
-        onComplete() {
-          loader.style.display = 'none';
-          // Entrance animation for first scene
-          const ov = document.querySelector('#overture .scene-text');
-          gsap.fromTo(ov.querySelector('h2'),
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }
-          );
-          gsap.fromTo(ov.querySelector('.sub'),
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.3 }
-          );
-        }
-      });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
-  });
-});
-</script>
+    requestAnimationFrame(raf);
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+    gsap.ticker.lagSmoothing(0);
+
+    // --- PROCEDURAL SVG MECHANISM ---
+    function el(tag, attrs) {
+      const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      for (let k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    const base = document.querySelector('.mech-base');
+    const mid = document.querySelector('.mech-mid');
+    const topLayer = document.querySelector('.mech-top');
+
+    const gold = 'rgba(200, 169, 126, 0.5)';
+    const goldDim = 'rgba(200, 169, 126, 0.2)';
+    const goldFaint = 'rgba(200, 169, 126, 0.06)';
+
+    // Base Layer: Outer rings and ticks
+    for(let r=250; r<=650; r+=60) {
+      base.appendChild(el('circle', { cx: 0, cy: 0, r: r, fill: 'none', stroke: goldFaint, 'stroke-width': 1 }));
+    }
+    for(let i=0; i<360; i++) {
+      const a = i * Math.PI / 180;
+      const isMajor = i % 10 === 0;
+      const isMedium = i % 5 === 0;
+      const r1 = isMajor ? 600 : (isMedium ? 620 : 635);
+      const r2 = 650;
+      base.appendChild(el('line', {
+        x1: Math.cos(a)*r1, y1: Math.sin(a)*r1,
+        x2: Math.cos(a)*r2, y2: Math.sin(a)*r2,
+        stroke: isMajor ? gold : goldDim,
+        'stroke-width': isMajor ? 2 : 1
+      }));
+    }
+
+    // Mid Layer: Interlocking geometric gears
+    function drawGear(parent, cx, cy, radius, teeth) {
+      const g = el('g', {});
+      g.appendChild(el('circle', { cx, cy, r: radius, fill: 'none', stroke: goldDim, 'stroke-width': 1 }));
+      g.appendChild(el('circle', { cx, cy, r: radius - 25, fill: 'none', stroke: goldDim, 'stroke-width': 0.5 }));
+      
+      for(let i=0; i<teeth; i++) {
+        const a = (i / teeth) * Math.PI * 2;
+        g.appendChild(el('line', {
+          x1: cx + Math.cos(a)*(radius-12), y1: cy + Math.sin(a)*(radius-12),
+          x2: cx + Math.cos(a)*(radius+6), y2: cy + Math.sin(a)*(radius+6),
+          stroke: goldDim, 'stroke-width': 2
+        }));
+      }
+      // Spokes
+      for(let i=0; i<6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        g.appendChild(el('line', {
+          x1: cx, y1: cy,
+          x2: cx + Math.cos(a)*(radius-25), y2: cy + Math.sin(a)*(radius-25),
+          stroke: goldFaint, 'stroke-width': 1.5
+        }));
+      }
+      parent.appendChild(g);
+      return g;
+    }
+
+    const gear1 = drawGear(mid, 0, 0, 220, 72);
+    const gear2 = drawGear(mid, 320, 0, 100, 36);
+    const gear3 = drawGear(mid, -180, 260, 140, 48);
+
+    // Top Layer: Tourbillon cage representation
+    const cage = el('g', {});
+    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 120, fill: 'none', stroke: gold, 'stroke-width': 2 }));
+    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 110, fill: 'none', stroke: goldDim, 'stroke-width': 1 }));
+    for(let i=0; i<3; i++) {
+      const a = (i / 3) * Math.PI * 2;
+      const bridge = el('path', {
+        d: `M 0 0 L ${Math.cos(a-0.1)*120} ${Math.sin(a-0.1)*120} A 120 120 0 0 1 ${Math.cos(a+0.1)*120} ${Math.sin(a+0.1)*120} Z`,
+        fill: 'none', stroke: gold, 'stroke-width': 1.5
+      });
+      cage.appendChild(bridge);
+    }
+    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 12, fill: gold }));
+    topLayer.appendChild(cage);
+
+    // --- ANIMATIONS ---
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Loader
+    const tlLoader = gsap.timeline();
+    tlLoader.to('.loader-text span', { y: 0, duration: 1.2, ease: 'expo.out', delay: 0.2 })
+            .to('.loader-text span', { y: '-100%', duration: 1, ease: 'expo.in', delay: 0.6 })
+            .to('.loader', { y: '-100%', duration: 1.4, ease: 'expo.inOut' }, '-=0.4')
+            .from('.hero-title', { y: '110%', duration: 1.8, ease: 'expo.out', stagger: 0.15 }, '-=0.6')
+            .from('.meta-text', { y: '110%', duration: 1.2, ease: 'expo.out', stagger: 0.1 }, '-=1.2');
+
+    // Mechanism Continuous Rotation
+    gsap.to(base, { rotation: 360, duration: 180, repeat: -1, ease: 'none', transformOrigin: 'center' });
+    gsap.to(gear1, { rotation: -360, duration: 90, repeat: -1, ease: 'none', transformOrigin: 'center' });
+    gsap.to(gear2, { rotation: 360 * (220/100), duration: 90, repeat: -1, ease: 'none', transformOrigin: '320px 0px' });
+    gsap.to(gear3, { rotation: 360 * (220/140), duration: 90, repeat: -1, ease: 'none', transformOrigin: '-180px 260px' });
+    gsap.to(cage, { rotation: 360, duration: 15, repeat: -1, ease: 'none', transformOrigin: 'center' });
+
+    // Mechanism Scroll Parallax & 3D Tilt
+    gsap.to('.mech-container', {
+      rotateX: 15,
+      rotateZ: 120,
+      z: -800,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1
+      }
+    });
+
+    // Mouse Parallax on Mechanism
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 30;
+      gsap.to('.mech-wrapper', {
+        x: x, y: y,
+        duration: 2.5,
+        ease: 'power2.out'
+      });
+    });
+
+    // Scroll Text Reveals
+    document.querySelectorAll('.statement, .footer').forEach(sec => {
+      const texts = sec.querySelectorAll('.anim-text');
+      const fades = sec.querySelectorAll('.anim-text-fade');
+      
+      if(texts.length) {
+        gsap.from(texts, {
+          y: '110%',
+          duration: 1.8,
+          ease: 'expo.out',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 80%',
+          }
+        });
+      }
+      
+      if(fades.length) {
+        gsap.from(fades, {
+          opacity: 0,
+          y: 40,
+          duration: 1.8,
+          ease: 'expo.out',
+          stagger: 0.2,
+          delay: 0.4,
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 80%',
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
