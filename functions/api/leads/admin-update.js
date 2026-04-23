@@ -6,7 +6,7 @@
 import { getSupabase } from '../../_lib/supabase.js';
 import { checkAdminAuth, rateLimit, validateLength, safeUrl, secureJson, secureErr, secureOptions } from '../../_lib/security.js';
 
-const VALID_STATUSES = ['pending','accepted','in_progress','declined','completed'];
+const VALID_STATUSES = ['outreach','responded','onboarding_sent','pending','scope_sent','accepted','paid','in_progress','completed','declined','archived'];
 
 // Shared email shell
 function emailShell(innerHtml) {
