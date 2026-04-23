@@ -187,7 +187,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
 
 <script>
 const SL={outreach:'Outreach',responded:'Responded',onboarding_sent:'Onboarding Sent',pending:'Onboarding Complete',scope_sent:'Scope Sent',accepted:'Scope Signed',paid:'Paid',in_progress:'In Progress',completed:'Delivered',declined:'Declined',archived:'Archived'};
-const SB={pending:'bp',accepted:'ba',in_progress:'bi',declined:'bd',completed:'bc'};
+const SB={outreach:'bp',responded:'bp',onboarding_sent:'bp',pending:'bp',scope_sent:'bp',accepted:'ba',paid:'bpaid',in_progress:'bi',completed:'bc',declined:'bd',archived:'bl'};
 let SEC='',LEADS=[],FILTER='',SORT='due_date';
 
 document.getElementById('secretInput').onkeydown=e=>{if(e.key==='Enter')document.getElementById('authBtn').click();};document.getElementById('togglePw').onclick=function(){var i=document.getElementById('secretInput');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='text'?'Hide':'Show';};
@@ -434,6 +434,7 @@ document.getElementById('mSubmit').onclick=async()=>{
   const r=await fetch('/api/leads/create',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({client_email:email||null,client_name:document.getElementById('mName').value.trim()||null})});
   const d=await r.json();btn.disabled=false;btn.textContent='Generate Link \u2192';
   if(d.onboard_url){document.getElementById('mUrl').textContent=d.onboard_url;document.getElementById('mResult').classList.add('show');document.getElementById('mCopy').onclick=()=>{navigator.clipboard.writeText(d.onboard_url);toast('Copied');};await reload();}
+  else{const err=d.error||d.message||'Failed to create lead. Please try again.';toast('Error: '+err);console.error('Create lead error:',d);}
 };
 
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
