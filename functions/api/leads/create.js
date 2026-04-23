@@ -27,7 +27,7 @@ export async function onRequestPost(context) {
     const lead = Array.isArray(rows) ? rows[0] : rows;
     const base = context.env.SITE_URL || 'https://velocity.calyvent.com';
     return secureJson({ id: lead.id, token: lead.token, onboard_url: `${base}/onboard/${lead.token}` });
-  } catch (_) {
-    return secureErr('Service unavailable', 503);
+  } catch (err) {
+    return secureErr('Failed to create lead: ' + (err.message || err), 500);
   }
 }
