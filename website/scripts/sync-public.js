@@ -48,4 +48,29 @@ for (const file of SINGLE_FILES) {
   count++;
 }
 
+// Copy functions/ directory to dist/ for Cloudflare Pages Functions
+const functionsSrc = path.join(root, '..', 'functions');
+const functionsDest = path.join(root, 'dist', 'functions');
+if (fs.existsSync(functionsSrc)) {
+  console.log('[sync-public] Copying functions/ to dist/functions/...');
+  copyDirSync(functionsSrc, functionsDest);
+  console.log('[sync-public] ✓ Functions directory synced');
+} else {
+  console.warn('[sync-public] WARNING: functions/ directory not found at:', functionsSrc);
+}
+
 console.log('[sync-public] Synced', count, 'files to public/ and dist/');
+
+// Helper: recursively copy directory
+function copyDirSync(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src)) {
+    const srcPath = path.join(src, entry);
+    const destPath = path.join(dest, entry);
+    if (fs.statSync(srcPath).isDirectory()) {
+      copyDirSync(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}

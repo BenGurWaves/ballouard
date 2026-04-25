@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
   const client_name  = validateLength('client_name',  body.client_name  || '')                || null;
 
   try {
-    const rows = await sb.insert('velocity_leads', { client_email, client_name, status: 'pending' });
+    const rows = await sb.insert('velocity_leads', { client_email, client_name, status: 'onboarding_sent' });
     const lead = Array.isArray(rows) ? rows[0] : rows;
     const base = context.env.SITE_URL || 'https://velocity.calyvent.com';
     return secureJson({ id: lead.id, token: lead.token, onboard_url: `${base}/onboard/${lead.token}` });

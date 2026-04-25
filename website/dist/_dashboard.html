@@ -376,18 +376,19 @@ function renderDash(lead,justPaid=false){
     show('msgBanner');
   }
 
-  // Timer section
+  // Timer section - only show if relevant
   const timerEl=document.getElementById('secTimer');
   const anchor=lead.first_submitted_at||lead.submitted_at;
-  if(!lead.submitted_at){
-    timerEl.innerHTML=`<span class="sec-label">Brief</span><p style="font-size:.82rem;color:var(--dim)">Your brief hasn’t been submitted yet. <a href="/onboard/${TOKEN}" style="color:var(--brass);border-bottom:1px solid rgba(196,156,123,.3)">Start your onboarding →</a></p>`;
+    
+  if(!lead.submitted_at||['completed','declined'].includes(lead.status)){
+    timerEl.style.display='none';
   } else if(lead.is_locked||inProgress){
     const lockMsg=inProgress
       ?`Project is in progress — brief is locked to protect scope.`
       :`The 24-hour editing window has passed. Your brief is read-only.`;
     timerEl.innerHTML=`<span class="sec-label">Brief Window</span><p style="font-size:.78rem;color:var(--dim);line-height:1.75">${lockMsg}</p>`;
     if(inProgress){
-      timerEl.innerHTML+=`<div class="frozen-notice" style="margin-top:1rem"><span class="frozen-icon">■</span><div class="frozen-text">Need to change something? Email <a href="mailto:client@calyvent.com">client@calyvent.com</a> and we’ll discuss scope adjustments.</div></div>`;
+      timerEl.innerHTML+=`<div class="frozen-notice" style="margin-top:1rem"><span class="frozen-icon">■</span><div class="frozen-text">Need to change something? Email <a href="mailto:client@calyvent.com">client@calyvent.com</a> and we'll discuss scope adjustments.</div></div>`;
     }
   } else {
     timerEl.innerHTML=`<span class="sec-label">Editing Window</span><div class="countdown-block"><div class="countdown-lbl">Brief locks in</div><div class="countdown-time" id="countdown">--:--:--</div></div><a href="/onboard/${TOKEN}" class="edit-btn">Edit brief →</a>`;
@@ -404,39 +405,22 @@ function renderDash(lead,justPaid=false){
 
   // Payment section
   const payEl=document.getElementById('secPayment');
-  if(paid||justPaid){
-    payEl.innerHTML=`<span class="sec-label">Payment</span><div class="paid-block"><div class="paid-icon">✓</div><div><div class="paid-h">Payment Received.</div><div class="paid-p">Your project is confirmed and in queue. We’ll be in touch within 24 hours to begin work.</div>${lead.quote_amount?`<div class="frozen-quote" style="margin-top:.75rem">Amount paid: <strong>${fmt(lead.quote_amount)}</strong></div>`:''}</div></div>
+  // Hide payment section for certain statuses
+  if(['in_progress','completed','declined'].includes(lead.status)){
+    payEl.style.display='none';
+  } else if(paid||justPaid){
+    payEl.innerHTML=`<span class="sec-label">Payment</span><div class="paid-block"><div class="paid-icon">✓</div><div><div class="paid-h">Payment Received.</div><div class="paid-p">Your project is confirmed and in queue. We'll be in touch within 24 hours to begin work.</div>${lead.quote_amount?`<div class="frozen-quote" style="margin-top:.75rem">Amount paid: <strong>${fmt(lead.quote_amount)}</strong></div>`:''}</div></div>
       ${lead.site_link?siteBlock(lead.site_link):''}`;
     } else if(hasQ){
     const scopeSent=lead.scope_sent_at;
     const scopeAccepted=lead.scope_accepted;
-    const scopeText=lead.scope_text||'';
     if(scopeSent&&!scopeAccepted){
-      // Show scope doc for review + acceptance before payment unlocks
+      // Scope ready to sign — link to dedicated scope page
       payEl.innerHTML='<span class="sec-label">Your Project Scope</span>'
-        +'<div style="background:rgba(222,200,181,.04);border:1px solid rgba(222,200,181,.1);padding:1.5rem;margin:1rem 0 1.5rem;font-size:.8rem;color:#8a8680;line-height:1.9;white-space:pre-wrap">'+esc(scopeText)+'</div>'
-        +'<label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;margin-bottom:1.5rem"><input type="checkbox" id="scopeAgree" style="width:14px;height:14px;accent-color:#C49C7B;flex-shrink:0;margin-top:2px"><span style="font-size:.78rem;color:#8a8680;line-height:1.75">I have read and agree to this project scope. I understand that once payment is made, this scope is locked.</span></label>'
-        +'<div style="border-top:1px solid rgba(222,200,181,.09);padding-top:1.25rem">'
-        +'<p style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#565250;margin-bottom:.6rem">Project Investment</p>'
-        +'<div style="font-family:Instrument Serif,Georgia,serif;font-size:clamp(2rem,6vw,3.5rem);letter-spacing:-.04em;color:#DEC8B5;margin-bottom:1.25rem">'+fmt(lead.quote_amount)+'</div>'
-        +'<button class="pay-btn" id="payBtn" disabled style="opacity:.35;cursor:not-allowed">Confirm &amp; Pay &rarr;</button>'
+        +'<div style="border:1px solid rgba(222,200,181,.12);padding:1.75rem;margin-top:.75rem">'
+        +'<p style="font-size:.82rem;color:var(--sand);line-height:1.8;margin-bottom:1.25rem">Your scope document is ready for review and signature. This document outlines the project details, deliverables, and terms.</p>'
+        +'<a href="/scope/'+TOKEN+'" style="display:inline-block;font-size:.72rem;letter-spacing:.08em;color:var(--bg);background:var(--sand);padding:.75rem 2rem;text-decoration:none;transition:background .3s">Open & Sign Scope →</a>'
         +'</div>';
-      const ag=document.getElementById('scopeAgree');
-      const pb=document.getElementById('payBtn');
-      if(ag&&pb){
-        ag.onchange=()=>{pb.disabled=!ag.checked;pb.style.opacity=ag.checked?'1':'.35';pb.style.cursor=ag.checked?'pointer':'not-allowed';};
-        pb.onclick=async()=>{
-          if(!ag.checked)return;
-          pb.disabled=true;pb.textContent='Confirming\u2026';
-          try{
-            await fetch('/api/leads/'+TOKEN,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({scope_accepted:true,scope_accepted_at:new Date().toISOString()})});
-            const r=await fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:TOKEN})});
-            const d=await r.json();
-            if(d.url)location.href=d.url;
-            else{pb.disabled=false;pb.textContent='Confirm & Pay \u2192';alert(d.error||'Error');}
-          }catch{pb.disabled=false;pb.textContent='Confirm & Pay \u2192';alert('Network error.');}
-        };
-      }
     } else if(!scopeSent){
       // Quote set but scope not sent yet
       payEl.innerHTML='<span class="sec-label">Your Quote</span>'
@@ -460,7 +444,7 @@ function renderDash(lead,justPaid=false){
       };
     }
   } else if(lead.submitted_at){
-    payEl.innerHTML=`<span class="sec-label">Next Step</span><p style="font-size:.82rem;color:var(--dim);line-height:1.8">We’re reviewing your brief. A custom quote will appear here once we’ve assessed your project. You’ll be notified at <strong style="color:var(--sand);font-weight:400">${esc(lead.client_email||p1.email||'your email')}</strong>.</p>`;
+    payEl.innerHTML=`<span class="sec-label">Next Step</span><p style="font-size:.82rem;color:var(--dim);line-height:1.8">We're reviewing your brief. A custom quote will appear here once we've assessed your project. You'll be notified at <strong style="color:var(--sand);font-weight:400">${esc(lead.client_email||p1.email||'your email')}</strong>.</p>`;
   } else { payEl.style.display='none'; }
 
   // Timeline
@@ -479,7 +463,9 @@ function renderDash(lead,justPaid=false){
 
   // Brief summary
   const briefEl=document.getElementById('secBrief');
-  if(lead.submitted_at){
+  if(!lead.submitted_at){
+    briefEl.style.display='none';
+  } else if(lead.submitted_at){
     const insp=(p2.inspiration||[]).filter(i=>i.url).map(i=>`<div style="margin-bottom:8px"><div style="font-size:.75rem;color:var(--brass)">${esc(i.url)}</div>${i.notes?`<div style="font-size:.7rem;color:var(--dim);margin-top:2px">${esc(i.notes)}</div>`:''}</div>`).join('');
     const anti=(p2.anti_inspiration||[]).filter(i=>i.url).map(i=>`<div style="margin-bottom:8px"><div style="font-size:.75rem;color:#c08080">${esc(i.url)}</div>${i.notes?`<div style="font-size:.7rem;color:var(--dim);margin-top:2px">${esc(i.notes)}</div>`:''}</div>`).join('');
     briefEl.innerHTML=`<span class="sec-label">Your Brief Summary</span>

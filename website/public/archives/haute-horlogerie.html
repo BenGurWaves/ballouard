@@ -3,558 +3,572 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Haute Horlogerie — Velocity</title>
-  <meta name="description" content="The art of time. We regulate digital calibers.">
-  
+  <title>Haute Horlogerie — The Legacy of Time</title>
+  <meta name="description" content="From the 13th century to 2026. The art of measuring eternity.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
-
   <style>
     :root {
-      --bg: #050505;
-      --text: #F5F0E6;
-      --gold: #C8A97E;
-      --gold-dim: rgba(200, 169, 126, 0.3);
-      --gold-faint: rgba(200, 169, 126, 0.08);
-      --grey: #8C7A6B;
+      --bg: #080808;
+      --text: #F3E5DC;
+      --bronze: #CD7F32;
+      --bronze-dim: rgba(205,127,50,0.2);
+      --steel: rgba(243,229,220,0.25);
     }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,.serif{font-family:'Playfair Display',serif;font-weight:400}
+    .italic{font-family:'Cormorant Garamond',serif;font-style:italic}
+    .bronze{color:var(--bronze)}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      cursor: none;
-    }
+    /* ── CANVAS ── */
+    #tunnel{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-    /* Custom Cursor */
-    .cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 6px; height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, background 0.3s;
-    }
-    .cursor-follower {
-      position: fixed;
-      top: 0; left: 0;
-      width: 40px; height: 40px;
-      border: 1px solid var(--gold-dim);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, background 0.3s;
-    }
-    body:hover .cursor { opacity: 1; }
+    /* ── ATMOSPHERE ── */
+    .noise{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.04;
+      background:url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)"/%3E%3C/svg%3E')}
+    .vignette{position:fixed;inset:0;z-index:8999;pointer-events:none;
+      background:radial-gradient(circle at center,transparent 25%,var(--bg) 100%)}
 
-    /* Noise Overlay */
-    .noise {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 9000;
-      opacity: 0.04;
-      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-    }
+    /* ── CURSOR ── */
+    .cur{position:fixed;top:0;left:0;width:4px;height:4px;background:var(--bronze);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+    .cur-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid var(--bronze-dim);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .5s cubic-bezier(.19,1,.22,1),height .5s cubic-bezier(.19,1,.22,1),background .4s,border-color .4s}
+    .cur.link{opacity:0}
+    .cur-ring.link{width:90px;height:90px;background:rgba(205,127,50,.06);border-color:var(--bronze)}
+    @media(pointer:coarse){body{cursor:auto}.cur,.cur-ring{display:none}}
 
-    /* Typography */
-    h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
-    }
-    
-    .line-mask {
-      overflow: hidden;
-      display: block;
-    }
-    .line-mask > div, .line-mask > h2, .line-mask > span {
-      transform: translateY(110%);
-      will-change: transform;
-      display: block;
-    }
+    /* ── FIXED UI ── */
+    .monogram{position:fixed;top:40px;left:40px;z-index:30;font-family:'Playfair Display',serif;font-size:.9rem;letter-spacing:.2em;color:var(--text);opacity:0}
+    .counter{position:fixed;top:40px;right:40px;z-index:30;font-size:.75rem;letter-spacing:.15em;color:var(--bronze);opacity:0}
+    .counter-now{opacity:1}.counter-of{opacity:.3;margin:0 3px}
+    .progress{position:fixed;bottom:0;left:0;height:1px;background:var(--bronze);z-index:30;width:0;will-change:width}
+    .tick{position:fixed;bottom:40px;right:40px;width:4px;height:4px;border-radius:50%;background:var(--bronze);z-index:30;opacity:0}
+    .scroll-hint{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);z-index:30;opacity:0;text-align:center;color:var(--bronze)}
+    .scroll-hint span{display:block;font-size:.55rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:14px}
+    .scroll-arrow{width:10px;display:block;margin:0 auto;animation:scrollP 2.2s ease-in-out infinite}
+    @keyframes scrollP{0%,100%{transform:translateY(0);opacity:.2}50%{transform:translateY(10px);opacity:1}}
 
-    /* 3D Mechanism */
-    .mech-wrapper {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      perspective: 1200px;
-      z-index: 0;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .mech-container {
-      width: 1400px; height: 1400px;
-      transform-style: preserve-3d;
-      transform: rotateX(55deg) rotateZ(0deg);
-      will-change: transform;
-    }
-    .mech-layer {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      transform-style: preserve-3d;
-      overflow: visible;
-    }
-    .mech-base { transform: translateZ(-80px); }
-    .mech-mid { transform: translateZ(40px); }
-    .mech-top { transform: translateZ(160px); }
-    
-    .mech-layer svg {
-      filter: drop-shadow(0 0 15px rgba(200, 169, 126, 0.15));
-    }
+    /* ── LOADER ── */
+    .loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .loader svg{width:80px;height:80px}
+    .loader-track{fill:none;stroke:rgba(243,229,220,.04);stroke-width:.5}
+    .loader-ring{fill:none;stroke:var(--bronze);stroke-width:1;stroke-dasharray:251.33;stroke-dashoffset:251.33;stroke-linecap:round}
+    .loader-text{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--bronze);font-size:1.1rem;letter-spacing:.15em;margin-top:2.5rem;opacity:0}
 
-    /* Layout */
-    .content {
-      position: relative;
-      z-index: 10;
-    }
+    /* ── SCROLL DRIVER ── */
+    #scroll-driver{height:900vh;position:relative;z-index:1}
 
-    section {
-      position: relative;
-      width: 100vw;
-      padding: 0 8vw;
-    }
+    /* ── STAGE ── */
+    #stage{position:fixed;inset:0;z-index:20;pointer-events:none;perspective:2000px;overflow:hidden}
+    .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;will-change:transform,opacity;backface-visibility:hidden}
+    .scene.interactive{pointer-events:auto}
 
-    /* Hero */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .hero h1 {
-      font-size: clamp(4rem, 13vw, 16rem);
-      line-height: 0.85;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-    }
-    .hero h1.italic {
-      font-style: italic;
-      text-transform: none;
-      color: var(--gold);
-      padding-left: 15vw;
-    }
-    .hero-meta {
-      position: absolute;
-      bottom: 6vh; left: 8vw; right: 8vw;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      color: var(--grey);
-      text-transform: uppercase;
-    }
+    /* ── SCENE INNER ── */
+    .si{padding:0 8vw;width:100%}
+    .si.c{text-align:center}
+    .si.l{text-align:left;max-width:70vw}
+    .si.r{text-align:right;max-width:70vw;margin-left:auto}
 
-    /* Statements */
-    .statement {
-      min-height: 130vh;
-      display: flex;
-      align-items: center;
-    }
-    .statement.right {
-      justify-content: flex-end;
-    }
-    .statement.center {
-      justify-content: center;
-      text-align: center;
-    }
-    .text-block {
-      max-width: 55vw;
-    }
-    .text-block .label {
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      color: var(--gold);
-      margin-bottom: 3rem;
-      display: block;
-    }
-    .text-block h2 {
-      font-size: clamp(2.5rem, 6vw, 7rem);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-    }
-    .text-block p.desc {
-      margin-top: 3.5rem;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--grey);
-      max-width: 420px;
-      font-weight: 300;
-    }
-    .statement.right .text-block p.desc {
-      margin-left: auto;
-    }
-    .statement.center .text-block p.desc {
-      margin-left: auto;
-      margin-right: auto;
-    }
+    /* ── TYPOGRAPHY ── */
+    .t-hero{font-size:clamp(4.5rem,14vw,18rem);line-height:.82;letter-spacing:.03em;text-transform:uppercase}
+    .t-year{font-size:clamp(6rem,22vw,28rem);line-height:.75;letter-spacing:-.02em;color:var(--text);opacity:.06}
+    .t-heading{font-size:clamp(2.8rem,7vw,9rem);line-height:1.05;letter-spacing:-.01em}
+    .t-number{font-size:clamp(7rem,20vw,26rem);line-height:.8;letter-spacing:-.03em}
+    .t-statement{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.8vw,4rem);line-height:1.25;margin-top:1rem}
+    .t-label{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--bronze);margin-bottom:2.5rem}
+    .t-caption{font-size:clamp(.8rem,1vw,1rem);line-height:1.75;color:var(--steel);max-width:380px;font-weight:300;margin-top:2.5rem}
+    .t-sub{font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:var(--bronze);margin-top:3.5rem}
+    .si.c .t-caption{margin-left:auto;margin-right:auto}
+    .si.r .t-caption{margin-left:auto}
 
-    /* Footer */
-    .footer {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .footer h2 {
-      font-size: clamp(3rem, 9vw, 11rem);
-      margin-bottom: 3rem;
-    }
-    .cta {
-      font-size: 0.8rem;
-      letter-spacing: 0.25em;
-      color: var(--gold);
-      text-decoration: none;
-      text-transform: uppercase;
-      padding: 1.2rem 2.5rem;
-      border: 1px solid var(--gold-dim);
-      border-radius: 100px;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-    }
-    .cta::before {
-      content: '';
-      position: absolute;
-      top: 100%; left: 0; width: 100%; height: 100%;
-      background: var(--gold);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: -1;
-    }
-    .cta:hover {
-      color: var(--bg);
-      border-color: var(--gold);
-    }
-    .cta:hover::before {
-      transform: translateY(-100%);
-    }
+    /* ── CTA ── */
+    .cta{display:inline-block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.8rem,3.5vw,3.5rem);color:var(--text);text-decoration:none;position:relative;padding-bottom:8px;margin-top:4rem;transition:color .8s cubic-bezier(.19,1,.22,1)}
+    .cta::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--bronze);transform:scaleX(0);transform-origin:right;transition:transform .8s cubic-bezier(.19,1,.22,1)}
+    .cta:hover{color:var(--bronze)}
+    .cta:hover::after{transform:scaleX(1);transform-origin:left}
 
-    /* Loader */
-    .loader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold);
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 2.5rem;
-    }
-    .loader-text {
-      overflow: hidden;
-    }
-    .loader-text span {
-      display: block;
-      transform: translateY(100%);
-    }
-
-    @media (max-width: 768px) {
-      .text-block { max-width: 90vw; }
-      .hero h1.italic { padding-left: 5vw; }
-      .mech-container { width: 900px; height: 900px; }
-      .hero-meta { flex-direction: column; gap: 1rem; text-align: center; }
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      .si{padding:0 6vw}
+      .si.l,.si.r{max-width:100%;text-align:center;margin:0}
+      .si.r .t-caption,.si.l .t-caption{margin-left:auto;margin-right:auto}
+      .monogram{top:20px;left:20px;font-size:.7rem}
+      .counter{top:20px;right:20px}
+      .tick{bottom:20px;right:20px}
     }
   </style>
 </head>
 <body>
 
-  <div class="cursor"></div>
-  <div class="cursor-follower"></div>
-  <div class="noise"></div>
+<div class="cur"></div>
+<div class="cur-ring"></div>
+<div class="noise"></div>
+<div class="vignette"></div>
+<canvas id="tunnel"></canvas>
 
-  <div class="loader">
-    <div class="loader-text"><span>Calibrating...</span></div>
-  </div>
+<div class="loader">
+  <svg viewBox="0 0 100 100">
+    <circle class="loader-track" cx="50" cy="50" r="40"/>
+    <circle class="loader-ring" cx="50" cy="50" r="40"/>
+  </svg>
+  <div class="loader-text">Winding the mainspring</div>
+</div>
 
-  <div class="mech-wrapper">
-    <div class="mech-container">
-      <svg class="mech-layer mech-base" viewBox="-700 -700 1400 1400"></svg>
-      <svg class="mech-layer mech-mid" viewBox="-700 -700 1400 1400"></svg>
-      <svg class="mech-layer mech-top" viewBox="-700 -700 1400 1400"></svg>
+<div class="monogram">H · H</div>
+<div class="counter"><span class="counter-now">01</span><span class="counter-of">/</span>07</div>
+<div class="progress"></div>
+<div class="tick"></div>
+
+<div class="scroll-hint">
+  <span>Scroll to begin</span>
+  <svg class="scroll-arrow" viewBox="0 0 12 30">
+    <line x1="6" y1="0" x2="6" y2="27" stroke="currentColor" stroke-width=".8"/>
+    <polyline points="2,23 6,28 10,23" stroke="currentColor" fill="none" stroke-width=".8"/>
+  </svg>
+</div>
+
+<div id="scroll-driver"></div>
+
+<div id="stage">
+
+  <div class="scene" id="s0">
+    <div class="si c">
+      <h1 class="t-hero">HAUTE</h1>
+      <h1 class="t-hero italic bronze">Horlogerie</h1>
+      <p class="t-sub">The art of measuring eternity</p>
     </div>
   </div>
 
-  <div class="content">
-    <section class="hero">
-      <div class="line-mask"><h1 class="hero-title">HAUTE</h1></div>
-      <div class="line-mask"><h1 class="hero-title italic">Horlogerie</h1></div>
-      <div class="hero-meta">
-        <div class="line-mask"><span class="meta-text">REF. 001 — DIGITAL CALIBER</span></div>
-        <div class="line-mask"><span class="meta-text">VELOCITY ATELIER</span></div>
-      </div>
-    </section>
-
-    <section class="statement">
-      <div class="text-block">
-        <div class="line-mask"><span class="label anim-text">01 // PRECISION</span></div>
-        <div class="line-mask"><h2 class="anim-text">0.001mm.</h2></div>
-        <div class="line-mask"><h2 class="anim-text">The gap between</h2></div>
-        <div class="line-mask"><h2 class="anim-text">a tool and a</h2></div>
-        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">masterpiece.</h2></div>
-        <p class="desc anim-text-fade">Three hundred components. One purpose. We measure the space between intention and perfection.</p>
-      </div>
-    </section>
-
-    <section class="statement right">
-      <div class="text-block">
-        <div class="line-mask"><span class="label anim-text">02 // KINETICS</span></div>
-        <div class="line-mask"><h2 class="anim-text">Gravity is</h2></div>
-        <div class="line-mask"><h2 class="anim-text">the enemy.</h2></div>
-        <div class="line-mask"><h2 class="anim-text">Precision is</h2></div>
-        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">the revenge.</h2></div>
-        <p class="desc anim-text-fade">A heartbeat of 28,800 vibrations per hour. Older than electricity, more accurate than human perception.</p>
-      </div>
-    </section>
-
-    <section class="statement center">
-      <div class="text-block">
-        <div class="line-mask"><span class="label anim-text">03 // ETERNITY</span></div>
-        <div class="line-mask"><h2 class="anim-text">Time is a liquid.</h2></div>
-        <div class="line-mask"><h2 class="anim-text italic" style="color: var(--gold)">We are the dam.</h2></div>
-      </div>
-    </section>
-
-    <section class="footer">
-      <div class="line-mask"><h2 class="anim-text">The Atelier</h2></div>
-      <div class="anim-text-fade" style="margin-top: 2rem;">
-        <a href="mailto:atelier@velocity.delivery" class="cta">Request Commission</a>
-      </div>
-    </section>
+  <div class="scene" id="s1">
+    <div class="si l">
+      <p class="t-label">01 — The Awakening</p>
+      <div class="t-year">1283</div>
+      <p class="t-statement">They did not tell time.<br>They <em class="italic bronze">announced</em> it.</p>
+      <p class="t-caption">The first mechanical clocks emerge in European monasteries. The verge escapement is born — the first mechanism to divide eternity into measurable fractions.</p>
+    </div>
   </div>
 
-  <script>
-    // --- CUSTOM CURSOR ---
-    const cursor = document.querySelector('.cursor');
-    const follower = document.querySelector('.cursor-follower');
-    let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-    let fX = mouseX, fY = mouseY;
-    
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top = mouseY + 'px';
-    });
-    
-    gsap.ticker.add(() => {
-      fX += (mouseX - fX) * 0.15;
-      fY += (mouseY - fY) * 0.15;
-      follower.style.left = fX + 'px';
-      follower.style.top = fY + 'px';
-    });
+  <div class="scene" id="s2">
+    <div class="si r">
+      <p class="t-label">02 — The Spiral</p>
+      <div class="t-year">1675</div>
+      <p class="t-statement">Time becomes<br><em class="italic bronze">personal.</em></p>
+      <p class="t-caption">Huygens introduces the balance spring. Timepieces shrink from architectural monoliths to pocket companions. Accuracy leaps from hours to minutes.</p>
+    </div>
+  </div>
 
-    document.querySelectorAll('a').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(0)';
-        follower.style.transform = 'translate(-50%, -50%) scale(1.8)';
-        follower.style.background = 'rgba(200, 169, 126, 0.1)';
-        follower.style.borderColor = 'rgba(200, 169, 126, 0.8)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        follower.style.transform = 'translate(-50%, -50%) scale(1)';
-        follower.style.background = 'transparent';
-        follower.style.borderColor = 'rgba(200, 169, 126, 0.3)';
-      });
-    });
+  <div class="scene" id="s3">
+    <div class="si c">
+      <p class="t-label">03 — The Whirlwind</p>
+      <div class="t-year">1801</div>
+      <p class="t-statement">A mechanical answer<br><em class="italic bronze">to gravity itself.</em></p>
+      <p class="t-caption">Abraham-Louis Breguet patents the tourbillon. He places the entire escapement inside a rotating cage. Patent No. 157.</p>
+    </div>
+  </div>
 
-    // --- SMOOTH SCROLL (LENIS) ---
-    const lenis = new Lenis({
-      duration: 1.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-    });
+  <div class="scene" id="s4">
+    <div class="si c">
+      <p class="t-label">04 — The Heartbeat</p>
+      <div class="t-number">28,800</div>
+      <p class="t-statement">vibrations per hour</p>
+      <p class="t-caption">A heartbeat older than electricity, more precise than human perception. Four hertz. The frequency of perfection.</p>
+    </div>
+  </div>
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+  <div class="scene" id="s5">
+    <div class="si c">
+      <p class="t-label">05 — Today</p>
+      <h2 class="t-heading">We regulate</h2>
+      <h2 class="t-heading italic bronze">digital calibers.</h2>
+      <p class="t-caption">Same obsession. Different material. No templates. No compromises. Only bespoke, hand-coded precision.</p>
+    </div>
+  </div>
 
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
-    gsap.ticker.lagSmoothing(0);
+  <div class="scene interactive" id="s6">
+    <div class="si c">
+      <h2 class="t-heading">Commission</h2>
+      <h2 class="t-heading italic bronze">a Masterpiece</h2>
+      <p class="t-caption" style="max-width:420px">For those who understand that time is the ultimate luxury.</p>
+      <a href="mailto:horlogerie@calyvent.com" class="cta" data-magnetic>horlogerie@calyvent.com</a>
+    </div>
+  </div>
 
-    // --- PROCEDURAL SVG MECHANISM ---
-    function el(tag, attrs) {
-      const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
-      for (let k in attrs) e.setAttribute(k, attrs[k]);
-      return e;
-    }
+</div>
 
-    const base = document.querySelector('.mech-base');
-    const mid = document.querySelector('.mech-mid');
-    const topLayer = document.querySelector('.mech-top');
+<script>
+/* ══════════════════════════════════════════════════════
+   1. CURSOR
+   ══════════════════════════════════════════════════════ */
+const cur = document.querySelector('.cur');
+const ring = document.querySelector('.cur-ring');
+let mx = innerWidth/2, my = innerHeight/2, cx2 = mx, cy2 = my, rx = mx, ry = my;
 
-    const gold = 'rgba(200, 169, 126, 0.5)';
-    const goldDim = 'rgba(200, 169, 126, 0.2)';
-    const goldFaint = 'rgba(200, 169, 126, 0.06)';
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-    // Base Layer: Outer rings and ticks
-    for(let r=250; r<=650; r+=60) {
-      base.appendChild(el('circle', { cx: 0, cy: 0, r: r, fill: 'none', stroke: goldFaint, 'stroke-width': 1 }));
-    }
-    for(let i=0; i<360; i++) {
-      const a = i * Math.PI / 180;
-      const isMajor = i % 10 === 0;
-      const isMedium = i % 5 === 0;
-      const r1 = isMajor ? 600 : (isMedium ? 620 : 635);
-      const r2 = 650;
-      base.appendChild(el('line', {
-        x1: Math.cos(a)*r1, y1: Math.sin(a)*r1,
-        x2: Math.cos(a)*r2, y2: Math.sin(a)*r2,
-        stroke: isMajor ? gold : goldDim,
-        'stroke-width': isMajor ? 2 : 1
-      }));
-    }
+gsap.ticker.add(() => {
+  cx2 += (mx - cx2) * 0.2;
+  cy2 += (my - cy2) * 0.2;
+  rx += (mx - rx) * 0.08;
+  ry += (my - ry) * 0.08;
+  cur.style.left = cx2 + 'px'; cur.style.top = cy2 + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+});
 
-    // Mid Layer: Interlocking geometric gears
-    function drawGear(parent, cx, cy, radius, teeth) {
-      const g = el('g', {});
-      g.appendChild(el('circle', { cx, cy, r: radius, fill: 'none', stroke: goldDim, 'stroke-width': 1 }));
-      g.appendChild(el('circle', { cx, cy, r: radius - 25, fill: 'none', stroke: goldDim, 'stroke-width': 0.5 }));
-      
-      for(let i=0; i<teeth; i++) {
-        const a = (i / teeth) * Math.PI * 2;
-        g.appendChild(el('line', {
-          x1: cx + Math.cos(a)*(radius-12), y1: cy + Math.sin(a)*(radius-12),
-          x2: cx + Math.cos(a)*(radius+6), y2: cy + Math.sin(a)*(radius+6),
-          stroke: goldDim, 'stroke-width': 2
-        }));
+document.querySelectorAll('a').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.classList.add('link'); ring.classList.add('link'); });
+  el.addEventListener('mouseleave', () => { cur.classList.remove('link'); ring.classList.remove('link'); });
+});
+
+// Magnetic CTA
+document.querySelectorAll('[data-magnetic]').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    gsap.to(el, { x: (e.clientX - r.left - r.width/2) * 0.25, y: (e.clientY - r.top - r.height/2) * 0.25, duration: 0.4, ease: 'power2.out' });
+  });
+  el.addEventListener('mouseleave', () => {
+    gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.3)' });
+  });
+});
+
+/* ══════════════════════════════════════════════════════
+   2. SMOOTH SCROLL
+   ══════════════════════════════════════════════════════ */
+const lenis = new Lenis({ duration: 2.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10*t)) });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
+
+/* ══════════════════════════════════════════════════════
+   3. CANVAS TUNNEL
+   ══════════════════════════════════════════════════════ */
+const canvas = document.getElementById('tunnel');
+const ctx = canvas.getContext('2d');
+let W, H, CX, CY;
+
+function resize() {
+  const dpr = Math.min(devicePixelRatio, 2);
+  W = canvas.width = innerWidth * dpr;
+  H = canvas.height = innerHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  W /= dpr; H /= dpr;
+  CX = W / 2; CY = H / 2;
+}
+addEventListener('resize', resize); resize();
+
+const FOV = 900;
+const DEPTH = 18000;
+let scrollProg = 0, lastProg = 0, velocity = 0;
+let prlxX = 0, prlxY = 0, tpX = 0, tpY = 0;
+
+addEventListener('mousemove', e => {
+  tpX = (e.clientX / innerWidth - 0.5) * 2;
+  tpY = (e.clientY / innerHeight - 0.5) * 2;
+});
+
+// Tunnel Rings (evenly spaced = corridor)
+const tunnelRings = [];
+for (let i = 0; i < 60; i++) {
+  tunnelRings.push({
+    z: i * 300,
+    radius: 550,
+    rot: i * 0.15,
+    speed: 0.0004 + (i % 5) * 0.0001,
+    hasTicks: true
+  });
+}
+
+// Accent Rings (detail elements)
+const accents = [];
+for (let i = 0; i < 25; i++) {
+  accents.push({
+    x: (Math.random() - 0.5) * 400,
+    y: (Math.random() - 0.5) * 400,
+    z: Math.random() * DEPTH,
+    radius: 60 + Math.random() * 200,
+    rot: Math.random() * Math.PI * 2,
+    speed: (Math.random() - 0.5) * 0.002,
+  });
+}
+
+// Hairspring Spirals
+const spirals = [];
+for (let i = 0; i < 10; i++) {
+  spirals.push({
+    x: (Math.random() - 0.5) * 500,
+    y: (Math.random() - 0.5) * 500,
+    z: Math.random() * DEPTH,
+    radius: 40 + Math.random() * 80,
+    turns: 3 + Math.random() * 4,
+    rot: Math.random() * Math.PI * 2,
+    speed: (Math.random() - 0.5) * 0.002,
+  });
+}
+
+// Dust
+const dust = [];
+for (let i = 0; i < 120; i++) {
+  dust.push({
+    x: (Math.random() - 0.5) * 3000,
+    y: (Math.random() - 0.5) * 3000,
+    z: Math.random() * DEPTH,
+    size: 0.3 + Math.random() * 1.2,
+    bright: 0.15 + Math.random() * 0.5,
+  });
+}
+
+function alpha(dz) {
+  if (dz < 80)   return dz / 80;
+  if (dz < 600)  return 1;
+  if (dz < 4000) return 1 - (dz - 600) / 3400;
+  return 0;
+}
+
+let frame = 0;
+
+function render() {
+  frame++;
+  prlxX += (tpX - prlxX) * 0.04;
+  prlxY += (tpY - prlxY) * 0.04;
+  velocity = scrollProg - lastProg;
+  lastProg = scrollProg;
+
+  const camZ = scrollProg * DEPTH;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Vanishing point glow
+  const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, 250);
+  grad.addColorStop(0, 'rgba(205,127,50,0.04)');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fillRect(CX - 250, CY - 250, 500, 500);
+
+  // Draw tunnel rings
+  tunnelRings.forEach(r => {
+    let dz = r.z - camZ;
+    while (dz < -200) dz += DEPTH;
+    while (dz > DEPTH) dz -= DEPTH;
+    if (dz < 60 || dz > 5000) return;
+
+    const a = alpha(dz);
+    if (a < 0.005) return;
+    const s = FOV / dz;
+    const pr = r.radius * s;
+    if (pr < 2 || pr > 6000) return;
+
+    const ox = CX + prlxX * 200 * s;
+    const oy = CY + prlxY * 200 * s;
+
+    ctx.save();
+    ctx.translate(ox, oy);
+    ctx.rotate(r.rot + frame * r.speed);
+
+    // Ring
+    ctx.beginPath();
+    ctx.arc(0, 0, pr, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(205,127,50,${a * 0.1})`;
+    ctx.lineWidth = Math.max(0.3, s * 0.6);
+    ctx.stroke();
+
+    // Ticks
+    if (r.hasTicks && pr > 20) {
+      for (let t = 0; t < 60; t++) {
+        const ang = (t / 60) * Math.PI * 2;
+        const major = t % 5 === 0;
+        const r1 = pr;
+        const r2 = major ? pr * 0.86 : pr * 0.93;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(ang) * r1, Math.sin(ang) * r1);
+        ctx.lineTo(Math.cos(ang) * r2, Math.sin(ang) * r2);
+        ctx.strokeStyle = major ? `rgba(205,127,50,${a * 0.3})` : `rgba(243,229,220,${a * 0.06})`;
+        ctx.lineWidth = major ? Math.max(0.4, s * 1.2) : Math.max(0.2, s * 0.3);
+        ctx.stroke();
       }
-      // Spokes
-      for(let i=0; i<6; i++) {
-        const a = (i / 6) * Math.PI * 2;
-        g.appendChild(el('line', {
-          x1: cx, y1: cy,
-          x2: cx + Math.cos(a)*(radius-25), y2: cy + Math.sin(a)*(radius-25),
-          stroke: goldFaint, 'stroke-width': 1.5
-        }));
-      }
-      parent.appendChild(g);
-      return g;
     }
 
-    const gear1 = drawGear(mid, 0, 0, 220, 72);
-    const gear2 = drawGear(mid, 320, 0, 100, 36);
-    const gear3 = drawGear(mid, -180, 260, 140, 48);
+    ctx.restore();
+  });
 
-    // Top Layer: Tourbillon cage representation
-    const cage = el('g', {});
-    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 120, fill: 'none', stroke: gold, 'stroke-width': 2 }));
-    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 110, fill: 'none', stroke: goldDim, 'stroke-width': 1 }));
-    for(let i=0; i<3; i++) {
-      const a = (i / 3) * Math.PI * 2;
-      const bridge = el('path', {
-        d: `M 0 0 L ${Math.cos(a-0.1)*120} ${Math.sin(a-0.1)*120} A 120 120 0 0 1 ${Math.cos(a+0.1)*120} ${Math.sin(a+0.1)*120} Z`,
-        fill: 'none', stroke: gold, 'stroke-width': 1.5
-      });
-      cage.appendChild(bridge);
+  // Draw accent rings
+  accents.forEach(ac => {
+    let dz = ac.z - camZ;
+    while (dz < -200) dz += DEPTH;
+    while (dz > DEPTH) dz -= DEPTH;
+    if (dz < 60 || dz > 4000) return;
+
+    const a = alpha(dz) * 0.5;
+    if (a < 0.005) return;
+    const s = FOV / dz;
+    const pr = ac.radius * s;
+
+    const ox = CX + (ac.x + prlxX * 300) * s;
+    const oy = CY + (ac.y + prlxY * 300) * s;
+
+    ctx.save();
+    ctx.translate(ox, oy);
+    ctx.rotate(ac.rot + frame * ac.speed);
+    ctx.beginPath();
+    ctx.arc(0, 0, pr, 0, Math.PI * 2);
+    ctx.setLineDash([3 * s, 8 * s]);
+    ctx.strokeStyle = `rgba(205,127,50,${a * 0.25})`;
+    ctx.lineWidth = Math.max(0.2, s * 0.5);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  });
+
+  // Draw spirals
+  spirals.forEach(sp => {
+    let dz = sp.z - camZ;
+    while (dz < -200) dz += DEPTH;
+    while (dz > DEPTH) dz -= DEPTH;
+    if (dz < 80 || dz > 3500) return;
+
+    const a = alpha(dz) * 0.4;
+    if (a < 0.005) return;
+    const s = FOV / dz;
+    const ox = CX + (sp.x + prlxX * 400) * s;
+    const oy = CY + (sp.y + prlxY * 400) * s;
+
+    ctx.save();
+    ctx.translate(ox, oy);
+    ctx.rotate(sp.rot + frame * sp.speed);
+    ctx.beginPath();
+    const steps = sp.turns * 40;
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const ang = t * sp.turns * Math.PI * 2;
+      const r = t * sp.radius * s;
+      if (i === 0) ctx.moveTo(r, 0);
+      else ctx.lineTo(Math.cos(ang) * r, Math.sin(ang) * r);
     }
-    cage.appendChild(el('circle', { cx: 0, cy: 0, r: 12, fill: gold }));
-    topLayer.appendChild(cage);
+    ctx.strokeStyle = `rgba(205,127,50,${a * 0.35})`;
+    ctx.lineWidth = Math.max(0.2, s * 0.4);
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.restore();
+  });
 
-    // --- ANIMATIONS ---
-    gsap.registerPlugin(ScrollTrigger);
+  // Draw dust
+  const streak = Math.abs(velocity) * 8000;
+  dust.forEach(d => {
+    let dz = d.z - camZ;
+    while (dz < -200) dz += DEPTH;
+    while (dz > DEPTH) dz -= DEPTH;
+    if (dz < 60 || dz > 5000) return;
 
-    // Loader
-    const tlLoader = gsap.timeline();
-    tlLoader.to('.loader-text span', { y: 0, duration: 1.2, ease: 'expo.out', delay: 0.2 })
-            .to('.loader-text span', { y: '-100%', duration: 1, ease: 'expo.in', delay: 0.6 })
-            .to('.loader', { y: '-100%', duration: 1.4, ease: 'expo.inOut' }, '-=0.4')
-            .from('.hero-title', { y: '110%', duration: 1.8, ease: 'expo.out', stagger: 0.15 }, '-=0.6')
-            .from('.meta-text', { y: '110%', duration: 1.2, ease: 'expo.out', stagger: 0.1 }, '-=1.2');
+    const a = alpha(dz);
+    if (a < 0.01) return;
+    const s = FOV / dz;
+    const ox = CX + (d.x + prlxX * 500) * s;
+    const oy = CY + (d.y + prlxY * 500) * s;
 
-    // Mechanism Continuous Rotation
-    gsap.to(base, { rotation: 360, duration: 180, repeat: -1, ease: 'none', transformOrigin: 'center' });
-    gsap.to(gear1, { rotation: -360, duration: 90, repeat: -1, ease: 'none', transformOrigin: 'center' });
-    gsap.to(gear2, { rotation: 360 * (220/100), duration: 90, repeat: -1, ease: 'none', transformOrigin: '320px 0px' });
-    gsap.to(gear3, { rotation: 360 * (220/140), duration: 90, repeat: -1, ease: 'none', transformOrigin: '-180px 260px' });
-    gsap.to(cage, { rotation: 360, duration: 15, repeat: -1, ease: 'none', transformOrigin: 'center' });
+    if (streak > 3) {
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.lineTo(ox, oy + streak * s);
+      ctx.strokeStyle = `rgba(243,229,220,${a * d.bright * 0.2})`;
+      ctx.lineWidth = d.size * s * 0.4;
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.arc(ox, oy, d.size * s, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(243,229,220,${a * d.bright * 0.35})`;
+      ctx.fill();
+    }
+  });
 
-    // Mechanism Scroll Parallax & 3D Tilt
-    gsap.to('.mech-container', {
-      rotateX: 15,
-      rotateZ: 120,
-      z: -800,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: 'body',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1
-      }
-    });
+  requestAnimationFrame(render);
+}
+render();
 
-    // Mouse Parallax on Mechanism
-    document.addEventListener('mousemove', e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * 30;
-      gsap.to('.mech-wrapper', {
-        x: x, y: y,
-        duration: 2.5,
-        ease: 'power2.out'
-      });
-    });
+/* ══════════════════════════════════════════════════════
+   4. GSAP SCENE SYSTEM
+   ══════════════════════════════════════════════════════ */
+gsap.registerPlugin(ScrollTrigger);
 
-    // Scroll Text Reveals
-    document.querySelectorAll('.statement, .footer').forEach(sec => {
-      const texts = sec.querySelectorAll('.anim-text');
-      const fades = sec.querySelectorAll('.anim-text-fade');
-      
-      if(texts.length) {
-        gsap.from(texts, {
-          y: '110%',
-          duration: 1.8,
-          ease: 'expo.out',
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top 80%',
-          }
-        });
-      }
-      
-      if(fades.length) {
-        gsap.from(fades, {
-          opacity: 0,
-          y: 40,
-          duration: 1.8,
-          ease: 'expo.out',
-          stagger: 0.2,
-          delay: 0.4,
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top 80%',
-          }
-        });
-      }
-    });
-  </script>
+// Master ScrollTrigger for canvas + progress
+ScrollTrigger.create({
+  trigger: '#scroll-driver',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: self => {
+    scrollProg = self.progress;
+    document.querySelector('.progress').style.width = (self.progress * 100) + '%';
+    // Counter
+    const idx = Math.min(6, Math.floor(self.progress * 7));
+    document.querySelector('.counter-now').textContent = String(idx + 1).padStart(2, '0');
+    // Hide scroll hint
+    if (self.progress > 0.01) gsap.to('.scroll-hint', { opacity: 0, duration: 0.5, overwrite: true });
+  }
+});
+
+// Scene Z-axis timeline
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '#scroll-driver',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 1.5,
+  }
+});
+
+// S0: Hero (starts visible after loader, exits)
+tl.set('#s0', { z: 0, opacity: 1 }, 0);
+tl.to('#s0', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 1);
+
+// S1: 1283 - The Awakening
+tl.fromTo('#s1', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 1.2);
+tl.to('#s1', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 3);
+
+// S2: 1675 - The Spiral
+tl.fromTo('#s2', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 3.2);
+tl.to('#s2', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 5);
+
+// S3: 1801 - The Whirlwind
+tl.fromTo('#s3', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 5.2);
+tl.to('#s3', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 7);
+
+// S4: 28,800 - Heartbeat
+tl.fromTo('#s4', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 7.2);
+tl.to('#s4', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 9);
+
+// S5: Digital Caliber
+tl.fromTo('#s5', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 9.2);
+tl.to('#s5', { z: 1500, opacity: 0, duration: 0.8, ease: 'power2.in' }, 11);
+
+// S6: Commission (enters and stays)
+tl.fromTo('#s6', { z: -2000, opacity: 0 }, { z: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 11.2);
+
+/* ══════════════════════════════════════════════════════
+   5. LOADER + ENTRANCE
+   ══════════════════════════════════════════════════════ */
+addEventListener('load', () => {
+  const intro = gsap.timeline();
+
+  intro
+    .to('.loader-text', { opacity: 0.7, duration: 1, ease: 'power2.out' }, 0.3)
+    .to('.loader-ring', { strokeDashoffset: 0, duration: 2.5, ease: 'power2.inOut' }, 0)
+    .to('.loader-ring', { rotation: 360, duration: 2.5, ease: 'none', transformOrigin: 'center' }, 0)
+    .to('.loader svg', { scale: 0, opacity: 0, duration: 1.2, ease: 'power4.inOut' }, 2.8)
+    .to('.loader-text', { opacity: 0, y: -20, duration: 0.6 }, 2.8)
+    .to('.loader', { opacity: 0, duration: 1, ease: 'power2.inOut' }, 3.4)
+    .set('.loader', { display: 'none' })
+    // Hero entrance
+    .set('#s0', { z: 0, opacity: 0 }, 3.5)
+    .to('#s0', { opacity: 1, duration: 2.5, ease: 'power2.out' }, 3.5)
+    // UI elements
+    .to('.monogram', { opacity: 0.5, duration: 1.5 }, 4)
+    .to('.counter', { opacity: 0.7, duration: 1.5 }, 4.2)
+    .to('.scroll-hint', { opacity: 1, duration: 2 }, 5)
+    .to('.tick', { opacity: 0.5, scale: 1.5, duration: 0.12, repeat: -1, yoyo: true, repeatDelay: 0.38, ease: 'power1.inOut' }, 5);
+});
+</script>
 </body>
 </html>

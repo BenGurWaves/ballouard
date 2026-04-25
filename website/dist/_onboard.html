@@ -320,6 +320,20 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--brass);cursor:poi
         <label class="field-label" for="additionalNotes">Additional Notes</label>
         <textarea id="additionalNotes" rows="5" placeholder="Anything else we should know. Leave blank if you&rsquo;ve covered everything."></textarea>
       </div>
+      <div class="field" style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)">
+        <label class="field-label">Showcase Permission</label>
+        <p style="font-size:.75rem;color:var(--dim);line-height:1.7;margin-bottom:1rem">Would you like us to feature your website in our portfolio and as a case study? This helps other businesses discover our work.</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <label class="check-row"><input type="radio" name="showcaseChoice" id="showcaseYes" value="yes" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>Yes &mdash; feature my website as one of your works</span></label>
+          <label class="check-row"><input type="radio" name="showcaseChoice" id="showcaseLater" value="later" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>I&rsquo;ll decide later &mdash; ask me again after the project is complete</span></label>
+          <label class="check-row"><input type="radio" name="showcaseChoice" id="showcaseNo" value="no" style="accent-color:var(--brass);width:14px;height:14px;flex-shrink:0;margin-top:2px"><span>No &mdash; keep my website private</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)">
+        <label class="field-label">Portfolio Permission</label>
+        <p style="font-size:.75rem;color:var(--dim);line-height:1.7;margin-bottom:1rem">May we display your website as a live preview in our portfolio? This helps potential clients see our work in action. You can change this later.</p>
+        <label class="check-row"><input type="checkbox" id="portfolioPerm" checked><span>Yes &mdash; you may show my website as a portfolio preview</span></label>
+      </div>
       <div class="nav-btns">
         <button class="btn-back" id="back6">&larr; Back</button>
         <button class="btn-submit" id="submitBtn" style="width:100%">Submit Brief</button>
@@ -447,6 +461,14 @@ function prefill(d) {
   if(p4.starting_point){document.getElementById('startingPoint').value=p4.starting_point;if(p4.starting_point==='existing')document.getElementById('existingUrlField').style.display='';}
   if(p4.due_date)document.getElementById('dueDate').value=p4.due_date;
   if(p5.additional_notes)document.getElementById('additionalNotes').value=p5.additional_notes;
+  if(d.showcase_permission){
+    const radio=document.querySelector('input[name="showcaseChoice"][value="'+d.showcase_permission+'"]');
+    if(radio)radio.checked=true;
+  }
+  if(d.portfolio_permission!==undefined){
+    const cb=document.getElementById('portfolioPerm');
+    if(cb)cb.checked=d.portfolio_permission;
+  }
 }
 function sv(id,val){ if(val){const el=document.getElementById(id);if(el)el.value=val;} }
 
@@ -547,6 +569,8 @@ function collect(){
   const inspiration=[]; // Phase 3 doesn't exist in current form
   const anti=document.getElementById('antiList')?[...document.querySelectorAll('#antiList .url-block')].map(b=>({url:b.querySelector('.ub-url').value.trim(),notes:b.querySelector('.ub-notes').value.trim()})).filter(b=>b.url):[];
   const sp=getVal('startingPoint');
+  const showcaseSel=document.querySelector('input[name="showcaseChoice"]:checked');
+  const showcaseChoice=showcaseSel?showcaseSel.value:'later';
   return {
     phase1:{
       full_name:getVal('fullName'),
@@ -571,7 +595,9 @@ function collect(){
     phase2:{inspiration,anti_inspiration:anti,target_customer:getVal('targetCustomer'),site_vibe:getVal('siteVibe'),site_pages:getVal('sitePages')},
     phase3:{color_background:getVal('colorBg'),color_secondary:getVal('colorSec'),color_accent:getVal('colorAcc'),colors_extra:getVal('colorsExtra'),fonts:getVal('fonts'),upgrade_permission:getChecked('upgradePerm')},
     phase4:{mottos:getVal('mottos'),copyright:getVal('copyright'),assets_links:getVal('assetsLinks'),starting_point:sp,existing_url:sp==='existing'?getVal('existingUrl'):'',due_date:getVal('dueDate')},
-    phase5:{additional_notes:getVal('additionalNotes')}
+    phase5:{additional_notes:getVal('additionalNotes')},
+    showcase_permission:showcaseChoice,
+    portfolio_permission:getChecked('portfolioPerm')
   };
 }
 async function submit(){
@@ -602,6 +628,8 @@ async function submit(){
         upgrade_permission:data.phase3.upgrade_permission,
         domain_choice:domChoice||null,
         domain_name:domName||null,
+        showcase_permission:data.showcase_permission||'later',
+        portfolio_permission:data.portfolio_permission,
         terms_accepted:true,
         terms_accepted_at:new Date().toISOString(),
       })});

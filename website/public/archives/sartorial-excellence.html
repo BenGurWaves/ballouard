@@ -17,7 +17,9 @@
 </head>
 <body>
 
+<div id="aurora"></div>
 <div class="grain"></div>
+<div class="reticle"></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="cursor-dot" id="cursorDot"></div>
@@ -51,6 +53,10 @@
 <!-- ═══ CONVICTION ═══ -->
 <section class="conviction" id="conviction">
   <div class="conviction-wrap" id="convictionWrap">
+    <div style="width: 100vw; pointer-events: auto;" class="cta-container">
+      <h1 id="split-cta" style="font-size: 7vw; text-shadow: 0 0 80px rgba(226, 223, 216, 0.3);">COMMISSION YOUR LEGACY</h1>
+      <a href="mailto:sartorial@calyvent.com" class="email-link">sartorial@calyvent.com</a>
+    </div>
     <div class="conviction-inner">
       <div class="conviction-grid">
         <div>
@@ -167,6 +173,34 @@ function boot(){
   gsap.ticker.add(t=>lenis.raf(t*1000));
   gsap.ticker.lagSmoothing(0);
 
+  // Ambient Animations & Post-Processing
+  gsap.to('.particle', { opacity: 'random(0.02, 0.5)', scale: 'random(0.8, 1.2)', duration: 'random(4, 10)', ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { amount: 5, from: "random" } });
+  gsap.to('.dust', { opacity: 'random(0.1, 0.8)', duration: 'random(2, 5)', ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { amount: 5, from: "random" } });
+  gsap.to('.ring', { rotationZ: 360, rotationX: '+=10', rotationY: '+=10', duration: 30, ease: 'none', repeat: -1 });
+  gsap.to('.cta-orbit', { rotationX: 'random(-30, 30)', rotationY: 'random(-30, 30)', rotationZ: -360, duration: 15, ease: 'none', repeat: -1 });
+  gsap.to('.cta-container', { y: -20, duration: 4, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+  gsap.to('#aurora', { rotation: 360, duration: 40, ease: 'none', repeat: -1 });
+
+  // CTA Text Splitting Logic
+  const cta = document.getElementById('split-cta');
+  const ctaText = cta.innerText;
+  cta.innerHTML = '';
+  ctaText.split('').forEach(char => {
+    let span = document.createElement('span');
+    span.innerText = char === ' ' ? '\u00A0' : char;
+    span.style.display = 'inline-block';
+    cta.appendChild(span);
+  });
+  gsap.to('#split-cta span', {
+    z: 'random(-30, 30)', rotationY: 'random(-10, 10)', opacity: 'random(0.6, 1)',
+    duration: 'random(2, 4)', yoyo: true, repeat: -1, ease: 'sine.inOut'
+  });
+
+  // Kinetic Scroll Velocity Skew for 2D Marquees
+  let proxy = { skew: 0 };
+  let skewSetter = gsap.quickSetter(".marquee-text", "skewX", "deg");
+  let clamp = gsap.utils.clamp(-25, 25);
+
   gsap.to('#scrollProgress',{scaleX:1,ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
 
   /* ═══ HERO ═══ */
@@ -180,50 +214,56 @@ function boot(){
   gsap.from('.hero-sub',{opacity:0,y:25,duration:1.3,ease:'expo.out',delay:.8});
 
   const heroTL=gsap.timeline({scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1.5}});
-  /* Level 1: fly past */
   heroTL.to('#heroL1',{scale:14,opacity:0,duration:.35,ease:'power2.in'},0);
   chars.forEach((c,i)=>{heroTL.to(c,{x:(i-text.length/2)*50,y:(i%2?-1:1)*30,duration:.28},0)});
   heroTL.to(dot,{rotation:1440,scale:5,duration:.35},0);
-  /* Level 2: phrases converge */
   heroTL.to('#heroL2',{opacity:1,duration:.08},0.28);
   document.querySelectorAll('.hero-phrase').forEach((p,i)=>{
     const fx=+p.dataset.finalX,fy=+p.dataset.finalY,sx=+p.dataset.startX,sy=+p.dataset.startY;
     gsap.set(p,{left:sx+'%',top:sy+'%',xPercent:-50,yPercent:-50,scale:.2,opacity:0,filter:'blur(8px)'});
     heroTL.to(p,{left:fx+'%',top:fy+'%',scale:1,opacity:1,filter:'blur(0px)',duration:.18,ease:'expo.out'},0.30+i*.03);
   });
-  /* Level 2: fly past */
   heroTL.to('#heroL2',{scale:12,opacity:0,duration:.20,ease:'power2.in'},0.68);
-  /* Portal */
   heroTL.fromTo('#heroPortal',{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(85% at 50% 50%)',duration:.18,ease:'power2.inOut'},0.82);
 
-  /* ═══ CONVICTION — pinned at center, zoom in→hold→zoom out ═══ */
+  /* ═══ CONVICTION ═══ */
   const convWrap=document.getElementById('convictionWrap');
-  /* Starts at 88% with rounded corners (set in CSS) */
   const convTL=gsap.timeline({scrollTrigger:{
     trigger:'#conviction',start:'center center',end:'+=250%',pin:true,scrub:1.5
   }});
   convTL.to(convWrap,{scale:1,borderRadius:'0px',duration:.2,ease:'power2.inOut'},0);
-  /* Counters animate during middle */
   document.querySelectorAll('.conviction-stat-num').forEach(el=>{
     const target=parseInt(el.dataset.count);
     convTL.to(el,{innerText:target,snap:{innerText:1},duration:.35,ease:'power2.out'},0.25);
   });
   convTL.from('.conviction-heading',{opacity:0,y:40,duration:.15,ease:'expo.out'},0.05);
-  /* Zoom back out */
   convTL.to(convWrap,{scale:.88,borderRadius:'20px',duration:.2,ease:'power2.inOut'},0.75);
 
   /* ═══ PHILOSOPHY — horizontal scroll, slower ═══ */
   ScrollTrigger.matchMedia({
     '(min-width:769px)':function(){
       const track=document.getElementById('philTrack');
+      /* 3D Scene Setup */
+      const style = document.createElement('style');
+      style.textContent = `
+        #viewport {
+          --p: 1000px;
+          position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+          perspective: var(--p); overflow: hidden; pointer-events: none; z-index: 10;
+        }
+        #aurora {
+          position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+          background: radial-gradient(circle at 30% 50%, rgba(196, 156, 123, 0.08), transparent 50%),
+                      radial-gradient(circle at 70% 50%, rgba(226, 223, 216, 0.03), transparent 50%);
+          z-index: 1; pointer-events: none; filter: blur(40px);
+        }`;
+      document.head.appendChild(style);
       if(!track)return;
       const total=track.scrollWidth-window.innerWidth+120;
-      /* 1.8x scroll distance = slower pace */
       gsap.to(track,{x:-total,ease:'none',scrollTrigger:{
         trigger:'.philosophy',start:'top top',end:()=>'+='+(total*1.8),
         pin:true,scrub:2,anticipatePin:1,invalidateOnRefresh:true
       }});
-      /* Stagger card entrance */
       gsap.from('.phil-card',{opacity:0,y:80,scale:.88,duration:1.2,ease:'expo.out',stagger:.25,scrollTrigger:{trigger:'.philosophy',start:'top 60%'}});
       /* Separators fade in */
       gsap.from('.phil-sep',{opacity:0,scaleY:0,duration:1,ease:'expo.out',stagger:.2,scrollTrigger:{trigger:'.philosophy',start:'top 50%'}});

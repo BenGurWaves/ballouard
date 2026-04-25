@@ -118,6 +118,12 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
 .toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--bg2);border:1px solid var(--bord2);padding:.65rem 1.1rem;font-size:.68rem;letter-spacing:.06em;z-index:9999;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none}
 .toast.show{opacity:1;transform:translateY(0)}
 .empty{text-align:center;padding:4rem 2rem;color:var(--dim);font-size:.75rem;letter-spacing:.06em}
+.chat-messages{display:flex;flex-direction:column;gap:.5rem}
+.chat-msg{max-width:85%;padding:.5rem .75rem;font-size:.72rem;line-height:1.6}
+.chat-msg.admin{background:rgba(196,156,123,.1);border:1px solid rgba(196,156,123,.15);align-self:flex-end;border-radius:4px 0 0 4px}
+.chat-msg.client{background:rgba(222,200,181,.05);border:1px solid var(--border);align-self:flex-start;border-radius:0 4px 4px 0}
+.chat-msg-time{font-size:.5rem;color:var(--dim);margin-top:.25rem}
+.chat-input{width:auto!important}
 </style>
 </head>
 <body>
@@ -180,6 +186,10 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
       <div class="murl" id="mUrl"></div>
       <button class="clink" style="margin-top:.7rem" id="mCopy">Copy Link</button>
     </div>
+    <div class="mresult" id="mError" style="background:rgba(192,128,128,.06);border-color:rgba(192,128,128,.2)">
+      <div style="font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:#c08080">Error</div>
+      <div class="murl" id="mErrorText" style="color:#c08080"></div>
+    </div>
   </div>
 </div>
 
@@ -187,30 +197,46 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:in
 
 <script>
 const SL={outreach:'Outreach',responded:'Responded',onboarding_sent:'Onboarding Sent',pending:'Onboarding Complete',scope_sent:'Scope Sent',accepted:'Scope Signed',paid:'Paid',in_progress:'In Progress',completed:'Delivered',declined:'Declined',archived:'Archived'};
-const SB={pending:'bp',accepted:'ba',in_progress:'bi',declined:'bd',completed:'bc'};
+const SB={outreach:'bp',responded:'bp',onboarding_sent:'bp',pending:'bp',scope_sent:'bp',accepted:'ba',paid:'bpaid',in_progress:'bi',completed:'bc',declined:'bd',archived:'bl'};
 let SEC='',LEADS=[],FILTER='',SORT='due_date';
 
 document.getElementById('secretInput').onkeydown=e=>{if(e.key==='Enter')document.getElementById('authBtn').click();};document.getElementById('togglePw').onclick=function(){var i=document.getElementById('secretInput');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='text'?'Hide':'Show';};
 document.getElementById('authBtn').onclick=async()=>{
   const s=document.getElementById('secretInput').value.trim();if(!s)return;
-  const r=await fetch('/api/leads/list',{headers:{'X-Admin-Secret':s}});
-  if(r.status===401){document.getElementById('authErr').classList.add('show');return;}
-  SEC=s;sessionStorage.setItem('v_admin',s);
-  document.getElementById('authGate').style.display='none';
-  document.getElementById('app').style.display='';
-  LEADS=await r.json();renderStats();renderLeads();
+  try{
+    const r=await fetch('/api/leads/list',{headers:{'X-Admin-Secret':s}});
+    if(r.status===401){document.getElementById('authErr').classList.add('show');return;}
+    if(!r.ok){toast('Server error: '+r.status);return;}
+    SEC=s;sessionStorage.setItem('v_admin',s);
+    document.getElementById('authGate').style.display='none';
+    document.getElementById('app').style.display='';
+    LEADS=await r.json();renderStats();renderLeads();
+  }catch(e){
+    console.error('Auth error:',e);
+    toast('Connection error');
+  }
 };
 document.getElementById('btnRefresh').onclick=async()=>{const b=document.getElementById('btnRefresh');b.textContent='...';await reload();b.innerHTML='&#8635;&nbsp;Refresh';toast('Refreshed');};document.getElementById('btnLogout').onclick=()=>{sessionStorage.removeItem('v_admin');location.reload();};
 const saved=sessionStorage.getItem('v_admin');
-if(saved){document.getElementById('secretInput').value=saved;document.getElementById('authBtn').click();}
+if(saved){
+  document.getElementById('secretInput').value=saved;
+  // Small delay to ensure DOM is ready
+  setTimeout(()=>document.getElementById('authBtn').click(),100);
+}
 
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));b.classList.add('active');FILTER=b.dataset.filter;renderLeads();});
 document.getElementById('sDue').onclick=()=>{SORT='due_date';document.getElementById('sDue').classList.add('active');document.getElementById('sNew').classList.remove('active');renderLeads();};
 document.getElementById('sNew').onclick=()=>{SORT='created_at';document.getElementById('sNew').classList.add('active');document.getElementById('sDue').classList.remove('active');renderLeads();};
 
 async function reload(){
-  const r=await fetch('/api/leads/list?sort='+SORT,{headers:{'X-Admin-Secret':SEC}});
-  LEADS=await r.json();renderStats();renderLeads();
+  try{
+    const r=await fetch('/api/leads/list?sort='+SORT,{headers:{'X-Admin-Secret':SEC}});
+    if(!r.ok){toast('Failed to load leads: '+r.status);return;}
+    LEADS=await r.json();renderStats();renderLeads();
+  }catch(e){
+    console.error('Reload error:',e);
+    toast('Error loading leads');
+  }
 }
 
 function renderStats(){
@@ -220,12 +246,13 @@ function renderStats(){
 }
 
 function renderLeads(){
-  let fl=LEADS.filter(l=>FILTER?l.status===FILTER:l.status!=='declined');
-  if(SORT==='created_at')fl.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  else fl.sort((a,b)=>{if(!a.due_date&&!b.due_date)return 0;if(!a.due_date)return 1;if(!b.due_date)return-1;return new Date(a.due_date)-new Date(b.due_date);});
-  if(!fl.length){document.getElementById('leads').innerHTML='<div class="empty">No leads found.</div>';return;}
-  document.getElementById('leads').innerHTML=fl.map(l=>buildCard(l)).join('');
-  fl.forEach(l=>{
+  try{
+    let fl=LEADS.filter(l=>FILTER?l.status===FILTER:l.status!=='declined');
+    if(SORT==='created_at')fl.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    else fl.sort((a,b)=>{if(!a.due_date&&!b.due_date)return 0;if(!a.due_date)return 1;if(!b.due_date)return-1;return new Date(a.due_date)-new Date(b.due_date);});
+    if(!fl.length){document.getElementById('leads').innerHTML='<div class="empty">No leads found.</div>';return;}
+    document.getElementById('leads').innerHTML=fl.map(l=>buildCard(l)).join('');
+    fl.forEach(l=>{
     const card=document.getElementById('c-'+l.id);
     card.querySelector('.card-hdr').onclick=()=>document.getElementById('d-'+l.id).classList.toggle('open');
     document.getElementById('d-'+l.id).addEventListener('click',e=>e.stopPropagation());
@@ -282,7 +309,39 @@ function renderLeads(){
       };
       confirm2.querySelector('.conf-no2').onclick=e=>{e.stopPropagation();confirm2.style.display='none';};
     }
+    // Chat
+    loadChat(l.id,l.token);
+    const chatSendBtn=card.querySelector('#chatSend-'+l.id);
+    const chatInput=card.querySelector('#chatIn-'+l.id);
+    if(chatSendBtn&&chatInput){
+      chatSendBtn.onclick=async()=>{
+        const msg=chatInput.value.trim();
+        if(!msg)return;
+        chatSendBtn.disabled=true;
+        chatSendBtn.textContent='Sending...';
+        try{
+          const r=await fetch('/api/messages/'+l.token,{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({message:msg})});
+          if(r.ok){
+            chatInput.value='';
+            await loadChat(l.id,l.token);
+          }else{
+            toast('Failed to send message');
+          }
+        }catch(_){
+          toast('Network error');
+        }
+        chatSendBtn.disabled=false;
+        chatSendBtn.textContent='Send';
+      };
+      chatInput.addEventListener('keydown',e=>{
+        if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();chatSendBtn.click();}
+      });
+    }
   });
+  }catch(e){
+    console.error('Render leads error:',e);
+    document.getElementById('leads').innerHTML='<div class="empty">Error loading leads. Check console.</div>';
+  }
 }
 
 function buildCard(l){
@@ -338,6 +397,7 @@ function buildCard(l){
           ${dr('Existing URL',p4.existing_url)}
           ${dr('Assets',p4.assets_links)}
           ${dr('Domain',l.domain_choice==='velocity_provides'?'Velocity registers'+(l.domain_name?' — '+l.domain_name:''):(l.domain_choice||''))}
+          ${dr('Showcase',l.showcase_permission==='yes'?'✓ Yes — portfolio':(l.showcase_permission==='no'?'✗ No — private':'⏳ Decide later'))}
         </div>
         ${insp?`<div class="dsec"><div class="dlabel">Inspiration</div>${insp}</div>`:''}
         ${anti?`<div class="dsec"><div class="dlabel">Anti-Inspiration</div>${anti}</div>`:''}
@@ -386,13 +446,26 @@ function buildCard(l){
       <!-- Scope document -->
       <div class="cg" style="flex-basis:100%"><span class="clabel">Scope Document</span><textarea class="ctextarea scope-text" rows="8" placeholder="Describe the exact scope: pages, features, deliverables, timeline, revisions included. Client will sign this before paying." style="width:100%;min-width:320px">${esc(l.scope_text||'')}</textarea></div>
       <button class="cbtn send-scope" style="align-self:flex-end">${l.scope_sent_at?'Resend Scope':'Send Scope to Client'}</button>
-      ${l.scope_accepted?'<span style=""font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#8fc98f"">&#10003; Scope Accepted</span>':''}
+      ${l.scope_accepted?'<span style="font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#8fc98f">&#10003; Scope Accepted</span>':''}
+
+      <!-- Chat -->
+      <div class="cg" style="flex-basis:100%;margin-top:1rem">
+        <span class="clabel">Messages</span>
+        <div class="chat-messages" id="chatMsgs-${l.id}" style="max-height:200px;overflow-y:auto;margin-bottom:.75rem;padding:.25rem 0">
+          <div style="font-size:.68rem;color:var(--dim);padding:1rem 0;text-align:center">Loading messages…</div>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <input class="cinput chat-input" id="chatIn-${l.id}" placeholder="Type a message…" style="flex:1;width:auto">
+          <button class="cbtn chat-send" id="chatSend-${l.id}">Send</button>
+        </div>
+      </div>
 
       <!-- Action links -->
       <div style="display:flex;flex-wrap:wrap;gap:.65rem;align-self:flex-end">
         <button class="clink view-btn">View Full Brief</button>
         <button class="clink" data-copy="${base}/onboard/${l.token}">Copy Onboard</button>
         <button class="clink" data-copy="${base}/dashboard/${l.token}">Copy Dashboard</button>
+        <button class="clink" data-copy="${base}/scope/${l.token}">Copy Scope Link</button>
         <button class="cbtn cbtn-red del-btn">Delete</button>
       </div>
     </div>
@@ -423,7 +496,7 @@ async function aupd(token,patch){
 }
 
 // New Lead Modal
-function closeModal(){document.getElementById('overlay').classList.remove('open');document.getElementById('mResult').classList.remove('show');document.getElementById('mEmail').value='';document.getElementById('mName').value='';}
+function closeModal(){document.getElementById('overlay').classList.remove('open');document.getElementById('mResult').classList.remove('show');document.getElementById('mError').classList.remove('show');document.getElementById('mEmail').value='';document.getElementById('mName').value='';}
 document.getElementById('btnNew').onclick=()=>document.getElementById('overlay').classList.add('open');
 document.getElementById('mCancel').onclick=closeModal;
 document.getElementById('mClose').onclick=closeModal;
@@ -433,10 +506,28 @@ document.getElementById('mSubmit').onclick=async()=>{
   const btn=document.getElementById('mSubmit');btn.disabled=true;btn.textContent='Generating\u2026';
   const r=await fetch('/api/leads/create',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({client_email:email||null,client_name:document.getElementById('mName').value.trim()||null})});
   const d=await r.json();btn.disabled=false;btn.textContent='Generate Link \u2192';
-  if(d.onboard_url){document.getElementById('mUrl').textContent=d.onboard_url;document.getElementById('mResult').classList.add('show');document.getElementById('mCopy').onclick=()=>{navigator.clipboard.writeText(d.onboard_url);toast('Copied');};await reload();}
+  if(d.onboard_url){document.getElementById('mUrl').textContent=d.onboard_url;document.getElementById('mResult').classList.add('show');document.getElementById('mError').classList.remove('show');document.getElementById('mCopy').onclick=()=>{navigator.clipboard.writeText(d.onboard_url);toast('Copied');};await reload();}
+  else{document.getElementById('mErrorText').textContent=d.error||d.message||'Failed to create lead.';document.getElementById('mError').classList.add('show');document.getElementById('mResult').classList.remove('show');toast('Error: '+(d.error||d.message||'Failed'));}
 };
 
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
+async function loadChat(cardId,token){
+  const el=document.getElementById('chatMsgs-'+cardId);
+  if(!el)return;
+  try{
+    const r=await fetch('/api/messages/'+token);
+    if(!r.ok)return;
+    const msgs=await r.json();
+    if(!msgs.length){el.innerHTML='<div style="font-size:.68rem;color:var(--dim);padding:1rem 0;text-align:center">No messages yet.</div>';return;}
+    el.innerHTML=msgs.map(m=>{
+      const who=m.sender==='admin'?'You':'Client';
+      const time=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div class="chat-msg '+m.sender+'"><div>'+esc(m.body)+'</div><div class="chat-msg-time">'+who+' · '+time+'</div></div>';
+    }).join('');
+    el.scrollTop=el.scrollHeight;
+    await fetch('/api/messages/'+token,{method:'PATCH',headers:{'Content-Type':'application/json','X-Admin-Secret':SEC},body:JSON.stringify({reader:'admin'})}).catch(()=>{});
+  }catch(_){}
+}
 </script>
 </body>
 </html>

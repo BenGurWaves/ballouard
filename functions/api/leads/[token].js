@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
   if (!token) return errRes('Token required', 400);
 
   let rows;
-  try { rows = await sb.select('velocity_leads', `token=eq.${token}&select=id,token,status,full_data,submitted_at,first_submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at,admin_comment,site_link,domain_choice,domain_name,email_verified`); } catch (_) { return errRes('Service unavailable', 503); }
+  try { rows = await sb.select('velocity_leads', `token=eq.${token}&select=id,token,status,full_data,submitted_at,first_submitted_at,is_locked,quote_amount,is_paid,upgrade_permission,due_date,client_name,client_email,created_at,admin_comment,site_link,domain_choice,domain_name,email_verified,scope_sent_at,scope_accepted,scope_accepted_at,scope_text`); } catch (_) { return errRes('Service unavailable', 503); }
   if (!rows.length) return errRes('Not found', 404);
 
   const lead = rows[0];
