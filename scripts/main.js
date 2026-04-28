@@ -21,6 +21,147 @@ const MAX_SCROLL_IMPACT = 0.15;
 const SCROLL_SMOOTHING = 0.1;
 
 // ========================================
+// Lenis Smooth Scroll
+// ========================================
+
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+});
+
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
+// ========================================
+// Custom Cursor
+// ========================================
+
+const cursor = document.querySelector('.cursor');
+const cursorRing = document.querySelector('.cursor__ring');
+const cursorDot = document.querySelector('.cursor__dot');
+
+let cursorX = 0;
+let cursorY = 0;
+let ringX = 0;
+let ringY = 0;
+
+if (cursor && !window.matchMedia('(pointer: coarse)').matches) {
+    document.addEventListener('mousemove', (e) => {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+    });
+    
+    function updateCursor() {
+        ringX += (cursorX - ringX) * 0.15;
+        ringY += (cursorY - ringY) * 0.15;
+        
+        cursorDot.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+        cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        
+        requestAnimationFrame(updateCursor);
+    }
+    
+    updateCursor();
+    
+    // Hover states for interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .masonry__item, .nav__link');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('is-hovering');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('is-hovering');
+        });
+    });
+}
+
+// ========================================
+// Cursor Parallax Effects
+// ========================================
+
+let mouseX = 0;
+let mouseY = 0;
+let currentX = 0;
+let currentY = 0;
+
+if (!window.matchMedia('(pointer: coarse)').matches) {
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+    
+    function updateCursorParallax() {
+        currentX += (mouseX - currentX) * 0.05;
+        currentY += (mouseY - currentY) * 0.05;
+        
+        document.querySelectorAll('[data-cursor-parallax]').forEach(el => {
+            const intensity = parseFloat(el.dataset.cursorParallax) || 0.03;
+            gsap.set(el, {
+                x: currentX * 100 * intensity,
+                y: currentY * 100 * intensity
+            });
+        });
+        
+        requestAnimationFrame(updateCursorParallax);
+    }
+    
+    updateCursorParallax();
+}
+
+// ========================================
+// Modal Functionality
+// ========================================
+
+const modal = document.getElementById('prototype-modal');
+const modalCloseBtns = document.querySelectorAll('[data-modal-close], .modal__close');
+const modalTriggers = document.querySelectorAll('[data-modal="prototype"]');
+
+function openModal() {
+    modal.classList.add('is-active');
+    lenis.stop();
+}
+
+function closeModal() {
+    modal.classList.remove('is-active');
+    lenis.start();
+}
+
+modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
+});
+
+modalCloseBtns.forEach(btn => {
+    btn.addEventListener('click', closeModal);
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.classList.contains('modal__backdrop')) {
+        closeModal();
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+        closeModal();
+    }
+});
+
+// ========================================
 // Loading Sequence
 // ========================================
 
@@ -119,10 +260,9 @@ document.querySelectorAll('.nav__link').forEach(link => {
         e.preventDefault();
         const target = document.querySelector(link.getAttribute('href'));
         
-        gsap.to(window, {
+        lenis.scrollTo(target, {
             duration: 2,
-            scrollTo: { y: target, offsetY: 0 },
-            ease: EASE_LUXURY
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
         });
         
         nav.classList.remove('is-open');
@@ -141,7 +281,7 @@ function initScrollAnimations() {
     const markers = document.querySelectorAll('.progress__marker');
     
     ScrollTrigger.create({
-        trigger: '.canvas',
+        trigger: '#smooth-content',
         start: 'top top',
         end: 'bottom bottom',
         onUpdate: (self) => {
@@ -191,15 +331,17 @@ function initScrollAnimations() {
         opacity: 0
     });
     
-    // Decorative line reveal
-    gsap.from('.manifesto__text::before', {
+    // Button reveal
+    gsap.from('.section--manifesto .btn', {
         scrollTrigger: {
             trigger: manifestoSection,
             start: 'top 50%',
-            scrub: 1
+            toggleActions: 'play none none reverse'
         },
-        scaleX: 0,
-        transformOrigin: 'left'
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        ease: EASE_LUXURY
     });
     
     // Corner glyph with subtle rotation tied to scroll
@@ -227,7 +369,91 @@ function initScrollAnimations() {
     });
     
     // ========================================
-    // Section II: Collection Animations
+    // Section II: Philosophy Animations
+    // ========================================
+    
+    const philosophySection = document.querySelector('.section--philosophy');
+    
+    // Visual rings animation
+    gsap.from('.visual__ring--outer', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: DURATION_SLOW,
+        ease: EASE_LUXURY
+    });
+    
+    gsap.from('.visual__ring--inner', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 65%',
+            toggleActions: 'play none none reverse'
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: DURATION_SLOW,
+        ease: EASE_LUXURY
+    });
+    
+    gsap.from('.visual__glyph', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse'
+        },
+        scale: 0.5,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        ease: EASE_LUXURY
+    });
+    
+    // Title reveal
+    gsap.from('.section--philosophy .title__line', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 80,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_LUXURY
+    });
+    
+    // Body text fade
+    gsap.from('.section--philosophy .text--body', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 50%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 40,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_HEAVY
+    });
+    
+    // Button reveal
+    gsap.from('.section--philosophy .btn', {
+        scrollTrigger: {
+            trigger: philosophySection,
+            start: 'top 40%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MICRO,
+        ease: EASE_LUXURY
+    });
+    
+    // ========================================
+    // Section III: Collection Animations
     // ========================================
     
     const collectionSection = document.querySelector('.section--collection');
@@ -283,86 +509,202 @@ function initScrollAnimations() {
     });
     
     // ========================================
-    // Section III: Craft Animations
+    // Section IV: Mastery Animations
     // ========================================
     
-    const craftSection = document.querySelector('.section--craft');
+    const masterySection = document.querySelector('.section--mastery');
     
-    // Visual layers parallax depth
-    gsap.to('.visual__layer--back', {
+    // Architectural numbers reveal
+    gsap.from('.number__architectural', {
         scrollTrigger: {
-            trigger: craftSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: -40
-    });
-    
-    gsap.to('.visual__layer--mid', {
-        scrollTrigger: {
-            trigger: craftSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5
-        },
-        y: -80
-    });
-    
-    gsap.to('.visual__layer--front', {
-        scrollTrigger: {
-            trigger: craftSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 2
-        },
-        y: -120
-    });
-    
-    // Title reveal
-    gsap.from('.section--craft .title__line', {
-        scrollTrigger: {
-            trigger: craftSection,
+            trigger: masterySection,
             start: 'top 70%',
             toggleActions: 'play none none reverse'
         },
-        y: 100,
-        opacity: 0,
-        duration: DURATION_MEDIUM,
-        stagger: STAGGER_DELAY * 1.5,
-        ease: EASE_LUXURY
-    });
-    
-    // Body text fade
-    gsap.from('.section--craft .text--body', {
-        scrollTrigger: {
-            trigger: craftSection,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 40,
-        opacity: 0,
-        duration: DURATION_MEDIUM,
-        delay: 0.4,
-        ease: EASE_HEAVY
-    });
-    
-    // Metrics stagger
-    gsap.from('.metric', {
-        scrollTrigger: {
-            trigger: craftSection,
-            start: 'top 50%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 30,
+        y: 60,
         opacity: 0,
         duration: DURATION_MEDIUM,
         stagger: STAGGER_DELAY * 2,
         ease: EASE_LUXURY
     });
     
+    // Title reveal
+    gsap.from('.section--mastery .title__line', {
+        scrollTrigger: {
+            trigger: masterySection,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 80,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_LUXURY
+    });
+    
+    // Body text fade
+    gsap.from('.section--mastery .text--body', {
+        scrollTrigger: {
+            trigger: masterySection,
+            start: 'top 50%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 40,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_HEAVY
+    });
+    
+    // Timeline reveal
+    gsap.from('.mastery__timeline', {
+        scrollTrigger: {
+            trigger: masterySection,
+            start: 'top 40%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        ease: EASE_LUXURY
+    });
+    
+    // Button reveal
+    gsap.from('.section--mastery .btn', {
+        scrollTrigger: {
+            trigger: masterySection,
+            start: 'top 30%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MICRO,
+        ease: EASE_LUXURY
+    });
+    
     // ========================================
-    // Section IV: Contact Animations
+    // Section V: Archive Animations
+    // ========================================
+    
+    const archiveSection = document.querySelector('.section--archive');
+    
+    // Header reveal
+    gsap.from('.archive__header', {
+        scrollTrigger: {
+            trigger: archiveSection,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+        },
+        x: -40,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        ease: EASE_LUXURY
+    });
+    
+    // Title reveal
+    gsap.from('.section--archive .title__line', {
+        scrollTrigger: {
+            trigger: archiveSection,
+            start: 'top 65%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_LUXURY
+    });
+    
+    // Masonry grid stagger
+    gsap.from('.masonry__item', {
+        scrollTrigger: {
+            trigger: archiveSection,
+            start: 'top 50%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 40,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY * 1.5,
+        ease: EASE_LUXURY
+    });
+    
+    // Archive button reveal
+    gsap.from('.btn--archive', {
+        scrollTrigger: {
+            trigger: archiveSection,
+            start: 'top 30%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MICRO,
+        ease: EASE_LUXURY
+    });
+    
+    // ========================================
+    // Section VI: Technical Animations
+    // ========================================
+    
+    const technicalSection = document.querySelector('.section--technical');
+    
+    // Visuals grid reveal
+    gsap.from('.tech__image', {
+        scrollTrigger: {
+            trigger: technicalSection,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_LUXURY
+    });
+    
+    // Title reveal
+    gsap.from('.section--technical .title__line', {
+        scrollTrigger: {
+            trigger: technicalSection,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        stagger: STAGGER_DELAY,
+        ease: EASE_LUXURY
+    });
+    
+    // Specs reveal
+    gsap.from('.spec__row', {
+        scrollTrigger: {
+            trigger: technicalSection,
+            start: 'top 50%',
+            toggleActions: 'play none none reverse'
+        },
+        x: 30,
+        opacity: 0,
+        duration: DURATION_MICRO,
+        stagger: STAGGER_DELAY,
+        ease: EASE_HEAVY
+    });
+    
+    // Button reveal
+    gsap.from('.section--technical .btn', {
+        scrollTrigger: {
+            trigger: technicalSection,
+            start: 'top 40%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MICRO,
+        ease: EASE_LUXURY
+    });
+    
+    // ========================================
+    // Section VII: Contact Animations
     // ========================================
     
     const contactSection = document.querySelector('.section--contact');
@@ -419,49 +761,35 @@ function initScrollAnimations() {
         duration: DURATION_MEDIUM,
         ease: EASE_LUXURY
     });
-}
-
-// ========================================
-// Scroll Velocity Effects
-// ========================================
-
-let scrollVelocity = 0;
-let lastScrollTop = 0;
-let velocityRAF = null;
-
-function updateScrollVelocity() {
-    const currentScroll = window.pageYOffset;
-    const rawVelocity = currentScroll - lastScrollTop;
     
-    // Smooth velocity
-    scrollVelocity += (rawVelocity - scrollVelocity) * SCROLL_SMOOTHING;
+    // ========================================
+    // Footer Animation
+    // ========================================
     
-    // Clamp velocity impact
-    const clampedVelocity = Math.max(-MAX_SCROLL_IMPACT, Math.min(MAX_SCROLL_IMPACT, scrollVelocity * 0.01));
-    
-    // Apply subtle effects based on velocity
-    document.querySelectorAll('.section').forEach(section => {
-        const rect = section.getBoundingClientRect();
-        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-        
-        if (isInView) {
-            // Subtle scale based on velocity
-            gsap.to(section, {
-                scale: 1 + Math.abs(clampedVelocity) * 0.02,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        }
+    gsap.from('.footer__massive', {
+        scrollTrigger: {
+            trigger: '.footer',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: DURATION_SLOW,
+        ease: EASE_LUXURY
     });
     
-    lastScrollTop = currentScroll;
-    velocityRAF = requestAnimationFrame(updateScrollVelocity);
+    gsap.from('.footer__details', {
+        scrollTrigger: {
+            trigger: '.footer',
+            start: 'top 60%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 30,
+        opacity: 0,
+        duration: DURATION_MEDIUM,
+        ease: EASE_LUXURY
+    });
 }
-
-// Start velocity tracking after load
-loadingTimeline.eventCallback('onComplete', () => {
-    velocityRAF = requestAnimationFrame(updateScrollVelocity);
-});
 
 // ========================================
 // Edge Typography Scroll Response
@@ -469,7 +797,7 @@ loadingTimeline.eventCallback('onComplete', () => {
 
 gsap.to('.edge-text--left .edge-text__content', {
     scrollTrigger: {
-        trigger: '.canvas',
+        trigger: '#smooth-content',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 2
@@ -479,54 +807,13 @@ gsap.to('.edge-text--left .edge-text__content', {
 
 gsap.to('.edge-text--right .edge-text__content', {
     scrollTrigger: {
-        trigger: '.canvas',
+        trigger: '#smooth-content',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 2
     },
     x: -100
 });
-
-// ========================================
-// Mouse Interaction — Subtle Parallax
-// ========================================
-
-let mouseX = 0;
-let mouseY = 0;
-let currentX = 0;
-let currentY = 0;
-
-// Only apply on non-touch devices
-if (!window.matchMedia('(pointer: coarse)').matches) {
-    document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-    
-    function updateMouseParallax() {
-        currentX += (mouseX - currentX) * 0.05;
-        currentY += (mouseY - currentY) * 0.05;
-        
-        // Apply to decorative elements only
-        document.querySelectorAll('.showcase__artifact').forEach(el => {
-            gsap.set(el, {
-                x: currentX * 10,
-                y: currentY * 10
-            });
-        });
-        
-        document.querySelectorAll('.glyph--rotation').forEach(el => {
-            gsap.set(el, {
-                x: currentX * 5,
-                y: currentY * 5
-            });
-        });
-        
-        requestAnimationFrame(updateMouseParallax);
-    }
-    
-    updateMouseParallax();
-}
 
 // ========================================
 // Navigation Hover States
@@ -572,3 +859,15 @@ if (contactLink) {
         });
     });
 }
+
+// ========================================
+// Refresh ScrollTrigger on Resize
+// ========================================
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+    }, 250);
+});

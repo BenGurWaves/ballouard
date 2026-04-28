@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor">
+        <div class="cursor__ring"></div>
+        <div class="cursor__dot"></div>
+    </div>
+
     <!-- Loading State -->
     <div id="loader" class="loader">
         <div class="loader__inner">
@@ -30,9 +36,12 @@
         <div class="nav__panel">
             <ul class="nav__list">
                 <li><a href="#atelier" class="nav__link" data-index="01">Atelier</a></li>
-                <li><a href="#timepieces" class="nav__link" data-index="02">Timepieces</a></li>
-                <li><a href="#craft" class="nav__link" data-index="03">Craft</a></li>
-                <li><a href="#contact" class="nav__link" data-index="04">Contact</a></li>
+                <li><a href="#philosophy" class="nav__link" data-index="02">Philosophy</a></li>
+                <li><a href="#collection" class="nav__link" data-index="03">Collection</a></li>
+                <li><a href="#mastery" class="nav__link" data-index="04">Mastery</a></li>
+                <li><a href="#archive" class="nav__link" data-index="05">Archive</a></li>
+                <li><a href="#technical" class="nav__link" data-index="06">Technical</a></li>
+                <li><a href="#contact" class="nav__link" data-index="07">Contact</a></li>
             </ul>
             <div class="nav__coordinates">
                 <span class="nav__lat">46.2044° N</span>
@@ -52,169 +61,447 @@
             <span class="progress__marker" data-section="1"></span>
             <span class="progress__marker" data-section="2"></span>
             <span class="progress__marker" data-section="3"></span>
+            <span class="progress__marker" data-section="4"></span>
+            <span class="progress__marker" data-section="5"></span>
+            <span class="progress__marker" data-section="6"></span>
         </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <main class="canvas">
-        
-        <!-- Section I: Manifesto -->
-        <section id="atelier" class="section section--manifesto" data-section="0">
-            <div class="section__grid">
-                <div class="section__corner section__corner--tl">
-                    <span class="section__index">01</span>
-                </div>
-                
-                <div class="section__body section__body--asymmetric">
-                    <h1 class="title title--primary">
-                        <span class="title__line" data-animate="word">Time</span>
-                        <span class="title__line title__line--indent" data-animate="word">Redefined</span>
-                    </h1>
+    <!-- Topographic Background Lines -->
+    <div class="topo-lines">
+        <div class="topo-line" style="--i:1"></div>
+        <div class="topo-line" style="--i:2"></div>
+        <div class="topo-line" style="--i:3"></div>
+        <div class="topo-line" style="--i:4"></div>
+        <div class="topo-line" style="--i:5"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="canvas" id="smooth-wrapper">
+        <div id="smooth-content">
+            
+            <!-- Section I: Hero / Atelier -->
+            <section id="atelier" class="section section--manifesto" data-section="0">
+                <div class="section__grid">
+                    <div class="section__corner section__corner--tl">
+                        <span class="section__index">01</span>
+                        <span class="section__hairline"></span>
+                    </div>
                     
-                    <div class="manifesto__text">
-                        <p class="text text--lead" data-animate="line">
-                            In the silence between seconds, we find our purpose. Each Ballouard timepiece is not merely measured in hours, but in the weight of moments that matter.
+                    <div class="section__body section__body--asymmetric">
+                        <h1 class="title title--primary">
+                            <span class="title__line" data-animate="word">Time</span>
+                            <span class="title__line title__line--indent" data-animate="word">Redefined</span>
+                        </h1>
+                        
+                        <div class="manifesto__text">
+                            <p class="text text--lead" data-animate="line">
+                                In the silence between seconds, we find our purpose. Each Ballouard timepiece is not merely measured in hours, but in the weight of moments that matter.
+                            </p>
+                        </div>
+
+                        <button class="btn btn--primary" data-modal="prototype">
+                            <span class="btn__text">Discover Atelier</span>
+                            <span class="btn__glyph">→</span>
+                        </button>
+                    </div>
+                    
+                    <div class="section__corner section__corner--br">
+                        <div class="glyph glyph--rotation">
+                            <svg viewBox="0 0 100 100" class="glyph__svg">
+                                <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+                                <text class="glyph__text">
+                                    <textPath href="#circlePath">BALLOUARD · GENEVA · ATELIER ·</textPath>
+                                </text>
+                            </svg>
+                            <div class="glyph__center">B</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section__bleed section__bleed--left">
+                        <div class="texture texture--guilloche"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section II: Philosophy -->
+            <section id="philosophy" class="section section--philosophy" data-section="1">
+                <div class="section__grid section__grid--mirrored">
+                    <div class="section__corner section__corner--tr">
+                        <span class="section__index">02</span>
+                        <span class="section__hairline section__hairline--vertical"></span>
+                    </div>
+                    
+                    <div class="philosophy__visual" data-cursor-parallax="0.03">
+                        <div class="visual__ring visual__ring--outer"></div>
+                        <div class="visual__ring visual__ring--inner"></div>
+                        <div class="visual__center">
+                            <span class="visual__glyph">LB</span>
+                        </div>
+                    </div>
+                    
+                    <div class="section__body section__body--right-anchored">
+                        <span class="section__eyebrow">The Weight of Time</span>
+                        <h2 class="title title--philosophy">
+                            <span class="title__line" data-animate="word">Measured in</span>
+                            <span class="title__line" data-animate="word">Moments</span>
+                        </h2>
+                        <div class="philosophy__dividers">
+                            <span class="hairline hairline--short"></span>
+                        </div>
+                        <p class="text text--body" data-animate="fade">
+                            A Ballouard timepiece does not merely tell time—it holds it. Each component, each polished surface, each precisely calibrated gear exists to capture the intangible: the weight of a glance, the significance of an anniversary, the gravity of a decision.
+                        </p>
+                        <p class="text text--body" data-animate="fade">
+                            We reject the notion of disposable luxury. Our watches are conceived as heirlooms, engineered to outlive their makers and carry stories across generations.
+                        </p>
+                        <button class="btn btn--secondary" data-modal="prototype">
+                            <span class="btn__text">Our Philosophy</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section III: Collection -->
+            <section id="collection" class="section section--collection" data-section="2">
+                <div class="section__grid section__grid--offset">
+                    <div class="section__corner section__corner--tl">
+                        <span class="section__index">03</span>
+                        <span class="section__hairline"></span>
+                    </div>
+                    
+                    <div class="section__body section__body--extreme-left">
+                        <span class="section__eyebrow">The Collection</span>
+                        <h2 class="title title--secondary">
+                            <span class="title__word" data-animate="char">Midnight</span>
+                            <span class="title__word" data-animate="char">Caliber</span>
+                        </h2>
+                        <div class="collection__dividers">
+                            <span class="hairline hairline--animated"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="collection__showcase" data-cursor-parallax="0.05">
+                        <div class="showcase__frame" data-animate="reveal">
+                            <div class="showcase__artifact">
+                                <div class="artifact__shadow"></div>
+                                <div class="artifact__highlight"></div>
+                                <div class="artifact__detail">
+                                    <span class="detail__mark">LB</span>
+                                </div>
+                            </div>
+                            <div class="showcase__details">
+                                <span class="showcase__ref">Ref. 001</span>
+                                <span class="showcase__name">Midnight Caliber</span>
+                                <span class="showcase__specs">42mm · 18K Rose Gold</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section__bleed section__bleed--bottom">
+                        <div class="texture texture--deep"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section IV: The Scaling of Mastery -->
+            <section id="mastery" class="section section--mastery" data-section="3">
+                <div class="section__grid section__grid--mirrored">
+                    <div class="section__corner section__corner--bl">
+                        <span class="section__index">04</span>
+                        <span class="section__hairline section__hairline--vertical"></span>
+                    </div>
+                    
+                    <div class="mastery__numbers" data-cursor-parallax="0.04">
+                        <div class="number__architectural">
+                            <span class="number__value">35</span>
+                            <span class="number__label">Pieces Per Year</span>
+                        </div>
+                        <div class="number__architectural number__architectural--small">
+                            <span class="number__value">+2</span>
+                            <span class="number__label">Master Watchmakers</span>
+                        </div>
+                    </div>
+                    
+                    <div class="section__body section__body--mastery">
+                        <span class="section__eyebrow">The Scaling of Mastery</span>
+                        <h2 class="title title--mastery">
+                            <span class="title__line" data-animate="word">Capacity</span>
+                            <span class="title__line" data-animate="word">Expanded</span>
+                        </h2>
+                        <div class="mastery__dividers">
+                            <span class="hairline hairline--short"></span>
+                        </div>
+                        <p class="text text--body" data-animate="fade">
+                            Through the addition of two master watchmakers to our atelier, we have increased our annual production to 35 pieces. This is not a move toward mass production—it is an achievement of capacity.
+                        </p>
+                        <p class="text text--body" data-animate="fade">
+                            Each of the 35 timepieces emerging from our workshop each year receives the same meticulous attention, the same hand-finishing, the same dedication to excellence that has defined Ballouard since inception.
+                        </p>
+                        <div class="mastery__timeline">
+                            <div class="timeline__point">
+                                <span class="timeline__year">2020</span>
+                                <span class="timeline__event">Atelier Founded</span>
+                            </div>
+                            <div class="timeline__line"></div>
+                            <div class="timeline__point">
+                                <span class="timeline__year">2024</span>
+                                <span class="timeline__event">35 Pieces Capacity</span>
+                            </div>
+                        </div>
+                        <button class="btn btn--secondary" data-modal="prototype">
+                            <span class="btn__text">Request Commission</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section V: The Living Archive -->
+            <section id="archive" class="section section--archive" data-section="4">
+                <div class="section__grid section__grid--archive">
+                    <div class="section__corner section__corner--tr">
+                        <span class="section__index">05</span>
+                        <span class="section__hairline"></span>
+                    </div>
+                    
+                    <div class="archive__header">
+                        <span class="section__eyebrow">The Living Archive</span>
+                        <h2 class="title title--archive">
+                            <span class="title__line" data-animate="word">Atelier</span>
+                            <span class="title__line" data-animate="word">Log</span>
+                        </h2>
+                        <div class="archive__dividers">
+                            <span class="hairline hairline--center"></span>
+                        </div>
+                        <p class="text text--body">
+                            A visual record of bespoke commissions and in-progress creations. Each piece tells a unique story.
                         </p>
                     </div>
-                </div>
-                
-                <div class="section__corner section__corner--br">
-                    <div class="glyph glyph--rotation">
-                        <svg viewBox="0 0 100 100" class="glyph__svg">
-                            <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-                            <text class="glyph__text">
-                                <textPath href="#circlePath">BALLOUARD · GENEVA · ATELIER ·</textPath>
-                            </text>
-                        </svg>
-                        <div class="glyph__center">B</div>
-                    </div>
-                </div>
-                
-                <div class="section__bleed section__bleed--left">
-                    <div class="texture texture--guilloche"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section II: Timepieces -->
-        <section id="timepieces" class="section section--collection" data-section="1">
-            <div class="section__grid section__grid--offset">
-                <div class="section__corner section__corner--tr">
-                    <span class="section__index">02</span>
-                </div>
-                
-                <div class="section__body section__body--extreme-left">
-                    <h2 class="title title--secondary">
-                        <span class="title__word" data-animate="char">The</span>
-                        <span class="title__word" data-animate="char">Collection</span>
-                    </h2>
-                </div>
-                
-                <div class="collection__showcase">
-                    <div class="showcase__frame" data-animate="reveal">
-                        <div class="showcase__artifact">
-                            <div class="artifact__shadow"></div>
-                            <div class="artifact__highlight"></div>
+                    
+                    <div class="archive__gallery">
+                        <div class="masonry__grid">
+                            <div class="masonry__item masonry__item--wide" data-modal="prototype">
+                                <div class="masonry__frame">
+                                    <div class="masonry__placeholder masonry__placeholder--watch"></div>
+                                    <div class="masonry__overlay">
+                                        <span class="masonry__number">Piece No. 024</span>
+                                        <span class="masonry__caption">Bespoke Commission</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="masonry__item" data-modal="prototype">
+                                <div class="masonry__frame">
+                                    <div class="masonry__placeholder masonry__placeholder--dial"></div>
+                                    <div class="masonry__overlay">
+                                        <span class="masonry__number">Piece No. 027</span>
+                                        <span class="masonry__caption">Dial Work</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="masonry__item masonry__item--tall" data-modal="prototype">
+                                <div class="masonry__frame">
+                                    <div class="masonry__placeholder masonry__placeholder--movement"></div>
+                                    <div class="masonry__overlay">
+                                        <span class="masonry__number">Piece No. 031</span>
+                                        <span class="masonry__caption">Movement Assembly</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="masonry__item" data-modal="prototype">
+                                <div class="masonry__frame">
+                                    <div class="masonry__placeholder masonry__placeholder--case"></div>
+                                    <div class="masonry__overlay">
+                                        <span class="masonry__number">Piece No. 033</span>
+                                        <span class="masonry__caption">In Progress</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="masonry__item masonry__item--tall" data-modal="prototype">
+                                <div class="masonry__frame">
+                                    <div class="masonry__placeholder masonry__placeholder--gear"></div>
+                                    <div class="masonry__overlay">
+                                        <span class="masonry__number">Piece No. 029</span>
+                                        <span class="masonry__caption">Component</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="showcase__details">
-                            <span class="showcase__ref">Ref. 001</span>
-                            <span class="showcase__name">Midnight Caliber</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="section__bleed section__bleed--bottom">
-                    <div class="texture texture--deep"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section III: Craft -->
-        <section id="craft" class="section section--craft" data-section="2">
-            <div class="section__grid section__grid--mirrored">
-                <div class="section__corner section__corner--bl">
-                    <span class="section__index">03</span>
-                </div>
-                
-                <div class="craft__visual" data-animate="parallax">
-                    <div class="visual__layer visual__layer--back"></div>
-                    <div class="visual__layer visual__layer--mid"></div>
-                    <div class="visual__layer visual__layer--front"></div>
-                </div>
-                
-                <div class="section__body section__body--right-anchored">
-                    <h2 class="title title--craft">
-                        <span class="title__line" data-animate="word">Eighteen</span>
-                        <span class="title__line" data-animate="word">Months</span>
-                    </h2>
-                    <p class="text text--body" data-animate="fade">
-                        From the first sketch to the final adjustment. Each component hand-finished, each gear polished to a mirror sheen that only the maker will ever see.
-                    </p>
-                    <div class="craft__metrics">
-                        <div class="metric" data-animate="stagger">
-                            <span class="metric__value">287</span>
-                            <span class="metric__label">Components</span>
-                        </div>
-                        <div class="metric" data-animate="stagger">
-                            <span class="metric__value">42</span>
-                            <span class="metric__label">Jewels</span>
-                        </div>
-                        <div class="metric" data-animate="stagger">
-                            <span class="metric__value">5</span>
-                            <span class="metric__label">Craftsmen</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section IV: Contact -->
-        <section id="contact" class="section section--contact" data-section="3">
-            <div class="section__grid section__grid--centered">
-                <div class="contact__enclosure">
-                    <div class="contact__header">
-                        <span class="contact__index">04</span>
-                        <h2 class="title title--contact" data-animate="word">By Appointment</h2>
                     </div>
                     
-                    <div class="contact__body">
-                        <p class="text text--elegant">
-                            The atelier welcomes a limited number of visitors each month. Private consultations are arranged exclusively through personal introduction.
-                        </p>
-                        
-                        <address class="contact__address" data-animate="fade">
-                            <span class="address__line">Rue du Rhône 42</span>
-                            <span class="address__line">1204 Genève</span>
-                            <span class="address__line">Suisse</span>
-                        </address>
-                        
-                        <a href="mailto:atelier@ballouard.ch" class="contact__link" data-animate="hover">
-                            <span class="link__text">atelier@ballouard.ch</span>
-                            <span class="link__glyph">→</span>
-                        </a>
+                    <button class="btn btn--archive" data-modal="prototype">
+                        <span class="btn__text">View Complete Archive</span>
+                        <span class="btn__glyph">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Section VI: Technical Detail -->
+            <section id="technical" class="section section--technical" data-section="5">
+                <div class="section__grid section__grid--mirrored">
+                    <div class="section__corner section__corner--br">
+                        <span class="section__index">06</span>
+                        <span class="section__hairline section__hairline--vertical"></span>
                     </div>
                     
-                    <div class="contact__seal">
-                        <div class="seal__ring">
-                            <span class="seal__text">EST. MMXXIV</span>
+                    <div class="technical__visuals" data-cursor-parallax="0.05">
+                        <div class="visuals__grid">
+                            <div class="tech__image tech__image--main">
+                                <div class="tech__placeholder tech__placeholder--movement"></div>
+                            </div>
+                            <div class="tech__image tech__image--detail">
+                                <div class="tech__placeholder tech__placeholder--gear"></div>
+                            </div>
+                            <div class="tech__image tech__image--detail">
+                                <div class="tech__placeholder tech__placeholder--jewel"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section__body section__body--technical">
+                        <span class="section__eyebrow">Technical Excellence</span>
+                        <h2 class="title title--technical">
+                            <span class="title__line" data-animate="word">The</span>
+                            <span class="title__line" data-animate="word">Architecture</span>
+                        </h2>
+                        <div class="technical__dividers">
+                            <span class="hairline hairline--short"></span>
+                        </div>
+                        
+                        <div class="technical__specs">
+                            <div class="spec__row">
+                                <span class="spec__label">Caliber</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">Ballouard BM-001</span>
+                            </div>
+                            <div class="spec__row">
+                                <span class="spec__label">Dimensions</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">30.00mm × 4.50mm</span>
+                            </div>
+                            <div class="spec__row">
+                                <span class="spec__label">Components</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">287</span>
+                            </div>
+                            <div class="spec__row">
+                                <span class="spec__label">Jewels</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">42</span>
+                            </div>
+                            <div class="spec__row">
+                                <span class="spec__label">Power Reserve</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">72 Hours</span>
+                            </div>
+                            <div class="spec__row">
+                                <span class="spec__label">Frequency</span>
+                                <span class="hairline hairline--dotted"></span>
+                                <span class="spec__value">21,600 vph</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn--secondary" data-modal="prototype">
+                            <span class="btn__text">Download Technical Sheet</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section VII: Contact -->
+            <section id="contact" class="section section--contact" data-section="6">
+                <div class="section__grid section__grid--centered">
+                    <div class="contact__enclosure">
+                        <div class="contact__header">
+                            <span class="contact__index">07</span>
+                            <div class="contact__dividers">
+                                <span class="hairline hairline--center"></span>
+                            </div>
+                            <h2 class="title title--contact" data-animate="word">By Appointment</h2>
+                        </div>
+                        
+                        <div class="contact__body">
+                            <p class="text text--elegant">
+                                The atelier welcomes a limited number of visitors each month. Private consultations are arranged exclusively through personal introduction.
+                            </p>
+                            
+                            <address class="contact__address" data-animate="fade">
+                                <span class="address__line">Rue du Rhône 42</span>
+                                <span class="address__line">1204 Genève</span>
+                                <span class="address__line">Suisse</span>
+                            </address>
+                            
+                            <a href="mailto:atelier@ballouard.ch" class="contact__link" data-animate="hover">
+                                <span class="link__text">atelier@ballouard.ch</span>
+                                <span class="link__glyph">→</span>
+                            </a>
+                        </div>
+                        
+                        <div class="contact__seal">
+                            <div class="seal__ring">
+                                <span class="seal__text">EST. MMXXIV</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer__grid">
+                    <div class="footer__massive">
+                        <span class="footer__word" data-cursor-parallax="0.02">VELOCITY</span>
+                    </div>
+                    <div class="footer__details">
+                        <span class="footer__copyright">© 2024 Ballouard Atelier</span>
+                        <span class="footer__divider">·</span>
+                        <span class="footer__location">Geneva, Switzerland</span>
+                        <span class="footer__divider">·</span>
+                        <span class="footer__production">A Velocity Prototype</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
     </main>
 
     <!-- Edge Typography -->
-    <div class="edge-text edge-text--left">
+    <div class="edge-text edge-text--left" data-cursor-parallax="0.01">
         <span class="edge-text__content">BALLOUARD</span>
     </div>
-    <div class="edge-text edge-text--right">
+    <div class="edge-text edge-text--right" data-cursor-parallax="0.01">
         <span class="edge-text__content">GENÈVE</span>
     </div>
 
-    <!-- Deployed: 2026-04-28 -->
+    <!-- Prototype Modal -->
+    <div class="modal" id="prototype-modal">
+        <div class="modal__backdrop"></div>
+        <div class="modal__container">
+            <div class="modal__content">
+                <button class="modal__close">
+                    <span class="modal__close-line"></span>
+                    <span class="modal__close-line"></span>
+                </button>
+                <div class="modal__header">
+                    <span class="modal__glyph">B</span>
+                </div>
+                <h3 class="modal__title">Atelier Access Restricted</h3>
+                <p class="modal__text">
+                    This is a bespoke prototype by Velocity for Ballouard. Full functionality will be available upon project approval.
+                </p>
+                <div class="modal__dividers">
+                    <span class="hairline hairline--center"></span>
+                </div>
+                <div class="modal__actions">
+                    <button class="btn btn--modal" data-modal-close>
+                        <span class="btn__text">Understood</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="scripts/main.js"></script>

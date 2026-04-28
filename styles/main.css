@@ -29,6 +29,99 @@ body {
   line-height: 1.6;
   letter-spacing: 0.02em;
   overflow-x: hidden;
+  cursor: none;
+}
+
+/* ========================================
+   Custom Cursor
+   ======================================== */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor__ring {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(231, 230, 230, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.8, 0, 0.2, 1), height 0.3s cubic-bezier(0.8, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.cursor__dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: #A67C52;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor.is-hovering .cursor__ring {
+  width: 60px;
+  height: 60px;
+  border-color: #A67C52;
+}
+
+/* ========================================
+   Topographic Background Lines
+   ======================================== */
+.topo-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+}
+
+.topo-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(231, 230, 230, 0.3), transparent);
+  animation: topoDrift 20s linear infinite;
+}
+
+.topo-line:nth-child(1) {
+  top: 20%;
+  animation-delay: 0s;
+}
+
+.topo-line:nth-child(2) {
+  top: 40%;
+  animation-delay: -4s;
+}
+
+.topo-line:nth-child(3) {
+  top: 60%;
+  animation-delay: -8s;
+}
+
+.topo-line:nth-child(4) {
+  top: 80%;
+  animation-delay: -12s;
+}
+
+.topo-line:nth-child(5) {
+  top: 95%;
+  animation-delay: -16s;
+}
+
+@keyframes topoDrift {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ========================================
@@ -203,7 +296,7 @@ body {
 }
 .progress__track {
   width: 1px;
-  height: 120px;
+  height: 140px;
   background: rgba(231, 230, 230, 0.1);
   position: relative;
 }
@@ -273,12 +366,18 @@ body {
 .section__grid--centered {
   place-items: center;
 }
+.section__grid--archive {
+  grid-template-columns: 1fr 2fr;
+}
 .section__corner {
   position: absolute;
   font-family: "Inter", -apple-system, sans-serif;
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   color: rgba(231, 230, 230, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 .section__corner--tl {
   top: 6vw;
@@ -299,6 +398,25 @@ body {
 .section__index {
   color: #A67C52;
 }
+.section__hairline {
+  width: 60px;
+  height: 0.5px;
+  background: rgba(231, 230, 230, 0.3);
+}
+.section__hairline--vertical {
+  width: 0.5px;
+  height: 60px;
+  background: rgba(231, 230, 230, 0.3);
+}
+.section__eyebrow {
+  display: block;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #A67C52;
+  margin-bottom: 1.5rem;
+}
 .section__body {
   grid-column: 2/8;
   align-self: center;
@@ -312,6 +430,14 @@ body {
   padding-left: 4vw;
 }
 .section__body--right-anchored {
+  grid-column: 7/12;
+  padding-right: 4vw;
+}
+.section__body--mastery {
+  grid-column: 6/12;
+  padding-right: 4vw;
+}
+.section__body--technical {
   grid-column: 7/12;
   padding-right: 4vw;
 }
@@ -333,6 +459,44 @@ body {
 }
 
 /* ========================================
+   Hairline Dividers
+   ======================================== */
+.hairline {
+  display: block;
+  height: 0.5px;
+  background: rgba(231, 230, 230, 0.3);
+}
+.hairline--short {
+  width: 60px;
+  margin: 2rem 0;
+}
+.hairline--center {
+  width: 100px;
+  margin: 2rem auto;
+}
+.hairline--dotted {
+  flex: 1;
+  background: repeating-linear-gradient(90deg, rgba(231, 230, 230, 0.2) 0, rgba(231, 230, 230, 0.2) 2px, transparent 2px, transparent 6px);
+  margin: 0 1rem;
+}
+.hairline--animated {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #A67C52, transparent);
+  background-size: 200% 100%;
+  animation: hairlinePulse 3s ease-in-out infinite;
+}
+
+@keyframes hairlinePulse {
+  0%, 100% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: -200% 0;
+  }
+}
+
+/* ========================================
    Typography — Engraved Hierarchy
    ======================================== */
 .title {
@@ -349,8 +513,20 @@ body {
 .title--secondary {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
 }
-.title--craft {
+.title--philosophy {
   font-size: clamp(3rem, 7vw, 6rem);
+  margin-bottom: 2rem;
+}
+.title--mastery {
+  font-size: clamp(3rem, 7vw, 6rem);
+  margin-bottom: 2rem;
+}
+.title--archive {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  margin-bottom: 2rem;
+}
+.title--technical {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   margin-bottom: 2rem;
 }
 .title--contact {
@@ -383,6 +559,7 @@ body {
   font-size: 0.9rem;
   color: rgba(231, 230, 230, 0.6);
   max-width: 40ch;
+  margin-bottom: 1.5rem;
 }
 .text--elegant {
   font-family: "Cormorant Garamond", Georgia, serif;
@@ -390,6 +567,78 @@ body {
   font-style: italic;
   color: rgba(231, 230, 230, 0.8);
   line-height: 1.9;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 0.5px solid rgba(231, 230, 230, 0.3);
+  color: #E7E6E6;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(166, 124, 82, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.btn:hover {
+  border-color: #A67C52;
+}
+
+.btn:hover::before {
+  transform: translateX(0);
+}
+
+.btn__text {
+  position: relative;
+  z-index: 1;
+}
+
+.btn__glyph {
+  font-size: 0.9rem;
+  color: #A67C52;
+  transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.btn:hover .btn__glyph {
+  transform: translateX(8px);
+}
+
+.btn--primary {
+  margin-top: 3rem;
+}
+
+.btn--secondary {
+  margin-top: 2rem;
+}
+
+.btn--archive {
+  grid-column: 1/-1;
+  justify-self: center;
+  margin-top: 4rem;
+}
+
+.btn--modal {
+  width: 100%;
+  justify-content: center;
 }
 
 /* ========================================
@@ -449,6 +698,54 @@ body {
 }
 
 /* ========================================
+   Philosophy Section
+   ======================================== */
+.philosophy__visual {
+  grid-column: 1/6;
+  position: relative;
+  height: 70vh;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 0.5px solid rgba(231, 230, 230, 0.2);
+}
+
+.visual__ring--outer {
+  width: 300px;
+  height: 300px;
+}
+
+.visual__ring--inner {
+  width: 200px;
+  height: 200px;
+  border-color: rgba(166, 124, 82, 0.3);
+}
+
+.visual__center {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual__glyph {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3rem;
+  color: #A67C52;
+  letter-spacing: 0.1em;
+}
+
+.philosophy__dividers {
+  margin: 2rem 0;
+}
+
+/* ========================================
    Collection Section
    ======================================== */
 .collection__showcase {
@@ -497,6 +794,17 @@ body {
   color: rgba(231, 230, 230, 0.8);
   letter-spacing: 0.05em;
 }
+.showcase__specs {
+  display: block;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(231, 230, 230, 0.5);
+  margin-top: 0.3rem;
+}
+.collection__dividers {
+  margin: 2rem 0;
+}
 
 .artifact__shadow {
   position: absolute;
@@ -514,60 +822,275 @@ body {
   border-radius: 50%;
   filter: blur(10px);
 }
+.artifact__detail {
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+}
+.detail__mark {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.2rem;
+  color: #A67C52;
+  letter-spacing: 0.1em;
+}
 
 /* ========================================
-   Craft Section
+   Mastery Section
    ======================================== */
-.craft__visual {
-  grid-column: 1/6;
-  position: relative;
-  height: 70vh;
-  align-self: center;
-}
-.craft__metrics {
+.mastery__numbers {
+  grid-column: 1/5;
   display: flex;
+  flex-direction: column;
   gap: 4rem;
-  margin-top: 4rem;
+  align-self: center;
+  padding-left: 4vw;
 }
 
-.visual__layer {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(231, 230, 230, 0.1);
-}
-.visual__layer--back {
-  inset: 5%;
-  background: linear-gradient(180deg, rgba(21, 33, 47, 0.3), transparent);
-}
-.visual__layer--mid {
-  inset: 15%;
-  border-color: rgba(166, 124, 82, 0.15);
-}
-.visual__layer--front {
-  inset: 25%;
-  border: 1px solid rgba(231, 230, 230, 0.2);
-  background: radial-gradient(circle at center, rgba(166, 124, 82, 0.05), transparent 70%);
-}
-
-.metric {
+.number__architectural {
   text-align: center;
 }
-.metric__value {
+
+.number__value {
   display: block;
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 2.5rem;
+  font-size: clamp(4rem, 8vw, 7rem);
   font-weight: 300;
   color: #E7E6E6;
   letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+  line-height: 1;
 }
-.metric__label {
+
+.number__label {
   display: block;
   font-family: "Inter", -apple-system, sans-serif;
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: rgba(231, 230, 230, 0.5);
+  margin-top: 1rem;
+}
+
+.number__architectural--small .number__value {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.mastery__dividers {
+  margin: 2rem 0;
+}
+
+.mastery__timeline {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.timeline__point {
+  text-align: center;
+}
+
+.timeline__year {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  color: #A67C52;
+  letter-spacing: 0.05em;
+}
+
+.timeline__event {
+  display: block;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(231, 230, 230, 0.6);
+  margin-top: 0.5rem;
+}
+
+.timeline__line {
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(90deg, rgba(166, 124, 82, 0.3), rgba(231, 230, 230, 0.2));
+}
+
+/* ========================================
+   Archive Section
+   ======================================== */
+.archive__header {
+  grid-column: 1/2;
+  align-self: center;
+  padding-right: 2rem;
+}
+
+.archive__dividers {
+  margin: 2rem 0;
+}
+
+.archive__gallery {
+  grid-column: 2/3;
+}
+
+.masonry__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.masonry__item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.masonry__item--wide {
+  grid-column: span 2;
+}
+
+.masonry__item--tall {
+  grid-row: span 2;
+}
+
+.masonry__frame {
+  position: relative;
+  aspect-ratio: 1;
+  background: rgba(21, 33, 47, 0.5);
+  border: 0.5px solid rgba(231, 230, 230, 0.2);
+  overflow: hidden;
+}
+
+.masonry__item--tall .masonry__frame {
+  aspect-ratio: 1/2;
+}
+
+.masonry__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(21, 33, 47, 0.6), rgba(0, 0, 0, 0.8));
+  position: relative;
+}
+
+.masonry__placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.masonry__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.masonry__item:hover .masonry__overlay {
+  opacity: 1;
+}
+
+.masonry__number {
+  display: block;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: #A67C52;
+  margin-bottom: 0.3rem;
+}
+
+.masonry__caption {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.85rem;
+  color: #E7E6E6;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   Technical Section
+   ======================================== */
+.technical__visuals {
+  grid-column: 1/6;
+  align-self: center;
+}
+
+.visuals__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.tech__image {
+  position: relative;
+  border: 0.5px solid rgba(231, 230, 230, 0.2);
+  overflow: hidden;
+}
+
+.tech__image--main {
+  grid-row: span 2;
+  aspect-ratio: 4/3;
+}
+
+.tech__image--detail {
+  aspect-ratio: 1;
+}
+
+.tech__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(21, 33, 47, 0.6), rgba(0, 0, 0, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech__placeholder::before {
+  content: attr(data-label);
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(231, 230, 230, 0.4);
+  text-transform: uppercase;
+}
+
+.technical__dividers {
+  margin: 2rem 0;
+}
+
+.technical__specs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.spec__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spec__label {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(231, 230, 230, 0.5);
+  min-width: 100px;
+}
+
+.spec__value {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.9rem;
+  color: #E7E6E6;
+  letter-spacing: 0.05em;
 }
 
 /* ========================================
@@ -630,6 +1153,9 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+.contact__dividers {
+  margin: 2rem 0;
+}
 
 .address__line {
   font-size: 0.8rem;
@@ -664,6 +1190,48 @@ body {
 }
 
 /* ========================================
+   Footer
+   ======================================== */
+.footer {
+  padding: 8vw 6vw;
+  border-top: 0.5px solid rgba(231, 230, 230, 0.2);
+}
+
+.footer__grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.footer__massive {
+  width: 100%;
+  text-align: center;
+}
+
+.footer__word {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(6rem, 15vw, 12rem);
+  font-weight: 300;
+  color: rgba(231, 230, 230, 0.15);
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.footer__details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(231, 230, 230, 0.4);
+}
+
+.footer__divider {
+  color: rgba(231, 230, 230, 0.2);
+}
+
+/* ========================================
    Edge Typography
    ======================================== */
 .edge-text {
@@ -690,6 +1258,120 @@ body {
 }
 
 /* ========================================
+   Modal — Glassmorphism
+   ======================================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.modal.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.modal__container {
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal__content {
+  position: relative;
+  background: rgba(21, 33, 47, 0.9);
+  border: 0.5px solid rgba(231, 230, 230, 0.3);
+  padding: 3rem;
+  text-align: center;
+  backdrop-filter: blur(20px);
+}
+
+.modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.modal__close-line {
+  width: 20px;
+  height: 0.5px;
+  background: rgba(231, 230, 230, 0.5);
+  transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.modal__close-line:first-child {
+  transform: rotate(45deg);
+}
+
+.modal__close-line:last-child {
+  transform: rotate(-45deg);
+}
+
+.modal__close:hover .modal__close-line {
+  background: #A67C52;
+}
+
+.modal__header {
+  margin-bottom: 2rem;
+}
+
+.modal__glyph {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2rem;
+  color: #A67C52;
+  letter-spacing: 0.1em;
+}
+
+.modal__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #E7E6E6;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.modal__text {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.85rem;
+  color: rgba(231, 230, 230, 0.7);
+  line-height: 1.8;
+  max-width: 35ch;
+  margin: 0 auto;
+}
+
+.modal__dividers {
+  margin: 2rem 0;
+}
+
+.modal__actions {
+  margin-top: 2rem;
+}
+
+/* ========================================
    Textures & Decorative
    ======================================== */
 .texture {
@@ -702,4 +1384,66 @@ body {
 }
 .texture--deep {
   background: radial-gradient(ellipse at center, rgba(21, 33, 47, 0.4), transparent 70%);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 768px) {
+  .section__grid {
+    grid-template-columns: 1fr;
+    padding: 4rem 2rem;
+  }
+  
+  .section__body {
+    grid-column: 1;
+  }
+  
+  .section__body--asymmetric,
+  .section__body--extreme-left,
+  .section__body--right-anchored,
+  .section__body--mastery,
+  .section__body--technical {
+    padding: 0;
+  }
+  
+  .masonry__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .masonry__item--wide,
+  .masonry__item--tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  
+  .archive__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .archive__header {
+    grid-column: 1;
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+  
+  .archive__gallery {
+    grid-column: 1;
+  }
+  
+  .visuals__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech__image--main {
+    grid-row: span 1;
+  }
+  
+  .cursor {
+    display: none;
+  }
+  
+  body {
+    cursor: auto;
+  }
 }
