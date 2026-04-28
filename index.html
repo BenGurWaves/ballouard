@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballouard — Atelier Horlogerie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Loading State -->
+    <div id="loader" class="loader">
+        <div class="loader__inner">
+            <div class="loader__mark"></div>
+            <div class="loader__glyph">B</div>
+        </div>
+        <div class="loader__line"></div>
+    </div>
+
+    <!-- Edge-Anchored Navigation -->
+    <nav class="nav" aria-label="Primary">
+        <div class="nav__trigger">
+            <span class="nav__glyph">Menu</span>
+            <div class="nav__indicator">
+                <div class="nav__indicator-dot"></div>
+            </div>
+        </div>
+        <div class="nav__panel">
+            <ul class="nav__list">
+                <li><a href="#atelier" class="nav__link" data-index="01">Atelier</a></li>
+                <li><a href="#timepieces" class="nav__link" data-index="02">Timepieces</a></li>
+                <li><a href="#craft" class="nav__link" data-index="03">Craft</a></li>
+                <li><a href="#contact" class="nav__link" data-index="04">Contact</a></li>
+            </ul>
+            <div class="nav__coordinates">
+                <span class="nav__lat">46.2044° N</span>
+                <span class="nav__divider"></span>
+                <span class="nav__long">6.1432° E</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Indicator -->
+    <div class="progress">
+        <div class="progress__track">
+            <div class="progress__fill"></div>
+        </div>
+        <div class="progress__markers">
+            <span class="progress__marker" data-section="0"></span>
+            <span class="progress__marker" data-section="1"></span>
+            <span class="progress__marker" data-section="2"></span>
+            <span class="progress__marker" data-section="3"></span>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="canvas">
+        
+        <!-- Section I: Manifesto -->
+        <section id="atelier" class="section section--manifesto" data-section="0">
+            <div class="section__grid">
+                <div class="section__corner section__corner--tl">
+                    <span class="section__index">01</span>
+                </div>
+                
+                <div class="section__body section__body--asymmetric">
+                    <h1 class="title title--primary">
+                        <span class="title__line" data-animate="word">Time</span>
+                        <span class="title__line title__line--indent" data-animate="word">Redefined</span>
+                    </h1>
+                    
+                    <div class="manifesto__text">
+                        <p class="text text--lead" data-animate="line">
+                            In the silence between seconds, we find our purpose. Each Ballouard timepiece is not merely measured in hours, but in the weight of moments that matter.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="section__corner section__corner--br">
+                    <div class="glyph glyph--rotation">
+                        <svg viewBox="0 0 100 100" class="glyph__svg">
+                            <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+                            <text class="glyph__text">
+                                <textPath href="#circlePath">BALLOUARD · GENEVA · ATELIER ·</textPath>
+                            </text>
+                        </svg>
+                        <div class="glyph__center">B</div>
+                    </div>
+                </div>
+                
+                <div class="section__bleed section__bleed--left">
+                    <div class="texture texture--guilloche"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section II: Timepieces -->
+        <section id="timepieces" class="section section--collection" data-section="1">
+            <div class="section__grid section__grid--offset">
+                <div class="section__corner section__corner--tr">
+                    <span class="section__index">02</span>
+                </div>
+                
+                <div class="section__body section__body--extreme-left">
+                    <h2 class="title title--secondary">
+                        <span class="title__word" data-animate="char">The</span>
+                        <span class="title__word" data-animate="char">Collection</span>
+                    </h2>
+                </div>
+                
+                <div class="collection__showcase">
+                    <div class="showcase__frame" data-animate="reveal">
+                        <div class="showcase__artifact">
+                            <div class="artifact__shadow"></div>
+                            <div class="artifact__highlight"></div>
+                        </div>
+                        <div class="showcase__details">
+                            <span class="showcase__ref">Ref. 001</span>
+                            <span class="showcase__name">Midnight Caliber</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section__bleed section__bleed--bottom">
+                    <div class="texture texture--deep"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section III: Craft -->
+        <section id="craft" class="section section--craft" data-section="2">
+            <div class="section__grid section__grid--mirrored">
+                <div class="section__corner section__corner--bl">
+                    <span class="section__index">03</span>
+                </div>
+                
+                <div class="craft__visual" data-animate="parallax">
+                    <div class="visual__layer visual__layer--back"></div>
+                    <div class="visual__layer visual__layer--mid"></div>
+                    <div class="visual__layer visual__layer--front"></div>
+                </div>
+                
+                <div class="section__body section__body--right-anchored">
+                    <h2 class="title title--craft">
+                        <span class="title__line" data-animate="word">Eighteen</span>
+                        <span class="title__line" data-animate="word">Months</span>
+                    </h2>
+                    <p class="text text--body" data-animate="fade">
+                        From the first sketch to the final adjustment. Each component hand-finished, each gear polished to a mirror sheen that only the maker will ever see.
+                    </p>
+                    <div class="craft__metrics">
+                        <div class="metric" data-animate="stagger">
+                            <span class="metric__value">287</span>
+                            <span class="metric__label">Components</span>
+                        </div>
+                        <div class="metric" data-animate="stagger">
+                            <span class="metric__value">42</span>
+                            <span class="metric__label">Jewels</span>
+                        </div>
+                        <div class="metric" data-animate="stagger">
+                            <span class="metric__value">5</span>
+                            <span class="metric__label">Craftsmen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section IV: Contact -->
+        <section id="contact" class="section section--contact" data-section="3">
+            <div class="section__grid section__grid--centered">
+                <div class="contact__enclosure">
+                    <div class="contact__header">
+                        <span class="contact__index">04</span>
+                        <h2 class="title title--contact" data-animate="word">By Appointment</h2>
+                    </div>
+                    
+                    <div class="contact__body">
+                        <p class="text text--elegant">
+                            The atelier welcomes a limited number of visitors each month. Private consultations are arranged exclusively through personal introduction.
+                        </p>
+                        
+                        <address class="contact__address" data-animate="fade">
+                            <span class="address__line">Rue du Rhône 42</span>
+                            <span class="address__line">1204 Genève</span>
+                            <span class="address__line">Suisse</span>
+                        </address>
+                        
+                        <a href="mailto:atelier@ballouard.ch" class="contact__link" data-animate="hover">
+                            <span class="link__text">atelier@ballouard.ch</span>
+                            <span class="link__glyph">→</span>
+                        </a>
+                    </div>
+                    
+                    <div class="contact__seal">
+                        <div class="seal__ring">
+                            <span class="seal__text">EST. MMXXIV</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Edge Typography -->
+    <div class="edge-text edge-text--left">
+        <span class="edge-text__content">BALLOUARD</span>
+    </div>
+    <div class="edge-text edge-text--right">
+        <span class="edge-text__content">GENÈVE</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
